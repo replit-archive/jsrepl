@@ -5,7 +5,7 @@ $(function (){
 	var optgroup = '{{each(cat, names_arr) data}} \
 				<optgroup label="${cat}"> \
 					{{each names_arr}} \
-						<option>${$value}</option> \
+						<option value="${$value.value}">${$value.display}</option> \
 					{{/each}} \
 				</optgroup> \
 			{{/each}}';
@@ -22,18 +22,21 @@ $(function(){
 		cats = {},
 		lang, opt_group;
 	
-$langDb.change(function(){
+	$langDb.change(function(){
 		REPL.load($(this).val(),$.noop );
 	});
 	for (var prop in Languages){	
 		if (!Languages.hasOwnProperty(prop)) continue;
 		lang = Languages[prop];
 		if (!cats[lang.category]) cats[lang.category] = [];
-		cats[lang.category].push(lang.name);
+		cats[lang.category].push({
+			display:lang.name,
+			value: prop
+		});
 	}
-	
 	opt_group = $.tmpl('optgroup', {data:cats});
 	opt_group.appendTo($langDb);
+	$langDb.change();	
 	
 });
 
@@ -55,7 +58,9 @@ REPL = (function(){
 	var lang, current_state;
 	//todo think about error loading scripts or example file
 	function load(name, callback){
-		var c = 0;
+		var c = 0,
+     			dir_prefix = 'langs/' + name + '/';
+
 		function asyncMap(){
 			c++;
 			if (c==2) callback();
@@ -63,10 +68,10 @@ REPL = (function(){
 		lang = Languages[name];
 		var lab = $LAB;
 		for (var i=0,l = lang.scripts.length; i < l; i++){
-			lab = lab.script('langs/' + name + '/' + lang.scripts[i]).wait();	
+			lab = lab.script(dir_prefix + lang.scripts[i]).wait();	
 		}
-	
-		$.get(lang.example_file, asyncMap);
+		lab.wait(asyncMap);
+		$.get(dir_prefix + lang.example_file, asyncMap);
 		$('#lang_logo').src = lang.logo;
 	//	$LAB
 	//		.script(lang.scripts)
@@ -74,15 +79,15 @@ REPL = (function(){
 	}
 		
 	function eval_resultCb(output, state){
-		$.tmpl('output', code_output).appendTo('#history');
+		$.tmpl('output', {data:output}).appendTo('#history');
 	}
 	
 	function eval_errorCb(message){
-		$.tmpl('error', message).appendTo('#history');
+		$.tmpl('error', {data:message}).appendTo('#history');
 	}
 
 	function eval(input){
-		$.tmpl('input', input).appendTo('#history');
+		$.tmpl('input', {data:input}).appendTo('#history');
 		eval(lang.eval_func)(input, eval_resultCb, eval_errorCb);
 	}
 
