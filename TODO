@@ -1,0 +1,129 @@
+eval_func: void(input, state, result_callback(text, state), error_callback(message))
+highlight_func: void(element)
+
+languages = {};
+languages['lisp'] = {
+  name: 'LISP',
+  category: 'functional',
+  scripts: [
+    'awsomeLangauge.parser.js',
+    'awsomeLanguage.tokenizer.js',
+    .....
+  ],
+  eval_func: 'LispEval',
+  highlight_func: 'LispHighlight',
+  example_file: 'blah.txt',
+  help_link: 'http://example.com/...',
+  extension: 'lisp',
+  logo: 'blah.png'
+}
+
+
+
+
+
+Input method / State management
+  Line by line with history / state?
+    Great for learning and quick experimenting.
+    Natural, same as all standard REPLs.
+    State can be faked by keeping a history of commands. On output discarding old results.
+      Assuming determinism.
+  OLT (One Large Textbox, current)?
+    No need to keep state.
+    Harder to quickly experiment.
+    Easier for pasting existing code.
+  Both?
+
+Sticky input (state management)
+Server side
+DOM Access
+Profile
+Snippet share
+XHR Access
+
+Parse tree?
+
+Saving
+  Save session log.
+  Save commands as script.
+
+/------------------------------------------------------------------------------\
+|Languages                                                                     |
+\------------------------------------------------------------------------------/
+case 'scheme':
+BiwaScheme
+
+case 'lisp':
+Javathcript //not so nice
+//other choices
+//http://www.parkscomputing.com/lisptest.html
+//http://joeganley.com/code/jslisp.html
+//http://stevela.github.com/js-lisp/
+//http://www.ducklet.com/jisp/
+//http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
+
+break;
+
+case 'coffee':
+
+break;
+
+case 'qbasic':
+//http://stevehanov.ca/blog/index.php?id=92
+break;
+
+case 'ruby':
+//http://coderepos.org/share/wiki/JSRuby
+//http://hotruby.yukoba.jp/
+break;
+
+case 'bloop':
+//http://tim-ryan.com/labs/bloopjs/
+break;
+
+case 'befunge':
+//http://www.quirkster.com/js/befunge.html
+break;
+
+case 'brainfuck':
+//http://www.iamcal.com/misc/bf_debug/
+//http://www.iamcal.com/misc/bf_debug/
+break;
+
+case 'cat':
+//http://www.cat-language.com/interpreter.html
+break;
+
+case 'forth':
+//http://wiki.forthfreak.net/index.cgi?jsforth
+break;
+
+case 'haskell':
+//http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
+break;
+
+case 'hq9+':
+//http://safalra.com/programming/esoteric-languages/interpreters/hq9-plus/
+break;
+
+case 'js':
+//includes new experimental JS harmony features, like object refelection and proxies
+//https://github.com/mozilla/narcissus#
+
+break;
+
+case 'prolog':
+//http://ioctl.org/logic/prolog-latest
+
+break;
+
+case 'applebasic':
+//http://www.calormen.com/applesoft/
+
+break;
+
+case 'assembler':
+//http://www.6502asm.com/
+break;
+//smalltalk?
+//http://silversmalltalk.wordpress.com/

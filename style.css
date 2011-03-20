@@ -1,0 +1,69 @@
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+#main_logo, #lang_logo {
+  position: absolute;
+  top: 1em;
+}
+
+#main_logo {
+  left: 15px;
+}
+
+#lang_logo {
+  right: 15px;
+}
+
+#content {
+  width: 60%;
+  height: 90%;
+  margin: 0 auto;
+  position: relative;
+  background: #ffaaaa; /* DEBUG */
+  padding: 0;
+  padding-top: 1.5em;
+  overflow-x: hidden;
+}
+
+#languages {
+  position: absolute;
+  left: 0;
+  top: 15px;
+  line-height: 1em;
+}
+
+#new {
+  line-height: 0.85em;
+  position: absolute;
+  right: 0;
+  top: 15px;
+}
+
+#history {
+  padding-left: 0.5em;
+  background: #aaffaa; /* DEBUG */
+  position: absolute;
+  bottom: 1.25em;
+  width: 100%;
+}
+
+#prompt {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.25em;
+  background: #aaaaff; /* DEBUG */
+}
+
+#input {
+  background: #ffffaa; /* DEBUG */
+}
+
+#expand {
+  background: #ffaaff; /* DEBUG */
+}
