@@ -1,10 +1,10 @@
-languages = {};
+Languages = {};
 
-languages['scheme'] = {
+Languages['scheme'] = {
   name: 'Scheme',
   category: 'Functional',
   scripts: [
-    'biwascheme.js',
+    'biwascheme.min.js',
     'jsrepl_scheme.js'
   ],
   eval_func: 'SchemeEval',
