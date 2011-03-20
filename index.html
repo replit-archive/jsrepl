@@ -1,151 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
-	<head>
-		<script src="lib/jquery.js"></script>
-		<script src="lib/scheme/biwascheme.js"></script>
-		<script src="lib/lisp/javathcript.js"></script>
-		<script>
-		(function($){
-			var scheme = new BiwaScheme.Interpreter();
-		
-			//bind controls
-			$(function(){
-				var $input = $('#input'),
-					$output = $('#output'),
-					$eval = $('#eval');
-				
-				function reset(){
-					$output.empty();
-				}
-				//eval
-				$eval.delegate('button','click',function(e){
-					reset();
-					var which = $(this).attr('id'),
-						code = $input.val();
-					switch (which){
-						case 'scheme':
-						scheme.evaluate(code, function(result){
-							$output.text(BiwaScheme.to_write(result));
-						});
-						break;
-
-						case 'lisp':
-						$output.text(Javathcript.eval(code));
-						//not so nice
-						//other choices
-						//http://www.parkscomputing.com/lisptest.html
-						//http://joeganley.com/code/jslisp.html
-						//http://stevela.github.com/js-lisp/
-						//http://www.ducklet.com/jisp/
-						//http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
-
-						break;
-
-						case 'coffee':
-
-						break;
-
-						case 'qbasic':
-						//http://stevehanov.ca/blog/index.php?id=92
-						break;
-
-						case 'ruby':
-						//http://coderepos.org/share/wiki/JSRuby
-						//http://hotruby.yukoba.jp/
-						break;
-
-						case 'bloop':
-						//http://tim-ryan.com/labs/bloopjs/
-						break;
-
-						case 'befunge':
-						//http://www.quirkster.com/js/befunge.html
-						break;
-
-						case 'brainfuck':
-						//http://www.iamcal.com/misc/bf_debug/
-						//http://www.iamcal.com/misc/bf_debug/
-						break;
-
-						case 'cat':
-						//http://www.cat-language.com/interpreter.html
-						break;
-
-						case 'forth':
-						//http://wiki.forthfreak.net/index.cgi?jsforth
-						break;
-
-						case 'haskell':
-						//http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
-						break;
-						
-						case 'hq9+':
-						//http://safalra.com/programming/esoteric-languages/interpreters/hq9-plus/
-						break;
-
-						case 'js':
-						//includes new experimental JS harmony features, like object refelection and proxies
-						//https://github.com/mozilla/narcissus#	
-						
-						break;
-
-						case 'prolog':
-						//http://ioctl.org/logic/prolog-latest
-
-						break;
-
-						case 'applebasic':
-						//http://www.calormen.com/applesoft/
-						
-						break;
-
-						case 'assembler':
-						//http://www.6502asm.com/
-						break;
-						//smalltalk? 
-						//http://silversmalltalk.wordpress.com/
-
-
-					}
-				});
-
-			});
-		})(jQuery);
-	</script>
-</head>
-
-<body>
-	<textarea id="input" rows="30" cols="120" value="das">
-;; length by Y combinator 
-(((lambda (f) 
-    ((lambda (proc) (f (lambda (arg) ((proc proc) arg))))
-     (lambda (proc) (f (lambda (arg) ((proc proc) arg))))))
-  (lambda (self)
-    (lambda (ls) 
-      (if (null? ls) 0 (+ 1 (self (cdr ls))))))) 
- '(1 2 3 4 5))
-        
-		
-	</textarea>
-	<fieldset id="eval">
-		<button id="scheme">Scheme eval</button>
-		<button id="lisp">Lisp eval</button>
-		<button id="qbasic">Qbasic eval</button>
-		<button id="coffee">CoffeeScript eval</button>
-		<button id="Ruby">Ruby eval</button>
-		<button id="bloop">Bloop/Floop eval</button>
-		<button id="befunge">Befunge-93 eval</button>
-		<button id="brainfuck">Brainfuck eval</button>
-		<button id="cat">Cat eval</button>
-		<button id="forth">Forth eval</button>
-		<button id="haskell">Haskell eval</button>
-		<button id="hq9+">HQ9+</button>
-		<button id="js">Narcissus JS</button>
-		<button id="prolog">Prolog</button>
-		<button id="applebasic">AppleSoft Basic</button>
-		<button id="assembler">6502 Assembler</button>
-	</fieldset>
-		
-	<div id="output"></div>
-</body>
-
+  <head>
+    <title>jsREPL</title>
+    <script src="lib/jquery.js" type="text/javascript"></script>
+    <script src="languages.js" type="text/javascript"></script>
+    <script src="repl.js" type="text/javascript"></script>
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
+  </head>
+  <body>
+    <img id="main_logo" src="img/logo.png" />
+    <img id="lang_logo" src="img/lang_default.png" />
+    <div id="content">
+      <select id="languages"><option>ABC</option><option>DEF</option></select>
+      <button id="new">New Session</button>
+      <div id="history">
+        1blah<br />
+        2blah<br />
+        3blah<br />
+        4blah<br />
+        5blah<br />
+        6blah<br />
+      </div>
+      <div id="prompt">
+        &gt;&gt;&gt;
+        <span id="input">
+          &nbsp;
+        </span>
+      </div>
+      <div id="expand"></div>
+    </div>
+  </body>
 </html>
