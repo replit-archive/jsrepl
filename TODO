@@ -37,7 +37,7 @@ Input method / State management
 Sticky input (state management)
 Server side
 DOM Access
-Profile
+Profiles (persistent snippet storage per-user)
 Snippet share
 XHR Access
 
