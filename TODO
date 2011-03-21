@@ -44,6 +44,7 @@ Design
   Something to fill in the empty space on first load
     Examples?
     Faint logo?
+    Something funny?
   Per-language help link
 
 ********************************************************************************
@@ -96,6 +97,8 @@ Javascript
   https://github.com/mozilla/narcissus
     Includes new experimental JS harmony features, like object refelection and proxies.
     Check cross-browser compatibility
+ 
+  Probably really hard to use narcissus cross-browser, easy sandboxing could be done in iframe ^^
 
 Prolog
   http://ioctl.org/logic/prolog-latest
