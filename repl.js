@@ -134,7 +134,6 @@ $(function() {
   var history_index = 0;
 
   $prompt.bind('setContent', function(e, content) {
-    console.log('setting to "' + content + '"');
     $(this).focus();
     // TODO(max99x): Check for cross-browser compatibality.
     document.execCommand('selectAll', false, null);
@@ -142,7 +141,6 @@ $(function() {
     document.execCommand('insertHTML', false, content);
   });
   $prompt.bind('clearContent', function(e) {
-    console.log('clearing');
     $(this).trigger('setContent', ['']);
   });
 
@@ -176,7 +174,6 @@ $(function() {
     return false;
   });
 
-  console.log('positioning');
   // Needed to properly position the cursor after the >>> prompt.
   $prompt.trigger('clearContent');
 });
