@@ -1,13 +1,14 @@
 (function() {
 
-var scheme = new BiwaScheme.Interpreter(HandleError);
-var error_handler = null;
 
 var HandleError = function(e) {
-  if (error_handler) error_handler('Error: ' + e.message);
-}
+	if (error_handler) error_handler(e.message);
+},
+	scheme = new BiwaScheme.Interpreter(HandleError),
+	error_handler = null;
 
-window.SchemeEval = function(input, result_callback, error_callback) {
+JSREPL.SchemeEval = function(input, result_callback, error_callback) {
+	error_handler = error_callback;
   scheme.evaluate(input, function(new_state) {
     var result;
     if (new_state !== undefined && new_state !== BiwaScheme.undef) {
@@ -15,11 +16,11 @@ window.SchemeEval = function(input, result_callback, error_callback) {
     } else {
       result = '';
     }
-    result_callback(result, unused);
+    result_callback(result, undefined);
   });
 };
 
-window.SchemeHighlight = function(element) {
+JSREPL.SchemeHighlight = function(element) {
   console.log('Highlighting of scheme code not yet implemented.');
 };
 

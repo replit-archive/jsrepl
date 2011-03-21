@@ -9,7 +9,7 @@ Languages['scheme'] = {
   ],
   eval_func: 'SchemeEval',
   highlight_func: 'SchemeHighlight',
-  example_file: 'example.txt',
+  example_file: 'example.json',
   help_link: 'http://scheme.com/',
   extension: 'scm',
   logo: 'logo.png'
