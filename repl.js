@@ -28,7 +28,7 @@ window.JSREPL = (function() {
     $LAB.wait(signalReady);
 
     // Load logo.
-    $('#lang_logo').src = lang.logo;
+    $('#lang_logo').attr('src', dir_prefix + lang.logo);
 
     // Load examples.
     $.getJSON(dir_prefix + lang.example_file, {}, function(data) {
