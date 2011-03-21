@@ -132,13 +132,21 @@ $(function() {
   var history = [];
   // The index of the currently shown command.
   var history_index = 0;
+  //firefox displays resize handles, this should take care of that
+  $prompt.focus(function(){
+  	 document.execCommand("enableObjectResizing", false, false);
+  });
 
   $prompt.bind('setContent', function(e, content) {
     $(this).focus();
-    // TODO(max99x): Check for cross-browser compatibality.
+    // TODO(max99x): Check for IE compatability.
+    // TODO(max99x): FF shows drag handles for absolute positioned elements.
+    // 			However it doesn't persist after the first eval.
     document.execCommand('selectAll', false, null);
     document.execCommand('delete', false, null);
-    document.execCommand('insertHTML', false, content);
+    //firefox errors on empty string inserts.
+    if (content)
+    	document.execCommand('insertHTML',false,  content);
   });
   $prompt.bind('clearContent', function(e) {
     $(this).trigger('setContent', ['']);
