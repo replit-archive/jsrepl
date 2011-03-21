@@ -29,26 +29,21 @@ html, body {
   overflow-x: hidden;
 }
 
-#languages {
-  position: absolute;
-  left: 0;
-  top: 15px;
-  line-height: 1em;
+#languages, #examples {
+  float: left;
 }
 
 #new {
-  line-height: 0.85em;
-  position: absolute;
-  right: 0;
-  top: 15px;
+  float: right;
 }
 
 #history {
-  padding-left: 0.5em;
+  padding: 0;
   background: #aaffaa; /* DEBUG */
   position: absolute;
-  bottom: 1.25em;
+  bottom: 1em;
   width: 100%;
+  font-family: Consolas, monospace;
 }
 
 #prompt {
@@ -56,17 +51,20 @@ html, body {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 1.25em;
   background: #aaaaff; /* DEBUG */
+  padding: 0;
+  font-family: Consolas, monospace;
 }
 
-#input {
-  background: #ffffaa; /* DEBUG */
-  min-width: 15px;
-  min-height: 15px;
-  display: inline-block;
+#prompt:before {
+  content: ">>> ";
 }
 
 #expand {
   background: #ffaaff; /* DEBUG */
+}
+
+.error {
+  color: red;
+  font-weight: bold;
 }

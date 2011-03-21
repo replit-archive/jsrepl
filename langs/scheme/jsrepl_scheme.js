@@ -1,14 +1,14 @@
 (function() {
 
-
 var HandleError = function(e) {
-	if (error_handler) error_handler(e.message);
-},
-	scheme = new BiwaScheme.Interpreter(HandleError),
-	error_handler = null;
+  if (error_handler) error_handler(e.message);
+};
+
+var scheme = new BiwaScheme.Interpreter(HandleError);
+var error_handler = null;
 
 JSREPL.SchemeEval = function(input, result_callback, error_callback) {
-	error_handler = error_callback;
+  error_handler = error_callback;
   scheme.evaluate(input, function(new_state) {
     var result;
     if (new_state !== undefined && new_state !== BiwaScheme.undef) {
@@ -16,7 +16,7 @@ JSREPL.SchemeEval = function(input, result_callback, error_callback) {
     } else {
       result = '';
     }
-    result_callback(result, undefined);
+    result_callback(result);
   });
 };
 

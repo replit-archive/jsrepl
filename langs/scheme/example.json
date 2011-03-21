@@ -1,1 +1,6 @@
-[{"name": "Ycombyourhair?", "code":"\n;; length by Y combinator \n(((lambda (f) \n    ((lambda (proc) (f (lambda (arg) ((proc proc) arg))))\n     (lambda (proc) (f (lambda (arg) ((proc proc) arg))))))\n  (lambda (self)\n    (lambda (ls) \n      (if (null? ls) 0 (+ 1 (self (cdr ls))))))) \n '(1 2 3 4 5))\n  "}]
+[
+  {
+    "name": "Ycombinator",
+    "code": ";; length by Y combinator \n(((lambda (f) \n    ((lambda (proc) (f (lambda (arg) ((proc proc) arg))))\n     (lambda (proc) (f (lambda (arg) ((proc proc) arg))))))\n  (lambda (self)\n    (lambda (ls) \n      (if (null? ls) 0 (+ 1 (self (cdr ls))))))) \n '(1 2 3 4 5))\n"
+  }
+]
