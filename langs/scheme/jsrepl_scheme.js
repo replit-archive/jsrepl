@@ -6,8 +6,15 @@ var HandleError = function(e) {
 
 var scheme = new BiwaScheme.Interpreter(HandleError);
 var error_handler = null;
+var remembered_output = '';
+
+// Global on purpose - used by BiwaScheme.
+puts = function(what) {
+  remembered_output += what;
+};
 
 JSREPL.SchemeEval = function(input, result_callback, error_callback) {
+  remembered_output = '';
   error_handler = error_callback;
   try {
     scheme.evaluate(input, function(new_state) {
@@ -16,6 +23,13 @@ JSREPL.SchemeEval = function(input, result_callback, error_callback) {
         result = BiwaScheme.to_write(new_state);
       } else {
         result = '';
+      }
+      if (remembered_output) {
+        if (result) {
+          result = remembered_output + '\n' + result;
+        } else {
+          result = remembered_output;
+        }
       }
       result_callback(result);
     });

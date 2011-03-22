@@ -1,3 +1,6 @@
+Look into jQuery Terminal (which is what the BiwaScheme site uses).
+  A bit too heavy for our needs, but we could hack out the stuff we need.
+
 Need some way to prevent infinite loops in the interpreters!
 Need to prevent rich-text pasting into the prompt!
 
