@@ -21,11 +21,11 @@ window.JSREPL = (function() {
     lang = JSREPL.Languages[name];
 
     // Load scripts.
-    // TODO(amasad): Ensure dependency safety.
-    $.each(lang.scripts, function(_, filename) {
-      $LAB.script(dir_prefix + filename).wait();
-    });
-    $LAB.wait(signalReady);
+    var loader = $LAB;
+    for (var i = 0; i < lang.scripts.length; i++) {
+      loader = loader.script(dir_prefix + lang.scripts[i]).wait();
+    }
+    loader.wait(signalReady);
 
     // Load logo.
     $('#lang_logo').attr('src', dir_prefix + lang.logo);
