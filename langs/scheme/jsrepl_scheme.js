@@ -1,44 +1,64 @@
 (function() {
 
-var HandleError = function(e) {
-  if (error_handler) error_handler(e.message);
+var interpreter = null;
+var result_callback = null;
+
+JSREPL.Engines.Scheme = {};
+
+JSREPL.Engines.Scheme.Init = function(input_func,
+                                      output_func,
+                                      result_func,
+                                      error_func) {
+  BiwaScheme.Port.current_output = new (Class.create(BiwaScheme.Port, {
+    initialize: function($super) {
+      $super(false, true);
+    },
+    put_string: function(str) {
+      output_func(str);
+    }
+  }))();
+
+  BiwaScheme.Port.current_input = new (Class.create(BiwaScheme.Port, {
+    initialize: function($super){
+      $super(true, false);
+    },
+    get_string: function(after) {
+      return new BiwaScheme.Pause(
+      function(pause) {
+        input_func(function(input) {
+          pause.resume(after(input));
+        });
+      });
+    }
+  }))();
+
+  interpreter = new BiwaScheme.Interpreter(error_func);
+  result_callback = result_func;
 };
 
-var scheme = new BiwaScheme.Interpreter(HandleError);
-var error_handler = null;
-var remembered_output = '';
-
-// Global on purpose - used by BiwaScheme.
-puts = function(what) {
-  remembered_output += what;
+JSREPL.Engines.Scheme.Destroy = function() {
+  delete interpreter;
+  delete BiwaScheme;
 };
 
-JSREPL.SchemeEval = function(input, result_callback, error_callback) {
-  remembered_output = '';
-  error_handler = error_callback;
+JSREPL.Engines.Scheme.Eval = function(input) {
   try {
-    scheme.evaluate(input, function(new_state) {
+    interpreter.evaluate(input, function(new_state) {
       var result;
       if (new_state !== undefined && new_state !== BiwaScheme.undef) {
         result = BiwaScheme.to_write(new_state);
       } else {
         result = '';
       }
-      if (remembered_output) {
-        if (result) {
-          result = remembered_output + '\n' + result;
-        } else {
-          result = remembered_output;
-        }
-      }
       result_callback(result);
     });
   } catch (e) {
-    HandleError(e);
+    interpreter.on_error(e);
   }
 };
 
-JSREPL.SchemeHighlight = function(element) {
+JSREPL.Engines.Scheme.Highlight = function(element) {
+  // TODO(max99x): Implement.
   console.log('Highlighting of scheme code not yet implemented.');
 };
 

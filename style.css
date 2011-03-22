@@ -30,7 +30,7 @@ pre {
   height: 90%;
   margin: 0 auto;
   position: relative;
-  background: #ffaaaa; /* DEBUG */
+  background: #ffccaa; /* DEBUG */
   padding: 0;
   padding-top: 1.5em;
   overflow-x: hidden;
@@ -44,13 +44,24 @@ pre {
   float: right;
 }
 
+#toolbar {
+  background: #ffaaff; /* DEBUG */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 #history {
   padding: 0;
+  clear: both;
   background: #aaffaa; /* DEBUG */
   position: absolute;
+  max-height: 93%;
   bottom: 1em;
   width: 100%;
   font-family: Consolas, monospace;
+  overflow: auto;
 }
 
 #prompt {
@@ -69,12 +80,16 @@ pre {
   background: #ffaaff; /* DEBUG */
 }
 
-.input {
+.command {
   font-weight: bold;
 }
 
-.input:before {
+.command:before {
   content: ">>> ";
+}
+
+.result:before {
+  content: "==> ";
 }
 
 .error {

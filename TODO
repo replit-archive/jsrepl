@@ -29,6 +29,13 @@ Input method
           May be problematic for some languages
         On paste/example load?
         Is that enough?
+        Need to always maintain continuation/indent marker, e.g.:
+          >>> def f(x)
+          ...   if x:
+          ...     return x
+          ...   else:
+          ...     print 'Error!'
+
 
 Persistence
   Download

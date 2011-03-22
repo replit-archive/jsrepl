@@ -4,12 +4,54 @@
 window.JSREPL = (function() {
   // The name of the current language.
   var lang;
+  // The interpreter engine for the current language.
+  var engine;
   // All the examples for the current language.
   var examples;
 
+  // Callbacks.
+  var engine_callbacks = {
+    result: function(result) {
+      if (result) {
+        $('#history').append(jQuery.tmpl('result', {result: result}));
+        engine_callbacks.scrollToEnd();
+      }
+    },
+    error: function(error) {
+      $('#history').append(jQuery.tmpl('error', {message: error.message}));
+      engine_callbacks.scrollToEnd();
+    },
+    output: function(output) {
+      // TODO(amasad): Fit this into templates if possible.
+      var last_line = $('#history :last-child');
+      if (last_line.hasClass('output')) {
+        last_line.append(output);
+      } else {
+        $('#history').append(jQuery.tmpl('output', {output: output}));
+      }
+      engine_callbacks.scrollToEnd();
+    },
+    input: function(callback) {
+      // TODO(max99x): Convert to something more elegant. Right now prompt()
+      //               adds a new line to our command prompt for some reason,
+      //               and has problems on IE.
+      console.log('input');
+      callback(prompt("Input:") || '');
+    },
+    // TODO(max99x): Move this somewhere more appropriate.
+    scrollToEnd: function() {
+      $history = $('#history');
+      $history[0].scrollTop = $history[0].scrollHeight;
+    }
+  };
+
   // TODO(amasad): Think about error handling when loading scripts and examples.
   function load(name, callback) {
-    var dir_prefix = 'langs/' + name + '/';
+    // Clean up previous engine.
+    if (engine) {
+      engine.Destroy();
+      delete engine;
+    }
 
     // A counter to call the callback when both the scripts and examples have
     // loaded.
@@ -23,15 +65,25 @@ window.JSREPL = (function() {
     // Load scripts.
     var loader = $LAB;
     for (var i = 0; i < lang.scripts.length; i++) {
-      loader = loader.script(dir_prefix + lang.scripts[i]).wait();
+      loader = loader.script(lang.scripts[i]).wait();
     }
-    loader.wait(signalReady);
+    loader.wait(function() {
+      // TODO(amasad): This doesn't run if the same language is loaded twice.
+      //               See if this can be fixed. The loaded scripts run fine
+      //               though.
+      engine = JSREPL.Engines[name];
+      engine.Init(engine_callbacks.input,
+                  engine_callbacks.output,
+                  engine_callbacks.result,
+                  engine_callbacks.error);
+      signalReady();
+    });
 
     // Load logo.
-    $('#lang_logo').attr('src', dir_prefix + lang.logo);
+    $('#lang_logo').attr('src', lang.logo);
 
     // Load examples.
-    $.getJSON(dir_prefix + lang.example_file, {}, function(data) {
+    $.getJSON(lang.example_file, {}, function(data) {
       var $examples = $('#examples');
 
       examples = {};
@@ -48,24 +100,10 @@ window.JSREPL = (function() {
     });
   }
 
-  // Callbacks.
-  var eval_callbacks = {
-    result: function(output) {
-      $('#history').append(jQuery.tmpl('output', {output: output}));
-      eval_callbacks.done();
-    },
-    error: function(message) {
-      $('#history').append(jQuery.tmpl('error', {message: message}));
-      eval_callbacks.done();
-    },
-    done: function() {
-      $('#prompt').trigger('clearContent');
-    }
-  };
-
-  function evaluate(input) {
-    $('#history').append(jQuery.tmpl('input', {input: input}));
-    JSREPL[lang.eval_func](input, eval_callbacks.result, eval_callbacks.error);
+  function evaluate(command) {
+    $('#examples').val('');
+    $('#history').append(jQuery.tmpl('command', {command: command}));
+    engine.Eval(command);
   }
 
   return {
@@ -90,7 +128,8 @@ $(function() {
   $.template('option', '<option>${value}</option>');
   // TODO(amasad): Merge input, output and error; differentiate by class.
   $.template('error', '<pre class="error">${message}</pre>');
-  $.template('input', '<pre class="input">${input}</pre>');
+  $.template('command', '<pre class="command">${command}</pre>');
+  $.template('result', '<pre class="result">${result}</pre>');
   $.template('output', '<pre class="output">${output}</pre>');
 });
 
@@ -102,7 +141,9 @@ $(function() {
     var callback = function() {
       // TODO(amsad): Define the loading action.
       $('body').toggleClass('loading');
+      console.log('Loaded');
     }
+    $('body').toggleClass('loading');
     JSREPL.load($(this).val(), callback);
   });
 
@@ -151,12 +192,13 @@ $(function() {
   $prompt.keydown(function(e) {
     switch (e.keyCode) {
       case 13:  // Enter - evaluate.
-        var command = $(this).text();
+        var command = $prompt.text();
         if (command && (!history.length ||
                         history[history.length - 1] != command)) {
           history.push(command);
         }
         history_index = history.length;
+        $prompt.trigger('clearContent');
         JSREPL.evaluate(command);
         break;
       case 38:  // Up arrow - previous history item.

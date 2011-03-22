@@ -8,6 +8,10 @@
     "code": "(fold-left * 1 (map + '(1 2 3) '(4 5 6)))"
   },
   {
+    "name": "Input",
+    "code": "(print 'Your #\\space 'name #\\space 'is #\\space (read) '!)"
+  },
+  {
     "name": "Naive Fibonacci",
     "code": "(define (fib n) (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2)))))\n(fib 9)"
   },
@@ -17,6 +21,6 @@
   },
   {
     "name": "Y Combinator",
-    "code": ";; length by Y combinator \n(((lambda (f) \n    ((lambda (proc) (f (lambda (arg) ((proc proc) arg))))\n     (lambda (proc) (f (lambda (arg) ((proc proc) arg))))))\n  (lambda (self)\n    (lambda (ls) \n      (if (null? ls) 0 (+ 1 (self (cdr ls))))))) \n '(1 2 3 4 5))\n"
+    "code": "(((lambda (f) \n    ((lambda (proc) (f (lambda (arg) ((proc proc) arg))))\n     (lambda (proc) (f (lambda (arg) ((proc proc) arg))))))\n  (lambda (self)\n    (lambda (ls) \n      (if (null? ls) 0 (+ 1 (self (cdr ls))))))) \n '(1 2 3 4 5))\n"
   }
 ]

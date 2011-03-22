@@ -1,33 +1,16 @@
 JSREPL.Languages = {};
+JSREPL.Engines = {};
 
-JSREPL.Languages.scheme = {
+JSREPL.Languages.Scheme = {
   name: 'Scheme',
   category: 'Functional',
   scripts: [
-    'biwascheme.min.js',
-    // 'biwascheme.js',  // <-- not working - wtf?
-    'jsrepl_scheme.js'
+    'lib/prototype-1.6.0.3.js',
+    'langs/scheme/biwascheme.js',
+    'langs/scheme/jsrepl_scheme.js'
   ],
-  eval_func: 'SchemeEval',
-  highlight_func: 'SchemeHighlight',
-  example_file: 'example.json',
+  example_file: 'langs/scheme/examples.json',
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)',
   extension: 'scm',
-  logo: 'logo.png'
+  logo: 'langs/scheme/logo.png'
 };
-
-/*
-JSREPL.Languages.javascript = {
-  name: 'Javascript',
-  category: 'Functional',
-  scripts: [
-    'jsrepl_javascript.js'
-  ],
-  eval_func: 'JsEval',
-  highlight_func: 'JsHighlight',
-  example_file: 'example.js',
-  help_link: 'https://developer.mozilla.org/en/javascript',
-  extension: 'js',
-  logo: 'logo.png'
-};
-*/
