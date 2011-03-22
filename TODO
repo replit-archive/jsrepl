@@ -1,3 +1,12 @@
+Need some way to prevent infinite loops in the interpreters!
+Need to prevent rich-text pasting into the prompt!
+
+Examples
+  Storing examples in JSON makes them super-ugly. Should find better way.
+  How to load multi-command examples?
+    As a session?
+    As an editable block of text into a large textbox?
+
 Input method
   Line by line with history / state?
     Great for learning and quick experimenting

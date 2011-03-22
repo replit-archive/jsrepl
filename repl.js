@@ -37,10 +37,7 @@ window.JSREPL = (function() {
       examples = {};
       for (var i = 0; i < data.length; i++) {
         var example = data[i];
-        $examples.append($.tmpl('option', {
-          value: example.name,
-          display: example.name
-        }));
+        $examples.append($.tmpl('option', {value: example.name}));
         examples[example.name] = example.code;
       }
 
@@ -90,11 +87,11 @@ $(function() {
                               {{/each}} \
                             </optgroup> \
                           {{/each}}');
-  $.template('option', '<option value="${value}">${display}</option>');
+  $.template('option', '<option>${value}</option>');
   // TODO(amasad): Merge input, output and error; differentiate by class.
-  $.template('error', '<div class="error">${message}</div>');
-  $.template('input', '<div class="input">&gt;&gt;&gt; ${input}</div>');
-  $.template('output', '<div class="output">${output}</div>');
+  $.template('error', '<pre class="error">${message}</pre>');
+  $.template('input', '<pre class="input">${input}</pre>');
+  $.template('output', '<pre class="output">${output}</pre>');
 });
 
 // Load and bind language dropdown.
@@ -141,12 +138,11 @@ $(function() {
     $(this).focus();
     // TODO(max99x): Check for IE compatability.
     // TODO(max99x): FF shows drag handles for absolute positioned elements.
-    // 			However it doesn't persist after the first eval.
+    //               However it doesn't persist after the first eval.
     document.execCommand('selectAll', false, null);
     document.execCommand('delete', false, null);
     //firefox errors on empty string inserts.
-    if (content)
-    	document.execCommand('insertHTML',false,  content);
+    if (content) document.execCommand('insertHTML', false, content);
   });
   $prompt.bind('clearContent', function(e) {
     $(this).trigger('setContent', ['']);

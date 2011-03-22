@@ -1,6 +1,22 @@
 [
   {
-    "name": "Ycombinator",
+    "name": "Hello World",
+    "code": "(display \"Hello world!\")"
+  },
+  {
+    "name": "Map and Fold",
+    "code": "(fold-left * 1 (map + '(1 2 3) '(4 5 6)))"
+  },
+  {
+    "name": "Naive Fibonacci",
+    "code": "(define (fib n) (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2)))))\n(fib 9)"
+  },
+  {
+    "name": "Simple Counter",
+    "code": "(let loop ((n 1))\n  (if (<= n 10)\n    (begin\n      (display n)(newline)\n      (loop (+ n 1)))))"
+  },
+  {
+    "name": "Y Combinator",
     "code": ";; length by Y combinator \n(((lambda (f) \n    ((lambda (proc) (f (lambda (arg) ((proc proc) arg))))\n     (lambda (proc) (f (lambda (arg) ((proc proc) arg))))))\n  (lambda (self)\n    (lambda (ls) \n      (if (null? ls) 0 (+ 1 (self (cdr ls))))))) \n '(1 2 3 4 5))\n"
   }
 ]
