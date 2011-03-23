@@ -315,11 +315,10 @@ var SystemFunctions =
             if ( numArgs == 1 ) {
                 n = vm.stack.pop();
             }
-            if ( n === 0 ) {
-                vm.stack.push( vm.lastRandomNumber );
-            } else {
-                vm.stack.push( Math.random() );
+            if ( n != 0 ) {
+                vm.lastRandomNumber = Math.random();
             }
+            vm.stack.push( vm.lastRandomNumber );
         }
     },
 

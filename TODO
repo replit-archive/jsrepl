@@ -25,12 +25,13 @@ Input method
     Switching mechanism?
       Grow automatically?
         Shift+Enter
-        On unbalanced brackets/braces/parantheses
-          May be problematic for some languages
+        Let language decide when to grow
+          Scheme -> On unbalanced brackets/braces/parantheses
+          QBasic -> On unfinished block
         On paste/example load?
         Is that enough?
         Need to always maintain continuation/indent marker, e.g.:
-          >>> def f(x)
+          >>> def f(x):
           ...   if x:
           ...     return x
           ...   else:
@@ -55,6 +56,18 @@ Design
     Something funny?
       Something funny yet subtle?
   Per-language help link
+
+REPLify QBasic
+  Keep state across commands
+    Variables
+      Just stack?
+    User-defined types
+    Subroutines/Functions
+    Global settings (e.g. DEFINT)
+    Anything else?
+  Special case for DATA statements
+  Add statement -> expression parse rule
+    Make expression-only statements return result to caller
 
 FUTURE
   External Access
@@ -112,7 +125,6 @@ QBasic
     AreTypesCompatible
     ---
     StackFrame
-    globalMachine
     ---
     VirtualMachine
     SystemFunctions
