@@ -569,7 +569,13 @@ function onProgram(symbols, locus )
 
 function onNumber( symbols, locus )
 {
-    return new AstConstantExpr(locus, parseFloat(symbols[0]));
+    var value = symbols[0];
+    if (value.match(/^&H/)) {
+      value = parseInt(value.slice(2), 16);
+    } else {
+      value = parseFloat(value);
+    }
+    return new AstConstantExpr(locus, value);
 }
 
 function onString( symbols, locus )
@@ -672,7 +678,7 @@ function QBasicProgram( input, testMode )
         rules.addToken( "minus", "\\-" );
         rules.addToken( "endl", "\\n" );
         rules.addToken( "comment", "'.*$" );
-        rules.addToken( "hexconstant", "\\&H\\d+" );
+        rules.addToken( "hexconstant", "\\&H[\\da-fA-F]+" );
         rules.addToken( "floatconstant", "\\d*\\.\\d+" );
         rules.addToken( "intconstant", "-?\\d+" );
         rules.addToken( "stringconstant", "\"[^\"]*\"" );
