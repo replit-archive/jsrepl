@@ -35,7 +35,6 @@ window.JSREPL = (function() {
       // TODO(max99x): Convert to something more elegant. Right now prompt()
       //               adds a new line to our command prompt for some reason,
       //               and has problems on IE.
-      console.log('input');
       callback(prompt("Input:") || '');
     },
     // TODO(max99x): Move this somewhere more appropriate.
@@ -141,7 +140,6 @@ $(function() {
     var callback = function() {
       // TODO(amsad): Define the loading action.
       $('body').toggleClass('loading');
-      console.log('Loaded');
     }
     $('body').toggleClass('loading');
     JSREPL.load($(this).val(), callback);

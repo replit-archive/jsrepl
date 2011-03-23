@@ -59,7 +59,7 @@ JSREPL.Engines.Scheme.Eval = function(input) {
 
 JSREPL.Engines.Scheme.Highlight = function(element) {
   // TODO(max99x): Implement.
-  console.log('Highlighting of scheme code not yet implemented.');
+  console.log('Highlighting of Scheme code not yet implemented.');
 };
 
 })();

@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Hello World",
+    "code": "PRINT \"Hello world!\""
+  },
+  {
+    "name": "Input",
+    "code": "INPUT NAME$\nPRINT \"Your name is \"; NAME$; \"!\""
+  }
+]

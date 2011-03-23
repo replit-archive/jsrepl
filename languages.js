@@ -1,6 +1,28 @@
 JSREPL.Languages = {};
 JSREPL.Engines = {};
 
+JSREPL.Languages.QBasic = {
+  name: 'Quick Basic',
+  category: 'Imperative',
+  scripts: [
+    'langs/qbasic/RuleSet.js',
+    'langs/qbasic/RuleParser.js',
+    'langs/qbasic/types.js',
+    'langs/qbasic/virtualmachine.js',
+    'langs/qbasic/TypeChecker.js',
+    'langs/qbasic/EarleyParser.js',
+    'langs/qbasic/GlrParser.js',
+    'langs/qbasic/Tokenizer.js',
+    'langs/qbasic/CodeGenerator.js',
+    'langs/qbasic/qbasic.js',
+    'langs/qbasic/jsrepl_qbasic.js'
+  ],
+  example_file: 'langs/qbasic/examples.json',
+  help_link: 'http://westcompsci.pima.edu/cis100/',
+  extension: 'bas',
+  logo: 'langs/qbasic/logo.png'
+};
+
 JSREPL.Languages.Scheme = {
   name: 'Scheme',
   category: 'Functional',

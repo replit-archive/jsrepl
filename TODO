@@ -60,6 +60,7 @@ FUTURE
   External Access
     DOM
     XHR
+    Canvas
   Sticky input
     Define a library-like bit of code to always load before anything else
       Per-command or per-session?
@@ -68,14 +69,143 @@ FUTURE
   Parse tree
 
 ********************************************************************************
-*                                 Languages                                    *
+*                                  Cleanup                                     *
 ********************************************************************************
 
 Scheme
-  http://www.biwascheme.org/
+  Uses the whole prototype library
+  Globals
+    BiwaScheme - acceptable
+
+
+QBasic
+  Built-in classes modification
+    Array.accept
+  Globals
+    NextRuleId
+    Rule
+    RuleSet
+    ---
+    RuleParser
+    ---
+    NullType
+    DeriveTypeNameFromVariable
+    IntegerType
+    SingleType
+    DoubleType
+    StringType
+    AnyType
+    ScalarVariable
+    ArrayType
+    UserType
+    Dimension
+    ArrayVariable
+    IsNumericType
+    IsStringType
+    IsArrayType
+    IsUserType
+    IsNullType
+    AreTypesCompatible
+    ---
+    StackFrame
+    globalMachine
+    ---
+    VirtualMachine
+    SystemFunctions
+    SystemSubroutines
+    Instructions
+    ---
+    TypeScope
+    CheckedLabel
+    CheckedLoopContext
+    TypeChecker
+    ---
+    NextId
+    EarleyItem
+    EarleyParser
+    ---
+    GlrItem
+    GlrState
+    GlrShiftNode
+    GlrInteriorNode
+    GlrReduceNode
+    GlrParser
+    ---
+    NextStateId
+    POST_NEWLINE
+    PRE_NEWLINE
+    DIGIT_CHAR
+    ANY_CHAR
+    Locus
+    CharMatcher
+    RangeMatcher
+    NfaState
+    DfaState
+    NFA
+    Token
+    Tokenizer
+    ---
+    Instruction
+    Label
+    LoopContext
+    CodeGenerator
+    ---
+    AstProgram
+    AstArgument
+    AstSubroutine
+    AstDeclareFunction
+    AstPrintUsingStatement
+    AstPrintStatement
+    AstPrintItem
+    AstInputStatement
+    AstNullStatement
+    AstEndStatement
+    AstNextStatement
+    AstArrayDeref
+    AstMemberDeref
+    AstVariableReference
+    AstRange
+    AstDataStatement
+    AstRestoreStatement
+    AstDimStatement
+    AstDefTypeStatement
+    AstConstStatement
+    AstDoStatement
+    AstExitStatement
+    AstWhileLoop
+    AstForLoop
+    AstIfStatement
+    AstSelectStatement
+    AstCaseStatement
+    AstTypeMember
+    AstUserType
+    AstGotoStatement
+    AstGosubStatement
+    AstLabel
+    AstCallStatement
+    AstAssignStatement
+    AstBinaryOp
+    AstUnaryOperator
+    AstConstantExpr
+    AstReturnStatement
+    onProgram
+    onNumber
+    onString
+    onBinaryOp
+    onParamListInBrackets
+    onBracketExpr
+    QBasicProgram
+
+
+
+
+********************************************************************************
+*                               More Languages                                 *
+********************************************************************************
 
 LISP
-  http://kybernetikos.github.com/Javathcript/   <--- Suboptimal?
+  http://kybernetikos.github.com/Javathcript/
+    Suboptimal?
   http://www.parkscomputing.com/lisptest.html
   http://joeganley.com/code/jslisp.html
   http://stevela.github.com/js-lisp/
@@ -84,9 +214,6 @@ LISP
 
 CoffeeScript
   http://jashkenas.github.com/coffee-script/
-
-QBasic
-  http://stevehanov.ca/blog/index.php?id=92
 
 Ruby
   http://coderepos.org/share/wiki/JSRuby
@@ -109,15 +236,19 @@ Forth
 
 Haskell
   http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
+    Seems rather unstable
+      Not sure if this can be used at all
+      At best we'll need to patch up a fair amount of stuff
+        An opportunity to properly learn Haskell!
 
 HQ9+
   http://safalra.com/programming/esoteric-languages/interpreters/hq9-plus/
 
 Javascript
   https://github.com/mozilla/narcissus
-    Includes new experimental JS harmony features, like object refelection and proxies.
-    Check cross-browser compatibility.
-    Probably really hard to use cross-browser, easy sandboxing could be done in iframe ^^
+    Includes new experimental JS harmony features, e.g. refelection and proxies
+    Check cross-browser compatibility - probably hard
+    Easy sandboxing could be done in iframe
       Would it sandbox properly even if the iframe is on the same domain?
       How will we get the output?
 
