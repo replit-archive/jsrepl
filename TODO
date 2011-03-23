@@ -68,6 +68,7 @@ REPLify QBasic
   Special case for DATA statements
   Add statement -> expression parse rule
     Make expression-only statements return result to caller
+  Make VM call a function when errors are thrown during asynchronous execution
 
 FUTURE
   External Access

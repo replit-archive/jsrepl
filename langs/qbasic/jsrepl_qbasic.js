@@ -47,6 +47,7 @@ JSREPL.Engines.QBasic.Init = function(input_func,
   });
   virtual_machine.INTERVAL_MS = 0;
   virtual_machine.instructionsPerInterval = 8192;
+  //virtual_machine.debug = 1;
 
   result_callback = result_func;
   error_callback = error_func;
@@ -69,8 +70,6 @@ JSREPL.Engines.QBasic.Eval = function(input) {
       result_callback('');
     });
   } catch (e) {
-    // TODO(max99x): Make the interpreter raise proper exceptions instead of
-    // a catch-all or an outright break.
     command_history.pop();
     error_callback(e);
   }

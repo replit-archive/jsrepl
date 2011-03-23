@@ -1114,10 +1114,12 @@ var Instructions = {
         numArgs: 0,
         execute: function( vm, arg )
         {
-            // TODO: Division by 0 error. Javascript simply results in NaN
             // TODO: \ operator.
             var rhs = vm.stack.pop();
             var lhs = vm.stack.pop();
+            if (rhs == 0) {
+              throw Error("Division by zero.");
+            }
             vm.stack.push( lhs / rhs );
         }
     },
