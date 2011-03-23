@@ -1078,6 +1078,15 @@ var Instructions = {
         }
     },
 
+    "XOR": {
+        name: "xor",
+        numArgs: 0,
+        execute: function( vm, arg )
+        {
+            vm.stack.push( vm.stack.pop() ^ vm.stack.pop() );
+        }
+    },
+
     "+": {
         name: "+",
         numArgs: 0,
@@ -1114,7 +1123,6 @@ var Instructions = {
         numArgs: 0,
         execute: function( vm, arg )
         {
-            // TODO: \ operator.
             var rhs = vm.stack.pop();
             var lhs = vm.stack.pop();
             if (rhs == 0) {
@@ -1124,14 +1132,41 @@ var Instructions = {
         }
     },
 
+    "\\": {
+        name: "\\",
+        numArgs: 0,
+        execute: function( vm, arg )
+        {
+            var rhs = vm.stack.pop();
+            var lhs = vm.stack.pop();
+            if (rhs == 0) {
+              throw Error("Division by zero.");
+            }
+            vm.stack.push( Math.floor(lhs / rhs) );
+        }
+    },
+
+    "^": {
+        name: "^",
+        numArgs: 0,
+        execute: function( vm, arg )
+        {
+            var rhs = vm.stack.pop();
+            var lhs = vm.stack.pop();
+            vm.stack.push( Math.pow(lhs, rhs) );
+        }
+    },
+
     "MOD": {
         name: "mod",
         numArgs: 0,
         execute: function( vm, arg )
         {
-            // TODO: Division by 0 error. Javascript simply results in NaN
             var rhs = vm.stack.pop();
             var lhs = vm.stack.pop();
+            if (rhs == 0) {
+              throw Error("Modulus by zero.");
+            }
             vm.stack.push( lhs % rhs );
         }
     },

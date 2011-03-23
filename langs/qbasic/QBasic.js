@@ -675,6 +675,7 @@ function QBasicProgram( input, testMode )
         rules.addToken( "VIEW", "VIEW" );
         rules.addToken( "WEND", "WEND" );
         rules.addToken( "WHILE", "WHILE" );
+        rules.addToken( "XOR", "XOR" );
         rules.addToken( "minus", "\\-" );
         rules.addToken( "endl", "\\n" );
         rules.addToken( "comment", "'.*$" );
@@ -1003,6 +1004,7 @@ function QBasicProgram( input, testMode )
         rules.addRule( "OptParen: '\\(' '\\)'" );
         rules.addRule( "expr: expr2" );
         rules.addRule( "expr2: expr2 OR expr3", onBinaryOp );
+        rules.addRule( "expr2: expr2 XOR expr3", onBinaryOp );
         rules.addRule( "expr2: expr3" );
         rules.addRule( "expr3: expr3 AND expr4", onBinaryOp );
         rules.addRule( "expr3: expr4" );
@@ -1018,9 +1020,12 @@ function QBasicProgram( input, testMode )
         rules.addRule( "expr6: expr6 '\\+' expr7", onBinaryOp );
         rules.addRule( "expr6: expr6 '\\-' expr7", onBinaryOp );
         rules.addRule( "expr6: expr7" );
-        rules.addRule( "expr7: expr7 '\\*' expr8", onBinaryOp );
-        rules.addRule( "expr7: expr7 '\\/' expr8", onBinaryOp );
-        rules.addRule( "expr7: expr8" );
+        rules.addRule( "expr7: expr7 '\\*' expr7b", onBinaryOp );
+        rules.addRule( "expr7: expr7 '\\/' expr7b", onBinaryOp );
+        rules.addRule( "expr7: expr7 '\\\\' expr7b", onBinaryOp );
+        rules.addRule( "expr7: expr7b" );
+        rules.addRule( "expr7b: expr7b '\\^' expr8", onBinaryOp );
+        rules.addRule( "expr7b: expr8" );
         rules.addRule( "expr8: '\\(' expr '\\)'", onBracketExpr );
         //rules.addRule( "expr8: expr8 '\\.' expr10", onBinaryOp );
         rules.addRule( "expr8: NOT expr9",
