@@ -7,14 +7,14 @@ JSREPL.Languages.QBasic = {
   scripts: [
     'langs/qbasic/RuleSet.js',
     'langs/qbasic/RuleParser.js',
-    'langs/qbasic/types.js',
-    'langs/qbasic/virtualmachine.js',
+    'langs/qbasic/Types.js',
+    'langs/qbasic/VirtualMachine.js',
     'langs/qbasic/TypeChecker.js',
     'langs/qbasic/EarleyParser.js',
     'langs/qbasic/GlrParser.js',
     'langs/qbasic/Tokenizer.js',
     'langs/qbasic/CodeGenerator.js',
-    'langs/qbasic/qbasic.js',
+    'langs/qbasic/QBasic.js',
     'langs/qbasic/jsrepl_qbasic.js'
   ],
   example_file: 'langs/qbasic/examples.json',
