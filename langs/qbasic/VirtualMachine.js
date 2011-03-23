@@ -989,6 +989,8 @@ var Instructions = {
             var value;
             if ( arg == 'NOT' ) {
                 value = ~rhs;
+            } else if ( arg == '-' ) {
+                value = -rhs;
             } else {
                 console.log("No such unary operator: " + arg);
             }

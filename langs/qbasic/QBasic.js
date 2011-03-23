@@ -680,14 +680,15 @@ function QBasicProgram( input, testMode )
         rules.addToken( "comment", "'.*$" );
         rules.addToken( "hexconstant", "\\&H[\\da-fA-F]+" );
         rules.addToken( "floatconstant", "\\d*\\.\\d+" );
-        rules.addToken( "intconstant", "-?\\d+" );
+        rules.addToken( "intconstant", "\\d+" );
         rules.addToken( "stringconstant", "\"[^\"]*\"" );
         rules.addToken( "label", "^([a-zA-Z][a-zA-Z0-9_]*:|\\d+)" );
         rules.addToken( "identifier", "[a-zA-Z_][a-zA-Z0-9_]*(\\$|%|#|&|!)?" );
 
         rules.addRule( "program: statements", onProgram );
         rules.addRule( "statements: statement*" );
-        //rules.addRule( "statement: intconstant istatement separator" );
+        // Line number:
+          //rules.addRule( "statement: intconstant istatement separator" );
         rules.addRule( "statement: label istatement separator",
             function(args, locus) {
                 var label = args[0];
@@ -1026,6 +1027,10 @@ function QBasicProgram( input, testMode )
                 function( args, locus ) {
                     return new AstUnaryOperator( locus, "NOT", args[1] );
                 });
+        rules.addRule( "expr8: '\\-' expr9",
+                function( args, locus ) {
+                    return new AstUnaryOperator( locus, "-", args[1] );
+                });
         rules.addRule( "expr8: expr9" );
         rules.addRule( "expr9: constant" );
         rules.addRule( "expr9: expr10" );
@@ -1070,6 +1075,7 @@ function QBasicProgram( input, testMode )
     var astProgram = QBasicProgram.parser.parse( input );
     if ( astProgram === null ) {
         this.errors = QBasicProgram.parser.errors;
+        //console.log(this.errors);
         throw Error("Parse failed.");
     }
 
