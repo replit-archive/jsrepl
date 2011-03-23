@@ -73,12 +73,16 @@ FUTURE
 ********************************************************************************
 
 Scheme
-  Uses the whole prototype library
+  Docs: http://www.biwascheme.org/
+  Built-in classes modification
+    The Prototype library adds quite a few
   Globals
     BiwaScheme - acceptable
+    All globals from the Prototype library
 
 
 QBasic
+  Docs: http://stevehanov.ca/blog/index.php?id=92
   Built-in classes modification
     Array.accept
   Globals

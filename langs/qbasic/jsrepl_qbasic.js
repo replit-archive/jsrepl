@@ -65,7 +65,7 @@ JSREPL.Engines.QBasic.Eval = function(input) {
     });
   } catch (e) {
     // TODO(max99x): Make the interpreter raise proper exceptions instead of
-    // breaking. Right now this is almost useless as in many cases the vm will
+    // breaking. Right now this is almost useless as in many cases the VM will
     // be broken after an error.
     error_callback(e);
   }
