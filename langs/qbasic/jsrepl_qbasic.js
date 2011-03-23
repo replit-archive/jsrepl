@@ -1,5 +1,9 @@
 (function() {
 
+// TODO(max99x): Stop faking state and actually make it into a REPL.
+// TODO(max99x): Implement standard library functions:
+//               http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm#9
+
 // An interface to the QBasic VM.
 var virtual_machine = null;
 // Callbacks remembered from Init().
@@ -30,14 +34,15 @@ JSREPL.Engines.QBasic.Init = function(input_func,
     },
     input: function(callback) {
       if (input_history_index < input_history.length) {
-        callback(input_history[input_history_index]);
+        input_history_index++;
+        callback(input_history[input_history_index - 1]);
       } else {
+        input_history_index++;
         input_func(function(data) {
           input_history.push(data);
           callback(data);
         });
       }
-      input_history_index++;
     }
   });
   virtual_machine.INTERVAL_MS = 0;
@@ -65,8 +70,8 @@ JSREPL.Engines.QBasic.Eval = function(input) {
     });
   } catch (e) {
     // TODO(max99x): Make the interpreter raise proper exceptions instead of
-    // breaking. Right now this is almost useless as in many cases the VM will
-    // be broken after an error.
+    // a catch-all or an outright break.
+    command_history.pop();
     error_callback(e);
   }
 };

@@ -758,8 +758,6 @@ var SystemSubroutines =
     "INPUT": {
         "action": function(vm)
         {
-            // TODO: Support multiple arguments. Convert strings input by the
-            // user to numbers.
             var argCount = vm.stack.pop();
             var args = [];
 
@@ -771,11 +769,31 @@ var SystemSubroutines =
 
             vm.suspend();
 
-            vm.cons.input( function( result ) {
-                vm.resume();
-                args[0].value = result;
-            });
-
+            var curArg = 0;
+            var callback = function(result) {
+                var parts = result.split(/\s*,\s*/);
+                for (var i = 0; i < parts.length; i++) {
+                    var value = parts[i];
+                    // TODO(max99x): Verify conversion strictness.
+                    switch (args[curArg].type.name) {
+                      case 'INTEGER':
+                      case 'LONG':
+                        value = parseInt(value) || value;
+                        break;
+                      case 'DOUBLE':
+                      case 'SINGLE':
+                        value = parseFloat(value) || value;
+                        break;
+                    }
+                    args[curArg++].value = value;
+                }
+                if (curArg < argCount) {
+                    vm.cons.input(callback);
+                } else {
+                    vm.resume();
+                }
+            }
+            vm.cons.input(callback);
         }
     },
 
