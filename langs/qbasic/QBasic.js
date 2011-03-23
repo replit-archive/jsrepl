@@ -658,6 +658,7 @@ function QBasicProgram( input, testMode )
         rules.addToken( "OR", "OR" );
         rules.addToken( "POKE", "POKE" );
         rules.addToken( "PRINT", "PRINT" );
+        // TODO(max99x): Add support for REDIM.
         rules.addToken( "RESTORE", "RESTORE" );
         rules.addToken( "RETURN", "RETURN" );
         rules.addToken( "SEG", "SEG" );

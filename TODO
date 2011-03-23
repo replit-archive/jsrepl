@@ -1,11 +1,15 @@
-Look into jQuery Terminal (which is what the BiwaScheme site uses).
-  A bit too heavy for our needs, but we could hack out the stuff we need.
+Look into jQuery Terminal (which is what the BiwaScheme site uses)
+  A bit too heavy for our needs, but we could hack out the stuff we need
 
 Need some way to prevent infinite loops in the interpreters!
 Need to prevent rich-text pasting into the prompt!
 
+Would be nice to have one seedable random number generator for all languages
+  Is needed as part of the standard library by some languages anyway
+  Makes any state faking much easier
+
 Examples
-  Storing examples in JSON makes them super-ugly. Should find better way.
+  Storing examples in JSON makes them super-ugly. Should find better way
   How to load multi-command examples?
     As a session?
     As an editable block of text into a large textbox?
@@ -40,7 +44,7 @@ Input method
 
 Persistence
   Download
-    Session log.
+    Session log
     All entered commands as script
   Persistence
     Snippet-like URLs
@@ -70,7 +74,7 @@ REPLify QBasic
     Make expression-only statements return result to caller
   Make VM call a function when errors are thrown during asynchronous execution
 
-FUTURE
+Exotic Future Features
   External Access
     DOM
     XHR
@@ -80,7 +84,17 @@ FUTURE
       Per-command or per-session?
   Server side evaluation
     Security!
+    Performance hit due to latency
   Parse tree
+
+Usage Patterns / marketing
+  Trying out code while learning a language
+    We could "market" to tutorial writers
+  Linking to interactive solutions on sites like StackOverflow.com
+    Market by posting good answers with links to jsREPL
+  Prototyping
+    Not complex enough so far
+  Anything else?
 
 ********************************************************************************
 *                                  Cleanup                                     *
