@@ -84,8 +84,8 @@ window.JSREPL = (function() {
 
     // Load examples.
     $.getJSON(lang.example_file, {}, function(data) {
-      var $examples = $('#examples');
-
+			console.log(data);
+      var $examples = $('#examples').unbind().children().not(':first').remove().end().end();
       examples = {};
       for (var i = 0; i < data.length; i++) {
         var example = data[i];

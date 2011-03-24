@@ -1,15 +1,15 @@
-m
+[
 	{
 		"name": "Hello World",
-		"code": "(print \"Hello World!\")",
+		"code": "(print \"Hello World!\")"
 	},
 	{
 		"name": "String concat",
-		"code": "(concat (substring (concat "hello everyone" " in the room") 6 18) "number " 23)"
+		"code": "(concat (substring (concat \"hello everyone\" \" in the room\") 6 18) \"number \" 23)"
 	},
 	{
 		"name": "Input",
-		"code": "(def name (input "name"))"
+		"code": "(def name (input \"name\"))"
 	}
 
 ]

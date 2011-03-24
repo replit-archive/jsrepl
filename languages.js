@@ -37,7 +37,7 @@ JSREPL.Languages.Lisp = {
 	'langs/lisp/DocumentEvaluator.js',
 	'langs/lisp/jsrepl_lisp.js'
 		],
-	example_file: 'langs/scheme/examples.json',
+	example_file: 'langs/lisp/examples.json',
 	help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)',
 	extension: 'scp',
 	logo: 'langs/lisp/logo.jpg'
