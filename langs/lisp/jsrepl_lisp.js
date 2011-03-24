@@ -1,4 +1,4 @@
-(function($) {
+(function() {
 
 JSREPL.Engines.Lisp = {};
 
@@ -7,8 +7,7 @@ var error_handler, result_handler;
 JSREPL.Engines.Lisp.Init = function(input_func,
                                     output_func,
                                     result_func,
-                                    error_func){
-
+                                    error_func) {
   // Place in and out methods in a global dummy object.
   // TODO(amasad): Find a name that is less likely to clash or avoid globals.
   window.dummy = {
@@ -22,7 +21,7 @@ JSREPL.Engines.Lisp.Init = function(input_func,
       Javathcript.eval(x[i]);
     }
   }
-  // TODO(amasad): Use a seperate file to do this shit.
+  // TODO(amasad): Use a seperate file to do this.
   //               Consider loading script with type "text/lisp".
   e([
     '(def window (js "window"))',
@@ -89,11 +88,11 @@ JSREPL.Engines.Lisp.Init = function(input_func,
   error_handler = error_func;
 };
 
-JSREPL.Engines.Lisp.Destroy = function(){
+JSREPL.Engines.Lisp.Destroy = function() {
   delete Javathcript;
 };
 
-JSREPL.Engines.Lisp.Eval = function(input){
+JSREPL.Engines.Lisp.Eval = function(input) {
   try {
     result_handler(Javathcript.eval(input));
   } catch(e) {
@@ -102,8 +101,9 @@ JSREPL.Engines.Lisp.Eval = function(input){
   }
 };
 
-JSREPL.Engines.Lisp.Highlight = function(element){
+JSREPL.Engines.Lisp.Highlight = function(element) {
   // TODO(amasad): Implement.
   console.log('Higlighting of Lisp code not yet implemented.');
 };
-})(jQuery);
+
+})();

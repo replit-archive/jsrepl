@@ -1,3 +1,7 @@
+How about we add a "library" property to the language definition?
+  Repl.js will always load and run it automatically after initializing an engine
+  A little extra overhead by makes things neater
+
 Fix LISP "Input" example
 
 Look into syntax highlighters:
