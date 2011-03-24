@@ -71,6 +71,7 @@ window.JSREPL = (function() {
       //               See if this can be fixed. The loaded scripts run fine
       //               though.
       engine = JSREPL.Engines[name];
+			console.log(engine);
       engine.Init(engine_callbacks.input,
                   engine_callbacks.output,
                   engine_callbacks.result,

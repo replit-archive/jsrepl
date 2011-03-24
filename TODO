@@ -1,5 +1,18 @@
 Look into jQuery Terminal (which is what the BiwaScheme site uses)
   A bit too heavy for our needs, but we could hack out the stuff we need
+	Looked into it, its really heavy with very little added value.
+	Also really hard to hack around it (spegatti code), 
+		took lots of work just add a simple functionality
+
+Looking into syntax highlighters:
+	http://remiya.com/cms.php/7/freebies/jquery-codify.html
+		Nothing impressive in this but its built on top of "http://qbnz.com/highlighter/":Geshi 
+		which is server side highliter that covers everything we need from brainfuck to QBasic
+		Maybe we could port some of those languages to javascript, or maybe just highlight the history using it.
+	Also was looking into rhich text-editing in JSBin.com and in GMail, they both use a whole document as a textarea
+	in an iframe obvoisly. Don't know whats the benifits of that, but loooked at JSBin's code on github and looks like lots of work
+
+http://qbnz.com/highlighter/
 
 Need some way to prevent infinite loops in the interpreters!
 Need to prevent rich-text pasting into the prompt!
