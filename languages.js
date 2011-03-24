@@ -24,23 +24,23 @@ JSREPL.Languages.QBasic = {
 };
 
 JSREPL.Languages.Lisp = {
-	name: 'Lisp',
-	category: 'Functional',
-	scripts: [
-	'langs/lisp/BPWJs.js',
-	'langs/lisp/Atom.js',
-	'langs/lisp/UnevaluatedObj.js',
-	'langs/lisp/JavathcriptTokenizer.js',
-	'langs/lisp/JavathcriptParser.js',
-	'langs/lisp/Environment.js',
-	'langs/lisp/Javathcript.js',
-	'langs/lisp/DocumentEvaluator.js',
-	'langs/lisp/jsrepl_lisp.js'
-		],
-	example_file: 'langs/lisp/examples.json',
-	help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)',
-	extension: 'scp',
-	logo: 'langs/lisp/logo.jpg'
+  name: 'Lisp',
+  category: 'Functional',
+  scripts: [
+    'langs/lisp/BPWJs.js',
+    'langs/lisp/Atom.js',
+    'langs/lisp/UnevaluatedObj.js',
+    'langs/lisp/JavathcriptTokenizer.js',
+    'langs/lisp/JavathcriptParser.js',
+    'langs/lisp/Environment.js',
+    'langs/lisp/Javathcript.js',
+    'langs/lisp/DocumentEvaluator.js',
+    'langs/lisp/jsrepl_lisp.js'
+  ],
+  example_file: 'langs/lisp/examples.json',
+  help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)',
+  extension: 'lisp',
+  logo: 'langs/lisp/logo.jpg'
 };
 
 JSREPL.Languages.Scheme = {

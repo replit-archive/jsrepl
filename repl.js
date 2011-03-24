@@ -71,7 +71,6 @@ window.JSREPL = (function() {
       //               See if this can be fixed. The loaded scripts run fine
       //               though.
       engine = JSREPL.Engines[name];
-			console.log(engine);
       engine.Init(engine_callbacks.input,
                   engine_callbacks.output,
                   engine_callbacks.result,
@@ -84,8 +83,8 @@ window.JSREPL = (function() {
 
     // Load examples.
     $.getJSON(lang.example_file, {}, function(data) {
-			console.log(data);
-      var $examples = $('#examples').unbind().children().not(':first').remove().end().end();
+      var $examples = $('#examples');
+      $(':not(:first)', $examples).remove();
       examples = {};
       for (var i = 0; i < data.length; i++) {
         var example = data[i];
@@ -93,10 +92,10 @@ window.JSREPL = (function() {
         examples[example.name] = example.code;
       }
 
-      $examples.change(function(){
-				var code = examples[$(this).val()];
-				JSREPL.multiCheck(code);
-			  $('#prompt').trigger('setContent', [examples[$(this).val()]]);
+      $examples.change(function() {
+        var code = examples[$(this).val()];
+        JSREPL.multiCheck(code);
+        $('#prompt').trigger('setContent', [examples[$(this).val()]]);
       }).val('');
       signalReady();
     });
@@ -171,9 +170,9 @@ $(function() {
   var history = [];
   // The index of the currently shown command.
   var history_index = 0;
-  //firefox displays resize handles, this should take care of that
-  $prompt.focus(function(){
-  	 document.execCommand("enableObjectResizing", false, false);
+  // Firefox displays resize handles. This should take care of that.
+  $prompt.focus(function() {
+    document.execCommand("enableObjectResizing", false, false);
   });
 
   $prompt.bind('setContent', function(e, content) {
@@ -189,8 +188,8 @@ $(function() {
   $prompt.bind('clearContent', function(e) {
     $(this).trigger('setContent', ['']);
   });
-	function keydown(e) {
-		var text;
+  function keydown(e) {
+    var text;
     switch (e.keyCode) {
       case 13:  // Enter - evaluate.
         var command = $prompt.text();
@@ -205,7 +204,7 @@ $(function() {
       case 38:  // Up arrow - previous history item.
         history_index--;
         if (history_index < 0) history_index = 0;
-				text = history[history_index];
+        text = history[history_index];
         $prompt.trigger('setContent', [text]);
         break;
       case 40:  // Down arrow - next history item.
@@ -213,7 +212,7 @@ $(function() {
           $prompt.trigger('clearContent');
         } else {
           history_index++;
-					text = history[history_index];
+          text = history[history_index];
           $prompt.trigger('setContent', [text]);
         }
         break;
@@ -223,55 +222,56 @@ $(function() {
     return false;
   }
 
-	function handleMulti(e){	
-	}
+  function handleMulti(e) {
+    // TODO(amasad): Implement!
+  }
 
   $prompt.keydown(keydown);
 
   // Needed to properly position the cursor after the >>> prompt.
   $prompt.trigger('clearContent');
-	
-	var expanded = false, 
-			$history = $('#history'), 
-			$eval_butt = $('#evaluate').click(function(){
-				$prompt.text($('<div/>').html($prompt.html().replace(/<div>/g, '\n')).text());
 
-					keydown({keyCode:13});
-			});	
+  var expanded = false,
+      $history = $('#history'),
+      $eval_button = $('#evaluate').click(function() {
+        var new_html = $prompt.html().replace(/<div>/g, '\n');
+        $prompt.text($('<div/>').html(new_html).text());
+        keydown({keyCode: 13});
+      });
 
-	//expand if code multiline
-	JSREPL.multiCheck = function(code){
-		if (code.split('\n').length > 1 && $('#evaluate:visible').length < 1)
-			$('#expand').click();
-	}
+  //expand if code multiline
+  JSREPL.multiCheck = function(code) {
+    if (code.split('\n').length > 1 && $('#evaluate:visible').length < 1)
+      $('#expand').click();
+  }
 
-	$('#expand').click(function(){
-		// todo(amasad): use css classes
-		// todo(max99x): maybe converting to non-absolute positioning maybe better.
-		if (!expanded){
-			$prompt
-				.css('height', '50%')
-				.unbind('keydown')
-				.keydown(handleMulti);
-			$history.css('bottom', '50%').css('max-height', '45%');
-			$(this)
-				.css('bottom', '45%')
-				.text('\\/');
-			$eval_butt.show();
-		}else{
-			$prompt
-				.css('height', '1.2em')
-				.unbind('keydown')
-				.keydown(keydown);
-			$history.css('bottom', '1.2em').css('max-height','93%');
-			$(this)
-				.css('bottom', '0')
-				.text('/\\');
-			$eval_butt.hide();	
-		}
-		expanded = !expanded;
-	});
-	// Setup expand
+  $('#expand').click(function(){
+    // TODO(amasad): Use CSS classes.
+    // TODO(max99x): Maybe convert to non-absolute positioning.
+    if (!expanded) {
+        $prompt
+          .css('height', '50%')
+          .unbind('keydown')
+          .keydown(handleMulti);
+        $history.css('bottom', '50%').css('max-height', '45%');
+        $(this)
+          .css('bottom', '45%')
+          .text('\\/');
+        $eval_button.show();
+    } else {
+        $prompt
+          .css('height', '1.2em')
+          .unbind('keydown')
+          .keydown(keydown);
+        $history.css('bottom', '1.2em').css('max-height','93%');
+        $(this)
+          .css('bottom', '0')
+          .text('/\\');
+        $eval_button.hide();
+    }
+    expanded = !expanded;
+  });
+  // Setup expand.
 });
 
 })(jQuery);
