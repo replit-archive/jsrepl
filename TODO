@@ -1,23 +1,25 @@
-How about we add a "library" property to the language definition?
+Try https://github.com/chrisdone/jquery-console/blob/master/jquery.console.js
+
+Add a "library" property to the language definition
   Repl.js will always load and run it automatically after initializing an engine
   A little extra overhead by makes things neater
 
-Fix LISP "Input" example
+Make prompt truly asynchronous
+  Make LISP asynchronity-friendly
 
 Look into syntax highlighters:
+  Look into http://alexgorbatchev.com/SyntaxHighlighter/
+    I (max99x) used this before; worked well
   Look into http://remiya.com/cms.php/7/freebies/jquery-codify.html
     Nothing impressive but it's built on top of http://qbnz.com/highlighter/
       A server-side highlighter that covers everything we need.
       Maybe we could port some of those languages to Javascript
       Maybe just highlight the history using it
-  Look into http://alexgorbatchev.com/SyntaxHighlighter/
-    I (max99x) used this before; worked well
   I (amasad) was looking into rich text editing in JSBin.com and in GMail
     Both use a whole document as a textarea in an iframe obvoisly
       Don't know whats the benifits of that
       JSBin's code on github looks like lots of work
 
-Need some way to prevent infinite loops in the interpreters!
 Need to prevent rich-text pasting into the prompt!
 
 Would be nice to have one seedable random number generator for all languages
@@ -32,31 +34,24 @@ Examples
     As an editable block of text into a large textbox?
 
 Input method
-  Line by line with history / state?
-    Great for learning and quick experimenting
-    Natural, same as all standard REPLs
-    State can be faked by keeping a history of commands
-      On output discarding old results
-      Assuming determinism
-  Single Textbox
-    No need to keep state
-    Harder to quickly experiment
-    Easier for pasting existing code
-  Both?
-    Switching mechanism?
-      Grow automatically?
-        Shift+Enter
-        Let language decide when to grow
-          Scheme -> On unbalanced brackets/braces/parantheses
-          QBasic -> On unfinished block
-        On paste/example load?
-        Is that enough?
-        Need to always maintain continuation/indent marker, e.g.:
-          >>> def f(x):
-          ...   if x:
-          ...     return x
-          ...   else:
-          ...     print 'Error!'
+  Line-by-line
+    Natural terminal, from top to bottom
+    Global hand-written key handler
+    Grow automatically
+      Shift+Enter
+      Let language decide when to grow
+        Scheme -> On unbalanced brackets/braces/parantheses
+        QBasic -> On unfinished block
+      On paste/example load?
+      Need to always maintain continuation/indent marker, e.g.:
+        >>> def f(x):
+        ...   if x:
+        ...     return x
+        ...   else:
+        ...     print 'Error!'
+  Single textbox
+    In the far, far future
+    As a completely separate mode that replaces the terminal
 
 Persistence
   Download
@@ -95,9 +90,6 @@ Exotic Future Features
     DOM
     XHR
     Canvas
-  Sticky input
-    Define a library-like bit of code to always load before anything else
-      Per-command or per-session?
   Server side evaluation
     Security!
     Performance hit due to latency
@@ -107,10 +99,10 @@ Usage Patterns / marketing
   Trying out code while learning a language
     We could "market" to tutorial writers
   Linking to interactive solutions on sites like StackOverflow.com
-    Market by posting good answers with links to jsREPL
+    Market by posting good answers with example links to jsREPL
+  Access from mobile
   Prototyping
     Not complex enough so far
-  Anything else?
 
 ********************************************************************************
 *                                  Cleanup                                     *
@@ -294,6 +286,7 @@ Javascript
     Easy sandboxing could be done in iframe
       Would it sandbox properly even if the iframe is on the same domain?
       How will we get the output?
+      Security problems mainly with snippet sharing
 
 Prolog
   http://ioctl.org/logic/prolog-latest
@@ -309,3 +302,7 @@ Smalltalk
 
 Generic Algol-like languages
   http://www.zerny.dk/j-is-for-js.html
+
+Python
+  http://code.google.com/p/trypython/
+    Running via IronPython/Silverlight
