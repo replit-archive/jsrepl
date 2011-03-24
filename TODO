@@ -6,7 +6,7 @@ Add a "library" property to the language definition
 
 Make prompt truly asynchronous
   Make LISP asynchronity-friendly
-
+  
 Look into syntax highlighters:
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
     I (max99x) used this before; worked well
@@ -85,6 +85,9 @@ REPLify QBasic
     Make expression-only statements return result to caller
   Make VM call a function when errors are thrown during asynchronous execution
 
+Port to node
+  Make it accessable from terminal
+ 
 Exotic Future Features
   External Access
     DOM
