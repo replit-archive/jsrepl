@@ -11,7 +11,13 @@ JSREPL.Engines.Lisp.Init = function(input_func,
   // Place in and out methods in a global dummy object.
   // TODO(amasad): Find a name that is less likely to clash or avoid globals.
   window.dummy = {
-    input: input_func,
+		//wrapper function to make input_func act syncronusly and return String, just like scheme
+    input: function(){
+			var str = "";
+			cb = function(s){str = s;};
+			input_func(cb);
+			return str;			
+		},
     output: output_func
   };
 
