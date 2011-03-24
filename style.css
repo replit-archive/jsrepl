@@ -70,6 +70,7 @@ pre {
   left: 0;
   width: 100%;
   background: #aaaaff; /* DEBUG */
+	overflow: auto;
 }
 
 #prompt:before {
@@ -78,6 +79,10 @@ pre {
 
 #expand {
   background: #ffaaff; /* DEBUG */
+	position: absolute;
+	bottom: 0;
+	left: 99%;
+	cursor:pointer;
 }
 
 .command {
@@ -95,4 +100,10 @@ pre {
 .error {
   color: red;
   font-weight: bold;
+}
+#evaluate{
+	position:absolute;
+	display:none;
+	bottom:0;
+	right:0;
 }

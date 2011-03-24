@@ -93,7 +93,9 @@ window.JSREPL = (function() {
       }
 
       $examples.change(function(){
-        $('#prompt').trigger('setContent', [examples[$(this).val()]]);
+				var code = examples[$(this).val()];
+				JSREPL.multiCheck(code);
+			  $('#prompt').trigger('setContent', [examples[$(this).val()]]);
       }).val('');
       signalReady();
     });
@@ -186,8 +188,8 @@ $(function() {
   $prompt.bind('clearContent', function(e) {
     $(this).trigger('setContent', ['']);
   });
-
-  $prompt.keydown(function(e) {
+	function keydown(e) {
+		var text;
     switch (e.keyCode) {
       case 13:  // Enter - evaluate.
         var command = $prompt.text();
@@ -202,24 +204,73 @@ $(function() {
       case 38:  // Up arrow - previous history item.
         history_index--;
         if (history_index < 0) history_index = 0;
-        $prompt.trigger('setContent', [history[history_index]]);
+				text = history[history_index];
+        $prompt.trigger('setContent', [text]);
         break;
       case 40:  // Down arrow - next history item.
         if (history_index >= history.length - 1) {
           $prompt.trigger('clearContent');
         } else {
           history_index++;
-          $prompt.trigger('setContent', [history[history_index]]);
+					text = history[history_index];
+          $prompt.trigger('setContent', [text]);
         }
         break;
       default: // Perform default action.
         return true;
     }
     return false;
-  });
+  }
+
+	function handleMulti(e){	
+	}
+
+  $prompt.keydown(keydown);
 
   // Needed to properly position the cursor after the >>> prompt.
   $prompt.trigger('clearContent');
+	
+	var expanded = false, 
+			$history = $('#history'), 
+			$eval_butt = $('#evaluate').click(function(){
+				$prompt.text($('<div/>').html($prompt.html().replace(/<div>/g, '\n')).text());
+
+					keydown({keyCode:13});
+			});	
+
+	//expand if code multiline
+	JSREPL.multiCheck = function(code){
+		if (code.split('\n').length > 1 && $('#evaluate:visible').length < 1)
+			$('#expand').click();
+	}
+
+	$('#expand').click(function(){
+		// todo(amasad): use css classes
+		// todo(max99x): maybe converting to non-absolute positioning maybe better.
+		if (!expanded){
+			$prompt
+				.css('height', '50%')
+				.unbind('keydown')
+				.keydown(handleMulti);
+			$history.css('bottom', '50%').css('max-height', '45%');
+			$(this)
+				.css('bottom', '45%')
+				.text('\\/');
+			$eval_butt.show();
+		}else{
+			$prompt
+				.css('height', '1.2em')
+				.unbind('keydown')
+				.keydown(keydown);
+			$history.css('bottom', '1.2em').css('max-height','93%');
+			$(this)
+				.css('bottom', '0')
+				.text('/\\');
+			$eval_butt.hide();	
+		}
+		expanded = !expanded;
+	});
+	// Setup expand
 });
 
 })(jQuery);
