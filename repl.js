@@ -70,11 +70,10 @@ window.JSREPL = (function() {
       // TODO(amasad): This doesn't run if the same language is loaded twice.
       //               See if this can be fixed. The loaded scripts run fine
       //               though.
-      engine = JSREPL.Engines[name];
-      engine.Init(engine_callbacks.input,
-                  engine_callbacks.output,
-                  engine_callbacks.result,
-                  engine_callbacks.error);
+      engine = new JSREPL.Engines[name](engine_callbacks.input,
+                                        engine_callbacks.output,
+                                        engine_callbacks.result,
+                                        engine_callbacks.error);
       signalReady();
     });
 
