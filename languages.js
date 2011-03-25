@@ -17,7 +17,7 @@ JSREPL.Languages.QBasic = {
     'langs/qbasic/QBasic.js',
     'langs/qbasic/jsrepl_qbasic.js'
   ],
-  example_file: 'langs/qbasic/examples.json',
+  example_file: 'langs/qbasic/examples.txt',
   help_link: 'http://westcompsci.pima.edu/cis100/',
   extension: 'bas',
   logo: 'langs/qbasic/logo.png'
@@ -37,7 +37,7 @@ JSREPL.Languages.Lisp = {
     'langs/lisp/DocumentEvaluator.js',
     'langs/lisp/jsrepl_lisp.js'
   ],
-  example_file: 'langs/lisp/examples.json',
+  example_file: 'langs/lisp/examples.txt',
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)',
   extension: 'lisp',
   logo: 'langs/lisp/logo.jpg'
@@ -51,7 +51,7 @@ JSREPL.Languages.Scheme = {
     'langs/scheme/biwascheme.js',
     'langs/scheme/jsrepl_scheme.js'
   ],
-  example_file: 'langs/scheme/examples.json',
+  example_file: 'langs/scheme/examples.txt',
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)',
   extension: 'scm',
   logo: 'langs/scheme/logo.png'

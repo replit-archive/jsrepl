@@ -1,3 +1,8 @@
+Rewrite in CoffeeScript
+  repl.js
+  languages.js
+  Language interfaces
+
 Try https://github.com/chrisdone/jquery-console/blob/master/jquery.console.js
 
 Add a "library" property to the language definition
@@ -27,11 +32,9 @@ Would be nice to have one seedable random number generator for all languages
   Makes any state faking much easier
 
 Examples
-  Storing examples in JSON makes them super-ugly
-    Should find better way!
   How to load multi-command examples?
+    As single command (with auto-growth for multi-lined examples)
     As a session?
-    As an editable block of text into a large textbox?
 
 Input method
   Line-by-line

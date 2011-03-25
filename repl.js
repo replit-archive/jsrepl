@@ -82,14 +82,17 @@ window.JSREPL = (function() {
     $('#lang_logo').attr('src', lang.logo);
 
     // Load examples.
-    $.getJSON(lang.example_file, {}, function(data) {
+    $.get(lang.example_file, {}, function(raw_examples) {
+      examples = {};
       var $examples = $('#examples');
       $(':not(:first)', $examples).remove();
-      examples = {};
-      for (var i = 0; i < data.length; i++) {
-        var example = data[i];
-        $examples.append($.tmpl('option', {value: example.name}));
-        examples[example.name] = example.code;
+
+      var example_parts = raw_examples.split(/\*{80}/);
+      for (var i = 1; i < example_parts.length; i += 2) {
+        var name = example_parts[i - 1].replace(/^\s+|\s*$/g, '');
+        var code = example_parts[i].replace(/^\s+|\s*$/g, '');
+        examples[name] = code;
+        $examples.append($.tmpl('option', {value: name}));
       }
 
       $examples.change(function() {
