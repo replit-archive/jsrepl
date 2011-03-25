@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Lisp
+class JSREPL::Engines::Lisp
   constructor: (input_func, output_func, result_func, error_func) ->
     @error_handler = undefined
     @result_handler = undefined

@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Scheme
+class JSREPL::Engines::Scheme
   constructor: (input_func, output_func, result_func, error_func) ->
     BiwaScheme.Port.current_output = new (Class.create(BiwaScheme.Port, {
       initialize: ($super) ->

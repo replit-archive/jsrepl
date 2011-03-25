@@ -1,4 +1,4 @@
-@JSREPL::Languages::QBasic =
+JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'
   scripts: [
@@ -19,7 +19,7 @@
   extension: 'bas'
   logo: 'langs/qbasic/logo.png'
 
-@JSREPL::Languages::Lisp =
+JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
   scripts: [
@@ -38,7 +38,7 @@
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
 
-@JSREPL::Languages::Scheme =
+JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
   scripts: [

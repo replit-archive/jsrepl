@@ -1,4 +1,4 @@
-$ = @jQuery
+$ = jQuery
 
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
@@ -284,14 +284,16 @@ class @JSREPL
     history.scrollTop = history.scrollHeight
 
   # Evaluates a command in the current engine.
+  #   @arg command: A string containing the code to execute.
   Evaluate: (command) ->
     $('#examples').val ''
     $('#history').append jQuery.tmpl 'command', command: command
     @engine.Eval command
 
-# The languages and engines sub-modules.
-class @JSREPL::Languages
-class @JSREPL::Engines
+
+# The languages and engines modules.
+class JSREPL::Languages
+class JSREPL::Engines
 
 # Create and load the main REPL object.
-$ => new @JSREPL
+$ -> new JSREPL

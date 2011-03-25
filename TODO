@@ -7,7 +7,7 @@ Add a "library" property to the language definition
 Make prompt truly asynchronous
   Make LISP asynchronity-friendly
 
-Look into syntax highlighters:
+Look into syntax highlighters
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
     I (max99x) used this before; worked well
   Look into http://remiya.com/cms.php/7/freebies/jquery-codify.html
@@ -25,6 +25,7 @@ Need to prevent rich-text pasting into the prompt!
 Document our changes to the interpreter libraries
   Can we include a fork of a project as part of a larger project on Github?
     E.g. a fork of yhara/biwascheme inside amasad/jsrepl
+    git-submodules - link only, not a real fork so read-only
   How to deal with non-Github-hosted libraries
     Copy of original, apply modifications?
 
@@ -89,7 +90,7 @@ REPLify QBasic
     Make expression-only statements return result to caller
   Make VM call a function when errors are thrown during asynchronous execution
 
-Port to node
+Port to Node.js
   Make it accessible from terminal
 
 Exotic Future Features
