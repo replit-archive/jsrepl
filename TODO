@@ -1,8 +1,11 @@
 Try https://github.com/chrisdone/jquery-console/blob/master/jquery.console.js
 
 Add a "library" property to the language definition
-  Repl.js will always load and run it automatically after initializing an engine
+  Repl.coffee will always load and run it after initializing an engine
   A little extra overhead by makes things neater
+  Better let the language keep track and load the library by itself
+    No messing with the UI callbacks
+    Can be optimized better
 
 Make prompt truly asynchronous
   Make LISP asynchronity-friendly

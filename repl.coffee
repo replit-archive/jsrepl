@@ -4,11 +4,11 @@ $ = jQuery
 # the other classes in the project.
 class @JSREPL
   constructor: ->
-    # The name of the current language.
+    # The definition of the current language.
     @lang = null
-    # The interpreter engine for the current language.
+    # The interpreter engine of the current language.
     @engine = null
-    # All the examples for the current language.
+    # The examples of the current language.
     @examples = null
     # Set up the UI.
     @DefineTemplates()
@@ -130,8 +130,8 @@ class @JSREPL
     # Load the default language by manually triggering change.
     $languages.change()
 
-  # Loads the specified language engine with its library and examples and calls
-  # the callback once all loading is done.
+  # Loads the specified language engine with its examples and calls the callback
+  # once all loading is done.
   #   @arg lang_name: The name of the language to load, a member of
   #     JSREPL::Languages as defined in languages.js.
   #   @arg callback: The function to call after loading finishes.
@@ -147,8 +147,8 @@ class @JSREPL
     $('#prompt').text ''
     $('#examples').val ''
 
-    # A counter to call the callback after the scripts, libraries and examples
-    # have successfully loaded.
+    # A counter to call the callback after the scripts and examples have
+    # successfully loaded.
     signals_read = 0
     signalReady = ->
       if ++signals_read == 2 then callback()
