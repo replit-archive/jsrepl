@@ -1,6 +1,4 @@
-@JSREPL.Languages = {}
-@JSREPL.Engines = {}
-@JSREPL.Languages.QBasic =
+@JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'
   scripts: [
@@ -20,7 +18,7 @@
   help_link: 'http://westcompsci.pima.edu/cis100/'
   extension: 'bas'
   logo: 'langs/qbasic/logo.png'
-@JSREPL.Languages.Lisp =
+@JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
   scripts: [
@@ -38,7 +36,7 @@
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
-@JSREPL.Languages.Scheme =
+@JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
   scripts: [

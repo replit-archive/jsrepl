@@ -1,4 +1,4 @@
-class @JSREPL.Engines.Lisp
+class @JSREPL::Engines::Lisp
   constructor: (input_func, output_func, result_func, error_func) ->
     @error_handler = undefined
     @result_handler = undefined
@@ -8,7 +8,7 @@ class @JSREPL.Engines.Lisp
       input: ->
         # Wrapper function to make input_func act syncronously and return a
         # string, just like Scheme.
-        # TODO(amasad): Hack VM to allow asynchronicity.
+        # TODO(amasad): Hack VM to allow asynchronicity. Breakage imminent.
         str = ''
         callback = (s) -> str = s
         input_func callback

@@ -2,7 +2,7 @@
 # TODO(max99x): Implement standard library functions:
 #               http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm#9
 
-class @JSREPL.Engines.QBasic
+class @JSREPL::Engines::QBasic
   constructor: (input_func, output_func, result_func, error_func) ->
     # An interface to the QBasic VM.
     @virtual_machine = new VirtualMachine {
