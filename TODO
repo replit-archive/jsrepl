@@ -22,6 +22,12 @@ Look into syntax highlighters:
 
 Need to prevent rich-text pasting into the prompt!
 
+Document our changes to the interpreter libraries
+  Can we include a fork of a project as part of a larger project on Github?
+    E.g. a fork of yhara/biwascheme inside amasad/jsrepl
+  How to deal with non-Github-hosted libraries
+    Copy of original, apply modifications?
+
 Would be nice to have one seedable random number generator for all languages
   Is needed as part of the standard library by some languages anyway
   Makes any state faking much easier
@@ -60,7 +66,7 @@ Persistence
     Accounts / profiles
       Probably too complex and not really needed
 
-Design
+UI Design
   jsREPL Logo
   Color scheme
   Something to fill in the empty space on first load
@@ -84,7 +90,7 @@ REPLify QBasic
   Make VM call a function when errors are thrown during asynchronous execution
 
 Port to node
-  Make it accessable from terminal
+  Make it accessible from terminal
 
 Exotic Future Features
   External Access
@@ -96,14 +102,17 @@ Exotic Future Features
     Performance hit due to latency
   Parse tree
 
-Usage Patterns / marketing
+Usage Patterns
   Trying out code while learning a language
-    We could "market" to tutorial writers
   Linking to interactive solutions on sites like StackOverflow.com
-    Market by posting good answers with example links to jsREPL
-  Access from mobile
+  Access from mobile phones
   Prototyping
     Not complex enough so far
+
+Marketing
+  Target tutorial writers
+  Post good answers with example links to jsREPL sessions
+  Make a Chrome App
 
 ********************************************************************************
 *                                  Cleanup                                     *
@@ -116,6 +125,12 @@ Scheme
   Globals
     BiwaScheme - acceptable
     All globals from the Prototype library
+
+LISP
+  Built-in classes modification
+    ?
+  Globals
+    ?
 
 QBasic
   Docs: http://stevehanov.ca/blog/index.php?id=92
@@ -242,6 +257,8 @@ QBasic
 LISP
   http://kybernetikos.github.com/Javathcript/
     Currently used
+    Needs eval-level asynchronicity support
+      Look up "continuation"
   http://www.parkscomputing.com/lisptest.html
   http://joeganley.com/code/jslisp.html
   http://stevela.github.com/js-lisp/

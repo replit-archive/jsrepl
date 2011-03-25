@@ -18,6 +18,7 @@
   help_link: 'http://westcompsci.pima.edu/cis100/'
   extension: 'bas'
   logo: 'langs/qbasic/logo.png'
+
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
@@ -36,6 +37,7 @@
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
+
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
