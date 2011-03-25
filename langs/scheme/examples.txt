@@ -10,7 +10,7 @@ Map and Fold
 
 Input
 ********************************************************************************
-(print 'Your #\\space 'name #\\space 'is #\\space (read) '!)
+(print 'Your #\space 'name #\space 'is #\space (read) '!)
 ********************************************************************************
 
 Naive Fibonacci
