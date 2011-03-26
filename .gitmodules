@@ -1,0 +1,3 @@
+[submodule "extern/biwascheme"]
+	path = extern/biwascheme
+	url = git://github.com/max99x/biwascheme.git
