@@ -117,7 +117,7 @@ TypeChecker.prototype = {
         }
         var errorStr = "Error at " + object.locus + ": " + this.sprintf(args);
         this.errors.push( errorStr );
-        throw Error(errorStr);
+        throw new Error(errorStr);
     },
 
     /**

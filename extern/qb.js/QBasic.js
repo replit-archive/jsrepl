@@ -1082,7 +1082,7 @@ function QBasicProgram( input, testMode )
     if ( astProgram === null ) {
         this.errors = QBasicProgram.parser.errors;
         //console.log(this.errors);
-        throw Error("Parse failed.");
+        throw new Error("Parse failed.");
     }
 
     // Perform type checking.
@@ -1090,7 +1090,7 @@ function QBasicProgram( input, testMode )
     astProgram.accept( typeChecker );
 
     if ( this.errors.length > 0 ) {
-        throw Error("There were errors.");
+        throw new Error("There were errors.");
     }
 
     // Perform code generation.

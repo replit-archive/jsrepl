@@ -1126,7 +1126,7 @@ var Instructions = {
             var rhs = vm.stack.pop();
             var lhs = vm.stack.pop();
             if (rhs == 0) {
-              throw Error("Division by zero.");
+              throw new Error("Division by zero.");
             }
             vm.stack.push( lhs / rhs );
         }
@@ -1140,7 +1140,7 @@ var Instructions = {
             var rhs = vm.stack.pop();
             var lhs = vm.stack.pop();
             if (rhs == 0) {
-              throw Error("Division by zero.");
+              throw new Error("Division by zero.");
             }
             vm.stack.push( Math.floor(lhs / rhs) );
         }
@@ -1165,7 +1165,7 @@ var Instructions = {
             var rhs = vm.stack.pop();
             var lhs = vm.stack.pop();
             if (rhs == 0) {
-              throw Error("Modulus by zero.");
+              throw new Error("Modulus by zero.");
             }
             vm.stack.push( lhs % rhs );
         }
