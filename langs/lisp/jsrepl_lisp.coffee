@@ -7,16 +7,15 @@ class JSREPL::Engines::Lisp
     window.dummy =
       input: ->
         # Wrapper function to make input_func act syncronously and return a
-        # string, just like Scheme.
+        # string.
         # TODO(amasad): Hack VM to allow asynchronicity. Breakage imminent.
         str = ''
-        callback = (s) -> str = s
-        input_func callback
+        input_func (s) -> str = s
         return str
       output: output_func
 
     # TODO(amasad): Put this into a library.
-    library_function = [
+    library_functions = [
       '(def window (js "window"))'
       '(def dummy (js "window.dummy"))'
       '(def input (method dummy "input"))'
@@ -72,12 +71,14 @@ class JSREPL::Engines::Lisp
       '(defun minusp (x) (< x 0))'
       '(defun evenp (x) (equal (rem x 2) 0))'
       '(defun oddp (x) (/= (rem x 2) 1))'
-      '(defun list-member (E L) (cond ((null L) Nil) ((equal E (first L))  \'t) (\'t (list-member E (rest L)))))'
+      '(defun list-member (E L) (cond ((null L) Nil)
+                                ((equal E (first L))  \'t)
+                                (\'t (list-member E (rest L)))))'
       '(defun map (F L) (if (null L) Nil (cons (F (head L)) (map F (tail L)))))'
       # TODO(amasad): Implement Math functions.
     ]
 
-    Javathcript.eval func for func in library_function
+    Javathcript.eval func for func in library_functions
 
     delete window.dummy
     @result_handler = result_func
