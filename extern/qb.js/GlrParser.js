@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
-*/    
+*/
 //#include <Tokenizer.js>
 //#include <debug.js>
 /******************************************************************************
@@ -31,7 +31,7 @@ function GlrItem( rule, position )
     this.key = "r" + this.rule.id + "_" + this.position;
 }
 
-GlrItem.prototype = 
+GlrItem.prototype =
 {
     toString: function()
     {
@@ -93,27 +93,27 @@ GlrState.prototype =
                 list.push(key);
             }
         }
-        return list.sort().join("_"); 
+        return list.sort().join("_");
     },
 
     toString: function()
     {
-        var str = sprintf("GlrState[%s]:\n", this.id);
+        var str = "GlrState[" + this.id + "]:\n";
         if ( this.accept ) {
             str += "    ACCEPTING\n";
         }
         str += "....Items:\n";
         for ( var item in this.items ) {
             if ( this.items.hasOwnProperty( item ) ) {
-                str += sprintf("........%s\n", this.items[item]); 
+                str += "........" + this.items[item] + "\n";
             }
         }
         if ( this.reductions.length ) {
-            str += sprintf("....Reduction: %s\n", this.reductions[0]);
+            str += "....Reduction: " + this.reductions[0] + "\n";
         }
         for ( var next in this.next ) {
             if ( this.next.hasOwnProperty( next ) ) {
-                str += sprintf("....GOTO[%s] = [%s]\n", next, this.next[next]);
+                str += "....GOTO[" + next + "] = [" + this.next[next] + "]\n";
             }
         }
         return str;
@@ -143,8 +143,7 @@ GlrShiftNode.prototype = {
 
     toString: function()
     {
-        return sprintf("GlrShiftNode state=[%s] text=%s",
-            this.state.id, this.text );
+        return "GlrShiftNode state=[" + this.state.id + "] text=" + this.text;
     },
 
     evaluate: function()
@@ -182,9 +181,9 @@ GlrInteriorNode.prototype = {
         return false;
     },
 
-    toString: function() 
+    toString: function()
     {
-        return sprintf("GlrInteriorNode rule=%s", this.rule);
+        return "GlrInteriorNode rule=" + this.rule;
     },
 
     evaluate: function()
@@ -192,7 +191,7 @@ GlrInteriorNode.prototype = {
         var cur = this.ref;
         var args = [];
         var locus = this.locus;
-        dbg.printf("Eval inode with state [%s]\n", this.state.id);
+        console.log("Eval inode with state [" + this.state.id + "]");
         for ( var i = 0; i < this.rule.symbols.length; i++ ) {
             locus = cur.locus;
             args.unshift( cur.evaluate() );
@@ -238,25 +237,24 @@ GlrReduceNode.prototype = {
                 return this.inodes[i];
             }
         }
-        dbg.printf("Create new inode with state [%s] rule=%s and ref=[%s]\n", 
-            this.state.id, rule,
-            ref.state.id);
+        console.log("Create new inode with state [" + this.state.id +
+                    "] rule=" + rule + " and ref=[" + state.id + "]");
         var inode = new GlrInteriorNode( this, rule, ref );
         return inode;
     },
 
     toString: function()
     {
-        return sprintf("GlrReduceNode state=[%s] inodes=%s parents=%s",
-            this.state.id,
-            this.inodes.length, this.parents.length);
+        return ("GlrReduceNode state=[" + this.state.id +
+                "] inodes=" + this.inodes.length +
+                " parents=" + this.parents.length);
     },
 
     evaluate: function()
     {
         // choose any inode and return its value.
         if ( this.inodes.length > 1 ) {
-            dbg.printf("Uh oh! Choice of inodes [%s]...\n", this.state.id);
+            console.log("Uh oh! Choice of inodes [" + this.state.id + "]...");
         }
         return this.inodes[0].evaluate();
     }
@@ -280,7 +278,7 @@ function GlrParser(ruleSet)
     this.limit = 0;
 }
 
-GlrParser.prototype = 
+GlrParser.prototype =
 {
     parse: function(text)
     {
@@ -294,18 +292,17 @@ GlrParser.prototype =
         this.stackTops = [ new GlrReduceNode( new Locus(0,0),
             this.startState ) ];
 
-        this.nextTops = [];    
+        this.nextTops = [];
 
         for( ;; ) {
 
             token = this.tokenizer.nextToken( line, position );
             if ( this.debug ) {
-                dbg.printf("Got token %s\n", token);
+                console.log("Got token " + token);
             }
             if ( token === null ) {
-                this.errors.push( 
-                        sprintf("Bad character at at %s:%s",
-                            line+1,position+1));
+                this.errors.push("Bad character at " + (line+1) +
+                                 ":" + (position+1));
                 break;
             }
 
@@ -332,8 +329,7 @@ GlrParser.prototype =
             }
 
             if ( this.nextTops.length === 0 ) {
-                this.errors.push(sprintf("Syntax error at %s: %s",
-                            token.locus, token ));
+                this.errors.push("Syntax error at " + token.locus + ": " + token);
                 this.errors.push("Expected one of the following:");
                 this.printExpected(this.stackTops);
                 break;
@@ -348,7 +344,7 @@ GlrParser.prototype =
 
         for ( i = 0; i < this.stackTops.length; i++ ) {
             if ( this.stackTops[i].state.accept ) {
-                //dbg.printf("ACCEPT!\n");
+                //console.log("ACCEPT!");
                 return this.stackTops[i].parents[0].evaluate();
             }
         }
@@ -368,7 +364,7 @@ GlrParser.prototype =
                     var item = state.items[key];
                     if ( item.position < item.rule.symbols.length &&
                             item.rule.symbols[item.position][0] == "'") {
-                        this.errors.push("    " + 
+                        this.errors.push("    " +
                                 item.rule.symbols[item.position]);
                     }
                 }
@@ -380,12 +376,12 @@ GlrParser.prototype =
     {
         var nextState = this.computeNext( node.state, symbol.id );
         if ( this.debug ) {
-            dbg.printf("Try to shift %s\n", symbol );
+            console.log("Try to shift " + symbol);
         }
         if ( nextState ) {
             var nextNode = this.findNode( this.nextTops, nextState );
             if ( this.debug ) {
-                dbg.printf("Shift %s\n", symbol );
+                console.log("Shift " + symbol);
             }
             if ( nextNode ) {
                 nextNode.addParent( node );
@@ -412,71 +408,74 @@ GlrParser.prototype =
             //var m = blah;
         }
         if ( ! (token.id in this.ruleSet.follow[rule.name]) ) {
-            dbg.printf("Skip reduction on %s due to follow set %s\n", rule.name, token); 
+            console.log("Skip reduction on " + rule.name +
+                        " due to follow set " + token);
             return;
         }
         if ( node instanceof GlrReduceNode ) {
-            dbg.printf("Skip processing of reduce node.\n");
+            console.log("Skip processing of reduce node.");
             return;
         }
-        dbg.printf("Trying to reduce node with state [%s] and %d parents\n",
-            node.state.id, node.parents.length);
+        console.log("Trying to reduce node with state [" + node.state.id +
+                    "] and " + node.parents.length + " parents");
         var ancestors = [];
         this.ancestors( ancestors, node, rule.symbols.length );
-        dbg.printf("    %s ancestors found\n", ancestors.length);
+        console.log("    " + ancestors.length + " ancestors found");
         for ( var ai = 0; ai < ancestors.length; ai++ ) {
             var ancestor = ancestors[ai];
-            dbg.printf("Process ancestor #%d.\n", ai);
-            //dbg.printf("Ancestor is %s\n", ancestor);
+            console.log("Process ancestor #" + ai + ".");
+            //console.log("Ancestor is " + ancestor);
             var nextState = this.computeNext( ancestor.state, rule.name );
             if ( nextState === null ) {
                 continue;
             }
             var nextNode = this.findNode( this.stackTops, nextState );
             if ( this.debug ) {
-                dbg.printf("Reduce by rule %s\n", rule);
+                console.log("Reduce by rule " + rule);
             }
             if ( nextNode === null ) {
                 var rnode = new GlrReduceNode( this.locus, nextState );
                 inode = rnode.getINode( rule, node );
                 inode.addParent( ancestor );
                 this.stackTops.push( rnode );
-                if ( this.debug ) { 
-                    dbg.printf("    Connect state [%s] to [%s] via %s\n", 
-                        ancestor.state.id, rnode.state.id, rule.name );
-                    dbg.printf("Recurse on new reduce node.\n");
+                if ( this.debug ) {
+                    console.log("    Connect state [" + ancestor.state.id +
+                                "] to [" + rnode.state.id +
+                                "] via " + rule.name);
+                    console.log("Recurse on new reduce node.");
                 }
                 this.reduceAll( inode, token );
             } else if ( nextNode instanceof GlrReduceNode ) {
                 inode = nextNode.getINode( rule, node );
-                dbg.printf("    RN: Connect state [%s] to [%s] via %s\n", 
-                    ancestor.state.id, nextNode.state.id, rule.name );
+                console.log("    RN: Connect state [" + ancestor.state.id +
+                            "] to [" + nextNode.state.id +
+                            "] via " + rule.name);
                 if ( inode.addParent( ancestor ) ) {
                     if ( this.debug ) {
-                        dbg.printf("Recurse on processed reduce node.\n");
+                        console.log("Recurse on processed reduce node.");
                     }
                     //this.reduce( nextNode, rule, token );
                     this.reduceAll( inode, token );
                 } else {
-                    dbg.printf("    RN: Node already existed. No change.\n");
-                    //if ( this.debug ) dbg.printf("Recurse on unprocessed reduce node.\n");
+                    console.log("    RN: Node already existed. No change.");
+                    //if ( this.debug ) console.log("Recurse on unprocessed reduce node.");
                     //this.reduce( inode, rule, token );
                 }
             } else {
-                dbg.printf("Error! Tried to add already existing node.\n");
+                console.log("Error! Tried to add already existing node.");
             }
         }
-        dbg.printf("Returning.\n");
+        console.log("Returning.");
     },
 
-    printStack: function( tops ) 
+    printStack: function( tops )
     {
         var str = "\nStack:\n";
         for ( var i = 0; i < tops.length; i++ ) {
             str += "    " + tops[i].toString() + "\n";
         }
 
-        dbg.print(str);
+        console.log(str);
     },
 
     ancestors: function( paths, v, k )
@@ -533,7 +532,7 @@ GlrParser.prototype =
         } else if ( item.rule.symbols[item.position][0] != "'" ) {
             // if the next item of the rule is a non-terminal, then add all
             // rules by that name.
-            this.addNonTerminalToState( 
+            this.addNonTerminalToState(
                 state, item.rule.symbols[item.position]);
         }
     },
@@ -546,7 +545,7 @@ GlrParser.prototype =
         } else {
             this.cached[key] = state;
             if ( this.debug ) {
-                dbg.printf("Created state:\n%s", state);
+                console.log("Created state:\n" + state);
             }
         }
         return this.cached[key];
@@ -565,7 +564,7 @@ GlrParser.prototype =
                 // state.
                 var item = state.items[key];
                 if ( item.position < item.rule.symbols.length &&
-                    item.rule.symbols[item.position] == symbol ) 
+                    item.rule.symbols[item.position] == symbol )
                 {
                     this.addRuleToState( next, item.rule, item.position + 1 );
                 }

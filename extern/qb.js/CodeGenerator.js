@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
-*/    
+*/
 //#include <VirtualMachine.js>
 
 /** @constructor */
@@ -25,7 +25,7 @@ function Instruction( instr, arg )
     this.arg = arg;
 }
 
-Instruction.prototype = 
+Instruction.prototype =
 {
     toString: function()
     {
@@ -107,7 +107,7 @@ CodeGenerator.prototype =
         }
     },
 
-    newLabel: function(basename) 
+    newLabel: function(basename)
     {
         var id = this.labels.length;
         var name = basename + "_" + id;
@@ -116,13 +116,13 @@ CodeGenerator.prototype =
         return id;
     },
 
-    label: function(labelid) 
+    label: function(labelid)
     {
         this.labels[labelid].codeOffset = this.instructions.length;
         this.labels[labelid].dataOffset = this.data.length;
     },
 
-    map: function( locus ) 
+    map: function( locus )
     {
         // Keep track of which source line maps to which instruction.
         if ( locus.line === this.lastLine ) {
@@ -245,8 +245,8 @@ CodeGenerator.prototype =
                 this.write( "SYSCALL", "print_tab" );
             } else if ( node.printItems[i].expr ) {
                 this.write( "SYSCALL", "print" );
-            } 
-            
+            }
+
             if ( node.printItems[i].terminator == ',' ) {
                 this.write( "SYSCALL", "print_comma" );
             } else if ( node.printItems[i].terminator == ';' ) {
@@ -353,7 +353,7 @@ CodeGenerator.prototype =
             this.write("POP");
             this.write("POP");
         }
-            
+
         this.write("JMP", context.endLabel);
     },
 
@@ -362,7 +362,7 @@ CodeGenerator.prototype =
         this.map( node.locus );
         // check if it's really a function call.
         if ( node.expr instanceof AstVariableReference &&
-             this.functionNames[node.expr.name] ) 
+             this.functionNames[node.expr.name] )
         {
             node.parameters.accept(this);
             this.write( "CALL", this.getGotoLabel( node.expr.name ) );
@@ -431,7 +431,7 @@ CodeGenerator.prototype =
     {
         this.map( node.locus );
         this.write("RET");
-    },    
+    },
 
     visitRestoreStatement: function( node )
     {
@@ -673,4 +673,3 @@ CodeGenerator.prototype =
         }
     }
 };
-

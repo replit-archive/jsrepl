@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
-*/    
+*/
 //#include <debug.js>
 //#include <RuleParser.js>
 //#include <TypeChecker.js>
@@ -39,7 +39,7 @@ function AstProgram(locus, mainSub)
     this.subs = [mainSub];
 }
 
-AstProgram.prototype.accept = function(visitor) 
+AstProgram.prototype.accept = function(visitor)
 {
     visitor.visitProgram(this);
 };
@@ -50,10 +50,10 @@ function AstArgument(locus, name, typeName, isArray )
     this.locus = locus;
     // name of declared subroutine argument.
     this.name = name;
-    
+
     // null, or the typename in AS type
     this.typeName = typeName;
-   
+
     // is this an open-ended array?
     this.isArray = isArray;
 
@@ -77,7 +77,7 @@ function AstSubroutine(locus, name, args, statementList, isFunction, isStatic)
 }
 
 
-AstSubroutine.prototype.accept = function(visitor) 
+AstSubroutine.prototype.accept = function(visitor)
 {
     visitor.visitSubroutine(this);
 };
@@ -95,7 +95,7 @@ function AstDeclareFunction(locus, name, args, isFunction )
     this.used = false;
 }
 
-AstDeclareFunction.prototype.accept = function(visitor) 
+AstDeclareFunction.prototype.accept = function(visitor)
 {
     visitor.visitDeclareFunction(this);
 };
@@ -109,7 +109,7 @@ function AstPrintUsingStatement(locus, exprList, terminator)
     this.terminator = terminator; // literal ';', ',', or null
 }
 
-AstPrintUsingStatement.prototype.accept = function(visitor) 
+AstPrintUsingStatement.prototype.accept = function(visitor)
 {
     visitor.visitPrintUsingStatement(this);
 };
@@ -121,7 +121,7 @@ function AstPrintStatement(locus, printItems)
     this.printItems = printItems;
 }
 
-AstPrintStatement.prototype.accept = function(visitor) 
+AstPrintStatement.prototype.accept = function(visitor)
 {
     visitor.visitPrintStatement(this);
 };
@@ -132,7 +132,7 @@ function AstPrintItem(locus, type, expr, terminator )
     this.locus = locus;
      // Type: 0 for expr, 1 for tab, in which case expr is the argument.
     this.type = type;
-    
+
     this.expr = expr; // can be null!
     this.terminator = terminator; // comma, semicolon, or nothing.
 }
@@ -154,7 +154,7 @@ function AstInputStatement(locus, promptExpr, printQuestionMark, identifiers)
     this.identifiers = identifiers; // actually we will only use the first one.
 }
 
-AstInputStatement.prototype.accept = function(visitor) 
+AstInputStatement.prototype.accept = function(visitor)
 {
     visitor.visitInputStatement(this);
 };
@@ -167,7 +167,7 @@ function AstNullStatement(locus)
 
 }
 
-AstNullStatement.prototype.accept = function(visitor) 
+AstNullStatement.prototype.accept = function(visitor)
 {
     visitor.visitNullStatement(this);
 };
@@ -179,7 +179,7 @@ function AstEndStatement(locus)
 
 }
 
-AstEndStatement.prototype.accept = function(visitor) 
+AstEndStatement.prototype.accept = function(visitor)
 {
     visitor.visitEndStatement(this);
 };
@@ -191,7 +191,7 @@ function AstNextStatement(locus, identifierList )
     this.identifiers = identifierList;
 }
 
-AstNextStatement.prototype.accept = function(visitor) 
+AstNextStatement.prototype.accept = function(visitor)
 {
     visitor.visitNextStatement(this);
 };
@@ -206,7 +206,7 @@ function AstArrayDeref(locus, expr, parameters )
     this.type = null; // calculated during type checking.
 }
 
-AstArrayDeref.prototype.accept = function(visitor) 
+AstArrayDeref.prototype.accept = function(visitor)
 {
     visitor.visitArrayDeref(this);
 };
@@ -219,7 +219,7 @@ function AstMemberDeref( locus, lhs, identifier )
     this.identifier = identifier;
 }
 
-AstMemberDeref.prototype.accept = function(visitor) 
+AstMemberDeref.prototype.accept = function(visitor)
 {
     visitor.visitMemberDeref(this);
 };
@@ -231,7 +231,7 @@ function AstVariableReference( locus, name )
     this.name = name;
 }
 
-AstVariableReference.prototype.accept = function(visitor) 
+AstVariableReference.prototype.accept = function(visitor)
 {
     visitor.visitVariableReference(this);
 };
@@ -246,7 +246,7 @@ function AstRange( locus, lowerExpr, upperExpr )
     this.upperExpr = upperExpr;
 }
 
-AstRange.prototype.accept = function(visitor) 
+AstRange.prototype.accept = function(visitor)
 {
     visitor.visitRange(this);
 };
@@ -258,7 +258,7 @@ function AstDataStatement( locus, data )
     this.data = data;
 }
 
-AstDataStatement.prototype.accept = function(visitor) 
+AstDataStatement.prototype.accept = function(visitor)
 {
     visitor.visitDataStatement(this);
 };
@@ -271,7 +271,7 @@ function AstRestoreStatement( locus, label )
     this.label = label;
 }
 
-AstRestoreStatement.prototype.accept = function(visitor) 
+AstRestoreStatement.prototype.accept = function(visitor)
 {
     visitor.visitRestoreStatement(this);
 };
@@ -286,7 +286,7 @@ function AstDimStatement( locus, identifier, ranges, typeName )
     this.shared = false; // changed to true during parsing.
 }
 
-AstDimStatement.prototype.accept = function(visitor) 
+AstDimStatement.prototype.accept = function(visitor)
 {
     visitor.visitDimStatement(this);
 };
@@ -298,7 +298,7 @@ function AstDefTypeStatement( locus, typeName )
     this.typeName = typeName;
 }
 
-AstDefTypeStatement.prototype.accept = function(visitor) 
+AstDefTypeStatement.prototype.accept = function(visitor)
 {
     visitor.visitDefTypeStatement(this);
 };
@@ -311,7 +311,7 @@ function AstConstStatement( locus, identifier, expr )
     this.expr = expr;
 }
 
-AstConstStatement.prototype.accept = function(visitor) 
+AstConstStatement.prototype.accept = function(visitor)
 {
     visitor.visitConstStatement(this);
 };
@@ -329,7 +329,7 @@ AstDoStatement.INFINITE = 1;
 AstDoStatement.UNTIL = 2;
 AstDoStatement.WHILE_AT_END = 3;
 
-AstDoStatement.prototype.accept = function(visitor) 
+AstDoStatement.prototype.accept = function(visitor)
 {
     visitor.visitDoStatement(this);
 };
@@ -341,7 +341,7 @@ function AstExitStatement( locus, what )
     this.what = what; // "FOR" or "DO"
 }
 
-AstExitStatement.prototype.accept = function(visitor) 
+AstExitStatement.prototype.accept = function(visitor)
 {
     visitor.visitExitStatement(this);
 };
@@ -355,7 +355,7 @@ function AstWhileLoop( locus, expr, statements )
     this.statements = statements;
 }
 
-AstWhileLoop.prototype.accept = function(visitor) 
+AstWhileLoop.prototype.accept = function(visitor)
 {
     visitor.visitWhileLoop(this);
 };
@@ -370,13 +370,13 @@ function AstForLoop( locus, identifier, startExpr, endExpr, stepExpr )
     this.stepExpr = stepExpr;
 }
 
-AstForLoop.prototype.accept = function(visitor) 
+AstForLoop.prototype.accept = function(visitor)
 {
     visitor.visitForLoop(this);
 };
 
 /** @constructor */
-function AstIfStatement(locus, expr, statements, elseStatements) 
+function AstIfStatement(locus, expr, statements, elseStatements)
 {
     this.locus = locus;
     this.expr = expr;
@@ -384,7 +384,7 @@ function AstIfStatement(locus, expr, statements, elseStatements)
     this.elseStatements = elseStatements;
 }
 
-AstIfStatement.prototype.accept = function(visitor) 
+AstIfStatement.prototype.accept = function(visitor)
 {
     visitor.visitIfStatement(this);
 };
@@ -397,7 +397,7 @@ function AstSelectStatement( locus, expr, cases )
     this.cases = cases;
 }
 
-AstSelectStatement.prototype.accept = function(visitor) 
+AstSelectStatement.prototype.accept = function(visitor)
 {
     visitor.visitSelectStatement(this);
 };
@@ -411,7 +411,7 @@ function AstCaseStatement( locus, exprList, statements )
     this.statements = statements;
 }
 
-AstCaseStatement.prototype.accept = function(visitor) 
+AstCaseStatement.prototype.accept = function(visitor)
 {
     visitor.visitCaseStatement(this);
 };
@@ -424,20 +424,20 @@ function AstTypeMember( locus, name, typeName )
     this.typeName = typeName;
 }
 
-AstTypeMember.prototype.accept = function(visitor) 
+AstTypeMember.prototype.accept = function(visitor)
 {
     visitor.visitTypeMember(this);
 };
 
 /** @constructor */
-function AstUserType( locus, name, members ) 
+function AstUserType( locus, name, members )
 {
     this.locus = locus;
     this.name = name;
     this.members = members;
 }
 
-AstUserType.prototype.accept = function(visitor) 
+AstUserType.prototype.accept = function(visitor)
 {
     visitor.visitUserType(this);
 };
@@ -449,7 +449,7 @@ function AstGotoStatement(locus, label)
     this.label = label;
 }
 
-AstGotoStatement.prototype.accept = function(visitor) 
+AstGotoStatement.prototype.accept = function(visitor)
 {
     visitor.visitGotoStatement(this);
 };
@@ -461,7 +461,7 @@ function AstGosubStatement(locus, label)
     this.label = label;
 }
 
-AstGosubStatement.prototype.accept = function(visitor) 
+AstGosubStatement.prototype.accept = function(visitor)
 {
     visitor.visitGosub(this);
 };
@@ -473,7 +473,7 @@ function AstLabel(locus, label)
     this.label = label;
 }
 
-AstLabel.prototype.accept = function(visitor) 
+AstLabel.prototype.accept = function(visitor)
 {
     visitor.visitLabel(this);
 };
@@ -486,7 +486,7 @@ function AstCallStatement( locus, name, args )
     this.args = args;
 }
 
-AstCallStatement.prototype.accept = function(visitor) 
+AstCallStatement.prototype.accept = function(visitor)
 {
     visitor.visitCallStatement(this);
 };
@@ -499,7 +499,7 @@ function AstAssignStatement( locus, lhs, expr )
     this.expr = expr;
 }
 
-AstAssignStatement.prototype.accept = function(visitor) 
+AstAssignStatement.prototype.accept = function(visitor)
 {
     visitor.visitAssignStatement(this);
 };
@@ -513,7 +513,7 @@ function AstBinaryOp( locus, lhs, op, rhs )
     this.rhs = rhs;
 }
 
-AstBinaryOp.prototype.accept = function(visitor) 
+AstBinaryOp.prototype.accept = function(visitor)
 {
     visitor.visitBinaryOp(this);
 };
@@ -526,7 +526,7 @@ function AstUnaryOperator( locus, op, expr )
     this.expr = expr;
 }
 
-AstUnaryOperator.prototype.accept = function(visitor) 
+AstUnaryOperator.prototype.accept = function(visitor)
 {
     visitor.visitUnaryOperator(this);
 };
@@ -540,7 +540,7 @@ function AstConstantExpr( locus, value )
     this.value = value;
 }
 
-AstConstantExpr.prototype.accept = function(visitor) 
+AstConstantExpr.prototype.accept = function(visitor)
 {
     visitor.visitConstantExpr(this);
 };
@@ -552,7 +552,7 @@ function AstReturnStatement( locus, value )
     this.value = value;
 }
 
-AstReturnStatement.prototype.accept = function(visitor) 
+AstReturnStatement.prototype.accept = function(visitor)
 {
     visitor.visitReturnStatement(this);
 };
@@ -561,14 +561,21 @@ function onProgram(symbols, locus )
 {
     var program = new AstProgram( locus, new AstSubroutine( locus, "_main", [], symbols[0],
                 false ) );
-    dbg.printf("Program successfully parsed. %d statements.\n",
-        program.subs[0].statements.length);
+    console.log("Program successfully parsed. " +
+                program.subs[0].statements.length +
+               " statements.");
     return program;
 }
 
 function onNumber( symbols, locus )
 {
-    return new AstConstantExpr(locus, parseFloat(symbols[0]));
+    var value = symbols[0];
+    if (value.match(/^&H/)) {
+      value = parseInt(value.slice(2), 16);
+    } else {
+      value = parseFloat(value);
+    }
+    return new AstConstantExpr(locus, value);
 }
 
 function onString( symbols, locus )
@@ -605,17 +612,17 @@ function QBasicProgram( input, testMode )
             return args[0];
         }
 
-        function JoinListsLR( args ) { 
+        function JoinListsLR( args ) {
             args[0].push( args[1] );
             return args[0];
         }
 
-        function JoinLists( args ) { 
+        function JoinLists( args ) {
             args[1].unshift( args[0] );
             return args[1];
         }
 
-        function EmptyList( args ) { 
+        function EmptyList( args ) {
             return [];
         }
 
@@ -651,6 +658,7 @@ function QBasicProgram( input, testMode )
         rules.addToken( "OR", "OR" );
         rules.addToken( "POKE", "POKE" );
         rules.addToken( "PRINT", "PRINT" );
+        // TODO(max99x): Add support for REDIM.
         rules.addToken( "RESTORE", "RESTORE" );
         rules.addToken( "RETURN", "RETURN" );
         rules.addToken( "SEG", "SEG" );
@@ -668,20 +676,22 @@ function QBasicProgram( input, testMode )
         rules.addToken( "VIEW", "VIEW" );
         rules.addToken( "WEND", "WEND" );
         rules.addToken( "WHILE", "WHILE" );
+        rules.addToken( "XOR", "XOR" );
         rules.addToken( "minus", "\\-" );
         rules.addToken( "endl", "\\n" );
         rules.addToken( "comment", "'.*$" );
-        rules.addToken( "hexconstant", "\\&H\\d+" );
+        rules.addToken( "hexconstant", "\\&H[\\da-fA-F]+" );
         rules.addToken( "floatconstant", "\\d*\\.\\d+" );
-        rules.addToken( "intconstant", "-?\\d+" );
+        rules.addToken( "intconstant", "\\d+" );
         rules.addToken( "stringconstant", "\"[^\"]*\"" );
         rules.addToken( "label", "^([a-zA-Z][a-zA-Z0-9_]*:|\\d+)" );
         rules.addToken( "identifier", "[a-zA-Z_][a-zA-Z0-9_]*(\\$|%|#|&|!)?" );
 
         rules.addRule( "program: statements", onProgram );
         rules.addRule( "statements: statement*" );
-        //rules.addRule( "statement: intconstant istatement separator" );
-        rules.addRule( "statement: label istatement separator", 
+        // Line number:
+          //rules.addRule( "statement: intconstant istatement separator" );
+        rules.addRule( "statement: label istatement separator",
             function(args, locus) {
                 var label = args[0];
                 if ( label.substr(-1) == ':' ) {
@@ -689,8 +699,8 @@ function QBasicProgram( input, testMode )
                 }
                 return [ new AstLabel( locus, label ), args[1] ];
             });
-        rules.addRule( "statement: label", 
-            function( args, locus ) {    
+        rules.addRule( "statement: label",
+            function( args, locus ) {
                 var label = args[0];
                 if ( label.substr(-1) == ':' ) {
                     label = label.substr( 0, label.length - 1 );
@@ -707,7 +717,7 @@ function QBasicProgram( input, testMode )
             function( args, locus ) {
                 return new AstDeclareFunction( locus, args[2], args[3], true );
             });
-        rules.addRule( "istatement: DECLARE SUB identifier ArgList", 
+        rules.addRule( "istatement: DECLARE SUB identifier ArgList",
             function( args, locus ) {
                 return new AstDeclareFunction( locus, args[2], args[3], false );
             });
@@ -721,7 +731,7 @@ function QBasicProgram( input, testMode )
                 return new AstSubroutine( locus, symbols[1], symbols[2], symbols[3],
                     true );
             });
-        rules.addRule( "istatement: DEF SEG ('=' expr)?", 
+        rules.addRule( "istatement: DEF SEG ('=' expr)?",
             function( args, locus ) {
                 return new AstNullStatement(locus);
             });
@@ -732,14 +742,14 @@ function QBasicProgram( input, testMode )
         rules.addRule( "istatement: DEFINT identifier minus identifier",
             function( args, locus ) {
                 // TODO: Implement completely
-                return new AstDefTypeStatement(locus, "INTEGER");        
+                return new AstDefTypeStatement(locus, "INTEGER");
             });
         rules.addRule( "istatement: VIEW PRINT",
             function( args, locus ) {
                 return new AstNullStatement(locus);
             });
         rules.addRule( "istatement: DIM DimList", UseSecond );
-        rules.addRule( "istatement: DIM SHARED DimList", 
+        rules.addRule( "istatement: DIM SHARED DimList",
             function( args, locus ) {
                 for ( var i = 0; i < args[2].length; i++ ) {
                     args[2][i].shared = true;
@@ -769,23 +779,23 @@ function QBasicProgram( input, testMode )
             function( args, locus ) {
                 return new AstWhileLoop( locus, args[2], args[4] );
             });
-        rules.addRule( "istatement: FOR identifier '=' expr TO expr", 
+        rules.addRule( "istatement: FOR identifier '=' expr TO expr",
             function( args, locus ) {
-                return new AstForLoop( locus, args[1], args[3], args[5], 
+                return new AstForLoop( locus, args[1], args[3], args[5],
                     new AstConstantExpr( locus, 1 ) );
             });
         rules.addRule( "istatement: FOR identifier '=' expr TO expr STEP expr",
             function( args, locus ) {
                 return new AstForLoop( locus, args[1], args[3], args[5], args[7] );
             });
-        rules.addRule( "istatement: NEXT identifiers?", 
+        rules.addRule( "istatement: NEXT identifiers?",
             function( args, locus ) {
                 if ( args[1] === null ) {
                     args[1] = [];
                 }
                 return new AstNextStatement( locus, args[1] );
             });
-        rules.addRule( "istatement: EXIT (FOR|DO)", 
+        rules.addRule( "istatement: EXIT (FOR|DO)",
             function( args, locus ) {
                 return new AstExitStatement( locus, args[1] );
             });
@@ -799,17 +809,17 @@ function QBasicProgram( input, testMode )
                 function( args, locus ) {
                     return new AstGosubStatement( locus, args[1] );
                 });
-        rules.addRule( "istatement: GOTO identifier", 
+        rules.addRule( "istatement: GOTO identifier",
                 function( args, locus ) {
                     return new AstGotoStatement( locus, args[1] );
                 });
         rules.addRule( "istatement: IF expr THEN istatement",
                 function( args, locus ) {
-                    return new AstIfStatement( locus, args[1], args[3], null ); 
+                    return new AstIfStatement( locus, args[1], args[3], null );
                 });
         rules.addRule( "istatement: IF expr THEN separator statements ElseClause END IF",
                 function( args, locus ) {
-                    return new AstIfStatement( locus, args[1], args[4], args[5] ); 
+                    return new AstIfStatement( locus, args[1], args[4], args[5] );
                 });
         rules.addRule( "ElseClause: ELSE IF expr THEN separator statements ElseClause",
                 function( args, locus ) {
@@ -831,7 +841,7 @@ function QBasicProgram( input, testMode )
                     return new AstCaseStatement( locus, args[1], args[3] );
                 });
 
-        rules.addRule( "case: CASE ELSE separator statements", 
+        rules.addRule( "case: CASE ELSE separator statements",
                 function(args, locus) {
                     return new AstCaseStatement( locus, [], args[3] );
                 });
@@ -853,15 +863,15 @@ function QBasicProgram( input, testMode )
                 function( args, locus ) {
                     return new AstNullStatement(locus);
                 });
-        rules.addRule( "istatement: PRINT", 
+        rules.addRule( "istatement: PRINT",
             function(args, locus) {
                 return new AstPrintStatement( locus, [] );
             });
-        rules.addRule( "istatement: PRINT PrintItems", 
+        rules.addRule( "istatement: PRINT PrintItems",
             function(args, locus) {
                 return new AstPrintStatement( locus, args[1] );
             });
-        rules.addRule( "istatement: PRINT USING [expr,';'] (';'|',')?", 
+        rules.addRule( "istatement: PRINT USING [expr,';'] (';'|',')?",
             function(args, locus) {
                 return new AstPrintUsingStatement( locus, args[2],
                     args[3] );
@@ -906,15 +916,15 @@ function QBasicProgram( input, testMode )
             });
         rules.addRule( "istatement: RETURN",
             function( args, locus ) {
-                return new AstReturnStatement(locus); 
+                return new AstReturnStatement(locus);
             });
-        rules.addRule( "istatement: DATA [DataConstant,',']", 
+        rules.addRule( "istatement: DATA [DataConstant,',']",
             function( args, locus ) {
                 return new AstDataStatement( locus, args[1] );
             });
         rules.addRule( "DataConstant: identifier",
             function( args, locus ) {
-                return new AstConstantExpr( locus, args[0] ); 
+                return new AstConstantExpr( locus, args[0] );
             });
         rules.addRule( "DataConstant: constant");
         rules.addRule( "DataConstant:",
@@ -926,11 +936,11 @@ function QBasicProgram( input, testMode )
                 return new AstUserType( locus, args[1], args[3] );
             });
         rules.addRule( "istatement: AssignStatement" );
-        rules.addRule( "AssignStatement: ReferenceList '=' expr2", 
+        rules.addRule( "AssignStatement: ReferenceList '=' expr2",
             function(args, locus) {
-                return new AstAssignStatement( locus, args[0], args[2] ); 
+                return new AstAssignStatement( locus, args[0], args[2] );
             });
-        rules.addRule( "istatement: identifier Parameters", 
+        rules.addRule( "istatement: identifier Parameters",
             function( args, locus ) {
                 return new AstCallStatement( locus, args[0], args[1] );
             });
@@ -946,7 +956,7 @@ function QBasicProgram( input, testMode )
 
         rules.addRule( "DimList: Dim MoreDims*", JoinLists );
         rules.addRule( "MoreDims: ',' Dim", UseSecond );
-        rules.addRule( "Dim: identifier AsType?", 
+        rules.addRule( "Dim: identifier AsType?",
             function( args, locus ) {
                 return new AstDimStatement( locus, args[0], [], args[1] );
             });
@@ -955,7 +965,7 @@ function QBasicProgram( input, testMode )
                 return new AstDimStatement( locus, args[0], args[2], args[4] );
             });
         rules.addRule( "AsType: AS identifier", UseSecond );
-        rules.addRule( "RangeList:", 
+        rules.addRule( "RangeList:",
             function( args, locus ) {
                 return null;
             });
@@ -966,7 +976,7 @@ function QBasicProgram( input, testMode )
                 if ( symbols[1] ) {
                     return new AstRange( locus, symbols[0], symbols[1] );
                 } else {
-                    return new AstRange( locus, new AstConstantExpr(locus, 0), 
+                    return new AstRange( locus, new AstConstantExpr(locus, 0),
                         symbols[0] );
                 }
             });
@@ -976,13 +986,13 @@ function QBasicProgram( input, testMode )
             function( args, locus ) {
                 return new AstTypeMember( locus, args[0], args[2] );
             });
-        rules.addRule( "ArgList:", 
-            function(args, locus) { 
+        rules.addRule( "ArgList:",
+            function(args, locus) {
                 return [];
             });
-        rules.addRule( "ArgList: '\\(' [ Argument , ',' ] '\\)'", 
-            function(args, locus) { 
-                return args[1]; 
+        rules.addRule( "ArgList: '\\(' [ Argument , ',' ] '\\)'",
+            function(args, locus) {
+                return args[1];
             });
         rules.addRule( "Argument: identifier OptParen? AS identifier",
             function( args, locus ) {
@@ -995,6 +1005,7 @@ function QBasicProgram( input, testMode )
         rules.addRule( "OptParen: '\\(' '\\)'" );
         rules.addRule( "expr: expr2" );
         rules.addRule( "expr2: expr2 OR expr3", onBinaryOp );
+        rules.addRule( "expr2: expr2 XOR expr3", onBinaryOp );
         rules.addRule( "expr2: expr3" );
         rules.addRule( "expr3: expr3 AND expr4", onBinaryOp );
         rules.addRule( "expr3: expr4" );
@@ -1010,14 +1021,21 @@ function QBasicProgram( input, testMode )
         rules.addRule( "expr6: expr6 '\\+' expr7", onBinaryOp );
         rules.addRule( "expr6: expr6 '\\-' expr7", onBinaryOp );
         rules.addRule( "expr6: expr7" );
-        rules.addRule( "expr7: expr7 '\\*' expr8", onBinaryOp );
-        rules.addRule( "expr7: expr7 '\\/' expr8", onBinaryOp );
-        rules.addRule( "expr7: expr8" );
+        rules.addRule( "expr7: expr7 '\\*' expr7b", onBinaryOp );
+        rules.addRule( "expr7: expr7 '\\/' expr7b", onBinaryOp );
+        rules.addRule( "expr7: expr7 '\\\\' expr7b", onBinaryOp );
+        rules.addRule( "expr7: expr7b" );
+        rules.addRule( "expr7b: expr7b '\\^' expr8", onBinaryOp );
+        rules.addRule( "expr7b: expr8" );
         rules.addRule( "expr8: '\\(' expr '\\)'", onBracketExpr );
         //rules.addRule( "expr8: expr8 '\\.' expr10", onBinaryOp );
         rules.addRule( "expr8: NOT expr9",
                 function( args, locus ) {
                     return new AstUnaryOperator( locus, "NOT", args[1] );
+                });
+        rules.addRule( "expr8: '\\-' expr9",
+                function( args, locus ) {
+                    return new AstUnaryOperator( locus, "-", args[1] );
                 });
         rules.addRule( "expr8: expr9" );
         rules.addRule( "expr9: constant" );
@@ -1032,12 +1050,12 @@ function QBasicProgram( input, testMode )
                 return new AstMemberDeref( locus, args[0], args[2] );
             });
 
-        rules.addRule( "ReferenceList: ReferenceList '\\(' ParameterList '\\)'", 
+        rules.addRule( "ReferenceList: ReferenceList '\\(' ParameterList '\\)'",
             function( args, locus ) {
                 return new AstArrayDeref( locus, args[0], args[2] );
             });
         rules.addRule( "ReferenceList: Reference" );
-        rules.addRule( "Reference: identifier", 
+        rules.addRule( "Reference: identifier",
             function( args, locus ) {
                 return new AstVariableReference( locus, args[0] );
             });
@@ -1048,7 +1066,7 @@ function QBasicProgram( input, testMode )
 
         rules.buildSet.check(this.errors );
         for( var i = 0; i < this.errors.length; i++ ) {
-            dbg.printf("%s\n", this.errors[i] );
+            console.log(this.errors[i]);
         }
 
         rules.buildSet.finalize();
@@ -1063,8 +1081,8 @@ function QBasicProgram( input, testMode )
     var astProgram = QBasicProgram.parser.parse( input );
     if ( astProgram === null ) {
         this.errors = QBasicProgram.parser.errors;
-        dbg.printf("Parse failed.\n");
-        return;
+        //console.log(this.errors);
+        throw Error("Parse failed.");
     }
 
     // Perform type checking.
@@ -1072,8 +1090,7 @@ function QBasicProgram( input, testMode )
     astProgram.accept( typeChecker );
 
     if ( this.errors.length > 0 ) {
-        dbg.printf("There were errors.\n");
-        return;
+        throw Error("There were errors.");
     }
 
     // Perform code generation.
@@ -1091,7 +1108,7 @@ function QBasicProgram( input, testMode )
 
 QBasicProgram.parser = null;
 
-QBasicProgram.prototype = 
+QBasicProgram.prototype =
 {
     getByteCodeAsString: function()
     {
@@ -1103,7 +1120,7 @@ QBasicProgram.prototype =
         for ( var i = 0; i < this.instructions.length; i++ ) {
             var locus = this.lineMap[i];
             if ( locus ) {
-                lines.push( "   ' L" + (locus.line+1) + " " + source[locus.line]); 
+                lines.push( "   ' L" + (locus.line+1) + " " + source[locus.line]);
             }
             lines.push( "[" + i + "] " + this.instructions[i] );
         }

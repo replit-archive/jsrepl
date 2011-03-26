@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
-*/    
+*/
 //#include <debug.js>
 var NextId=0;
 /** @constructor */
@@ -41,7 +41,7 @@ EarleyItem.prototype = {
             }
             str += " "  + this.rule.symbols[i];
         }
-        
+
         if ( i == this.pos ) {
             str += " .";
         }
@@ -102,7 +102,7 @@ EarleyParser.prototype = {
 
     parse: function( text )
     {
-        var states = [[ 
+        var states = [[
             new EarleyItem( this.rules._start[0], 0, 0 )
             ]];
 
@@ -116,12 +116,11 @@ EarleyParser.prototype = {
         for( var i = 0;; i++ ) {
             var token = this.tokenizer.nextToken( line, position );
             if ( token === null ) {
-                this.errors.push( sprintf("Bad token at %d:%d\n", line,
-                            position ));
-                dbg.printf("Bad token!\n");
+                this.errors.push("Bad token at " + line + ":" + position);
+                console.log("Bad token!");
                 return null;
             } else if ( this.debug ) {
-                dbg.printf("Got token %s at %s\n", token, token.locus);
+                console.log("Got token " + token + " at " + token.locus);
             }
             this.locus = token.locus;
 
@@ -136,10 +135,9 @@ EarleyParser.prototype = {
             this.scan( states, i, token );
 
             if ( states[i].length === 0 ) {
-                this.errors.push(sprintf("Syntax error at %s: %s", this.locus,
-                            token));
+                this.errors.push("Syntax error at " + this.locus + ": " + token);
                 for( j = 0; j < states[i-1].length; j++ ) {
-                    this.errors.push( sprintf("    %s\n", states[i-1][j] ) );
+                    this.errors.push("    " + states[i-1][j] + "\n");
                 }
                 break;
             }
@@ -152,7 +150,7 @@ EarleyParser.prototype = {
             position = token.locus.position + token.text.length;
 
             if ( token.id === this.tokenizer.EOF_TOKEN ) {
-                //dbg.printf("Reached end of input.\n");
+                //console.log("Reached end of input.");
                 i++;
                 break;
             }
@@ -166,9 +164,9 @@ EarleyParser.prototype = {
         }
 
 
-        this.errors.push(sprintf("Syntax error at %s", this.locus));
+        this.errors.push("Syntax error at " + this.locus);
         for( j = 0; j < states[i-1].length; j++ ) {
-            this.errors.push( sprintf("    %s\n", states[i-1][j] ) );
+            this.errors.push("    " + states[i-1][j] + "\n");
         }
         return null;
     },
@@ -181,9 +179,9 @@ EarleyParser.prototype = {
             for ( var i = 0; i < nonTerminal.length; i++ ) {
                 var rule = nonTerminal[i];
                 if ( rule.symbols.length === 0 ||
-                     rule.symbols[0][0] === "'" || 
+                     rule.symbols[0][0] === "'" ||
                      this.first[rule.symbols[0]][token.id] ||
-                     this.first[rule.symbols[0]][this.EPSILON] ) 
+                     this.first[rule.symbols[0]][this.EPSILON] )
                 {
                     this.addToState( items, rule, 0, base, undefined,
                         undefined );
@@ -201,7 +199,7 @@ EarleyParser.prototype = {
                 if ( baseItems[j].rule.symbols[baseItems[j].pos] ==
                          item.rule.name )
                 {
-                    this.addToState( states[i], baseItems[j].rule, 
+                    this.addToState( states[i], baseItems[j].rule,
                             baseItems[j].pos + 1, baseItems[j].base,
                             item, baseItems[j]);
                 }
@@ -226,7 +224,7 @@ EarleyParser.prototype = {
         for ( var i = 0; i < items.length; i++ ) {
             if ( items[i].rule === rule &&
                  items[i].pos === pos &&
-                 items[i].base === base ) 
+                 items[i].base === base )
             {
                 return;
             }
@@ -240,11 +238,10 @@ EarleyParser.prototype = {
             return;
         }
         var items = states[index];
-        dbg.printf("State [%d]\n", index );
+        console.log("State [" + index + "]");
         for( var i = 0; i < items.length; i++ ) {
-            dbg.printf("%s\n", items[i] );
+            console.log( items[i]);
         }
-        dbg.printf("\n");
     },
 
     // ----------------------------------------------------------------------

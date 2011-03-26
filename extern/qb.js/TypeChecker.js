@@ -27,7 +27,7 @@ function TypeScope()
     this.names = {};
 }
 
-TypeScope.prototype = 
+TypeScope.prototype =
 {
 
 };
@@ -54,7 +54,7 @@ function TypeChecker( errors )
 {
     // map from name to AstDeclare
     this.declaredSubs = {};
-    this.declaredSubs._main = new AstDeclareFunction(new Locus( 0, 0 ), 
+    this.declaredSubs._main = new AstDeclareFunction(new Locus( 0, 0 ),
         "_main", [], false);
 
     this.errors = errors;
@@ -87,16 +87,37 @@ TypeChecker.prototype = {
      Parameter 2 is a format string, eg, as in printf
      Parameters 3... depend on the format string.
      */
-    error: function() 
+
+    sprintf: function()
+    {
+        var args = arguments;
+        if ( args.length == 1 && args[0] instanceof Array ) {
+            args = args[0];
+        }
+        var format = args[0];
+        var output = "";
+
+        var segments = format.split(/%[^%]/);
+        for( var i = 0; i < segments.length; i++ ) {
+            output += segments[i];
+            if ( args[i+1] !== undefined ) {
+                output += args[i+1];
+            }
+        }
+
+        return output;
+    },
+
+    error: function()
     {
         var object = arguments[0];
         var args = [];
         for ( var i = 1; i < arguments.length; i++ ) {
             args.push( arguments[i] );
         }
-        var errorStr = "Error at " + object.locus + ": " + sprintf(args);
+        var errorStr = "Error at " + object.locus + ": " + this.sprintf(args);
         this.errors.push( errorStr );
-        dbg.print( errorStr + "\n" );
+        throw Error(errorStr);
     },
 
     /**
@@ -105,11 +126,11 @@ TypeChecker.prototype = {
      */
     removeSuffix: function( name ) {
         switch( name[name.length-1] ) {
-            case '%': 
-            case '$': 
-            case '!': 
-            case '&': 
-            case '#': 
+            case '%':
+            case '$':
+            case '!':
+            case '&':
+            case '#':
                 return name.substr(0, name.length - 1);
             default:
                 return name;
@@ -169,8 +190,8 @@ TypeChecker.prototype = {
     {
         // error if this name is already declared.
         if ( this.declaredSubs[ declare.name ] !== undefined ) {
-            this.error( declare, 
-                    "Subroutine %s is already declared on line %s", 
+            this.error( declare,
+                    "Subroutine %s is already declared on line %s",
                     declare.name,
                     this.declaredSubs[declare.name].locus.line + 1
                     );
@@ -189,7 +210,7 @@ TypeChecker.prototype = {
         var self = this;
 
         function subError(declare) {
-            self.error( sub, 
+            self.error( sub,
                     "Sub or function %s does not match declaration on " +
                     "line %s",
                     sub.name, declare.locus.line+1 );
@@ -236,9 +257,9 @@ TypeChecker.prototype = {
             if ( !sub.statements[i] ) {
                 continue;
             }
-            //dbg.printf("Try to visit %s\n", getObjectClass( sub.statements[i]) );
+            //console.log("Try to visit " + getObjectClass(sub.statements[i]));
             if ( sub.statements[i].accept === undefined ) {
-                dbg.printf("ERROR: Could not visit object of type %s\n", 
+                console.log("ERROR: Could not visit object of type " +
                         /*getObjectClass*/( sub.statements[i] ));
             } else {
                 sub.statements[i].accept(this);
@@ -263,7 +284,7 @@ TypeChecker.prototype = {
                 if ( !AreTypesCompatible( args[i].type,
                      declare.args[i].type ) )
                 {
-                    this.error( args[i], 
+                    this.error( args[i],
                             "Type mismatch in argument %d of call to %s." +
                             " Expected %s but got %s",
                             i+1,
@@ -334,11 +355,11 @@ TypeChecker.prototype = {
             printUsing.exprList[i].accept( this );
 
             if ( i === 0 && !IsStringType( printUsing.exprList[i].type ) ) {
-                this.error( printUsing.exprList[i], 
+                this.error( printUsing.exprList[i],
                         "Format string must be STRING, not %s",
                         printUsing.exprList[i].type.name );
-            } else if ( i > 0 && 
-                    !IsStringType( printUsing.exprList[i].type ) && 
+            } else if ( i > 0 &&
+                    !IsStringType( printUsing.exprList[i].type ) &&
                     !IsNumericType( printUsing.exprList[i].type ) ) {
                 this.error( printUsing.exprList[i], "Type Mismatch Error" );
             }
@@ -377,7 +398,7 @@ TypeChecker.prototype = {
         for( var i = 0; i < input.identifiers.length; i++ ) {
             var type = this.getTypeFromVariableName( input.identifiers[i] );
             if ( !IsNumericType( type ) && !IsStringType( type ) ) {
-                this.error( input, 
+                this.error( input,
                         "Identifier '%s' should be string or numeric.",
                         input.identifiers.type );
             }
@@ -452,7 +473,7 @@ TypeChecker.prototype = {
 
     visitExitStatement: function( exit )
     {
-        if ( exit.what && exit.what != "FOR" && exit.what != "DO" && exit.what != "WHILE" ) 
+        if ( exit.what && exit.what != "FOR" && exit.what != "DO" && exit.what != "WHILE" )
         {
             this.error( exit, "EXIT %s not supported", exit.what);
         }
@@ -471,7 +492,7 @@ TypeChecker.prototype = {
         ref.expr.accept(this);
 
         if ( ref.expr instanceof AstVariableReference &&
-             this.declaredSubs[ref.expr.name] ) 
+             this.declaredSubs[ref.expr.name] )
         {
             var declare = this.declaredSubs[ref.expr.name];
             if ( !declare.isFunction ) {
@@ -492,7 +513,7 @@ TypeChecker.prototype = {
 
             // verify that parameters are correct type.
             if ( ref.parameters.length < func.minArgs ||
-                    ref.parameters.length > func.args.length ) 
+                    ref.parameters.length > func.args.length )
             {
                 this.error( ref, "Function '%s' called with wrong number of "+
                         "arguments", func.name );
@@ -518,7 +539,7 @@ TypeChecker.prototype = {
         for ( i = 0; i < ref.parameters.length; i++ ) {
             ref.parameters[i].accept( this );
             if ( !IsNumericType(ref.parameters[i].type)) {
-                this.error( ref.parameters[i], 
+                this.error( ref.parameters[i],
                         "Array subscript must be numeric type" );
             }
         }
@@ -580,7 +601,7 @@ TypeChecker.prototype = {
         range.lowerExpr.accept( this );
         range.upperExpr.accept( this );
 
-        if ( !IsNumericType( range.lowerExpr.type ) || 
+        if ( !IsNumericType( range.lowerExpr.type ) ||
                 !IsNumericType( range.upperExpr.type ) )
         {
             this.error( range, "Expected a number.");
@@ -594,7 +615,7 @@ TypeChecker.prototype = {
 
     visitReturnStatement: function( returnStatement )
     {
-    },    
+    },
 
     visitRestoreStatement: function( restore )
     {
@@ -697,7 +718,7 @@ TypeChecker.prototype = {
     {
         // expr must be compatible with that of each case.
         select.expr.accept( this );
-        if ( !IsNumericType( select.expr.type ) && 
+        if ( !IsNumericType( select.expr.type ) &&
                 !IsStringType( select.expr.type ) )
         {
             this.error(select, "Select expression must be numeric or string");
@@ -711,7 +732,7 @@ TypeChecker.prototype = {
                 if ( !AreTypesCompatible( select.expr.type,
                             caseStatement.exprList[j].type ) )
                 {
-                    this.error( caseStatement, 
+                    this.error( caseStatement,
                             "CASE expression cannot be compared with SELECT" );
                 }
             }
@@ -755,13 +776,13 @@ TypeChecker.prototype = {
         for( var i = 0; i < userType.members.length; i++ ) {
             userType.members[i].accept( this );
             if ( members[userType.members[i].name] !== undefined ) {
-                this.error( userType.members[i], 
+                this.error( userType.members[i],
                         "Type member '%s' already defined",
                         userType.members[i].name );
             }
 
-            //dbg.printf("Type member name=%s has type %s\n",
-            //        userType.members[i].name, userType.members[i].type.name);
+            //console.log("Type member name=" + userType.members[i].name +
+            //            " has type " + userType.members[i].type.name);
             members[userType.members[i].name] = userType.members[i].type;
         }
 
@@ -811,8 +832,8 @@ TypeChecker.prototype = {
     visitBinaryOp: function( binary )
     {
         var op = binary.op;
-        binary.lhs.accept( this ); 
-        binary.rhs.accept( this ); 
+        binary.lhs.accept( this );
+        binary.rhs.accept( this );
         var bad = 0;
         var type = binary.lhs.type;
 

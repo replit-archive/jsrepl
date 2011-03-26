@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU General Public License
     along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
-*/    
+*/
 //#include <debug.js>
 var NextStateId = 0;
 
@@ -29,7 +29,7 @@ var ANY_CHAR = -4;
   because it has a special meaning in browsers.) This is used throughout the
   compiler to map program statements to token positions.
 
-  @constructor 
+  @constructor
  */
 function Locus( line, position )
 {
@@ -37,7 +37,7 @@ function Locus( line, position )
     this.position = position;
 }
 
-Locus.prototype = 
+Locus.prototype =
 {
     toString: function()
     {
@@ -45,11 +45,11 @@ Locus.prototype =
     }
 };
 
-/** 
+/**
   When the match function is called, it will return true if the argument
   matches a particular character.
 
-  @constructor 
+  @constructor
  */
 function CharMatcher( ch)
 {
@@ -57,7 +57,7 @@ function CharMatcher( ch)
 }
 
 CharMatcher.prototype = {
-    match: function( ch ) 
+    match: function( ch )
     {
         //dbg.printf("Compare %s with %s\n", this.mchar, ch );
         if ( this.mchar == DIGIT_CHAR ) {
@@ -79,11 +79,11 @@ CharMatcher.prototype = {
     }
 };
 
-/** 
+/**
   When the match function is called, it will return true if the argument
   matches a particular character range.
 
-  @constructor 
+  @constructor
  */
 function RangeMatcher( ranges, include )
 {
@@ -93,7 +93,7 @@ function RangeMatcher( ranges, include )
 }
 
 RangeMatcher.prototype = {
-    match: function( ch ) 
+    match: function( ch )
     {
         for ( var i = 0; i < this.ranges.length; i++ ) {
             var range = this.ranges[i];
@@ -126,7 +126,7 @@ RangeMatcher.prototype = {
 function NfaState(charMatcher)
 {
     this.mchar = charMatcher;
-    this.next = []; 
+    this.next = [];
     this.id = NextStateId++;
     this.lastList = 0;
     this.accept = undefined;
@@ -190,13 +190,13 @@ function Token( id, text, line, position )
     this.locus = new Locus( line, position );
 }
 
-Token.prototype = 
+Token.prototype =
 {
-    toString: function() 
+    toString: function()
     {
         return "Token(" + this.text + ")";
     }
-    
+
 };
 
 /** @constructor */
@@ -252,7 +252,7 @@ Tokenizer.prototype = {
         return false;
     },
 
-    peek: function( ch ) 
+    peek: function( ch )
     {
         return this.expr[this.index] == ch;
     },
@@ -466,7 +466,7 @@ Tokenizer.prototype = {
         }
     },
 
-    getLine: function( lineno ) 
+    getLine: function( lineno )
     {
         return this.text.substr( this.lineNumbers[lineno],
             this.lineNumbers[lineno+1] - this.lineNumbers[lineno]);
@@ -488,7 +488,7 @@ Tokenizer.prototype = {
 
         if ( this.rootDfa === undefined ) {
             this.rootDfa = new DfaState();
-            this.addState( this.rootDfa.nfaStates, this.rootDfa.accepts, 
+            this.addState( this.rootDfa.nfaStates, this.rootDfa.accepts,
                 this.root );
         }
 
@@ -532,10 +532,10 @@ Tokenizer.prototype = {
                 //dbg.printf("Would accept %s\n", dfaState.accepts[0] );
                 //dbg.printf("i:%d line:%d lineNumbers=%d\n",
                 //    i, line, this.lineNumbers[line] );
-                accept = new Token( 
+                accept = new Token(
                         dfaState.accepts[0],
                         this.text.substr(startPosition, i - startPosition + 1),
-                        line, 
+                        line,
                         startPosition - this.lineNumbers[line]);
             }
 
@@ -548,9 +548,8 @@ Tokenizer.prototype = {
             //dbg.printf("Returning match id=%s at %d:%d text=%s\n", accept.id,
             //    accept.locus.line, accept.locus.position, accept.text );
         } else if ( 0 ) {
-            dbg.printf("Bad token at '%s'\n", this.text.substr(startPosition,
-            10));
-            dbg.printf("ascii %d\n", this.text.charCodeAt( startPosition ));
+            console.log("Bad token at '" + this.text.substr(startPosition, 10) + "'");
+            console.log("ascii " + this.text.charCodeAt( startPosition ));
         }
 
         return accept;
