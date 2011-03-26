@@ -64,27 +64,15 @@ pre {
   overflow: auto;
 }
 
-#prompt {
+#console{
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background: #aaaaff; /* DEBUG */
   overflow: auto;
+  height: 85%;
 }
-
-#prompt:before {
-  content: ">>> ";
-}
-
-#expand {
-  background: #ffaaff; /* DEBUG */
-  position: absolute;
-  bottom: 0;
-  left: 99%;
-  cursor: pointer;
-}
-
 .command {
   font-weight: bold;
 }
@@ -108,3 +96,14 @@ pre {
   bottom: 0;
   right: 0;
 }
+#jq-console-cursor{
+  height: 1em;
+  background-color: green;
+  width:10px;
+  display: inline-block;
+}
+  pre{
+        margin:0;
+        display: inline;
+      }
+
