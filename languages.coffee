@@ -34,6 +34,7 @@ JSREPL::Languages::Lisp =
     'langs/lisp/Javathcript.js'
     'langs/lisp/DocumentEvaluator.js'
     'langs/lisp/jsrepl_lisp.js'
+    'langs/lisp/jsrepl_lisp_lib.js'
   ]
   example_file: 'langs/lisp/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
