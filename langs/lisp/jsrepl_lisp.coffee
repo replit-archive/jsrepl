@@ -2,24 +2,35 @@ class JSREPL::Engines::Lisp
   constructor: (input_func, output_func, result_func, error_func) ->
     @error_handler = undefined
     @result_handler = undefined
-    # Place in and out methods in a global dummy object.
-    # TODO(amasad): Find a name that is less likely to clash or avoid globals.
-    window.dummy =
+    $ = jQuery
+    # Random string generator to create ids for promise elements
+    # TODO(amasad) create a more reliable shuffle function
+    pool = "qwertyuiopasdfghjklzxcvbnm".split ''
+    randomIdGenerator = ()->
+      str = pool.sort ()->
+        0.5 - Math.random()
+      .join('').substr(15) while $(if str? then '#' + str else 'body').length
+      return str
+    # Its almost impossible to make Javathcript pause execution without major rewrite
+    JSREPL.lisp_callbacks =
       input: ->
         # Wrapper function to make input_func act syncronously and return a
-        # string.
-        # TODO(amasad): Hack VM to allow asynchronicity. Breakage imminent.
-        str = ''
-        input_func (s) -> str = s
-        return str
+        # promise span with a random Id for multiple inputs to work together
+        id = randomIdGenerator()
+        promise_elem = '<span id="' + id + '">_______</span>'
+        # Fulfill the promise
+        input_func (s) ->
+          $('#' + id).text(s).attr('id', '')
+        return promise_elem
       output: output_func
 
     # TODO(amasad): Put this into a library.
     library_functions = [
       '(def window (js "window"))'
-      '(def dummy (js "window.dummy"))'
-      '(def input (method dummy "input"))'
-      '(def print (method dummy "output"))'
+      '(def JSREPL (js "window.JSREPL"))'
+      '(def lisp_callbacks (js "JSREPL.lisp_callbacks"))'
+      '(def input (method lisp_callbacks "input"))'
+      '(def print (method lisp_callbacks "output"))'
       '(defun caar (x) (car (car x)))'
       '(defun caar (x) (car (car x)))'
       '(defun cadr (x) (car (cdr x)))'
@@ -80,13 +91,13 @@ class JSREPL::Engines::Lisp
 
     Javathcript.eval func for func in library_functions
 
-    delete window.dummy
     @result_handler = result_func
     @error_handler = error_func
 
   Destroy: ->
     delete Javathcript
-    # TODO(amasad): Delete the rest.
+    delete JavathcriptParser
+    delete JavathcriptTokenizer
 
   Eval: (command) ->
     try
