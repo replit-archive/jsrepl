@@ -76,3 +76,11 @@ JSREPL::Languages::Scheme =
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
   extension: 'scm'
   logo: 'extern/biwascheme/website/images/biwascheme_logo.png'
+
+JSREPL::Languages::CoffeeScript=
+  name: 'CoffeeScript'
+  category: 'Dynamic'
+  scripts :[ 'langs/coffee-script/jsrepl_coffee.js' ]
+  example_file: 'langs/coffee-script/examples.txt'
+  extension: 'coffee'
+  logo: 'langs/coffee-script/logo.png'

@@ -11,3 +11,4 @@ task 'bake', 'Compile to javascript', ->
   exec 'coffee -c langs/lisp/jsrepl_lisp_lib.coffee', handle
   exec 'coffee -c langs/scheme/jsrepl_scheme.coffee', handle
   exec 'coffee -c langs/qbasic/jsrepl_qbasic.coffee', handle
+  exec 'coffee -c langs/coffee-script/jsrepl_coffee.coffee', handle
