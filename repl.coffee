@@ -14,8 +14,10 @@ class @JSREPL
     @console = null
     # Set up the UI.
     @DefineTemplates()
-    @SetupInputControls()
+    @SetupConsole()
     @LoadLanguageDropdown()
+    # Focus the console.
+    @console.click()
 
   # Defines global jQuery templates used by the various functions interacting
   # with the UI.
@@ -32,23 +34,26 @@ class @JSREPL
                            {{/each}}
                            '''
     $.template 'option', '<option>${value}</option>'
+
   # Initializes the behaviour of the command prompt and the expand and eval
   # buttons.
-  SetupInputControls: ->
+  SetupConsole: ->
     @console = $('#console').console
       greetings:'''
-\t   _       .---.  .--. .---. .-.   
-\t  :_;      : .; :: .--': .; :: :   
-\t  .-. .--. :   .': `;  :  _.': :   
-\t  : :`._-.': :.`.: :__ : :   : :__ 
-\t  : :`.__.':_;:_;`.__.':_;   :___.'
-\t.-. : jsREPL version x.x                          
-\t`._.' Amjad Masad & Max Shawabkeh                            
-                       
+                \t   _       .---.  .--. .---. .-.
+                \t  :_;      : .; :: .--': .; :: :
+                \t  .-. .--. :   .': `;  :  _.': :
+                \t  : :`._-.': :.`.: :__ : :   : :__
+                \t  : :`.__.':_;:_;`.__.':_;   :___.'
+                \t.-. : jsREPL version x.x
+                \t`._.' Amjad Masad & Max Shawabkeh
                 '''
-      label: ">>>"
-      handler: (a...)=> @Evaluate(a...)
-        
+      label: '>>> '
+      handler: (command, stdout, result) =>
+        @stdout = stdout
+        @result = result
+        @Evaluate(command)
+
     # A custom event that sets the content of the command line.
     @console.bind 'setContent', (e, content) =>
       @console.setText(content)
@@ -113,10 +118,8 @@ class @JSREPL
     for script in @lang.scripts
       loader = loader.script(script).wait()
     loader.wait =>
-      # TODO(amasad): This callback doesn't run if the same language is loaded
-      #               twice. See if this can be fixed. The loaded scripts
-      #               themselves run fine though.
-      # FOLLOWUP(max99x): It runs twice. However in IE 8 it doesn't work for lisp
+      # TODO(max99x): Debug on all target browsers.
+      #               On IE 8 this doesn't work for Lisp.
       @engine = new JSREPL::Engines::[lang_name](
         ((a...) => @ReceiveInputRequest(a...)),
         ((a...) => @ReceiveOutput(a...)),
@@ -156,6 +159,7 @@ class @JSREPL
 
       signalReady()
 
+  # Receives the result of a command evaluation.
   #   @arg result: The user-readable string form of the result of an evaluation.
   ReceiveResult: (result) ->
     if result
@@ -178,15 +182,14 @@ class @JSREPL
   #   @arg callback: The function called with the string containing the user's
   #     response. Currently called synchronously, but that is *NOT* guaranteed.
   ReceiveInputRequest: (callback) ->
-    # TODO(max99x): Convert to something more elegant. Right now prompt() adds a
-    #               new line to our command prompt for some reason, and has
-    #               problems on IE.
-    @console.stdin("Input: ", callback)
+    # TODO(amasad): Remove support for label from jqconsole. Printing *anything*
+    #               is not an input stream's responsibility.
+    @console.stdin('', callback)
     return undefined
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.
-  Evaluate: (command, @stdout, @result) ->
+  Evaluate: (command) ->
     $('#examples').val ''
     @engine.Eval command
 
@@ -195,7 +198,8 @@ class @JSREPL
 class JSREPL::Languages
 class JSREPL::Engines
 
-# Create and load the main REPL object.
-$ ->
-  (new JSREPL).console.click()
+# Disable $LAB's funkiness for debugging.
+$LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
 
+# Create and load the main REPL object.
+$ -> new JSREPL

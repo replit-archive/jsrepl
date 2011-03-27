@@ -5,6 +5,12 @@ html, body {
   overflow: hidden;
 }
 
+pre {
+  margin: 0;
+  display: inline;
+  font: Consolas, monospace;
+}
+
 #main_logo, #lang_logo {
   position: absolute;
   top: 1em;
@@ -23,7 +29,7 @@ html, body {
   height: 90%;
   margin: 0 auto;
   position: relative;
-  background: #ffccaa; /* DEBUG */
+  background: #FFCCAA; /* DEBUG */
   padding: 0;
   padding-top: 1.5em;
   overflow-x: hidden;
@@ -47,19 +53,7 @@ html, body {
   z-index:1
 }
 
-#history {
-  padding: 0;
-  clear: both;
-  background: #aaffaa; /* DEBUG */
-  position: absolute;
-  max-height: 93%;
-  bottom: 1em;
-  width: 100%;
-  font-family: Consolas, monospace;
-  overflow: auto;
-}
-
-#console{
+#console {
   font-family: monospace;
   color: cyan;
   background-color: black;
@@ -71,8 +65,10 @@ html, body {
   overflow: auto;
   height: 96%;
 }
+
 .result:before {
   content: "==> ";
+  display: block;
 }
 
 .error {
@@ -80,20 +76,20 @@ html, body {
   font-weight: bold;
 }
 
-#jq-console-cursor{
-  height: 23px;
-  background-color: green;
-  width:12px;
+#jq-console-cursor {
+  background-color: gray;
+  width: 12px;
   display: inline-block;
 }
-#jq-console-cursor:after{
+
+#jq-console-cursor:after {
   content: " "
 }
-#console > div{
-  padding: 5px;
-}
-pre{
-        margin:0;
-        display: inline;
+
+#jq-console-label {
+  font-weight: bold;
 }
 
+#console > div {
+  padding: 5px;
+}
