@@ -184,7 +184,7 @@ class @JSREPL
   ReceiveInputRequest: (callback) ->
     # TODO(amasad): Remove support for label from jqconsole. Printing *anything*
     #               is not an input stream's responsibility.
-    @console.stdin('', callback)
+    @console.stdin(callback)
     return undefined
 
   # Evaluates a command in the current engine.
