@@ -1,20 +1,8 @@
 class JSREPL::Engines::Scheme
   constructor: (input_func, output_func, result_func, error_func) ->
-    BiwaScheme.Port.current_output = new (Class.create BiwaScheme.Port,
-      initialize: ($super) ->
-        $super false, true
-      put_string: output_func
-    )()
-
-    BiwaScheme.Port.current_input = new (Class.create BiwaScheme.Port,
-      initialize: ($super) ->
-        $super true, false
-      get_string: (after) ->
-        new BiwaScheme.Pause (pause) ->
-          input_func (input) ->
-            pause.resume after input
-    )()
-
+    BiwaScheme.Port.current_input = new BiwaScheme.Port.CustomInput input_func
+    BiwaScheme.Port.current_output = new BiwaScheme.Port.CustomOutput output_func
+    BiwaScheme.Port.current_error = BiwaScheme.Port.current_output
     @interpreter = new BiwaScheme.Interpreter error_func
     @result_callback = result_func
 

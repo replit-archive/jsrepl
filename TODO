@@ -8,8 +8,8 @@ Move the Lisp library to a separate file
   amasad
 Make Lisp input asynchronous
   amasad
-Set up version tracking for constituent libraries
-  max99x
+Move Javathcript into a submodule
+  amasad (confirm or switch it, then remove this note)
 REPLify QBasic
   max99x
 Make the random generator seedable (probably use a library)
@@ -39,7 +39,7 @@ Look into syntax highlighters
       Maybe we could port some of those languages to Javascript
       Maybe just highlight the history using it
   I (amasad) was looking into rich text editing in JSBin.com and in GMail
-    Both use a whole document as a textarea in an iframe obvoisly
+    Both use a whole document as a textarea (obviosly in an iframe)
       Don't know whats the benifits of that
       JSBin's code on github looks like lots of work
 
