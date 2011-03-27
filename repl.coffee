@@ -48,7 +48,7 @@ class @JSREPL
                 \t.-. : jsREPL version x.x
                 \t`._.' Amjad Masad & Max Shawabkeh
                 '''
-      label: ">>>"
+      label: '>>> '
       handler: (command, stdout, result) =>
         @stdout = stdout
         @result = result
@@ -199,7 +199,7 @@ class JSREPL::Languages
 class JSREPL::Engines
 
 # Disable $LAB's funkiness for debugging.
-$LAB.setGlobalDefaults({UsePreloading: false, UseLocalXHR: false});
+$LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
 
 # Create and load the main REPL object.
 $ -> new JSREPL

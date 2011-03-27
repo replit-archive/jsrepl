@@ -53,19 +53,7 @@ pre {
   z-index:1
 }
 
-#history {
-  padding: 0;
-  clear: both;
-  background: #aaffaa; /* DEBUG */
-  position: absolute;
-  max-height: 93%;
-  bottom: 1em;
-  width: 100%;
-  font-family: Consolas, monospace;
-  overflow: auto;
-}
-
-#console{
+#console {
   font-family: monospace;
   color: cyan;
   background-color: black;
@@ -77,8 +65,10 @@ pre {
   overflow: auto;
   height: 96%;
 }
+
 .result:before {
   content: "==> ";
+  display: block;
 }
 
 .error {
@@ -87,8 +77,7 @@ pre {
 }
 
 #jq-console-cursor {
-  height: 23px;
-  background-color: green;
+  background-color: gray;
   width: 12px;
   display: inline-block;
 }

@@ -16,7 +16,6 @@ Mess with jqconsole
 jqconsole changes
   Add line continuation support
     With markers!
-  Fix behavior when console is larger than its container
   Fix line position slightly shifting as new lines are added
   Lots more
 
