@@ -5,12 +5,12 @@ class JSREPL::Engines::CoffeeScript
     @sandbox = @sandbox[0].contentWindow
     @sandbox.console.log = (a)=>
       @output_func(a + '\n')
+    @sandbox.parent = null
 
   Destroy: ->
     $('iframe').remove()
 
   Eval: (command)->
-    console.log @sandbox
     try
       @result_func(@sandbox.CoffeeScript.eval(command, globals:on, bare:on))
     catch e
