@@ -36,7 +36,16 @@ class @JSREPL
   # buttons.
   SetupInputControls: ->
     @console = $('#console').console
-      greetings: "JSREPL 2011"
+      greetings:'''
+\t   _       .---.  .--. .---. .-.   
+\t  :_;      : .; :: .--': .; :: :   
+\t  .-. .--. :   .': `;  :  _.': :   
+\t  : :`._-.': :.`.: :__ : :   : :__ 
+\t  : :`.__.':_;:_;`.__.':_;   :___.'
+\t.-. : jsREPL version x.x                          
+\t`._.' Amjad Masad & Max Shawabkeh                            
+                       
+                '''
       label: ">>>"
       handler: (a...)=> @Evaluate(a...)
         
@@ -187,4 +196,6 @@ class JSREPL::Languages
 class JSREPL::Engines
 
 # Create and load the main REPL object.
-$ -> new JSREPL
+$ ->
+  (new JSREPL).console.click()
+

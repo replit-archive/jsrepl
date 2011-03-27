@@ -5,13 +5,6 @@ html, body {
   overflow: hidden;
 }
 
-pre {
-  display: block;
-  padding: 0;
-  margin: 0;
-  font-family: Consolas, monospace;
-}
-
 #main_logo, #lang_logo {
   position: absolute;
   top: 1em;
@@ -45,11 +38,13 @@ pre {
 }
 
 #toolbar {
-  background: #ffaaff; /* DEBUG */
+  background: #ADAAAB; /* DEBUG */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  height: 5%;
+  z-index:1
 }
 
 #history {
@@ -65,22 +60,17 @@ pre {
 }
 
 #console{
+  font-family: monospace;
+  color: cyan;
+  background-color: black;
+  font-size: 20px;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #aaaaff; /* DEBUG */
   overflow: auto;
-  height: 85%;
+  height: 96%;
 }
-.command {
-  font-weight: bold;
-}
-
-.command:before {
-  content: ">>> ";
-}
-
 .result:before {
   content: "==> ";
 }
@@ -90,20 +80,20 @@ pre {
   font-weight: bold;
 }
 
-#evaluate {
-  position: absolute;
-  display: none;
-  bottom: 0;
-  right: 0;
-}
 #jq-console-cursor{
-  height: 1em;
+  height: 23px;
   background-color: green;
-  width:10px;
+  width:12px;
   display: inline-block;
 }
-  pre{
+#jq-console-cursor:after{
+  content: " "
+}
+#console > div{
+  padding: 5px;
+}
+pre{
         margin:0;
         display: inline;
-      }
+}
 

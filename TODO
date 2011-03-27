@@ -1,15 +1,6 @@
 ********************************************************************************
 *                               Current Tasks                                  *
 ********************************************************************************
-
-Implement console UI
-  amasad
-Move the Lisp library to a separate file
-  amasad
-Make Lisp input asynchronous
-  amasad
-Move Javathcript into a submodule
-  amasad (confirm or switch it, then remove this note)
 REPLify QBasic
   max99x
 Make the random generator seedable (probably use a library)
@@ -25,10 +16,14 @@ Add a "library" property to the language definition
   Better let the language keep track and load the library by itself
     No messing with the UI callbacks
     Can be optimized better
-  amasad - delete this item if you agree with the above
+  I'd(amasad) rather have this controlled by $LAB and then delegated to the library
 
-Make prompt truly asynchronous
-  Make LISP asynchronity-friendly
+Make LISP asynchronity-friendly
+  The current solution is fine, but easily we could take this to the next level
+  by making the illusion of blocking I/O by using some kind of promises and by having
+  the engine know which output should come after which input that way the output
+  will only be shown when the promise is fullfilled. Unless your talking about other kinds
+  asynchronity, I think this satisfies I/O
 
 Look into syntax highlighters
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
@@ -43,7 +38,6 @@ Look into syntax highlighters
       Don't know whats the benifits of that
       JSBin's code on github looks like lots of work
 
-Need to prevent rich-text pasting into the prompt!
 
 Document our changes to the interpreter libraries
   Can we include a fork of a project as part of a larger project on Github?
@@ -154,7 +148,15 @@ LISP
   Built-in classes modification
     ?
   Globals
-    ?
+    Javathcript
+    JavathcriptTokenizer
+    JavathcriptParser
+    UnevaluatedObj
+    Atom
+    Util
+    Assembler
+    Assembly
+    ....
 
 QBasic
   Docs: http://stevehanov.ca/blog/index.php?id=92
