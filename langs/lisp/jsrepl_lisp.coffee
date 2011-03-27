@@ -9,7 +9,7 @@ class JSREPL::Engines::Lisp
     randomIdGenerator = ()->
       str = pool.sort ()->
         0.5 - Math.random()
-      .join('').substr(15) while $(if str? then '#' + str else 'body').length
+      .join('').substr(15) while $(if str? then '.' + str else 'body').length
       return str
     # Its almost impossible to make Javathcript pause execution without major rewrite
     JSREPL.lisp_callbacks =
@@ -17,12 +17,16 @@ class JSREPL::Engines::Lisp
         # Wrapper function to make input_func act syncronously and return a
         # promise span with a random Id for multiple inputs to work together
         id = randomIdGenerator()
-        promise_elem = '<span id="' + id + '">_______</span>'
+        promise_elem = '<span class="' + id + '">_______</span>'
+        str = new String()
+        str.valueOf = str.toString = ()-> promise_elem
         # Fulfill the promise
         input_func (s) ->
-          $('#' + id).text(s).attr('id', '')
-        return promise_elem
-      output: output_func
+          str.valueOf = str.toString = ()-> s
+          $('.' + id).text(s).attr('class', '')
+        return str
+      output: (s)->
+        output_func(s.toString())
 
     # TODO(amasad): Put this into a library.
     library_functions = [
@@ -103,8 +107,12 @@ class JSREPL::Engines::Lisp
     try
       @result_handler Javathcript.eval command
     catch e
-      e.message = 'Error: ' + e.message
-      @error_handler e
+      # Try assuming multiple statments
+      try
+        @result_handler Javathcript.evalMulti command
+      catch E
+        E.message = 'Error: ' + e.message
+        @error_handler E
 
   Highlight: (element) ->
     # TODO(amasad): Implement.

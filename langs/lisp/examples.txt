@@ -13,6 +13,19 @@ Input
 (print (concat "Your name is " (input) "!"))
 ********************************************************************************
 
+Multi Input
+********************************************************************************
+(print "Enter your first name:
+")
+(define first_name (input))
+(print (concat "Nice name " first_name "
+"))
+(print "Enter your surname: 
+")
+(define surname (input))
+(print (concat first_name " " surname))
+********************************************************************************
+
 Curry
 ********************************************************************************
 (let
