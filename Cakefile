@@ -3,7 +3,7 @@ stdout = process.stdout
 handle = (error, out, err)->
   stdout.write(out)
   stdout.write(err)
-# bake makes more sense
+# "bake" makes more sense.
 task 'bake', 'Compile to javascript', ->
   exec 'coffee -c repl.coffee', handle
   exec 'coffee -c languages.coffee', handle

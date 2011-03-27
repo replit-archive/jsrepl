@@ -1,14 +1,24 @@
 ********************************************************************************
 *                               Current Tasks                                  *
 ********************************************************************************
+
 REPLify QBasic
   max99x
 Make the random generator seedable (probably use a library)
+  max99x
+Mess with jqconsole
   max99x
 
 ********************************************************************************
 *                               Brainstorming                                  *
 ********************************************************************************
+
+jqconsole changes
+  Add line continuation support
+    With markers!
+  Fix behavior when console is larger than its container
+  Fix line position slightly shifting as new lines are added
+  Lots more
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -17,13 +27,16 @@ Add a "library" property to the language definition
     No messing with the UI callbacks
     Can be optimized better
   I'd(amasad) rather have this controlled by $LAB and then delegated to the library
+    I'm (max99x) not a fan of $LAB, but the way you did it looks fine
+      Would still rather have plaintext libraries written in each language
 
 Make LISP asynchronity-friendly
   The current solution is fine, but easily we could take this to the next level
   by making the illusion of blocking I/O by using some kind of promises and by having
   the engine know which output should come after which input that way the output
   will only be shown when the promise is fullfilled. Unless your talking about other kinds
-  asynchronity, I think this satisfies I/O
+  asynchronity, I (amasad) think this satisfies I/O
+    I (max99x) think the current way is way too huge of a hack!
 
 Look into syntax highlighters
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
@@ -37,14 +50,6 @@ Look into syntax highlighters
     Both use a whole document as a textarea (obviosly in an iframe)
       Don't know whats the benifits of that
       JSBin's code on github looks like lots of work
-
-
-Document our changes to the interpreter libraries
-  Can we include a fork of a project as part of a larger project on Github?
-    E.g. a fork of yhara/biwascheme inside amasad/jsrepl
-    git-submodules - link only, not a real fork so read-only
-  How to deal with non-Github-hosted libraries
-    Copy of original, apply modifications?
 
 Would be nice to have one seedable random number generator for all languages
   Is needed as part of the standard library by some languages anyway
