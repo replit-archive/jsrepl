@@ -1,3 +1,6 @@
 [submodule "extern/biwascheme"]
 	path = extern/biwascheme
 	url = git://github.com/max99x/biwascheme.git
+[submodule "extern/javathcript"]
+	path = extern/javathcript
+	url = git@github.com:amasad/Javathcript.git
