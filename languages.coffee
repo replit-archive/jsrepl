@@ -32,7 +32,6 @@ JSREPL::Languages::Lisp =
     'extern/javathcript/source/JavathcriptParser.js'
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
-    'extern/javathcript/source/DocumentEvaluator.js'
     'langs/lisp/jsrepl_lisp.js'
     'langs/lisp/jsrepl_lisp_lib.js'
   ]

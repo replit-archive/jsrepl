@@ -1,10 +1,11 @@
 class JSREPL::Engines::Scheme
-  constructor: (input_func, output_func, result_func, error_func) ->
+  constructor: (input_func, output_func, result_func, error_func, ready) ->
     BiwaScheme.Port.current_input = new BiwaScheme.Port.CustomInput input_func
     BiwaScheme.Port.current_output = new BiwaScheme.Port.CustomOutput output_func
     BiwaScheme.Port.current_error = BiwaScheme.Port.current_output
     @interpreter = new BiwaScheme.Interpreter error_func
     @result_callback = result_func
+    ready()
 
   Destroy: ->
     delete @interpreter
@@ -18,7 +19,7 @@ class JSREPL::Engines::Scheme
           result = BiwaScheme.to_write new_state
         @result_callback result
     catch e
-      @interpreter.on_error e
+      @interpreter.on_error e.message
 
   Highlight: (element) ->
     # TODO(max99x): Implement.
