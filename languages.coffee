@@ -25,9 +25,8 @@ JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
   scripts: [
+    'extern/javathcript/source/Base.js'
     'extern/javathcript/source/BPWJs.js'
-    'extern/javathcript/source/Atom.js'
-    'extern/javathcript/source/UnevaluatedObj.js'
     'extern/javathcript/source/JavathcriptTokenizer.js'
     'extern/javathcript/source/JavathcriptParser.js'
     'extern/javathcript/source/Environment.js'

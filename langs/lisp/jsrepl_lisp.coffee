@@ -1,18 +1,18 @@
 class JSREPL::Engines::Lisp
   constructor: (input_func, output_func, result_func, error_func, ready) ->
-    Environment.prototype['print'] = (str, callback) ->
+    Javathcript.Environment::print = (str, callback) ->
       this._value str, (val) ->
-        output_func Environment.stringify val
+        output_func Javathcript.environment._stringify val
         callback []
 
-    Environment.prototype['input'] = (callback) ->
+    Javathcript.Environment::input = (callback) ->
       input_func (str) ->
-        callback new Atom str
+        callback new Javathcript.Atom str
 
-    Environment.prototype['_error'] = error_func
+    Javathcript.Environment::_error = error_func
 
     for f in ['print', 'input', '_error']
-      Environment.prototype[f].toString = -> '{library macro}'
+      Javathcript.Environment::[f].toString = -> '{library macro}'
 
     @result_handler = (r) ->
       result_func r.toString()
@@ -23,8 +23,6 @@ class JSREPL::Engines::Lisp
 
   Destroy: ->
     delete Javathcript
-    delete JavathcriptParser
-    delete JavathcriptTokenizer
 
   Eval: (command) ->
     try
