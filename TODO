@@ -29,14 +29,6 @@ Add a "library" property to the language definition
     I'm (max99x) not a fan of $LAB, but the way you did it looks fine
       Would still rather have plaintext libraries written in each language
 
-Make LISP asynchronity-friendly
-  The current solution is fine, but easily we could take this to the next level
-  by making the illusion of blocking I/O by using some kind of promises and by having
-  the engine know which output should come after which input that way the output
-  will only be shown when the promise is fullfilled. Unless your talking about other kinds
-  asynchronity, I (amasad) think this satisfies I/O
-    I (max99x) think the current way is way too huge of a hack!
-
 Look into syntax highlighters
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
     I (max99x) used this before; worked well
@@ -287,13 +279,12 @@ QBasic
 LISP
   http://kybernetikos.github.com/Javathcript/
     Currently used
-    Needs eval-level asynchronicity support
-      Look up "continuation"
   http://www.parkscomputing.com/lisptest.html
   http://joeganley.com/code/jslisp.html
   http://stevela.github.com/js-lisp/
   http://www.ducklet.com/jisp/
   http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
+  http://github.com/willurd/js-lisp
 
 CoffeeScript
   http://jashkenas.github.com/coffee-script/

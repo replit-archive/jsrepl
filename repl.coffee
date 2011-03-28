@@ -124,9 +124,9 @@ class @JSREPL
         ((a...) => @ReceiveInputRequest(a...)),
         ((a...) => @ReceiveOutput(a...)),
         ((a...) => @ReceiveResult(a...)),
-        ((a...) => @ReceiveError(a...))
+        ((a...) => @ReceiveError(a...)),
+        signalReady
       )
-      signalReady()
 
     # Load logo.
     $('#lang_logo').attr 'src', @lang.logo
@@ -163,18 +163,18 @@ class @JSREPL
   #   @arg result: The user-readable string form of the result of an evaluation.
   ReceiveResult: (result) ->
     if result
-      @result(result)
+      @result result
 
   # Receives an error message resulting from a command evaluation.
   #   @arg error: A message describing the error.
   ReceiveError: (error) ->
-    @result(error.message)
+    @result String error
 
   # Receives any output from a language engine. Acts as a low-level output
   # stream or port.
   #   @arg output: The string to output. May contain control characters.
   ReceiveOutput: (output) ->
-    @stdout(output)
+    @stdout output
     return undefined
 
   # Receives a request for a string input from a language engine. Passes back
@@ -182,9 +182,7 @@ class @JSREPL
   #   @arg callback: The function called with the string containing the user's
   #     response. Currently called synchronously, but that is *NOT* guaranteed.
   ReceiveInputRequest: (callback) ->
-    # TODO(amasad): Remove support for label from jqconsole. Printing *anything*
-    #               is not an input stream's responsibility.
-    @console.stdin(callback)
+    @console.stdin callback
     return undefined
 
   # Evaluates a command in the current engine.

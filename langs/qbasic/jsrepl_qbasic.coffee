@@ -3,7 +3,7 @@
 #               http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm#9
 
 class JSREPL::Engines::QBasic
-  constructor: (input_func, output_func, result_func, error_func) ->
+  constructor: (input_func, output_func, result_func, error_func, ready) ->
     # An interface to the QBasic VM.
     @virtual_machine = new VirtualMachine {
       print: (str) =>
@@ -38,6 +38,8 @@ class JSREPL::Engines::QBasic
     @output_history = []
     @output_history_index = 0
 
+    ready()
+
   Destroy: ->
     delete @virtual_machine
     # TODO(max99x): Delete all the globals use by the VM.
@@ -50,7 +52,7 @@ class JSREPL::Engines::QBasic
       @virtual_machine.run program, false, => @result_callback ''
     catch e
       @command_history.pop()
-      @error_callback e
+      @error_callback e.message
 
   Highlight: (element) ->
     # TODO(max99x): Implement.
