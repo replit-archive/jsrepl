@@ -9,14 +9,15 @@ class JSREPL::Engines::Lisp
       input_func (str) ->
         callback new Atom str
 
-    Environment.prototype['_error'] = (message) ->
-      error_func message
+    Environment.prototype['_error'] = error_func
 
     for f in ['print', 'input', '_error']
       Environment.prototype[f].toString = -> '{library macro}'
 
     @result_handler = (r) ->
       result_func r.toString()
+
+    @error_handler = error_func
 
     Javathcript.evalMulti JSREPL::Engines::Lisp::Library, (->), -> ready()
 
@@ -26,7 +27,10 @@ class JSREPL::Engines::Lisp
     delete JavathcriptTokenizer
 
   Eval: (command) ->
-    Javathcript.eval command, @result_handler
+    try
+      Javathcript.eval command, @result_handler
+    catch e
+      @error_handler e.message
 
   Highlight: (element) ->
     # TODO(amasad): Implement.
