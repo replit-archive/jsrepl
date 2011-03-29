@@ -6,8 +6,6 @@ REPLify QBasic
   max99x
 Make the random generator seedable (probably use a library)
   max99x
-Mess with jqconsole
-  max99x
 
 ********************************************************************************
 *                               Brainstorming                                  *
@@ -16,8 +14,6 @@ Mess with jqconsole
 jqconsole changes
   Add line continuation support
     With markers!
-  Fix line position slightly shifting as new lines are added
-  Lots more
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine

@@ -1,6 +1,6 @@
 Hello World
 ********************************************************************************
-(print "Hello World!")
+(princ "Hello World!")
 ********************************************************************************
 
 String concat
@@ -10,20 +10,15 @@ String concat
 
 Input
 ********************************************************************************
-(print (concat "Your name is " (input) "!"))
+(princ (concat "Your name is " (input) "!"))
 ********************************************************************************
 
 Multi Input
 ********************************************************************************
-(print "Enter your first name:
-")
-(define first_name (input))
-(print (concat "Nice name " first_name "
-"))
-(print "Enter your surname: 
-")
-(define surname (input))
-(print (concat first_name " " surname))
+(princ "Enter your first name: ")
+(print (concat "Nice name, " (define first_name (input))))
+(princ "Enter your surname: ")
+(print (concat first_name " " (input)))
 ********************************************************************************
 
 Curry

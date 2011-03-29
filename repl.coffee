@@ -1,4 +1,16 @@
+# Shorthand for jQuery.
 $ = jQuery
+
+# The logo to print at the top of the console.
+repl_logo = '''
+            \t   _       .---.  .--. .---. .-.
+            \t  :_;      : .; :: .--': .; :: :
+            \t  .-. .--. :   .': `;  :  _.': :
+            \t  : :`._-.': :.`.: :__ : :   : :__
+            \t  : :`.__.':_;:_;`.__.':_;   :___.'
+            \t.-. :         jsREPL v0.1
+            \t`._.' Amjad Masad & Max Shawabkeh
+            '''
 
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
@@ -10,14 +22,16 @@ class @JSREPL
     @engine = null
     # The examples of the current language.
     @examples = null
-    # The console instance
+    # The console element.
     @console = null
+    # The JQConsole object.
+    @jqconsole = null
     # Set up the UI.
     @DefineTemplates()
     @SetupConsole()
     @LoadLanguageDropdown()
     # Focus the console.
-    @console.click()
+    @jqconsole.Focus()
 
   # Defines global jQuery templates used by the various functions interacting
   # with the UI.
@@ -38,30 +52,13 @@ class @JSREPL
   # Initializes the behaviour of the command prompt and the expand and eval
   # buttons.
   SetupConsole: ->
-    @console = $('#console').console
-      greetings:'''
-                \t   _       .---.  .--. .---. .-.
-                \t  :_;      : .; :: .--': .; :: :
-                \t  .-. .--. :   .': `;  :  _.': :
-                \t  : :`._-.': :.`.: :__ : :   : :__
-                \t  : :`.__.':_;:_;`.__.':_;   :___.'
-                \t.-. : jsREPL version x.x
-                \t`._.' Amjad Masad & Max Shawabkeh
-                '''
-      label: '>>> '
-      handler: (command, stdout, result) =>
-        @stdout = stdout
-        @result = result
-        @Evaluate(command)
+    @console = $('#console')
+    @jqconsole = @console.jqconsole repl_logo
 
-    # A custom event that sets the content of the command line.
-    @console.bind 'setContent', (e, content) =>
-      @console.setText(content)
-      @console.click()
-
-    # A custom event to clear the content of the command line.
-    @console.bind 'clearContent', (e) =>
-      @console.trigger 'setContent', ['']
+  # Shows a command prompt in the console and waits for input.
+  StartPrompt: ->
+    @jqconsole.Write '>>> ', 'prompt'
+    @jqconsole.Input true, (command) => @Evaluate command
 
   # Populates the languages dropdown from JSREPL::Languages and triggers the
   # loading of the default language.
@@ -83,8 +80,9 @@ class @JSREPL
     $languages.change =>
       # TODO(amsad): Create a loading effect.
       $('body').toggleClass 'loading'
-      @LoadLanguage $languages.val(), ->
+      @LoadLanguage $languages.val(), =>
         $('body').toggleClass 'loading'
+        @StartPrompt()
 
     # Load the default language by manually triggering change.
     $languages.change()
@@ -102,7 +100,7 @@ class @JSREPL
       delete @engine
 
     # Empty out the history, prompt and example selection.
-    @console.reset()
+    @jqconsole.Reset()
     $('#examples').val ''
 
     # A counter to call the callback after the scripts and examples have
@@ -155,7 +153,8 @@ class @JSREPL
       # Set up response to example selection.
       $examples.change =>
         code = @examples[$examples.val()]
-        @console.trigger 'setContent', [code]
+        @jqconsole.SetPromptText code
+        @jqconsole.Focus()
 
       signalReady()
 
@@ -163,18 +162,21 @@ class @JSREPL
   #   @arg result: The user-readable string form of the result of an evaluation.
   ReceiveResult: (result) ->
     if result
-      @result result
+      @jqconsole.Write '==> ' + result, 'result'
+    @StartPrompt()
 
   # Receives an error message resulting from a command evaluation.
   #   @arg error: A message describing the error.
   ReceiveError: (error) ->
-    @result String error
+    @jqconsole.Write String(error), 'error'
+    @StartPrompt()
 
   # Receives any output from a language engine. Acts as a low-level output
   # stream or port.
   #   @arg output: The string to output. May contain control characters.
-  ReceiveOutput: (output) ->
-    @stdout output
+  #   @arg cls: An optional class for styling the output.
+  ReceiveOutput: (output, cls) ->
+    @jqconsole.Write output, cls
     return undefined
 
   # Receives a request for a string input from a language engine. Passes back
@@ -182,14 +184,17 @@ class @JSREPL
   #   @arg callback: The function called with the string containing the user's
   #     response. Currently called synchronously, but that is *NOT* guaranteed.
   ReceiveInputRequest: (callback) ->
-    @console.stdin callback
+    @jqconsole.Input false, callback
     return undefined
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.
   Evaluate: (command) ->
     $('#examples').val ''
-    @engine.Eval command
+    if command
+      @engine.Eval command
+    else
+      @StartPrompt()
 
 
 # The languages and engines modules.
