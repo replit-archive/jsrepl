@@ -33,10 +33,7 @@ Look into syntax highlighters
       A server-side highlighter that covers everything we need
       Maybe we could port some of those languages to Javascript
       Maybe just highlight the history using it
-  I (amasad) was looking into rich text editing in JSBin.com and in GMail
-    Both use a whole document as a textarea (obviosly in an iframe)
-      Don't know whats the benifits of that
-      JSBin's code on github looks like lots of work
+
 
 Would be nice to have one seedable random number generator for all languages
   Is needed as part of the standard library by some languages anyway
@@ -63,9 +60,11 @@ Input method
         ...     return x
         ...   else:
         ...     print 'Error!'
-  Single textbox
-    In the far, far future
-    As a completely separate mode that replaces the terminal
+  An expanded Rich-Text Editing for code snippets
+    Found this amazing solution! http://codemirror.net/
+    Will open in a pop-up, and any execution done on it will either go through the 
+    terminal or go to a different Eval method, for instance EvalMulti
+    what about highlighting?
 
 Persistence
   Download
@@ -81,7 +80,7 @@ UI Design
   Color scheme
   Something to fill in the empty space on first load
     Examples?
-    Faint logo?
+    FaUseLocalXHR: off)int logo?
     Something funny?
       Something funny yet subtle?
   Per-language help link
@@ -123,10 +122,16 @@ Marketing
   Target tutorial writers
   Post good answers with example links to jsREPL sessions
   Make a Chrome App
+  Having a collection of esotric languages will attracte lots of noobs
 
 ********************************************************************************
 *                                  Cleanup                                     *
 ********************************************************************************
+
+Could be handled really fast using an iframe sandbox, like with CoffeeScript
+  1-More secure?
+  2-Easier Cleanup
+  3-Less control over script loading?
 
 Scheme
   Docs: http://www.biwascheme.org/
