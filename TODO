@@ -118,6 +118,12 @@ Exotic Future Features
     Security!
     Performance hit due to latency
   Parse tree
+  Embed as executable script
+    We have VMs for many languages with the same interface
+    We can create a standard DOM/XHR/Canvas API accessible from all these languages
+    A user can script their browser in any language on jsREPL
+      Generate an includeable <script> for their page!
+    Of course impractical for real projects, but some idiosyncratic fun!
 
 Usage Patterns
   Trying out code while learning a language
