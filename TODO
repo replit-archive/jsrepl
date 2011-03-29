@@ -14,6 +14,7 @@ Make the random generator seedable (probably use a library)
 jqconsole changes
   Add line continuation support
     With markers!
+  Fix paste on Opera
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -33,7 +34,6 @@ Look into syntax highlighters
       A server-side highlighter that covers everything we need
       Maybe we could port some of those languages to Javascript
       Maybe just highlight the history using it
-
 
 Would be nice to have one seedable random number generator for all languages
   Is needed as part of the standard library by some languages anyway
@@ -60,11 +60,19 @@ Input method
         ...     return x
         ...   else:
         ...     print 'Error!'
+      How to keep history in multi-line
+        Some terminals remember lines (e.g. Python)
+        Others remember full commands (e.g. bash)
+          I (max99x) would opt for this
   An expanded Rich-Text Editing for code snippets
-    Found this amazing solution! http://codemirror.net/
-    Will open in a pop-up, and any execution done on it will either go through the 
-    terminal or go to a different Eval method, for instance EvalMulti
-    what about highlighting?
+    http://codemirror.net/
+      Will open in a pop-up
+        Pop-ups are so last decade!
+      How to handle execution?
+        Go through the terminal?
+        Go to a different Eval method, for instance EvalMulti?
+    What about highlighting?
+      Codemirror is extensible - we can add languages that aren't supported
 
 Persistence
   Download
@@ -122,16 +130,17 @@ Marketing
   Target tutorial writers
   Post good answers with example links to jsREPL sessions
   Make a Chrome App
-  Having a collection of esotric languages will attracte lots of noobs
+  Having a large collection of esoteric languages can attract amateurs (good!)
 
 ********************************************************************************
 *                                  Cleanup                                     *
 ********************************************************************************
 
 Could be handled really fast using an iframe sandbox, like with CoffeeScript
-  1-More secure?
-  2-Easier Cleanup
-  3-Less control over script loading?
+  More secure?
+  Easier Cleanup
+  Less control over script loading?
+  Sounds too good to be true - needs investigation and profiling
 
 Scheme
   Docs: http://www.biwascheme.org/
@@ -143,17 +152,21 @@ Scheme
 
 LISP
   Built-in classes modification
+    None
+  Globals
+    Javathcript - acceptable
+
+CoffeeScript
+  Built-in classes modification
     ?
   Globals
-    Javathcript
-    JavathcriptTokenizer
-    JavathcriptParser
-    UnevaluatedObj
-    Atom
-    Util
-    Assembler
-    Assembly
-    ....
+    ?
+
+Brainfuck
+  Built-in classes modification
+    ?
+  Globals
+    ?
 
 QBasic
   Docs: http://stevehanov.ca/blog/index.php?id=92
@@ -287,9 +300,6 @@ LISP
   http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
   http://github.com/willurd/js-lisp
 
-CoffeeScript
-  http://jashkenas.github.com/coffee-script/
-
 Ruby
   http://coderepos.org/share/wiki/JSRuby
   http://hotruby.yukoba.jp/
@@ -299,9 +309,6 @@ Bloop
 
 Befunge
   http://www.quirkster.com/js/befunge.html
-
-Brainfuck
-  http://www.iamcal.com/misc/bf_debug/
 
 Cat
   http://www.cat-language.com/interpreter.html
