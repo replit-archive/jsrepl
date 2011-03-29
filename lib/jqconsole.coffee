@@ -374,7 +374,7 @@ class JQConsole
         if @history_active
           if not @history.length or @history[@history.length - 1] != text
             @history.push text
-            @history_index++
+            @history_index = @history.length
         @saved_lines = []
         @$prompt.detach()
         @state = STATE_OUTPUT
@@ -385,3 +385,4 @@ class JQConsole
 
 
 $.fn.jqconsole = (header) -> new JQConsole(this, header)
+
