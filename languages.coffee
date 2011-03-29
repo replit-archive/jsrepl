@@ -82,3 +82,14 @@ JSREPL::Languages::CoffeeScript=
   example_file: 'langs/coffee-script/examples.txt'
   extension: 'coffee'
   logo: 'langs/coffee-script/logo.png'
+
+JSREPL::Languages::Brainfuck=
+  name: 'Brainfuck'
+  category: 'esoteric'
+  scripts: [
+    'extern/brainfuck/js/brainfuck.js'
+    'langs/brainfuck/jsrepl_brainfuck.js'
+  ]
+  example_file: 'langs/brainfuck/examples.txt'
+  extension: 'bf'
+  logo: 'langs/brainfuck/brainfuck.jpg'

@@ -4,3 +4,6 @@
 [submodule "extern/javathcript"]
 	path = extern/javathcript
 	url = git@github.com:amasad/Javathcript.git
+[submodule "extern/brainfuck"]
+	path = extern/brainfuck
+	url = git@github.com:amasad/brainfuck-js.git
