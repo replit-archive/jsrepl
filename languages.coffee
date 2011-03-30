@@ -14,8 +14,8 @@ JSREPL::Languages::QBasic =
     'extern/qb.js/Tokenizer.js'
     'extern/qb.js/CodeGenerator.js'
     'extern/qb.js/QBasic.js'
-    'langs/qbasic/jsrepl_qbasic.js'
   ]
+  engine: 'langs/qbasic/jsrepl_qbasic.js'
   example_file: 'langs/qbasic/examples.txt'
   help_link: 'http://westcompsci.pima.edu/cis100/'
   extension: 'bas'
@@ -68,8 +68,8 @@ JSREPL::Languages::Scheme =
     'extern/biwascheme/src/library/webscheme_lib.js'
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
-    'langs/scheme/jsrepl_scheme.js'
   ]
+  engine:'langs/scheme/jsrepl_scheme.js'
   example_file: 'langs/scheme/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
   extension: 'scm'

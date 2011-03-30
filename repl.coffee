@@ -115,20 +115,20 @@ class @JSREPL
     
     @lang = JSREPL::Languages::[lang_name]
     # Remove old iframe
-    @sandbox_frame.remove?()
+    @sandbox_frame?.remove?()
 
     # Load iframe
     @sandbox_frame = $ '<iframe/>', src: 'sandbox.html'
     @sandbox_frame.appendTo 'body'
-    @sandbox = @sandbox_frame.contentWindow
+    @sandbox = @sandbox_frame[0].contentWindow
 
     # Create script, bind onload and inject into iframe.
     lab_script = $ '<script/>', src: 'lib/LAB-1.2.0.js'
-    lab_script.bind 'load' ->
+    lab_script.bind 'load', =>
       loader = @sandbox.$LAB
       for script in @lang.scripts
         loader = loader.script(script).wait()
-      loader.wait =>
+      $LAB.script(@lang.engine).wait =>
         # TODO(max99x): Debug on all target browsers.
         #               On IE 8 this doesn't work for Lisp.
         @engine = new JSREPL::Engines::[lang_name](
@@ -139,7 +139,8 @@ class @JSREPL
           @sandbox,
           signalReady
         )
-     @sandbox.document.body.appendChild(lab_script[0])
+    @sandbox_frame.bind 'load', =>
+      @sandbox.document.body.appendChild(lab_script[0])
 
     # Load scripts.
     

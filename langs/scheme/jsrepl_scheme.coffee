@@ -1,17 +1,17 @@
 class JSREPL::Engines::Scheme
-  constructor: (@input_func, @output_func, @result_func, @error_func, @sandbox, @ready) ->
+  constructor: (@input_func, @output_func, @result_func, @error_func, @sandbox, ready) ->
     x = @sandbox
     x.BiwaScheme.Port.current_input = new x.BiwaScheme.Port.CustomInput @input_func
     x.BiwaScheme.Port.current_output = new x.BiwaScheme.Port.CustomOutput output_func
     x.BiwaScheme.Port.current_error = x.BiwaScheme.Port.current_output
     @interpreter = new x.BiwaScheme.Interpreter error_func
     @result_callback = result_func
-    @ready()
+    ready()
  
 
 
   Destroy: ->
-    JSREPL::Utils::removeSandBox
+    delete @interpreter
 
   Eval: (command) ->
     try
