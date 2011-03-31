@@ -125,20 +125,23 @@ class @JSREPL
     # Create script, bind onload and inject into iframe.
     lab_script = $ '<script/>', src: 'lib/LAB-1.2.0.js'
     lab_script.bind 'load', =>
+      # DEBUG for LAB
+      @sandbox.$LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
       loader = @sandbox.$LAB
       for script in @lang.scripts
         loader = loader.script(script).wait()
-      $LAB.script(@lang.engine).wait =>
-        # TODO(max99x): Debug on all target browsers.
-        #               On IE 8 this doesn't work for Lisp.
-        @engine = new JSREPL::Engines::[lang_name](
-          ((a...) => @ReceiveInputRequest(a...)),
-          ((a...) => @ReceiveOutput(a...)),
-          ((a...) => @ReceiveResult(a...)),
-          ((a...) => @ReceiveError(a...)),
-          @sandbox,
-          signalReady
-        )
+      loader.wait =>
+        $LAB.script(@lang.engine).wait =>
+          # TODO(max99x): Debug on all target browsers.
+          #               On IE 8 this doesn't work for Lisp.
+          @engine = new JSREPL::Engines::[lang_name](
+            ((a...) => @ReceiveInputRequest(a...)),
+            ((a...) => @ReceiveOutput(a...)),
+            ((a...) => @ReceiveResult(a...)),
+            ((a...) => @ReceiveError(a...)),
+            @sandbox,
+            signalReady
+          )
     @sandbox_frame.bind 'load', =>
       @sandbox.document.body.appendChild(lab_script[0])
 

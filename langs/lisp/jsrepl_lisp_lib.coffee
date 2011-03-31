@@ -1,4 +1,6 @@
-JSREPL::Engines::Lisp::Library = '''
+class @JSREPL
+
+JSREPL::Library = '''
 (defun caar (x) (car (car x)))
 (defun caar (x) (car (car x)))
 (defun cadr (x) (car (cdr x)))

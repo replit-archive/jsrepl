@@ -2,7 +2,8 @@ isNil = (x) ->
   (not x?) or (x instanceof Array and x.length == 0)
 
 class JSREPL::Engines::Lisp
-  constructor: (input_func, output_func, result_func, error_func, ready) ->
+  constructor: (input_func, output_func, result_func, error_func, @sandbox, ready) ->
+    Javathcript = @Javathcript = @sandbox.Javathcript
     Javathcript.Environment::princ = (obj, callback) ->
       this._value obj, (val) ->
         output_func Javathcript.environment._stringify val
@@ -29,19 +30,19 @@ class JSREPL::Engines::Lisp
     @output_handler = output_func
     @error_handler = error_func
 
-    Javathcript.evalMulti JSREPL::Engines::Lisp::Library, (->), -> ready()
+    Javathcript.evalMulti @sandbox.JSREPL::Library, (->), ready
 
   Destroy: ->
     delete Javathcript
 
   Eval: (command) ->
     try
-      Javathcript.eval command, @result_handler
+      @Javathcript.eval command, @result_handler
     catch e
       try
         last_result = null
         handleMultiResult = (r) => last_result = r
-        Javathcript.evalMulti command, handleMultiResult, =>
+        @Javathcript.evalMulti command, handleMultiResult, =>
           @result_handler last_result
       catch e
         @error_handler e.message

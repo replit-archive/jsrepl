@@ -31,14 +31,13 @@ JSREPL::Languages::Lisp =
     'extern/javathcript/source/JavathcriptParser.js'
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
-    'langs/lisp/jsrepl_lisp.js'
     'langs/lisp/jsrepl_lisp_lib.js'
   ]
+  engine: 'langs/lisp/jsrepl_lisp.js'
   example_file: 'langs/lisp/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
-
 JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
@@ -78,7 +77,8 @@ JSREPL::Languages::Scheme =
 JSREPL::Languages::CoffeeScript=
   name: 'CoffeeScript'
   category: 'Dynamic'
-  scripts :[ 'langs/coffee-script/jsrepl_coffee.js' ]
+  scripts :[ 'langs/coffee-script/coffee-script.js' ]
+  engine: 'langs/coffee-script/jsrepl_coffee.js'
   example_file: 'langs/coffee-script/examples.txt'
   extension: 'coffee'
   logo: 'langs/coffee-script/logo.png'
@@ -86,10 +86,8 @@ JSREPL::Languages::CoffeeScript=
 JSREPL::Languages::Brainfuck=
   name: 'Brainfuck'
   category: 'esoteric'
-  scripts: [
-    'extern/brainfuck/js/brainfuck.js'
-    'langs/brainfuck/jsrepl_brainfuck.js'
-  ]
+  scripts: [ 'extern/brainfuck/js/brainfuck.js' ]
+  engine: 'langs/brainfuck/jsrepl_brainfuck.js'
   example_file: 'langs/brainfuck/examples.txt'
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
