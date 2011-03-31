@@ -4,16 +4,23 @@
 
 REPLify QBasic
   max99x
-Make the random generator seedable (probably use a library)
-  max99x
 
 ********************************************************************************
 *                               Brainstorming                                  *
 ********************************************************************************
+Used a Mersenne Twister library written in js for the seedable RNG https://gist.github.com/300494
+  It's fast enough ~2.5 Mil ops/sec in stable chrome, but maybe there is faster
+  Strange error happened while trying to load it in, both in Chrome and in FF
+    if a self-executing function was placed around lib constructor & Math.random 
+    & Math.seed definitions, a strange error in one of the lib methods will occur,
+    that basically says that the function was fired in the window's context i.e
+    this === window, replaced with setTimeout for now.
+    TODO(max99x): Check the above-mentioned error out.
 
 jqconsole changes
   Add line continuation support
     With markers!
+  Fix paste on Opera
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -33,11 +40,6 @@ Look into syntax highlighters
       A server-side highlighter that covers everything we need
       Maybe we could port some of those languages to Javascript
       Maybe just highlight the history using it
-
-
-Would be nice to have one seedable random number generator for all languages
-  Is needed as part of the standard library by some languages anyway
-  Makes any state faking much easier
 
 Examples
   How to load multi-command examples?
@@ -60,11 +62,19 @@ Input method
         ...     return x
         ...   else:
         ...     print 'Error!'
+      How to keep history in multi-line
+        Some terminals remember lines (e.g. Python)
+        Others remember full commands (e.g. bash)
+          I (max99x) would opt for this
   An expanded Rich-Text Editing for code snippets
-    Found this amazing solution! http://codemirror.net/
-    Will open in a pop-up, and any execution done on it will either go through the 
-    terminal or go to a different Eval method, for instance EvalMulti
-    what about highlighting?
+    http://codemirror.net/
+      Will open in a pop-up
+        Pop-ups are so last decade!
+      How to handle execution?
+        Go through the terminal?
+        Go to a different Eval method, for instance EvalMulti?
+    What about highlighting?
+      Codemirror is extensible - we can add languages that aren't supported
 
 Persistence
   Download
@@ -110,6 +120,12 @@ Exotic Future Features
     Security!
     Performance hit due to latency
   Parse tree
+  Embed as executable script
+    We have VMs for many languages with the same interface
+    We can create a standard DOM/XHR/Canvas API accessible from all these languages
+    A user can script their browser in any language on jsREPL
+      Generate an includeable <script> for their page!
+    Of course impractical for real projects, but some idiosyncratic fun!
 
 Usage Patterns
   Trying out code while learning a language
@@ -122,16 +138,17 @@ Marketing
   Target tutorial writers
   Post good answers with example links to jsREPL sessions
   Make a Chrome App
-  Having a collection of esotric languages will attracte lots of noobs
+  Having a large collection of esoteric languages can attract amateurs (good!)
 
 ********************************************************************************
 *                                  Cleanup                                     *
 ********************************************************************************
 
 Could be handled really fast using an iframe sandbox, like with CoffeeScript
-  1-More secure?
-  2-Easier Cleanup
-  3-Less control over script loading?
+  More secure?
+  Easier Cleanup
+  Less control over script loading?
+  Sounds too good to be true - needs investigation and profiling
 
 Scheme
   Docs: http://www.biwascheme.org/
@@ -143,17 +160,21 @@ Scheme
 
 LISP
   Built-in classes modification
+    None
+  Globals
+    Javathcript - acceptable
+
+CoffeeScript
+  Built-in classes modification
     ?
   Globals
-    Javathcript
-    JavathcriptTokenizer
-    JavathcriptParser
-    UnevaluatedObj
-    Atom
-    Util
-    Assembler
-    Assembly
-    ....
+    ?
+
+Brainfuck
+  Built-in classes modification
+    ?
+  Globals
+    ?
 
 QBasic
   Docs: http://stevehanov.ca/blog/index.php?id=92
@@ -287,9 +308,6 @@ LISP
   http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
   http://github.com/willurd/js-lisp
 
-CoffeeScript
-  http://jashkenas.github.com/coffee-script/
-
 Ruby
   http://coderepos.org/share/wiki/JSRuby
   http://hotruby.yukoba.jp/
@@ -299,9 +317,6 @@ Bloop
 
 Befunge
   http://www.quirkster.com/js/befunge.html
-
-Brainfuck
-  http://www.iamcal.com/misc/bf_debug/
 
 Cat
   http://www.cat-language.com/interpreter.html
@@ -346,3 +361,4 @@ Generic Algol-like languages
 Python
   http://code.google.com/p/trypython/
     Running via IronPython/Silverlight
+
