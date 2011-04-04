@@ -91,3 +91,21 @@ JSREPL::Languages::Brainfuck=
   example_file: 'langs/brainfuck/examples.txt'
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
+
+JSREPL::Languages::Ruby=
+  name: 'Ruby'
+  category: 'Dynamic'
+  scripts: [
+   'langs/ruby/head.js'
+   'langs/ruby/node.js'
+   'langs/ruby/builtinobjects.js'
+   'langs/ruby/parse.js'
+   'langs/ruby/interpreter.js'
+   'langs/ruby/builtinmethods.js'
+   'langs/ruby/util.js'
+  ]
+  engine: 'langs/ruby/jsrepl_ruby.js'
+  example_file: 'langs/ruby/examples.txt'
+  extension: 'rb'
+  logo: 'langs/ruby/logo.png'
+

@@ -21,6 +21,7 @@ class JSREPL::Engines::Scheme
           result = @sandbox.BiwaScheme.to_write new_state
         @result_callback result
     catch e
+      console.log e
       @interpreter.on_error e.message
 
   Highlight: (element) ->
