@@ -15,6 +15,7 @@ jqconsole changes
   Add line continuation support
     With markers!
   Fix paste on Opera
+  Read the entire bash manual for inspiration
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
