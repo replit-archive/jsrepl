@@ -4,12 +4,18 @@
 
 REPLify QBasic
   max99x
-Make the random generator seedable (probably use a library)
-  max99x
 
 ********************************************************************************
 *                               Brainstorming                                  *
 ********************************************************************************
+Used a Mersenne Twister library written in js for the seedable RNG https://gist.github.com/300494
+  It's fast enough ~2.5 Mil ops/sec in stable chrome, but maybe there is faster
+  Strange error happened while trying to load it in, both in Chrome and in FF
+    if a self-executing function was placed around lib constructor & Math.random 
+    & Math.seed definitions, a strange error in one of the lib methods will occur,
+    that basically says that the function was fired in the window's context i.e
+    this === window, replaced with setTimeout for now.
+    TODO(max99x): Check the above-mentioned error out.
 
 jqconsole changes
   Add line continuation support
@@ -359,3 +365,4 @@ Generic Algol-like languages
 Python
   http://code.google.com/p/trypython/
     Running via IronPython/Silverlight
+

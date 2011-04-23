@@ -3,9 +3,9 @@
 #               http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm#9
 
 class JSREPL::Engines::QBasic
-  constructor: (input_func, output_func, result_func, error_func, ready) ->
+  constructor: (input_func, output_func, result_func, error_func, @sandbox, ready) ->
     # An interface to the QBasic VM.
-    @virtual_machine = new VirtualMachine {
+    @virtual_machine = new @sandbox.VirtualMachine {
       print: (str) =>
         if @output_history_index < @output_history.length
           console.assert @output_history[@output_history_index] == str
@@ -41,14 +41,14 @@ class JSREPL::Engines::QBasic
     ready()
 
   Destroy: ->
+    # Should be garbage collected?
     delete @virtual_machine
-    # TODO(max99x): Delete all the globals use by the VM.
 
   Eval: (command) ->
     @input_history_index = @output_history_index = 0
     @command_history.push command
     try
-      program = new QBasicProgram @command_history.join '\n'
+      program = new @sandbox.QBasicProgram @command_history.join '\n'
       @virtual_machine.run program, false, => @result_callback ''
     catch e
       @command_history.pop()

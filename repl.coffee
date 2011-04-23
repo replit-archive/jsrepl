@@ -26,6 +26,10 @@ class @JSREPL
     @console = null
     # The JQConsole object.
     @jqconsole = null
+    # The sandbox iframe
+    @sandbox_frame = null
+    # The sandbox window global object
+    @sandbox = null
     # Set up the UI.
     @DefineTemplates()
     @SetupConsole()
@@ -108,24 +112,45 @@ class @JSREPL
     signals_read = 0
     signalReady = ->
       if ++signals_read == 2 then callback()
-
+    
     @lang = JSREPL::Languages::[lang_name]
+    # Remove old iframe
+    @sandbox_frame?.remove?()
 
-    # Load scripts.
-    loader = $LAB;
-    for script in @lang.scripts
-      loader = loader.script(script).wait()
-    loader.wait =>
-      # TODO(max99x): Debug on all target browsers.
-      #               On IE 8 this doesn't work for Lisp.
-      @engine = new JSREPL::Engines::[lang_name](
-        ((a...) => @ReceiveInputRequest(a...)),
-        ((a...) => @ReceiveOutput(a...)),
-        ((a...) => @ReceiveResult(a...)),
-        ((a...) => @ReceiveError(a...)),
-        signalReady
-      )
+    # Load iframe
+    @sandbox_frame = $ '<iframe/>', src: 'sandbox.html', style: 'display:none'
+    @sandbox_frame.appendTo 'body'
+    @sandbox = @sandbox_frame[0].contentWindow
 
+    # Create lab script tag
+    # when it loads load the language engine
+    lab_script = $ '<script/>', src: 'lib/LAB-1.2.0.js'
+    lab_script.bind 'load', =>
+      # DEBUG for LAB
+      @sandbox.$LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
+      loader = @sandbox.$LAB
+      for script in @lang.scripts
+        loader = loader.script(script).wait()
+      loader.wait =>
+        # When iframe finishes loading language scripts 
+        # create the language engine and pass along the child window object "sandbox"
+        $LAB.script(@lang.engine).wait =>
+          # TODO(max99x): Debug on all target browsers.
+          #               On IE 8 this doesn't work for Lisp.
+          @engine = new JSREPL::Engines::[lang_name](
+            # looks much better
+            $.proxy(@ReceiveInputRequest, this),
+            $.proxy(@ReceiveOutput, this),
+            $.proxy(@ReceiveResult, this),
+            $.proxy(@ReceiveError, this),
+            @sandbox,
+            signalReady
+          )
+    # When iframe finishes loading get the lab scrpt.
+    @sandbox_frame.bind 'load', =>
+      @sandbox.document.body.appendChild(lab_script[0])
+
+    
     # Load logo.
     $('#lang_logo').attr 'src', @lang.logo
 

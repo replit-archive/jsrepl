@@ -14,8 +14,8 @@ JSREPL::Languages::QBasic =
     'extern/qb.js/Tokenizer.js'
     'extern/qb.js/CodeGenerator.js'
     'extern/qb.js/QBasic.js'
-    'langs/qbasic/jsrepl_qbasic.js'
   ]
+  engine: 'langs/qbasic/jsrepl_qbasic.js'
   example_file: 'langs/qbasic/examples.txt'
   help_link: 'http://westcompsci.pima.edu/cis100/'
   extension: 'bas'
@@ -31,14 +31,13 @@ JSREPL::Languages::Lisp =
     'extern/javathcript/source/JavathcriptParser.js'
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
-    'langs/lisp/jsrepl_lisp.js'
     'langs/lisp/jsrepl_lisp_lib.js'
   ]
+  engine: 'langs/lisp/jsrepl_lisp.js'
   example_file: 'langs/lisp/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
-
 JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
@@ -68,8 +67,8 @@ JSREPL::Languages::Scheme =
     'extern/biwascheme/src/library/webscheme_lib.js'
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
-    'langs/scheme/jsrepl_scheme.js'
   ]
+  engine:'langs/scheme/jsrepl_scheme.js'
   example_file: 'langs/scheme/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
   extension: 'scm'
@@ -78,7 +77,8 @@ JSREPL::Languages::Scheme =
 JSREPL::Languages::CoffeeScript=
   name: 'CoffeeScript'
   category: 'Dynamic'
-  scripts :[ 'langs/coffee-script/jsrepl_coffee.js' ]
+  scripts :[ 'langs/coffee-script/coffee-script.js' ]
+  engine: 'langs/coffee-script/jsrepl_coffee.js'
   example_file: 'langs/coffee-script/examples.txt'
   extension: 'coffee'
   logo: 'langs/coffee-script/logo.png'
@@ -86,10 +86,26 @@ JSREPL::Languages::CoffeeScript=
 JSREPL::Languages::Brainfuck=
   name: 'Brainfuck'
   category: 'esoteric'
-  scripts: [
-    'extern/brainfuck/js/brainfuck.js'
-    'langs/brainfuck/jsrepl_brainfuck.js'
-  ]
+  scripts: [ 'extern/brainfuck/js/brainfuck.js' ]
+  engine: 'langs/brainfuck/jsrepl_brainfuck.js'
   example_file: 'langs/brainfuck/examples.txt'
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
+
+JSREPL::Languages::Ruby=
+  name: 'Ruby'
+  category: 'Dynamic'
+  scripts: [
+   'langs/ruby/head.js'
+   'langs/ruby/node.js'
+   'langs/ruby/builtinobjects.js'
+   'langs/ruby/parse.js'
+   'langs/ruby/interpreter.js'
+   'langs/ruby/builtinmethods.js'
+   'langs/ruby/util.js'
+  ]
+  engine: 'langs/ruby/jsrepl_ruby.js'
+  example_file: 'langs/ruby/examples.txt'
+  extension: 'rb'
+  logo: 'langs/ruby/logo.png'
+
