@@ -58,9 +58,9 @@ RubyEngine.Scope.prototype = {
         this.runArray(args, function(res){
           for (var i=0; i < res.length; i++)
             newargs[block.vars[i].name] = res[i]; 
-            that.scope.pushScope(newargs);
         });
-      } 
+      }
+     that.scope.pushScope(newargs);
       var ret = this.run(block.block, function(res){
         that.scope.popScope();
         callback(res);
@@ -97,7 +97,7 @@ RubyEngine.Interpreter.prototype = {
       var evalElement = function(elem) {
         result[eval_index++] = elem;
         if (eval_index == result.length) {
-          callback(result);
+          callback(elem);
         } else {
           that.run(result[eval_index], evalElement);
         }

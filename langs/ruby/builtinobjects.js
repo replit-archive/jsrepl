@@ -88,12 +88,15 @@ RubyEngine.RubyObject.Numeric.methods = {
   "upto": function(self, args, block) {
     if (!block) return null;
     var varname, to=this.run(args[0]).num;
-    if (block.vars) varname = block.vars[0].name;
-    this.scope.pushLevel();
-    for(var i=self.num; i<=to; i++) {
-    	if (varname) this.scope.substitute(varname, new RubyEngine.RubyObject.Numeric(i));
-    	this.run(block.block);
-    }
+    this.run(args[0], function(res){
+      var to = res.num;
+      if (block.vars) varname = block.vars[0].name;
+      this.scope.pushLevel();
+      for(var i=self.num; i<=to; i++) {
+    	  if (varname) this.scope.substitute(varname, new RubyEngine.RubyObject.Numeric(i));
+    	  this.run(block.block, function(){});
+      }
+    });
     this.scope.popLevel();
     return self;
   }
