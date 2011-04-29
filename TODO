@@ -22,6 +22,7 @@ jqconsole changes
     With markers!
   Fix paste on Opera
   Read the entire bash manual for inspiration
+  Fix the scenario where the console is loosing focus when attempting to select text.
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
