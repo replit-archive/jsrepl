@@ -5,9 +5,13 @@
 REPLify QBasic
   max99x
 
+Work on Ruby
+  amasad
+
 ********************************************************************************
 *                               Brainstorming                                  *
 ********************************************************************************
+
 Used a Mersenne Twister library written in js for the seedable RNG https://gist.github.com/300494
   It's fast enough ~2.5 Mil ops/sec in stable chrome, but maybe there is faster
   Strange error happened while trying to load it in, both in Chrome and in FF
@@ -313,22 +317,13 @@ LISP
   http://www.ducklet.com/jisp/
   http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
   http://github.com/willurd/js-lisp
+  https://github.com/akapav/js
 
 Ruby
   http://coderepos.org/share/wiki/JSRuby
   http://hotruby.yukoba.jp/
 
-Bloop
-  http://tim-ryan.com/labs/bloopjs/
-
-Befunge
-  http://www.quirkster.com/js/befunge.html
-
-Cat
-  http://www.cat-language.com/interpreter.html
-
-Forth
-  http://wiki.forthfreak.net/index.cgi?jsforth
+Javascript
 
 Haskell
   http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
@@ -337,20 +332,11 @@ Haskell
       At best we'll need to patch up a fair amount of stuff
         An opportunity to properly learn Haskell!
 
-HQ9+
-  http://safalra.com/programming/esoteric-languages/interpreters/hq9-plus/
+Bloop
+  http://tim-ryan.com/labs/bloopjs/
 
-Javascript
-  https://github.com/mozilla/narcissus
-    Includes new experimental JS harmony features, e.g. refelection and proxies
-    Check cross-browser compatibility - probably hard
-    Easy sandboxing could be done in iframe
-      Would it sandbox properly even if the iframe is on the same domain?
-      How will we get the output?
-      Security problems mainly with snippet sharing
-
-Prolog
-  http://ioctl.org/logic/prolog-latest
+Befunge
+  http://www.quirkster.com/js/befunge.html
 
 Applesoft BASIC
   http://www.calormen.com/applesoft/
@@ -358,8 +344,21 @@ Applesoft BASIC
 6502-compatible Assembler
   http://www.6502asm.com/
 
+Cat
+  http://www.cat-language.com/interpreter.html
+
+Forth
+  http://wiki.forthfreak.net/index.cgi?jsforth
+
+HQ9+
+  http://safalra.com/programming/esoteric-languages/interpreters/hq9-plus/
+
+Prolog
+  http://ioctl.org/logic/prolog-latest
+
 Smalltalk
   http://silversmalltalk.wordpress.com/
+  http://clamato.net/
 
 Generic Algol-like languages
   http://www.zerny.dk/j-is-for-js.html
