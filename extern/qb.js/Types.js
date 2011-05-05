@@ -1,294 +1,275 @@
 /**
-    Copyright 2010 Steve Hanov
+  Copyright 2010 Steve Hanov
 
-    This file is part of qb.js
+  This file is part of qb.js
 
-    qb.js is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+  qb.js is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-    qb.js is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  qb.js is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
-*/    
-//#include <debug.js>
-/** @constructor */
-function NullType()
-{
+  You should have received a copy of the GNU General Public License
+  along with qb.js.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/**
+  Defines:
+    QBasic.NullType
+    QBasic.IntegerType
+    QBasic.SingleType
+    QBasic.DoubleType
+    QBasic.StringType
+    QBasic.AnyType
+    QBasic.DeriveTypeNameFromVariable
+    QBasic.ArrayType
+    QBasic.UserType
+    QBasic.Dimension
+    QBasic.ScalarVariable
+    QBasic.ArrayVariable
+    QBasic.IsNumericType
+    QBasic.IsStringType
+    QBasic.IsArrayType
+    QBasic.IsUserType
+    QBasic.IsNullType
+    QBasic.AreTypesCompatible
+  Uses:
+    -
+*/
+
+(function() {
+  /** @constructor */
+  QBasic.NullType = function() {
     // used to denote the absense of a parameter in system calls.
     this.name = ":NULL";
-}
+  };
 
-NullType.prototype =
-{
-    createInstance: function()
-    {
-        return null;
+  QBasic.NullType.prototype = {
+    createInstance: function() {
+      return null;
     },
 
-    copy: function( value )
-    {
-        return value;
+    copy: function (value) {
+      return value;
     }
-};
+  };
 
-function DeriveTypeNameFromVariable( name )
-{
-    switch( name[name.length-1] ) {
-        case '$': return "STRING";          
-        case '%': return "INTEGER";
-        case '&': return "LONG";
-        case '#': return "DOUBLE";          
-        case '!': return "SINGLE";          
+  /** @constructor */
+  QBasic.IntegerType = function() {
+    this.name = "INTEGER";
+  };
+
+  QBasic.IntegerType.prototype = {
+    createInstance: function() {
+      return 0;
+    },
+
+    copy: function (value) {
+      return (Math.round(value + 32768) & 65535) - 32768;
+    }
+  };
+
+  /** @constructor */
+  QBasic.SingleType = function() {
+    this.name = "SINGLE";
+  };
+
+  QBasic.SingleType.prototype = {
+    createInstance: function() {
+      return 0.0;
+    },
+
+    copy: function (value) {
+      return value;
+    }
+  };
+
+  /** @constructor */
+  QBasic.DoubleType = function() {
+    this.name = "DOUBLE";
+  };
+
+  QBasic.DoubleType.prototype = {
+    createInstance: function() {
+      return 0.0;
+    },
+
+    copy: function (value) {
+      return value;
+    }
+  };
+
+  /** @constructor */
+  QBasic.StringType = function() {
+    this.name = "STRING";
+  };
+
+  QBasic.StringType.prototype = {
+    createInstance: function() {
+      return "";
+    },
+
+    copy: function (value) {
+      return value;
+    }
+  };
+
+  /** @constructor */
+  QBasic.AnyType = function() {
+    this.name = "ANY";
+  };
+
+  QBasic.DeriveTypeNameFromVariable = function(name) {
+    switch (name[name.length - 1]) {
+    case '$':
+      return "STRING";
+    case '%':
+      return "INTEGER";
+    case '&':
+      return "LONG";
+    case '#':
+      return "DOUBLE";
+    case '!':
+      return "SINGLE";
     }
     return null; // Must use default type from DEFINT or single.
-}
+  };
 
-
-/** @constructor */
-function IntegerType()
-{
-    this.name = "INTEGER";
-}
-
-IntegerType.prototype =
-{
-    createInstance: function()
-    {
-        return 0;
-    },
-
-    copy: function( value )
-    {
-        return (Math.round( value + 32768 ) & 65535) - 32768;
-    }
-};
-
-/** @constructor */
-function SingleType()
-{
-    this.name = "SINGLE";
-}
-
-SingleType.prototype =
-{
-    createInstance: function()
-    {
-        return 0.0;
-    },
-
-    copy: function( value )
-    {
-        return value;
-    }
-};
-
-/** @constructor */
-function DoubleType()
-{
-    this.name = "DOUBLE";
-}
-
-DoubleType.prototype =
-{
-    createInstance: function()
-    {
-        return 0.0;
-    },
-
-    copy: function( value )
-    {
-        return value;
-    }
-};
-
-/** @constructor */
-function StringType()
-{
-    this.name = "STRING";
-}
-
-StringType.prototype =
-{
-    createInstance: function()
-    {
-        return "";
-    },
-
-    copy: function( value )
-    {
-        return value;
-    }
-};
-
-/** @constructor */
-function AnyType()
-{
-    this.name = "ANY";
-}
-
-/** @constructor */
-function ScalarVariable( type, value )
-{
-    this.type = type;
-    this.value = value;
-}
-
-ScalarVariable.prototype.copy = function()
-{
-    return new ScalarVariable( this.type, 
-        this.type.copy( this.value ) );
-};
-
-/** @constructor */
-function ArrayType(elementType)
-{
+  /** @constructor */
+  QBasic.ArrayType = function(elementType) {
     this.elementType = elementType;
     this.name = "ARRAY OF " + elementType.name;
-}
+  };
 
-ArrayType.prototype = 
-{
-
-};
-
-
-/** @constructor */
-function UserType( name, members )
-{
+  /** @constructor */
+  QBasic.UserType = function(name, members) {
     this.name = name;
 
     // Members: A mapping of names to types.
     this.members = members;
-}
+  };
 
-UserType.prototype =
-{
-    createInstance: function()
-    {
-        var user = {};
+  QBasic.UserType.prototype = {
+    createInstance: function() {
+      var user = {};
 
-        for ( var name in this.members ) {
-            user[name] = new ScalarVariable( 
-                this.members[name],
-                this.members[name].createInstance() );
-        }
+      for (var name in this.members) {
+        user[name] = new QBasic.ScalarVariable(
+            this.members[name], this.members[name].createInstance());
+      }
 
-        return user;
+      return user;
     },
 
-    copy: function( value )
-    {
-        var newValue = {};
-        for ( var key in value ) {
-            newValue[key] = value[key].copy();
-        }
-
-        return newValue;
+    copy: function (value) {
+      var newValue = {};
+      for (var key in value) {
+        newValue[key] = value[key].copy();
+      }
+      return newValue;
     }
-};
+  };
 
-/** @constructor */
-function Dimension( lower, upper )
-{
+  /** @constructor */
+  QBasic.Dimension = function(lower, upper) {
     this.lower = lower;
     this.upper = upper;
-}
+  };
 
-/** @constructor */
-function ArrayVariable( type, dimensions )
-{
+  /** @constructor */
+  QBasic.ScalarVariable = function(type, value) {
+    this.type = type;
+    this.value = value;
+  };
+
+  QBasic.ScalarVariable.prototype = {
+    copy: function() {
+      return new QBasic.ScalarVariable(this.type, this.type.copy(this.value));
+    }
+  };
+
+  /** @constructor */
+  QBasic.ArrayVariable = function(type, dimensions) {
     this.type = type;
     this.dimensions = dimensions;
     this.values = [];
     var totalSize = 1;
     var i;
 
-    for ( i = 0; i < this.dimensions.length; i++ )
-    {
-        totalSize *= this.dimensions[i].upper - this.dimensions[i].lower + 1;
+    for (i = 0; i < this.dimensions.length; i++) {
+      totalSize *= this.dimensions[i].upper - this.dimensions[i].lower + 1;
     }
 
-    for ( i = 0; i < totalSize; i++ ) {
-        this.values.push( 
-            new ScalarVariable( this.type, this.type.createInstance() ) );
+    for (i = 0; i < totalSize; i++) {
+      this.values.push(
+      new QBasic.ScalarVariable(this.type, this.type.createInstance()));
     }
-}
+  };
 
-ArrayVariable.prototype.copy = function() 
-{
-    return this;
-};
+  QBasic.ArrayVariable.prototype = {
+    copy: function() {
+      return this;
+    },
+    getIndex: function(indexes) {
+      var mult = 1;
+      var index = 0;
 
-ArrayVariable.prototype.getIndex = function( indexes )
-{
-    var mult = 1;
-    var index = 0;
-
-    //dbg.printf("Access array indexes: %s\n", indexes);
-    for( var i = this.dimensions.length-1; i >= 0; i-- ) {
+      //console.log("Access array indexes: " + indexes);
+      for (var i = this.dimensions.length - 1; i >= 0; i--) {
         index += (indexes[i] - this.dimensions[i].lower) * mult;
         mult *= this.dimensions[i].upper - this.dimensions[i].lower + 1;
+      }
+      return index;
+    },
+    assign: function(indexes, value) {
+      var index = this.getIndex(indexes);
+      //console.log("Assign " + value + " to array index " + index);
+      this.values[index] = value;
+    },
+    access: function(indexes, value) {
+      var index = this.getIndex(indexes);
+      //console.log("access array index " + index);
+      return this.values[index];
     }
-    return index;
-};
+  };
 
-ArrayVariable.prototype.assign = function( indexes, value )
-{
-    var index = this.getIndex( indexes );
-    //dbg.printf("Assign %s to array index %d\n", value, index);
-    this.values[index] = value;
-};
+  QBasic.IsNumericType = function(type) {
+    return (type.name == "INTEGER" ||
+            type.name == "SINGLE" ||
+            type.name == "DOUBLE");
+  };
 
-ArrayVariable.prototype.access = function( indexes, value )
-{
-    var index = this.getIndex( indexes );
-    //dbg.printf("access array index %d\n", index);
-    return this.values[index];
-};
-
-function IsNumericType( type )
-{
-    return type.name == "INTEGER" ||
-        type.name == "SINGLE" ||
-        type.name == "DOUBLE";
-}
-
-function IsStringType( type )
-{
+  QBasic.IsStringType = function(type) {
     return type.name == "STRING";
-}
+  };
 
-function IsArrayType( type )
-{
-    return type instanceof ArrayType;
-}
+  QBasic.IsArrayType = function(type) {
+    return type instanceof QBasic.ArrayType;
+  };
 
-function IsUserType( type )
-{
-    return type instanceof UserType;
-}
+  QBasic.IsUserType = function(type) {
+    return type instanceof QBasic.UserType;
+  };
 
-function IsNullType( type )
-{
-    return type instanceof NullType;
-}
+  QBasic.IsNullType = function(type) {
+    return type instanceof QBasic.NullType;
+  };
 
-function AreTypesCompatible( type1, type2 )
-{
-    return type1.name == type2.name ||
-        IsNumericType(type1) && IsNumericType(type2) ||
-        IsArrayType( type1 ) && IsArrayType(type2) && 
-            (type1.elementType.name == "ANY" ||
-             type2.elementType.name == "ANY" ) ||
-
-        !IsArrayType(type1) && !IsArrayType(type2) && (
-            type1.name == "ANY" || type2.name == "ANY" )
-        ;
-}
-
+  QBasic.AreTypesCompatible = function(type1, type2) {
+    if (type1.name == type2.name) return true;
+    if (QBasic.IsNumericType(type1) && QBasic.IsNumericType(type2)) return true;
+    if (QBasic.IsArrayType(type1) && QBasic.IsArrayType(type2) &&
+        (type1.elementType.name == "ANY" || type2.elementType.name == "ANY")) {
+      return true;
+    }
+    if (!QBasic.IsArrayType(type1) && !QBasic.IsArrayType(type2) && 
+        (type1.name == "ANY" || type2.name == "ANY")) {
+      return true;
+    }
+    return false;
+  };
+})();

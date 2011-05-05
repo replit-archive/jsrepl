@@ -27,6 +27,8 @@ jqconsole changes
   Fix paste on Opera
   Read the entire bash manual for inspiration
   Fix the scenario where the console is loosing focus when attempting to select text.
+  Add a way to get the position of the cursor in the line (i.e. column).
+    Used for tabstop-based tabbing on output.
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -154,12 +156,6 @@ Marketing
 *                                  Cleanup                                     *
 ********************************************************************************
 
-Could be handled really fast using an iframe sandbox, like with CoffeeScript
-  More secure?
-  Easier Cleanup
-  Less control over script loading?
-  Sounds too good to be true - needs investigation and profiling
-
 Scheme
   Docs: http://www.biwascheme.org/
   Built-in classes modification
@@ -191,118 +187,7 @@ QBasic
   Built-in classes modification
     Array.accept
   Globals
-    NextRuleId
-    Rule
-    RuleSet
-    ---
-    RuleParser
-    ---
-    NullType
-    DeriveTypeNameFromVariable
-    IntegerType
-    SingleType
-    DoubleType
-    StringType
-    AnyType
-    ScalarVariable
-    ArrayType
-    UserType
-    Dimension
-    ArrayVariable
-    IsNumericType
-    IsStringType
-    IsArrayType
-    IsUserType
-    IsNullType
-    AreTypesCompatible
-    ---
-    StackFrame
-    ---
-    VirtualMachine
-    SystemFunctions
-    SystemSubroutines
-    Instructions
-    ---
-    TypeScope
-    CheckedLabel
-    CheckedLoopContext
-    TypeChecker
-    ---
-    NextId
-    EarleyItem
-    EarleyParser
-    ---
-    GlrItem
-    GlrState
-    GlrShiftNode
-    GlrInteriorNode
-    GlrReduceNode
-    GlrParser
-    ---
-    NextStateId
-    POST_NEWLINE
-    PRE_NEWLINE
-    DIGIT_CHAR
-    ANY_CHAR
-    Locus
-    CharMatcher
-    RangeMatcher
-    NfaState
-    DfaState
-    NFA
-    Token
-    Tokenizer
-    ---
-    Instruction
-    Label
-    LoopContext
-    CodeGenerator
-    ---
-    AstProgram
-    AstArgument
-    AstSubroutine
-    AstDeclareFunction
-    AstPrintUsingStatement
-    AstPrintStatement
-    AstPrintItem
-    AstInputStatement
-    AstNullStatement
-    AstEndStatement
-    AstNextStatement
-    AstArrayDeref
-    AstMemberDeref
-    AstVariableReference
-    AstRange
-    AstDataStatement
-    AstRestoreStatement
-    AstDimStatement
-    AstDefTypeStatement
-    AstConstStatement
-    AstDoStatement
-    AstExitStatement
-    AstWhileLoop
-    AstForLoop
-    AstIfStatement
-    AstSelectStatement
-    AstCaseStatement
-    AstTypeMember
-    AstUserType
-    AstGotoStatement
-    AstGosubStatement
-    AstLabel
-    AstCallStatement
-    AstAssignStatement
-    AstBinaryOp
-    AstUnaryOperator
-    AstConstantExpr
-    AstReturnStatement
-    onProgram
-    onNumber
-    onString
-    onBinaryOp
-    onParamListInBrackets
-    onBracketExpr
-    QBasicProgram
+    QBasic - acceptable
 
 ********************************************************************************
 *                               More Languages                                 *
