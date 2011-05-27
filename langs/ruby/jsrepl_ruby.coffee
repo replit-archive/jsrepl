@@ -5,7 +5,8 @@ class JSREPL::Engines::Ruby
       input_func((input)=> callback(parser.parse("'" + input + "'")[0][0]) )
     ready()
     @ruby = new @sandbox.RubyEngine.Interpreter()
-    @ruby.writeStdout = @output_func
+    @ruby.writeStdout = (str)=> @output_func str.str + '\n'
+
 
   Destroy: ->
     
