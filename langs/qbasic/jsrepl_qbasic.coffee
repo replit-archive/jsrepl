@@ -1,11 +1,13 @@
 # TODO(max99x): Stop faking state and actually make it into a REPL.
 # TODO(max99x): Implement standard library functions:
-#               http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm#9
+#   http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm
+#   http://www.qbasicstation.com/index.php?c=t_adv
+#   http://www.uv.tietgen.dk/staff/mlha/pc/prog/bas/dos/qbasic/statement/index.htm
 
 class JSREPL::Engines::QBasic
   constructor: (input_func, output_func, result_func, error_func, @sandbox, ready) ->
     # An interface to the QBasic VM.
-    @virtual_machine = new @sandbox.VirtualMachine {
+    @virtual_machine = new @sandbox.QBasic.VirtualMachine {
       print: (str) =>
         if @output_history_index < @output_history.length
           console.assert @output_history[@output_history_index] == str
@@ -48,7 +50,7 @@ class JSREPL::Engines::QBasic
     @input_history_index = @output_history_index = 0
     @command_history.push command
     try
-      program = new @sandbox.QBasicProgram @command_history.join '\n'
+      program = new @sandbox.QBasic.Program @command_history.join '\n'
       @virtual_machine.run program, false, => @result_callback ''
     catch e
       @command_history.pop()

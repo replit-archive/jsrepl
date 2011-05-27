@@ -4,15 +4,15 @@ JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'
   scripts: [
+    'extern/qb.js/Base.js'
+    'extern/qb.js/Tokenizer.js'
+    'extern/qb.js/Types.js'
+    'extern/qb.js/EarleyParser.js'
     'extern/qb.js/RuleSet.js'
     'extern/qb.js/RuleParser.js'
-    'extern/qb.js/Types.js'
-    'extern/qb.js/VirtualMachine.js'
     'extern/qb.js/TypeChecker.js'
-    'extern/qb.js/EarleyParser.js'
-    'extern/qb.js/GlrParser.js'
-    'extern/qb.js/Tokenizer.js'
     'extern/qb.js/CodeGenerator.js'
+    'extern/qb.js/VirtualMachine.js'
     'extern/qb.js/QBasic.js'
   ]
   engine: 'langs/qbasic/jsrepl_qbasic.js'
@@ -38,6 +38,7 @@ JSREPL::Languages::Lisp =
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
+
 JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
@@ -74,25 +75,31 @@ JSREPL::Languages::Scheme =
   extension: 'scm'
   logo: 'extern/biwascheme/website/images/biwascheme_logo.png'
 
-JSREPL::Languages::CoffeeScript=
+JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
   category: 'Dynamic'
-  scripts :[ 'langs/coffee-script/coffee-script.js' ]
+  scripts : [ 
+    'langs/coffee-script/coffee-script.js'
+  ]
   engine: 'langs/coffee-script/jsrepl_coffee.js'
   example_file: 'langs/coffee-script/examples.txt'
+  help_link: 'http://jashkenas.github.com/coffee-script/'
   extension: 'coffee'
   logo: 'langs/coffee-script/logo.png'
 
-JSREPL::Languages::Brainfuck=
+JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
   category: 'esoteric'
-  scripts: [ 'extern/brainfuck/js/brainfuck.js' ]
+  scripts: [
+    'extern/brainfuck/js/brainfuck.js'
+  ]
   engine: 'langs/brainfuck/jsrepl_brainfuck.js'
   example_file: 'langs/brainfuck/examples.txt'
+  help_link: 'http://en.wikipedia.org/wiki/Brainfuck'
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
 
-JSREPL::Languages::Ruby=
+JSREPL::Languages::Ruby =
   name: 'Ruby'
   category: 'Dynamic'
   scripts: [
@@ -106,6 +113,6 @@ JSREPL::Languages::Ruby=
   ]
   engine: 'langs/ruby/jsrepl_ruby.js'
   example_file: 'langs/ruby/examples.txt'
+  help_link: 'http://en.wikipedia.org/wiki/Ruby_(programming_language)'
   extension: 'rb'
   logo: 'langs/ruby/logo.png'
-
