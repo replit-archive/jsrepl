@@ -1,4 +1,7 @@
-# TODO(max99x): Have Cakefile compile the libraries so we include just one file.
+if module && module.exports && !JSREPL
+  JSREPL = ()->
+  JSREPL::Languages = ()->
+  module.exports = JSREPL::Languages::
 
 JSREPL::Languages::QBasic =
   name: 'Quick Basic'

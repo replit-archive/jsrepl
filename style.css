@@ -1,3 +1,7 @@
+html {
+  background: url(images/bg.jpg) repeat 50%;
+}
+
 html, body {
   height: 100%;
   padding: 0;
@@ -19,11 +23,10 @@ html, body {
 }
 
 #content {
-  width: 60%;
+  width: 69%;
   height: 90%;
   margin: 0 auto;
   position: relative;
-  background: #FFCCAA; /* DEBUG */
   padding: 0;
   padding-top: 1.5em;
   overflow-x: hidden;
@@ -57,10 +60,10 @@ html, body {
 
 .jqconsole {
   display: block;
-  font-family: Consolas, monospace;
-  font-size: large;
-  color: #00CC00;
-  background-color: black;
+  font-family: Monaco, Consolas, "Lucida Console", monospace;
+  font-size: 14px;
+  color: white;
+  background-color: #181A3A;
   position: absolute;
   bottom: 0;
   top: 0;
@@ -75,10 +78,20 @@ html, body {
   white-space: -o-pre-wrap; /* Opera */
   white-space: pre-wrap; /* CSS3 (Candidate) */
   word-wrap: break-word; /* IE 5.5+ */
+  opacity: 0.87;
+  border: 1px solid #AAA;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 .jqconsole-header {
   display: block;
+  padding-bottom: 15px;
 }
 
 .jqconsole-cursor {
@@ -93,8 +106,71 @@ html, body {
 
 .result {
   display: block;
+  color: green;
 }
 
 .prompt {
   font-weight: bold;
+}
+
+/* langs */
+
+.langs {
+  position: fixed;
+  width: 155px;
+  top: 45px;
+  left: 1%;
+  list-style: none;
+}
+
+.langs li {
+  color: #ccc;
+  background: url(images/button.png) no-repeat;
+
+  font-size: 14px;
+  text-align: center;
+  text-indent: -1px;
+  text-shadow: rgba(0,0,0,1) 0 -1px 0, rgba(0,0,0,0.4) 0 0 1px;
+  line-height: 30px;
+  
+  margin: 0 0 5px 0;
+  width: 153px;
+  height: 33px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.langs li:hover {
+  color: #fff;
+  background-position: 0 -36px;
+}
+
+
+.langs li:active {
+  color: #fff;
+  line-height: 33px;
+  text-indent: -1px;
+  background-position: 0 -72px;
+}
+
+.langs li.select:after{
+    background-color: green;
+}
+
+/* Adds the glow */
+.langs li:after {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 3px;
+  position: absolute;
+  left: 54%;
+  margin-left: -29px;
+  top: 28px;
+
+}
+
+.langs li:active:after {
+  top: 26px;
 }
