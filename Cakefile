@@ -41,6 +41,7 @@ task 'bake', 'Compile to javascript', ->
         value.ct = 0;
         value.forEach (js, i,arr)->
           n = name
+          #strange bug, this file errors out when it is minified!!
           if js == 'extern/biwascheme/src/system/port.js' 
             arr.ct++;
             arr.files[i] = fs.readFileSync(js)
