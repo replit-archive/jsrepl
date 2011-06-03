@@ -1,6 +1,6 @@
 # For usage in Cakefile, detects if node is the current env and
 # creates dummy constructors and appends the config on the __proto__
-if module && module.exports && !JSREPL
+if module? && module.exports? && !JSREPL?
   JSREPL = ()->
   JSREPL::Languages = ()->
   module.exports = JSREPL::Languages::
