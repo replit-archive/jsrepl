@@ -7,3 +7,6 @@
 [submodule "extern/jsruby"]
 	path = extern/jsruby
 	url = git@github.com:amasad/JSRuby.git
+[submodule "extern/brainfuck"]
+	path = extern/brainfuck
+	url = git@github.com:amasad/brainfuck-js.git
