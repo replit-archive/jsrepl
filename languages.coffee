@@ -1,10 +1,14 @@
-# For usage in Cakefile, detects if node is the current env and
-# creates dummy constructors and appends the config on the __proto__
-if module? && module.exports? && !JSREPL?
-  JSREPL = ()->
-  JSREPL::Languages = ()->
+if module?.exports? and not @JSREPL?
+  # In Node context, pretend this is a module so the Cakefile can import it.
+  JSREPL = ->
+  JSREPL::Languages = ->
   module.exports = JSREPL::Languages::
+  @JSREPL = JSREPL
+else:
+  # In browser context, uses the global JSREPL namespace.
+  JSREPL = @JSREPL
 
+# Actual language engine definitions.
 JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'

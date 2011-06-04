@@ -1,59 +1,92 @@
 {exec} = require 'child_process'
 fs = require 'fs'
-languages = require   './languages.coffee'
+path = require 'path'
+languages = require './languages.coffee'
 
-stdout = process.stdout
+#------------------------------------------------------------------------------#
+#                                    Config                                    #
+#------------------------------------------------------------------------------#
 
-handle = (error, out, err)->
-  stdout.write(out)
-  stdout.write(err)
-  
-fileCount = (Object.keys languages).length
-ct = 0
-processFiles = (js, name, langConfig)->
-  ct++;
-  console.log name
-  js = js.reduce (p, file)-> p + ";\n" + file
-  fs.writeFileSync(name + '-min.js', js)
-  console.log fileCount, ct
-  if fileCount  == ct
-    langsjs = "JSREPL.prototype.Languages.prototype = " + JSON.stringify langConfig
-    console.log(langsjs)
-    fs.writeFileSync 'languages.js', langsjs
-    
-# "bake" makes more sense.
+# The command to use for minifying merged interpreter scripts.
+# MINIFIER = 'cat'
+MINIFIER = 'yuicompressor --type js'
+# TODO: Fix BiwaScheme so it can be compiled with either of these:
+# MINIFIER = 'uglifyjs -nc --unsafe'
+# MINIFIER = 'closure --js'
+
+#------------------------------------------------------------------------------#
+#                                   Helpers                                    #
+#------------------------------------------------------------------------------#
+
+# A simple shortcut to forward child output.
+forwardStreams = (_, out, err) ->
+  process.stdout.write(out)
+  process.stderr.write(err)
+
+# Builds the interpreter engine including all dependencies for a given language.
+buildEngine = (name, lang, callback) ->
+  console.log "Compiling #{name} interpreter."
+  engine = lang.engine.replace /\.js$/, '.coffee'
+  exec "coffee --compile #{engine}", (error) ->
+    if error
+      console.log "Coffee compiling #{name} failed:\n#{error.message}"
+      process.exit 1
+
+    # Merge in dependencies.
+    merged = (fs.readFileSync file for file in lang.scripts).join ';\n'
+
+    # Merge.
+    min_path = "build/#{name}-min.js"
+    lang.scripts = [min_path]
+    fs.writeFileSync min_path, merged
+
+    # Minify.
+    exec "#{MINIFIER} #{min_path}", maxBuffer: 1<<21, (error, minified) ->
+      if error
+        console.log "Minifying #{name} failed:\n#{error.message}"
+        process.exit 1
+      fs.writeFileSync min_path, minified
+      callback()
+
+# Writes the specified languages list to languages.js
+buildLanguagesList = (langs) ->
+  console.log 'Building languages list.'
+  langs_js = "JSREPL.prototype.Languages.prototype=#{JSON.stringify langs}"
+  fs.writeFileSync 'languages.js', langs_js
+
+# Watches a file for changes. Calls the callback immediately when first run.
+watchFile = (filename, callback) ->
+  callback filename
+  fs.watchFile filename, (current, old) ->
+    if +current.mtime != +old.mtime then callback filename
+
+#------------------------------------------------------------------------------#
+#                                  Main Tasks                                  #
+#------------------------------------------------------------------------------#
+
+# Bakes the pies, brews the coffee and sets up the lunch table.
 task 'bake', 'Compile to javascript', ->
-  exec 'coffee -c repl.coffee', handle
-  exec 'coffee -c languages.coffee', handle
-  exec 'coffee -c langs/lisp/jsrepl_lisp.coffee', handle
-  exec 'coffee -c langs/lisp/jsrepl_lisp_lib.coffee', handle
-  exec 'coffee -c langs/scheme/jsrepl_scheme.coffee', handle
-  exec 'coffee -c langs/qbasic/jsrepl_qbasic.coffee', handle
-  exec 'coffee -c langs/coffee-script/jsrepl_coffee.coffee', handle
-  
-  langConfig = {}
-  #JSREPL.prototype.languages 
+  console.log 'Compiling jsREPL.'
+
+  exec 'coffee --compile repl.coffee', forwardStreams
+
+  fs.mkdirSync('build', 0755) if not path.existsSync 'build'
+  langs_remain = Object.keys(languages).length
   for name, config of languages
-    langConfig[name] = {}
-    for option, value of config
-      if option == 'scripts'
-        value.files = []
-        value.ct = 0;
-        value.forEach (js, i,arr)->
-          n = name
-          #strange bug, this file errors out when it is minified!!
-          if js == 'extern/biwascheme/src/system/port.js' 
-            arr.ct++;
-            arr.files[i] = fs.readFileSync(js)
-          else
-            exec 'uglifyjs -nc --unsafe ' + js , (error, stdout)->
-              arr.ct++;
-              arr.files[i] = stdout
-              processFiles(arr.files, n, langConfig) if arr.ct  == arr.length
-        langConfig[name][option] = [name + '-min.js']
-      else
-        langConfig[name][option] = value
-        
-        
-  #console.log(langConfig)
-  
+    buildEngine name, config, ->
+      if --langs_remain == 0 then buildLanguagesList languages
+
+  process.on 'exit', -> console.log 'Done.'
+
+# Watches all coffee files and compiles them live to Javascript.
+task 'watch', 'Watch all coffee files and compile them live to javascript', ->
+  console.log 'Watching jsREPL...'
+
+  files_to_watch = ['repl.coffee', 'languages.coffee']
+  for name, config of languages
+    files_to_watch.push config.engine.replace /\.js$/, '.coffee'
+
+  for file in files_to_watch
+    watchFile file, (filename) ->
+      console.log "Compiling #{filename}."
+      exec "coffee --compile #{filename}", forwardStreams
