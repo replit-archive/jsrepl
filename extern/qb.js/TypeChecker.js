@@ -69,20 +69,21 @@
   }
 
   /** @constructor */
-  QBasic.TypeChecker = function(errors) {
+  QBasic.TypeChecker = function(prevChecker, errors) {
+    prevChecker = prevChecker || {};
     // map from name to AstDeclare
-    this.declaredSubs = {};
+    this.declaredSubs = prevChecker.declaredSubs || {};
     this.declaredSubs._main = new QBasic.AstDeclareFunction(
         new QBasic.Locus(0, 0), "_main", [], false);
 
     this.errors = errors;
-    this.scopes = [new TypeScope()];
-    this.shared = new TypeScope();
+    this.scopes = prevChecker.scopes || [new TypeScope()];
+    this.shared = prevChecker.shared || new TypeScope();
 
-    this.labelsUsed = [];
-    this.labelsDefined = {};
+    this.labelsUsed = prevChecker.labelsUsed || [];
+    this.labelsDefined = prevChecker.labelsDefined || {};
 
-    this.types = {
+    this.types = prevChecker.types || {
       INTEGER: new QBasic.IntegerType(),
       SINGLE: new QBasic.SingleType(),
       DOUBLE: new QBasic.DoubleType(),
@@ -92,10 +93,10 @@
     };
 
     // Changed to integer if DEFINT is present in the program (hack hack)
-    this.defaultType = this.types.SINGLE;
+    this.defaultType = prevChecker.defaultType || this.types.SINGLE;
 
     // stack of CheckedLoopContext. Most recent is 0.
-    this.loopStack = [];
+    this.loopStack = prevChecker.loopStack || [];
   };
 
   QBasic.TypeChecker.prototype = {
@@ -735,14 +736,16 @@
 
       if (QBasic.IsStringType(binary.lhs.type)) {
         // operator must be +, <, >, <>, '='
-        bad |= op != '+' && op != '<' && op != '>' && op != '<>' && op != '=';
+        bad |= (op != '+' && op != '<' && op != '>' &&
+                op != '<>' && op != '=' && op != '==');
       }
 
       if (QBasic.IsUserType(binary.lhs.type)) {
-        bad |= op != '=';
+        bad |= op != '=' && op != '==';
       }
 
-      if (op == '=' || op == '<>' || op == '<' || op == "<=" || op == ">=") {
+      if (op == '=' || op == '==' || op == '<>' ||
+          op == '<' || op == "<=" || op == ">=") {
         type = this.types.INTEGER;
       }
 

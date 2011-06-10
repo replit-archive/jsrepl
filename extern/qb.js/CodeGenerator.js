@@ -66,42 +66,46 @@
   }
 
   /** @constructor */
-  QBasic.CodeGenerator = function() {
+  QBasic.CodeGenerator = function(prevGenerator) {
+    prevGenerator = prevGenerator || {};
     // Array of Instruction objects
-    this.instructions = [];
+    this.instructions = prevGenerator.instructions || [];
+    this.instructions_start = prevGenerator.instructions ?
+                              prevGenerator.instructions.length : 0;
 
     // Array of data from DATA statements.
-    this.data = [];
+    this.data = prevGenerator.data || [];
 
     // Set of shared variable names. If a string is a property of this object,
     // then the variable with that name is shared.
-    this.shared = {};
+    this.shared = prevGenerator.shared || {};
 
     // Array of labels.
-    this.labels = [];
+    this.labels = prevGenerator.labels || [];
 
     // Map from label name to label id
-    this.labelMap = {};
+    this.labelMap = prevGenerator.labelMap || {};
 
-    this.loopStack = [];
-    this.selectStack = [];
+    this.loopStack = prevGenerator.loopStack || [];
+    this.selectStack = prevGenerator.selectStack || [];
 
     // declared functions map to 1. Array accesses are changed to function
     // calls if they are in this map.
-    this.functionNames = {};
+    this.functionNames = prevGenerator.functionNames || {};
 
     // map from bytecode instruction to Locus, so that we can keep track of
     // which source lines led to each instruction.
-    this.lineMapping = [];
-    this.lastLine = -1; // don't map lines twice in a row
+    this.lineMapping = prevGenerator.lineMapping || [];
+    // don't map lines twice in a row
+    this.lastLine = prevGenerator.lastLine || -1;
     // Create a label so RESTORE with no label will work.
-    this.getGotoLabel(":top");
+    if (!prevGenerator) this.getGotoLabel(":top");
   };
 
   QBasic.CodeGenerator.prototype = {
     link: function () {
       // for each instruction,
-      for (var i = 0; i < this.instructions.length; i++) {
+      for (var i = this.instructions_start; i < this.instructions.length; i++) {
         var instr = this.instructions[i];
         // if the instruction has a code label for an argument, change its
         // argument to the associated offset.
@@ -143,9 +147,7 @@
     },
     write: function (name, arg) {
       var instr = QBasic.Instructions[name];
-      if (instr === undefined) {
-        throw "Bad instruction: " + name;
-      }
+      if (instr === undefined) throw "Bad instruction: " + name;
       this.instructions.push(new Instruction(instr, arg));
     },
     visitProgram: function (program) {
@@ -156,7 +158,7 @@
       this.link();
     },
     visitDeclareFunction: function (node) {
-      this.functionNames[node.name] = 1;
+      this.functionNames[node.name] = true;
     },
     visitSubroutine: function (node) {
       var skipLabel = null;
@@ -177,11 +179,9 @@
         // the stack.
         this.write("PUSHVALUE", node.name);
       }
-      this.write("RET", null);
       if (skipLabel !== null) {
+        this.write("RET", null);
         this.label(skipLabel);
-      } else {
-        this.write("END", null);
       }
     },
     visitCallStatement: function (node) {
@@ -419,7 +419,7 @@
       }
 
       if (node.shared) {
-        this.shared[node.name] = 1;
+        this.shared[node.name] = true;
       }
 
       // if there are ranges,

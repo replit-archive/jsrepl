@@ -21,3 +21,19 @@ ELSE
   PRINT "X and Y are equal!"
 END IF
 ********************************************************************************
+
+Subroutine
+********************************************************************************
+DIM SHARED MY_GLOBAL AS STRING
+MY_GLOBAL = "Starting value"
+
+DECLARE SUB Quack (Q)
+SUB Quack (Q)
+  PRINT MY_GLOBAL
+  PRINT Q
+END SUB
+
+Quack 13
+MY_GLOBAL = "New Value"
+Quack 42
+********************************************************************************

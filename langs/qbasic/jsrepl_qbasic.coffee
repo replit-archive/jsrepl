@@ -1,4 +1,3 @@
-# TODO(max99x): Stop faking state and actually make it into a REPL.
 # TODO(max99x): Implement standard library functions:
 #   http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm
 #   http://www.qbasicstation.com/index.php?c=t_adv
@@ -8,38 +7,13 @@ class JSREPL::Engines::QBasic
   constructor: (input_func, output_func, result_func, error_func, @sandbox, ready) ->
     # An interface to the QBasic VM.
     @virtual_machine = new @sandbox.QBasic.VirtualMachine {
-      print: (str) =>
-        if @output_history_index < @output_history.length
-          console.assert @output_history[@output_history_index] == str
-        else
-          @output_history.push str
-          output_func str
-        @output_history_index++
-      input: (callback) =>
-        if @input_history_index < @input_history.length
-          @input_history_index++
-          callback @input_history[@input_history_index - 1]
-        else
-          @input_history_index++
-          input_func (data) =>
-            @input_history.push data
-            callback data
+      print: output_func
+      input: input_func
+      result: result_func
+      error: error_func
     }
     @virtual_machine.INTERVAL_MS = 0
-    @virtual_machine.instructionsPerInterval = 8192
-    #@virtual_machine.debug = 1
-
-    # Callbacks.
-    @result_callback = result_func
-    @error_callback = error_func
-
-    # A history used to fake state.
-    @command_history = []
-    @input_history = []
-    @input_history_index = 0
-    @output_history = []
-    @output_history_index = 0
-
+    @virtual_machine.instructionsPerInterval = 1024
     ready()
 
   Destroy: ->
@@ -47,14 +21,17 @@ class JSREPL::Engines::QBasic
     delete @virtual_machine
 
   Eval: (command) ->
-    @input_history_index = @output_history_index = 0
-    @command_history.push command
+    @result_sent = false
     try
-      program = new @sandbox.QBasic.Program @command_history.join '\n'
-      @virtual_machine.run program, false, => @result_callback ''
+      program = new @sandbox.QBasic.Program(command,
+                                            @virtual_machine.lastProgram)
+      @virtual_machine.run program, =>
+        if @virtual_machine.stack.length
+          @virtual_machine.cons.result @virtual_machine.stack.pop().toString()
+        else
+          @virtual_machine.cons.result ''
     catch e
-      @command_history.pop()
-      @error_callback e.message
+      @virtual_machine.cons.error e.message
 
   Highlight: (element) ->
     # TODO(max99x): Implement.

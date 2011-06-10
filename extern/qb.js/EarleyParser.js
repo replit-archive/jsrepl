@@ -123,10 +123,10 @@
         var token = this.tokenizer.nextToken(line, position);
         if (token === null) {
           this.errors.push("Bad token at " + line + ":" + position);
-          console.log("Bad token!");
+          if (this.debug) console.log("Bad token!");
           return null;
         } else if (this.debug) {
-          console.log("Got token " + token + " at " + token.locus);
+          if (this.debug) console.log("Got token " + token + " at " + token.locus);
         }
         this.locus = token.locus;
 

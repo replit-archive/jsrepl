@@ -526,8 +526,12 @@
   function onProgram(symbols, locus) {
     var sub = new QBasic.AstSubroutine(locus, "_main", [], symbols[0], false);
     var program = new QBasic.AstProgram(locus, sub);
-    console.log("Program successfully parsed. " + 
-                program.subs[0].statements.length + " statements.");
+    return program;
+  }
+
+  function onExpressionProgram(symbols, locus) {
+    var sub = new QBasic.AstSubroutine(locus, "_main", [], [symbols[0]], false);
+    var program = new QBasic.AstProgram(locus, sub);
     return program;
   }
 
@@ -559,9 +563,8 @@
   }
 
   /** @constructor */
-  QBasic.Program = function(input, testMode) {
+  QBasic.Program = function(input, prevProgram) {
     this.errors = [];
-    this.testMode = testMode;
 
     function UseSecond(args) {
       return args[1];
@@ -646,6 +649,7 @@
       rules.addToken("identifier", "[a-zA-Z_][a-zA-Z0-9_]*(\\$|%|#|&|!)?");
 
       rules.addRule("program: statements", onProgram);
+      rules.addRule("program: repl_expr endl", onExpressionProgram);
       rules.addRule("statements: statement*");
       // Line number:
       //rules.addRule( "statement: intconstant istatement separator" );
@@ -934,6 +938,7 @@
         return new QBasic.AstArgument(locus, args[0], null, args[1] !== null);
       });
       rules.addRule("OptParen: '\\(' '\\)'");
+
       rules.addRule("expr: expr2");
       rules.addRule("expr2: expr2 OR expr3", onBinaryOp);
       rules.addRule("expr2: expr2 XOR expr3", onBinaryOp);
@@ -947,6 +952,21 @@
       rules.addRule("expr4: expr4 '<=' expr5", onBinaryOp);
       rules.addRule("expr4: expr4 '>=' expr5", onBinaryOp);
       rules.addRule("expr4: expr5");
+
+      rules.addRule("repl_expr: repl_expr2");
+      rules.addRule("repl_expr2: repl_expr2 OR repl_expr3", onBinaryOp);
+      rules.addRule("repl_expr2: repl_expr2 XOR repl_expr3", onBinaryOp);
+      rules.addRule("repl_expr2: repl_expr3");
+      rules.addRule("repl_expr3: repl_expr3 AND repl_expr4", onBinaryOp);
+      rules.addRule("repl_expr3: repl_expr4");
+      rules.addRule("repl_expr4: repl_expr4 '==' expr5", onBinaryOp);
+      rules.addRule("repl_expr4: repl_expr4 '<>' expr5", onBinaryOp);
+      rules.addRule("repl_expr4: repl_expr4 '>' expr5", onBinaryOp);
+      rules.addRule("repl_expr4: repl_expr4 '<' expr5", onBinaryOp);
+      rules.addRule("repl_expr4: repl_expr4 '<=' expr5", onBinaryOp);
+      rules.addRule("repl_expr4: repl_expr4 '>=' expr5", onBinaryOp);
+      rules.addRule("repl_expr4: expr5");
+
       rules.addRule("expr5: expr5 MOD expr6", onBinaryOp);
       rules.addRule("expr5: expr6");
       rules.addRule("expr6: expr6 '\\+' expr7", onBinaryOp);
@@ -1008,38 +1028,39 @@
     var astProgram = QBasic.Program.parser.parse(input);
     if (astProgram === null) {
       this.errors = QBasic.Program.parser.errors;
-      //console.log(this.errors);
-      throw new Error("Parse failed.");
+      //console.log(this.errors.join(''));
+      throw new Error("Parse failed: " + this.errors[0]);
     }
 
+    prevProgram = prevProgram || {};
+
     // Perform type checking.
-    var typeChecker = new QBasic.TypeChecker(this.errors);
-    astProgram.accept(typeChecker);
+    this.typeChecker = new QBasic.TypeChecker(prevProgram.typeChecker,
+                                              this.errors);
+    astProgram.accept(this.typeChecker);
 
     if (this.errors.length > 0) {
       throw new Error("There were errors.");
     }
 
     // Perform code generation.
-    var codeGenerator = new QBasic.CodeGenerator();
-    astProgram.accept(codeGenerator);
+    this.codeGenerator = new QBasic.CodeGenerator(prevProgram.codeGenerator);
+    astProgram.accept(this.codeGenerator);
 
     this.sourcecode = input;
-    this.instructions = codeGenerator.instructions;
-    this.types = typeChecker.types;
-    this.defaultType = typeChecker.defaultType;
-    this.data = codeGenerator.data;
-    this.shared = codeGenerator.shared;
-    this.lineMap = codeGenerator.lineMapping;
+    this.instructions = this.codeGenerator.instructions.slice();
+    this.types = this.typeChecker.types;
+    this.defaultType = this.typeChecker.defaultType;
+    this.data = this.codeGenerator.data.slice();
+    this.shared = this.codeGenerator.shared;
+    this.lineMap = this.codeGenerator.lineMapping;
   }
 
   QBasic.Program.parser = null;
 
   QBasic.Program.prototype = {
     getByteCodeAsString: function () {
-      if (!this.instructions) {
-        return "";
-      }
+      if (!this.instructions) return "";
       var source = this.sourcecode.split("\n");
       var lines = [];
       for (var i = 0; i < this.instructions.length; i++) {
