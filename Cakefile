@@ -97,7 +97,7 @@ option '-m', '--minifier [compresser]', 'Manually specify compresser, defaults t
 # Bakes the pies, brews the coffee and sets up the lunch table.
 task 'bake', 'Compile to javascript', (options)->
   # TODO(max99x): Replace libs with minified versions.
-  MINIFIER = options.minifier
+  MINIFIER = options.minifier || MINIFIER
   console.log "Compiling jsREPL using #{MINIFIER.split(/\w+/)[0]}"
   compileCoffee 'repl.coffee'
 
