@@ -1,7 +1,15 @@
+#------------------------------------------------------------------------------#
+#                                   Imports                                    #
+#------------------------------------------------------------------------------#
+
 {exec} = require 'child_process'
 fs = require 'fs'
 path = require 'path'
-languages = require './languages.coffee'
+coffee = do ->
+  # The CoffeeScript library path is not available by default. Hack around it.
+  root_path = path.dirname require.paths[require.paths.length - 1]
+  coffee_path = 'node_modules/coffee-script/lib/coffee-script'
+  return require path.join root_path, coffee_path
 
 #------------------------------------------------------------------------------#
 #                                    Config                                    #
@@ -18,35 +26,52 @@ MINIFIER = 'yuicompressor --type js'
 #                                   Helpers                                    #
 #------------------------------------------------------------------------------#
 
-# A simple shortcut to forward child output.
-forwardStreams = (_, out, err) ->
-  process.stdout.write(out)
-  process.stderr.write(err)
+# Loads and returns the languages config.
+loadLanguagesList = ->
+  langs_coffee = fs.readFileSync 'languages.coffee', 'utf8'
+
+  @JSREPL = ->
+  @JSREPL::Languages = ->
+  eval coffee.compile langs_coffee
+  langs = @JSREPL::Languages::
+  delete @JSREPL
+
+  return langs
+
+# Compiles a .coffee file to a .js one, synchronously.
+compileCoffee = (filename) ->
+  console.log "Compiling #{filename}."
+  coffee_src = fs.readFileSync filename, 'utf8'
+  js_src = coffee.compile coffee_src
+  fs.writeFileSync filename.replace(/\.coffee$/, '.js'), js_src
 
 # Builds the interpreter engine including all dependencies for a given language.
 buildEngine = (name, lang, callback) ->
-  console.log "Compiling #{name} interpreter."
-  engine = lang.engine.replace /\.js$/, '.coffee'
-  exec "coffee --compile #{engine}", (error) ->
+  console.log "Compiling the #{name} interpreter."
+  engine = lang.engine
+  lang.engine = lang.engine.replace /\.coffee$/, '.js'
+  compileCoffee engine
+
+  # Merge in dependencies.
+  merged = []
+  for script in lang.scripts
+    contents = fs.readFileSync script, 'utf8'
+    if /\.coffee$/.test script
+      contents = coffee.compile contents
+    merged.push contents
+
+  # Write out merged file.
+  min_path = "build/#{name}-min.js"
+  lang.scripts = [min_path]
+  fs.writeFileSync min_path, merged.join ';\n'
+
+  # Minify.
+  exec "#{MINIFIER} #{min_path}", maxBuffer: 1<<21, (error, minified) ->
     if error
-      console.log "Coffee compiling #{name} failed:\n#{error.message}"
+      console.log "Minifying #{name} failed:\n#{error.message}"
       process.exit 1
-
-    # Merge in dependencies.
-    merged = (fs.readFileSync file for file in lang.scripts).join ';\n'
-
-    # Merge.
-    min_path = "build/#{name}-min.js"
-    lang.scripts = [min_path]
-    fs.writeFileSync min_path, merged
-
-    # Minify.
-    exec "#{MINIFIER} #{min_path}", maxBuffer: 1<<21, (error, minified) ->
-      if error
-        console.log "Minifying #{name} failed:\n#{error.message}"
-        process.exit 1
-      fs.writeFileSync min_path, minified
-      callback()
+    fs.writeFileSync min_path, minified
+    callback()
 
 # Writes the specified languages list to languages.js
 buildLanguagesList = (langs) ->
@@ -66,15 +91,18 @@ watchFile = (filename, callback) ->
 
 # Bakes the pies, brews the coffee and sets up the lunch table.
 task 'bake', 'Compile to javascript', ->
+  # TODO: Replace libs with minified versions.
   console.log 'Compiling jsREPL.'
 
-  exec 'coffee --compile repl.coffee', forwardStreams
+  compileCoffee 'repl.coffee'
 
   fs.mkdirSync('build', 0755) if not path.existsSync 'build'
-  langs_remain = Object.keys(languages).length
-  for name, config of languages
+
+  langs = loadLanguagesList()
+  langs_remain = Object.keys(langs).length
+  for name, config of langs
     buildEngine name, config, ->
-      if --langs_remain == 0 then buildLanguagesList languages
+      if --langs_remain == 0 then buildLanguagesList langs
 
   process.on 'exit', -> console.log 'Done.'
 
@@ -82,11 +110,35 @@ task 'bake', 'Compile to javascript', ->
 task 'watch', 'Watch all coffee files and compile them live to javascript', ->
   console.log 'Watching jsREPL...'
 
-  files_to_watch = ['repl.coffee', 'languages.coffee']
-  for name, config of languages
-    files_to_watch.push config.engine.replace /\.js$/, '.coffee'
+  files_to_watch = []
 
-  for file in files_to_watch
-    watchFile file, (filename) ->
-      console.log "Compiling #{filename}."
-      exec "coffee --compile #{filename}", forwardStreams
+  reload = ->
+    console.log 'Reloading language config.'
+    try
+      langs = loadLanguagesList()
+    catch e
+      console.log "Error reading language config: #{e}"
+      return
+
+    for file in files_to_watch
+      fs.unwatchFile file
+
+    files_to_watch = ['repl.coffee']
+    for name, config of langs
+      files_to_watch.push config.engine
+      config.engine = config.engine.replace /\.coffee$/, '.js'
+      for script, index in config.scripts
+        if /\.coffee$/.test script
+          files_to_watch.push script
+          config.scripts[index] = script.replace /\.coffee$/, '.js'
+    buildLanguagesList langs
+
+    for file in files_to_watch
+      watchFile file, (filename) ->
+        try
+          compileCoffee filename
+        catch e
+          console.log "Error compiling #{filename}: #{e}"
+
+  # Reading directly from a watchFile callback sometimes fails.
+  watchFile 'languages.coffee', -> setTimeout reload, 1

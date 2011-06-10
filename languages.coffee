@@ -1,15 +1,4 @@
-if module?.exports? and not @JSREPL?
-  # In Node context, pretend this is a module so the Cakefile can import it.
-  JSREPL = ->
-  JSREPL::Languages = ->
-  module.exports = JSREPL::Languages::
-  @JSREPL = JSREPL
-else:
-  # In browser context, uses the global JSREPL namespace.
-  JSREPL = @JSREPL
-
-# Actual language engine definitions.
-JSREPL::Languages::QBasic =
+@JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'
   scripts: [
@@ -24,13 +13,13 @@ JSREPL::Languages::QBasic =
     'extern/qb.js/VirtualMachine.js'
     'extern/qb.js/QBasic.js'
   ]
-  engine: 'langs/qbasic/jsrepl_qbasic.js'
+  engine: 'langs/qbasic/jsrepl_qbasic.coffee'
   example_file: 'langs/qbasic/examples.txt'
   help_link: 'http://westcompsci.pima.edu/cis100/'
   extension: 'bas'
   logo: 'langs/qbasic/logo.png'
 
-JSREPL::Languages::Lisp =
+@JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
   scripts: [
@@ -40,15 +29,15 @@ JSREPL::Languages::Lisp =
     'extern/javathcript/source/JavathcriptParser.js'
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
-    'langs/lisp/jsrepl_lisp_lib.js'
+    'langs/lisp/jsrepl_lisp_lib.coffee'
   ]
-  engine: 'langs/lisp/jsrepl_lisp.js'
+  engine: 'langs/lisp/jsrepl_lisp.coffee'
   example_file: 'langs/lisp/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
   logo: 'langs/lisp/logo.jpg'
 
-JSREPL::Languages::Scheme =
+@JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
   scripts: [
@@ -78,37 +67,37 @@ JSREPL::Languages::Scheme =
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
   ]
-  engine:'langs/scheme/jsrepl_scheme.js'
+  engine:'langs/scheme/jsrepl_scheme.coffee'
   example_file: 'langs/scheme/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
   extension: 'scm'
   logo: 'extern/biwascheme/website/images/biwascheme_logo.png'
 
-JSREPL::Languages::CoffeeScript =
+@JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
   category: 'Dynamic'
   scripts : [ 
     'langs/coffee-script/coffee-script.js'
   ]
-  engine: 'langs/coffee-script/jsrepl_coffee.js'
+  engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   example_file: 'langs/coffee-script/examples.txt'
   help_link: 'http://jashkenas.github.com/coffee-script/'
   extension: 'coffee'
   logo: 'langs/coffee-script/logo.png'
 
-JSREPL::Languages::Brainfuck =
+@JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
   category: 'esoteric'
   scripts: [
     'extern/brainfuck/js/brainfuck.js'
   ]
-  engine: 'langs/brainfuck/jsrepl_brainfuck.js'
+  engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
   example_file: 'langs/brainfuck/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Brainfuck'
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
 
-JSREPL::Languages::Ruby =
+@JSREPL::Languages::Ruby =
   name: 'Ruby'
   category: 'Dynamic'
   scripts: [
@@ -120,7 +109,7 @@ JSREPL::Languages::Ruby =
    'extern/jsruby/src/builtinmethods.js'
    'extern/jsruby/src/util.js'
   ]
-  engine: 'langs/ruby/jsrepl_ruby.js'
+  engine: 'langs/ruby/jsrepl_ruby.coffee'
   example_file: 'langs/ruby/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Ruby_(programming_language)'
   extension: 'rb'
