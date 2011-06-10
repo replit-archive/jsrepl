@@ -1,15 +1,18 @@
 #------------------------------------------------------------------------------#
 #                                   Imports                                    #
 #------------------------------------------------------------------------------#
-
 {exec} = require 'child_process'
 fs = require 'fs'
 path = require 'path'
-coffee = do ->
-  # The CoffeeScript library path is not available by default. Hack around it.
-  root_path = path.dirname require.paths[require.paths.length - 1]
-  coffee_path = 'node_modules/coffee-script/lib/coffee-script'
-  return require path.join root_path, coffee_path
+coffee =
+  try
+    require('coffee-script')
+  catch e
+    do ->
+      # The CoffeeScript library path is not available by default. Hack around it.
+      root_path = path.dirname require.paths[require.paths.length - 1]
+      coffee_path = 'node_modules/coffee-script/lib/coffee-script'
+      return require path.join root_path, coffee_path
 
 #------------------------------------------------------------------------------#
 #                                    Config                                    #
@@ -89,11 +92,13 @@ watchFile = (filename, callback) ->
 #                                  Main Tasks                                  #
 #------------------------------------------------------------------------------#
 
+# CLI option, e.x: cake -c cat bake
+option '-m', '--minifier [compresser]', 'Manually specify compresser, defaults to YUI'
 # Bakes the pies, brews the coffee and sets up the lunch table.
-task 'bake', 'Compile to javascript', ->
+task 'bake', 'Compile to javascript', (options)->
   # TODO(max99x): Replace libs with minified versions.
-  console.log 'Compiling jsREPL.'
-
+  MINIFIER = options.minifier
+  console.log "Compiling jsREPL using #{MINIFIER.split(/\w+/)[0]}"
   compileCoffee 'repl.coffee'
 
   fs.mkdirSync('build', 0755) if not path.existsSync 'build'
