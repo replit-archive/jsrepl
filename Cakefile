@@ -91,7 +91,7 @@ watchFile = (filename, callback) ->
 
 # Bakes the pies, brews the coffee and sets up the lunch table.
 task 'bake', 'Compile to javascript', ->
-  # TODO: Replace libs with minified versions.
+  # TODO(max99x): Replace libs with minified versions.
   console.log 'Compiling jsREPL.'
 
   compileCoffee 'repl.coffee'
@@ -120,6 +120,7 @@ task 'watch', 'Watch all coffee files and compile them live to javascript', ->
       console.log "Error reading language config: #{e}"
       return
 
+    # TODO(max99x): Only unwatch/rewatch removed/added files, respectively.
     for file in files_to_watch
       fs.unwatchFile file
 
