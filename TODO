@@ -2,7 +2,7 @@
 *                               Current Tasks                                  *
 ********************************************************************************
 
-REPLify QBasic
+Update jqconsole
   max99x
 
 Work on Ruby
@@ -17,9 +17,10 @@ jqconsole changes
     With markers!
   Fix paste on Opera
   Read the entire bash manual for inspiration
-  Fix the scenario where the console is loosing focus when attempting to select text.
-  Add a way to get the position of the cursor in the line (i.e. column).
-    Used for tabstop-based tabbing on output.
+  Fix loss of focus on text selection
+  Add a way to get the position of the cursor in the line (i.e. column)
+    Used for tabstop-based tabbing on output
+  Add class for previously-entered commands, similar to jqconsole-input
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -27,13 +28,13 @@ Add a "library" property to the language definition
   Better let the language keep track and load the library by itself
     No messing with the UI callbacks
     Can be optimized better
-  I'd(amasad) rather have this controlled by $LAB and then delegated to the library
-    I'm (max99x) not a fan of $LAB, but the way you did it looks fine
+  amasad prefers to have it controlled by $LAB and then delegated to the library
+    max99x is not a fan of $LAB, but the way amasad did it looks fine
       Would still rather have plaintext libraries written in each language
 
 Look into syntax highlighters
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
-    I (max99x) used this before; worked well
+    max99x used this before; worked well
   Look into http://remiya.com/cms.php/7/freebies/jquery-codify.html
     Nothing impressive but it's built on top of http://qbnz.com/highlighter/
       A server-side highlighter that covers everything we need
@@ -73,6 +74,7 @@ Input method
     http://codemirror.net/
       Will open in a pop-up
         Pop-ups are so last decade!
+        Try split screen
       How to handle execution?
         Go through the terminal?
         Go to a different Eval method, for instance EvalMulti?
@@ -93,23 +95,10 @@ UI Design
   Color scheme
   Something to fill in the empty space on first load
     Examples?
-    FaUseLocalXHR: off)int logo?
+    Faint logo?
     Something funny?
       Something funny yet subtle?
-  Per-language help link
-
-REPLify QBasic
-  Keep state across commands
-    Variables
-      Just stack?
-    User-defined types
-    Subroutines/Functions
-    Global settings (e.g. DEFINT)
-    Anything else?
-  Special case for DATA statements
-  Add statement -> expression parse rule
-    Make expression-only statements return result to caller
-  Make VM call a function when errors are thrown during asynchronous execution
+  Language-specific help link
 
 Port to Node.js
   Make it accessible from terminal
@@ -125,7 +114,7 @@ Exotic Future Features
   Parse tree
   Embed as executable script
     We have VMs for many languages with the same interface
-    We can create a standard DOM/XHR/Canvas API accessible from all these languages
+    We can create a standard DOM/XHR/Canvas API accessible from all languages
     A user can script their browser in any language on jsREPL
       Generate an includeable <script> for their page!
     Of course impractical for real projects, but some idiosyncratic fun!
@@ -139,9 +128,9 @@ Usage Patterns
 
 Marketing
   Target tutorial writers
-  Post good answers with example links to jsREPL sessions
+  Post good StackOverflow answers with example links to jsREPL sessions
   Make a Chrome App
-  Having a large collection of esoteric languages can attract amateurs (good!)
+  Having a large collection of esoteric languages: can attract amateurs (good!)
 
 ********************************************************************************
 *                                  Cleanup                                     *
