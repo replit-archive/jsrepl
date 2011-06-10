@@ -243,3 +243,9 @@ Generic Algol-like languages
 Python
   http://code.google.com/p/skulpt/
 
+Lua
+  Write a JS lua interpreter ^^
+  but seriosly how hard could it be?
+  maybe something like a Lua -> JS compiler
+  I think the hardest language feature would be
+  Generators and coroutines.
