@@ -79,6 +79,8 @@ html, body {
   position: absolute;
   right: 0;
   top: 0;
+  padding-left: 5px;
+  margin-bottom: 2px;
   /* Force word wrap on all browsers. */
   white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
   white-space: -o-pre-wrap; /* Opera */
