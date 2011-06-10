@@ -32,6 +32,8 @@ Add a "library" property to the language definition
     max99x is not a fan of $LAB, but the way amasad did it looks fine
       Would still rather have plaintext libraries written in each language
 
+// Probably won't need this when we have code mirror deplyed
+// syntax highlighting in terminal is ridiculous
 Look into syntax highlighters
   Look into http://alexgorbatchev.com/SyntaxHighlighter/
     max99x used this before; worked well
@@ -41,6 +43,7 @@ Look into syntax highlighters
       Maybe we could port some of those languages to Javascript
       Maybe just highlight the history using it
 
+// Didn't we take care of that?
 Would be nice to have one seedable random number generator for all languages
   Is needed as part of the standard library by some languages anyway
   Makes any state faking much easier
@@ -103,11 +106,20 @@ UI Design
 Port to Node.js
   Make it accessible from terminal
 
+Allow embedding a jsREPL "session?" on users blogs or sites
+  It would be extremly cool if we could allow people to embed runnable jsREPL 
+  code snippets in their sites/blogs, maybe an iframe or smart widget that would 
+  load only the chosen language.
+
+and blogs
 Exotic Future Features
   External Access
     DOM
     XHR
     Canvas
+    Having good canvas support could allow for people to write games
+    Or even port games that is written in a language we support
+    give them a way to share it (url shortner + result view)
   Server side evaluation
     Security!
     Performance hit due to latency
@@ -133,7 +145,7 @@ Marketing
   Having a large collection of esoteric languages: can attract amateurs (good!)
 
 ********************************************************************************
-*                                  Cleanup                                     *
+*                                  Cleanup //is this necessary?                *
 ********************************************************************************
 
 Scheme
