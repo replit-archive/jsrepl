@@ -4,9 +4,9 @@ html {
 
 html, body {
   height: 100%;
-  padding: 0;
   margin: 0;
   overflow: hidden;
+  padding: 0;
 }
 
 #main_logo, #lang_logo {
@@ -23,13 +23,18 @@ html, body {
 }
 
 #content {
-  width: 69%;
+  border: 1px solid #AAA;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top: none;
   height: 90%;
   margin: 0 auto;
-  position: relative;
+  opacity: 0.9;
+  overflow-x: hidden;
   padding: 0;
   padding-top: 1.5em;
-  overflow-x: hidden;
+  position: relative;
+  width: 69%;
 }
 
 #languages, #examples {
@@ -41,52 +46,45 @@ html, body {
 }
 
 #toolbar {
-  background: #ADAAAB; /* DEBUG */
+  background: #101030;
+  height: 3.5%;
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
   width: 100%;
-  height: 3.5%;
-  z-index:1
+  z-index: 1;
 }
 
 #console {
-  position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
   height: 96.6%;
+  left: 0;
+  position: absolute;
+  width: 100%;
 }
 
 .jqconsole {
-  display: block;
-  font-family: Monaco, Consolas, "Lucida Console", monospace;
-  font-size: 14px;
-  color: white;
   background-color: #181A3A;
-  position: absolute;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
   bottom: 0;
-  top: 0;
+  color: white;
+  display: block;
+  font-family: Monaco, Consolas, "Lucida Console", Monospace;
+  font-size: 14px;
   left: 0;
-  right: 0;
   margin: 0;
-  padding: 0;
   overflow: auto;
-
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  /* Force word wrap on all browsers. */
   white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
-  white-space: -pre-wrap; /* Opera */
   white-space: -o-pre-wrap; /* Opera */
+  white-space: -pre-wrap; /* Opera */
   white-space: pre-wrap; /* CSS3 (Candidate) */
   word-wrap: break-word; /* IE 5.5+ */
-  opacity: 0.87;
-  border: 1px solid #AAA;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
 }
 
 .jqconsole-header {
@@ -95,18 +93,19 @@ html, body {
 }
 
 .jqconsole-cursor {
-  background: gray;
+  background: #666;
+  line-height: 100%;
 }
 
 .error {
   color: red;
-  font-weight: bold;
   display: block;
 }
 
 .result {
+  color: #22dd22;
   display: block;
-  color: green;
+  font-weight: bold;
 }
 
 .prompt {
