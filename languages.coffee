@@ -77,7 +77,7 @@
   name: 'CoffeeScript'
   category: 'Dynamic'
   scripts : [ 
-    'langs/coffee-script/coffee-script.js'
+    'extern/coffee-script/coffee-script.js'
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   example_file: 'langs/coffee-script/examples.txt'
