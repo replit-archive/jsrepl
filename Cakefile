@@ -134,12 +134,14 @@ task 'watch', 'Watch all coffee files and compile them live to javascript', ->
           config.scripts[index] = script.replace /\.coffee$/, '.js'
     buildLanguagesList langs
 
+    compileFile = (filename) ->
+      try
+        compileCoffee filename
+      catch e
+        console.log "Error compiling #{filename}: #{e}"
+
     for file in files_to_watch
-      watchFile file, (filename) ->
-        try
-          compileCoffee filename
-        catch e
-          console.log "Error compiling #{filename}: #{e}"
+      watchFile file, (filename) -> setTimeout (-> compileFile(filename)), 1
 
   # Reading directly from a watchFile callback sometimes fails.
   watchFile 'languages.coffee', -> setTimeout reload, 1
