@@ -1,16 +1,13 @@
-class JSREPL::Engines::Brainfuck
-  constructor: (@input_func, @output_func, @result_func, @error_func, @sandbox, ready)->
-    @sandbox.BF.init @output_func, @input_func
+class @JSREPL::Engines::Brainfuck
+  constructor: (input, output, @result, @error, @sandbox, ready) ->
+    # TODO(amasad): Buffer input.
+    @sandbox.BF.init output, input
     ready()
 
   Destroy: ->
 
-  Eval: (command)->
+  Eval: (command) ->
     try
-      @sandbox.BF.parse(command, @result_func)
+      @sandbox.BF.parse command, @result
     catch e
-      @error_func e
-
-  Higilight: (element)->
-    console.log "DIY"
-
+      @error e

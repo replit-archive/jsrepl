@@ -1,16 +1,15 @@
 # TODO(max99x): Implement standard library functions:
 #   http://www.jgsee.kmutt.ac.th/exell/PracMath/IntrodQB.htm
 #   http://www.qbasicstation.com/index.php?c=t_adv
-#   http://www.uv.tietgen.dk/staff/mlha/pc/prog/bas/dos/qbasic/statement/index.htm
 
-class JSREPL::Engines::QBasic
-  constructor: (input_func, output_func, result_func, error_func, sandbox, ready) ->
+class @JSREPL::Engines::QBasic
+  constructor: (input, output, result, error, sandbox, ready) ->
     # An interface to the QBasic VM.
     @virtual_machine = new sandbox.QBasic.VirtualMachine {
-      print: output_func
-      input: input_func
-      result: result_func
-      error: error_func
+      print: output
+      input: input
+      result: result
+      error: error
     }
     ready()
 
@@ -27,7 +26,3 @@ class JSREPL::Engines::QBasic
           @virtual_machine.cons.result ''
     catch e
       @virtual_machine.cons.error e.message
-
-  Highlight: (element) ->
-    # TODO(max99x): Implement.
-    console.log 'Highlighting of QBasic code not yet implemented.'
