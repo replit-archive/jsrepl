@@ -4,16 +4,14 @@
 #   http://www.uv.tietgen.dk/staff/mlha/pc/prog/bas/dos/qbasic/statement/index.htm
 
 class JSREPL::Engines::QBasic
-  constructor: (input_func, output_func, result_func, error_func, @sandbox, ready) ->
+  constructor: (input_func, output_func, result_func, error_func, sandbox, ready) ->
     # An interface to the QBasic VM.
-    @virtual_machine = new @sandbox.QBasic.VirtualMachine {
+    @virtual_machine = new sandbox.QBasic.VirtualMachine {
       print: output_func
       input: input_func
       result: result_func
       error: error_func
     }
-    @virtual_machine.INTERVAL_MS = 0
-    @virtual_machine.instructionsPerInterval = 1024
     ready()
 
   Destroy: ->
@@ -21,11 +19,8 @@ class JSREPL::Engines::QBasic
     delete @virtual_machine
 
   Eval: (command) ->
-    @result_sent = false
     try
-      program = new @sandbox.QBasic.Program(command,
-                                            @virtual_machine.lastProgram)
-      @virtual_machine.run program, =>
+      @virtual_machine.run command, =>
         if @virtual_machine.stack.length
           @virtual_machine.cons.result @virtual_machine.stack.pop().toString()
         else

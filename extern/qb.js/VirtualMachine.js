@@ -120,6 +120,9 @@
     },
     /** Load and start running a program. */
     run: function (program, callback) {
+      if (!(program instanceof QBasic.Program)) {
+        program = new QBasic.Program(program, this.lastProgram)
+      }
       this.loadProgram(program);
       this.callback = callback;
       this.resume();
