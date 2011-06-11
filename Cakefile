@@ -94,7 +94,7 @@ option '-m',
 task 'bake', 'Compile to javascript', (options)->
   # TODO(max99x): Replace libs with minified versions.
   MINIFIER = options.minifier || MINIFIER
-  console.log "Compiling jsREPL using #{MINIFIER.split(/\w+/)[0]}."
+  console.log "Compiling jsREPL using #{MINIFIER.split(/\s+/)[0]}."
   compileCoffee 'repl.coffee'
 
   fs.mkdirSync('build', 0755) if not path.existsSync 'build'
