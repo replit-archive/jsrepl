@@ -1,18 +1,11 @@
 #------------------------------------------------------------------------------#
 #                                   Imports                                    #
 #------------------------------------------------------------------------------#
-{exec} = require 'child_process'
+
 fs = require 'fs'
 path = require 'path'
-coffee =
-  try
-    require('coffee-script')
-  catch e
-    do ->
-      # The CoffeeScript library path is not available by default. Hack around it.
-      root_path = path.dirname require.paths[require.paths.length - 1]
-      coffee_path = 'node_modules/coffee-script/lib/coffee-script'
-      return require path.join root_path, coffee_path
+coffee = require 'coffee-script'
+{exec} = require 'child_process'
 
 #------------------------------------------------------------------------------#
 #                                    Config                                    #
@@ -21,7 +14,7 @@ coffee =
 # The command to use for minifying merged interpreter scripts.
 # MINIFIER = 'cat'
 MINIFIER = 'yuicompressor --type js'
-# TODO: Fix BiwaScheme so it can be compiled with either of these:
+# TODO(max99x): Fix BiwaScheme so it can be compiled with either of these:
 # MINIFIER = 'uglifyjs -nc --unsafe'
 # MINIFIER = 'closure --js'
 
@@ -69,9 +62,9 @@ buildEngine = (name, lang, callback) ->
   fs.writeFileSync min_path, merged.join ';\n'
 
   # Minify.
-  exec "#{MINIFIER} #{min_path}", maxBuffer: 1<<21, (error, minified) ->
+  exec "#{MINIFIER} #{min_path}", maxBuffer: 1 << 21, (error, minified) ->
     if error
-      console.log "Minifying #{name} failed:\n#{error.message}"
+      console.log "Minifying #{name} failed:\n#{error.message}."
       process.exit 1
     fs.writeFileSync min_path, minified
     callback()
@@ -93,12 +86,15 @@ watchFile = (filename, callback) ->
 #------------------------------------------------------------------------------#
 
 # CLI option, e.x: cake -c cat bake
-option '-m', '--minifier [compresser]', 'Manually specify compresser, defaults to YUI'
+option '-m',
+       '--minifier [compressor]',
+       'Manually specify compressor, defaults to YUI'
+
 # Bakes the pies, brews the coffee and sets up the lunch table.
 task 'bake', 'Compile to javascript', (options)->
   # TODO(max99x): Replace libs with minified versions.
   MINIFIER = options.minifier || MINIFIER
-  console.log "Compiling jsREPL using #{MINIFIER.split(/\w+/)[0]}"
+  console.log "Compiling jsREPL using #{MINIFIER.split(/\w+/)[0]}."
   compileCoffee 'repl.coffee'
 
   fs.mkdirSync('build', 0755) if not path.existsSync 'build'
@@ -115,19 +111,15 @@ task 'bake', 'Compile to javascript', (options)->
 task 'watch', 'Watch all coffee files and compile them live to javascript', ->
   console.log 'Watching jsREPL...'
 
-  files_to_watch = []
+  watched_files = []
 
   reload = ->
     console.log 'Reloading language config.'
     try
       langs = loadLanguagesList()
     catch e
-      console.log "Error reading language config: #{e}"
+      console.log "Error reading language config: #{e}."
       return
-
-    # TODO(max99x): Only unwatch/rewatch removed/added files, respectively.
-    for file in files_to_watch
-      fs.unwatchFile file
 
     files_to_watch = ['repl.coffee']
     for name, config of langs
@@ -143,10 +135,17 @@ task 'watch', 'Watch all coffee files and compile them live to javascript', ->
       try
         compileCoffee filename
       catch e
-        console.log "Error compiling #{filename}: #{e}"
+        console.log "Error compiling #{filename}: #{e}."
 
+    for file in watched_files
+      if file not in files_to_watch
+        console.log "Stopped watching #{file}."
+        fs.unwatchFile file
     for file in files_to_watch
-      watchFile file, (filename) -> setTimeout (-> compileFile(filename)), 1
+      if file not in watched_files
+        watchFile file, (filename) -> setTimeout (-> compileFile(filename)), 1
+
+    watched_files = files_to_watch
 
   # Reading directly from a watchFile callback sometimes fails.
   watchFile 'languages.coffee', -> setTimeout reload, 1
