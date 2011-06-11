@@ -21,6 +21,7 @@ jqconsole changes
   Add a way to get the position of the cursor in the line (i.e. column)
     Used for tabstop-based tabbing on output
   Add class for previously-entered commands, similar to jqconsole-input
+  Input/Output modes breaks some languages asynchronicity
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -57,11 +58,29 @@ Input method
         Some terminals remember lines (e.g. Python)
         Others remember full commands (e.g. bash)
           max99x would opt for this
+      NodeJS REPL: 
+        when the user presses return on a line of code
+        and that line would produce a syntax error
+        it will assume that there is lines of code to follow
+        and create a continuation marker and keep on doing that
+        until the command can be successfully ran or the user presses
+        the escape character. 
+        This could be used for many of our languages that don't have a 
+        way of figuring out code continuation (like python, lisp, scheme..).
+      In my(amasad) opinion if the user had a small expandable code editor
+      underneath the REPL terminal, he/she could use it for multi-line commands instead of
+      going through the pain of the terminal multiline. In my experience with REPL(s)
+      not one language I found to have a usable multi-line REPL, but python and BiwaScheme
+      and that is because the languages allow for it. Still a pain when it comes to history.
+      
   An expanded Rich-Text Editing for code snippets
     http://codemirror.net/
       Will open in a pop-up
         Pop-ups are so last decade!
         Try split screen
+        Having it underneath the REPL terminal
+        with an expand/minimize button that would minify the terminal
+        and expand the editor, should also be resizable. 
       How to handle execution?
         Go through the terminal?
         Go to a different Eval method, for instance EvalMulti?
@@ -81,7 +100,7 @@ Persistence
       Maybe an iframe or smart widget that would load only the chosen language
 
 UI Design
-  jsREPL Logo
+  jsREPL Logo 
   Color scheme
   Something to fill in the empty space on first load
     Examples?
@@ -90,8 +109,11 @@ UI Design
       Something funny yet subtle?
   Language-specific help link
 
-Port to Node.js
-  Make it accessible from terminal
+Porting:
+  Port to Node.js
+    Make it accessible from terminal
+  Port to Chrome extension (or APP).
+  Port to Mozilla extension. 
 
 Exotic Future Features
   External Access
@@ -100,7 +122,7 @@ Exotic Future Features
     Canvas
     Having good canvas support could allow for people to write games
     Or even port games that is written in a language we support
-    give them a way to share it (url shortner + result view)
+    give them a way to share it (url shortener + result view)
   Server side evaluation
     Security!
     Performance hit due to latency
@@ -132,6 +154,10 @@ Is jsREPL still an appropriate name?
     repl.{us,biz,ws,cc} are available, but somewhat meh
   Still have a long time to decide
 
+Testing:
+  A standard set of examples that can be applied to all languages.
+  Some of the languages we included have their own set of tests, why not use them.
+
 ********************************************************************************
 *                               More Languages                                 *
 ********************************************************************************
@@ -146,6 +172,7 @@ LISP
   http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
   http://github.com/willurd/js-lisp
   https://github.com/akapav/js
+  https://github.com/mishoo/JCLS
 
 Ruby
   http://coderepos.org/share/wiki/JSRuby
@@ -156,6 +183,9 @@ Javascript
   Might be a good choice as the default language
     No libs required - instant load!
     People might quickly assume that only JS is supported - NOT what we want
+
+JS.next
+  http://code.google.com/p/traceur-compiler/
 
 Haskell
   http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
@@ -200,7 +230,7 @@ Python
 
 Lua
   Write a JS Lua interpreter ^^
-    But seriosly how hard could it be?
+    But seriously how hard could it be?
       We don't even know Lua as of right now! :D
     Maybe something like a Lua -> JS compiler
     Hardest feature might be coroutines
