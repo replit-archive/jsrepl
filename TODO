@@ -21,7 +21,17 @@ jqconsole changes
   Add a way to get the position of the cursor in the line (i.e. column)
     Used for tabstop-based tabbing on output
   Add class for previously-entered commands, similar to jqconsole-input
-  Input/Output modes breaks some languages asynchronicity
+  Strict input/output modes break asynchronous printing
+    e.g. try "setTimeout (-> console.log 'test'), 1000" in CoffeeScript
+    Allow asynchronous writing
+      Can write it into the prompt
+        Less magical
+        Inconvenient
+      Can automagically put it before the current prompt/insertion point
+        Like the Chrome console
+        Seems a little bit magical for a console designed to be low-level
+        But more convenient
+        max99x prefers this one, despite previously objecting
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -36,7 +46,10 @@ Add a "library" property to the language definition
 Examples
   How to load multi-command examples?
     As single command (with auto-growth for multi-lined examples)
+      Simple and working
+      if amasad agrees to continue using this, he should remove this paragraph
     As a session?
+      Won't work for many examples that include blocks
 
 Input method
   Line-by-line
@@ -58,29 +71,21 @@ Input method
         Some terminals remember lines (e.g. Python)
         Others remember full commands (e.g. bash)
           max99x would opt for this
-      NodeJS REPL: 
-        when the user presses return on a line of code
-        and that line would produce a syntax error
-        it will assume that there is lines of code to follow
-        and create a continuation marker and keep on doing that
-        until the command can be successfully ran or the user presses
-        the escape character. 
-        This could be used for many of our languages that don't have a 
-        way of figuring out code continuation (like python, lisp, scheme..).
-      In my(amasad) opinion if the user had a small expandable code editor
-      underneath the REPL terminal, he/she could use it for multi-line commands instead of
-      going through the pain of the terminal multiline. In my experience with REPL(s)
-      not one language I found to have a usable multi-line REPL, but python and BiwaScheme
-      and that is because the languages allow for it. Still a pain when it comes to history.
-      
+      Could do the same as the NodeJS REPL
+        Grow if currently entered command doesn't parse successfully
+          Good for languages without cleaner continuation logic (Lisp, Python)
+      amasad prefers having a expandable code editor under the REPL terminal
+        max99x prefers to keep the REPL lightweight
+
   An expanded Rich-Text Editing for code snippets
     http://codemirror.net/
       Will open in a pop-up
         Pop-ups are so last decade!
         Try split screen
-        Having it underneath the REPL terminal
-        with an expand/minimize button that would minify the terminal
-        and expand the editor, should also be resizable. 
+        Have it under the REPL terminal with an expand/minimize button
+          Would minimize the terminal and expand the editor
+          Should be resizable
+          max99x feels this would be confusing
       How to handle execution?
         Go through the terminal?
         Go to a different Eval method, for instance EvalMulti?
@@ -100,7 +105,7 @@ Persistence
       Maybe an iframe or smart widget that would load only the chosen language
 
 UI Design
-  jsREPL Logo 
+  jsREPL Logo
   Color scheme
   Something to fill in the empty space on first load
     Examples?
@@ -108,12 +113,6 @@ UI Design
     Something funny?
       Something funny yet subtle?
   Language-specific help link
-
-Porting:
-  Port to Node.js
-    Make it accessible from terminal
-  Port to Chrome extension (or APP).
-  Port to Mozilla extension. 
 
 Exotic Future Features
   External Access
@@ -141,10 +140,15 @@ Usage Patterns
   Prototyping
     Not complex enough so far
 
+Porting
+  Port to Node.js
+    Make it accessible from terminal
+  Port to Chrome App
+  Port to Mozilla extension
+
 Marketing
   Target tutorial writers
   Post good StackOverflow answers with example links to jsREPL sessions
-  Make a Chrome App
   Having a large collection of esoteric languages: can attract amateurs (good!)
 
 Is jsREPL still an appropriate name?
@@ -152,11 +156,12 @@ Is jsREPL still an appropriate name?
   Might confuse people, implying it's just a REPL for JS
   re.pl and repl.{net,org,com} are taken!
     repl.{us,biz,ws,cc} are available, but somewhat meh
+  anyrepl.{com,net,org} - is available
   Still have a long time to decide
 
-Testing:
-  A standard set of examples that can be applied to all languages.
-  Some of the languages we included have their own set of tests, why not use them.
+Testing
+  A standard set of examples that can be applied to all languages
+  Some languages have their own set of tests - we can use them too
 
 ********************************************************************************
 *                               More Languages                                 *
