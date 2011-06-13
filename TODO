@@ -2,6 +2,12 @@
 *                               Current Tasks                                  *
 ********************************************************************************
 
+Define continuation rules for existing languages
+  max99x
+
+Add JS engine
+  max99x
+
 Work on Ruby
   amasad
 
@@ -19,14 +25,6 @@ Add a "library" property to the language definition
     max99x is not a fan of $LAB, but the way amasad did it looks fine
       Would still rather have plaintext libraries written in each language
 
-Examples
-  How to load multi-command examples?
-    As single command (with auto-growth for multi-lined examples)
-      Simple and working
-      if amasad agrees to continue using this, he should remove this paragraph
-    As a session?
-      Won't work for many examples that include blocks
-
 Input method
   Implement language-based continuation decision
     Scheme, Lisp
@@ -39,7 +37,7 @@ Input method
       On non-empty multilines
     Javascript, CoffeeScript?
       Grow if currently entered command doesn't parse successfully
-  An expanded Rich-Text Editing for code snippets
+  An expanded rich text editor for code snippets
     http://codemirror.net/
       Will open in a pop-up
         Pop-ups are so last decade!
@@ -52,7 +50,7 @@ Input method
         Go through the terminal?
         Go to a different Eval method, for instance EvalMulti?
     What about highlighting?
-      Codemirror is extensible - we can add languages that aren't supported
+      CodeMirror is extensible - we can add languages that aren't supported
 
 Persistence
   Download
@@ -61,7 +59,7 @@ Persistence
   Persistence
     Snippet-like URLs
     Accounts / profiles
-      Probably too complex and not really needed
+      Probably too complex and unnecessary
     Embed runnable jsREPL code snippets on sites/blogs
       Sounds impressive and should be reasonably easy
       Maybe an iframe or smart widget that would load only the chosen language
@@ -69,6 +67,7 @@ Persistence
 UI Design
   jsREPL Logo
   Color scheme
+    http://www.heroku.com/ is neat
   Something to fill in the empty space on first load
     Examples?
     Faint logo?
