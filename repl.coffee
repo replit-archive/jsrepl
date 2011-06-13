@@ -22,8 +22,6 @@ class JSREPL
     @engine = null
     # The examples of the current language.
     @examples = null
-    # The console element.
-    @console = null
     # The JQConsole object.
     @jqconsole = null
     # The sandbox iframe.
@@ -56,13 +54,11 @@ class JSREPL
   # Initializes the behaviour of the command prompt and the expand and eval
   # buttons.
   SetupConsole: ->
-    @console = $('#console')
-    @jqconsole = @console.jqconsole repl_logo
+    @jqconsole = $('#console').jqconsole repl_logo
 
   # Shows a command prompt in the console and waits for input.
   StartPrompt: ->
-    @jqconsole.Write '>>> ', 'prompt'
-    @jqconsole.Input true, (command) => @Evaluate command
+    @jqconsole.Prompt true, (command) => @Evaluate command
 
   # Populates the languages dropdown from JSREPL::Languages and triggers the
   # loading of the default language.
@@ -207,7 +203,7 @@ class JSREPL
   #   @arg callback: The function called with the string containing the user's
   #     response. Currently called synchronously, but that is *NOT* guaranteed.
   ReceiveInputRequest: (callback) ->
-    @jqconsole.Input false, callback
+    @jqconsole.Input callback
     return undefined
 
   # Evaluates a command in the current engine.

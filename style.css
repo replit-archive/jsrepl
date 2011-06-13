@@ -99,6 +99,10 @@ html, body {
   line-height: 100%;
 }
 
+.jqconsole-prompt, .jqconsole-old-prompt {
+  font-weight: bold;
+}
+
 .error {
   color: red;
   display: block;
@@ -107,9 +111,5 @@ html, body {
 .result {
   color: #22dd22;
   display: block;
-  font-weight: bold;
-}
-
-.prompt {
   font-weight: bold;
 }

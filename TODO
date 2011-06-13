@@ -2,36 +2,12 @@
 *                               Current Tasks                                  *
 ********************************************************************************
 
-Update jqconsole
-  max99x
-
 Work on Ruby
   amasad
 
 ********************************************************************************
 *                               Brainstorming                                  *
 ********************************************************************************
-
-jqconsole changes
-  Add line continuation support
-    With markers!
-  Fix paste on Opera
-  Read the entire bash manual for inspiration
-  Fix loss of focus on text selection
-  Add a way to get the position of the cursor in the line (i.e. column)
-    Used for tabstop-based tabbing on output
-  Add class for previously-entered commands, similar to jqconsole-input
-  Strict input/output modes break asynchronous printing
-    e.g. try "setTimeout (-> console.log 'test'), 1000" in CoffeeScript
-    Allow asynchronous writing
-      Can write it into the prompt
-        Less magical
-        Inconvenient
-      Can automagically put it before the current prompt/insertion point
-        Like the Chrome console
-        Seems a little bit magical for a console designed to be low-level
-        But more convenient
-        max99x prefers this one, despite previously objecting
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -52,31 +28,17 @@ Examples
       Won't work for many examples that include blocks
 
 Input method
-  Line-by-line
-    Natural terminal, from top to bottom
-    Global hand-written key handler
-    Grow automatically
-      Shift+Enter
-      Let language decide when to grow
-        Scheme -> On unbalanced brackets/braces/parantheses
-        QBasic -> On unfinished block
-      On paste/example load?
-      Need to always maintain continuation/indent marker, e.g.:
-        >>> def f(x):
-        ...   if x:
-        ...     return x
-        ...   else:
-        ...     print 'Error!'
-      How to keep history in multi-line
-        Some terminals remember lines (e.g. Python)
-        Others remember full commands (e.g. bash)
-          max99x would opt for this
-      Could do the same as the NodeJS REPL
-        Grow if currently entered command doesn't parse successfully
-          Good for languages without cleaner continuation logic (Lisp, Python)
-      amasad prefers having a expandable code editor under the REPL terminal
-        max99x prefers to keep the REPL lightweight
-
+  Implement language-based continuation decision
+    Scheme, Lisp
+      On unbalanced brackets/braces/parantheses
+    QBasic
+      On unfinished block
+    Python
+      On unbalanced brackets/braces/parantheses
+      On final colons
+      On non-empty multilines
+    Javascript, CoffeeScript?
+      Grow if currently entered command doesn't parse successfully
   An expanded Rich-Text Editing for code snippets
     http://codemirror.net/
       Will open in a pop-up
