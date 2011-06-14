@@ -4,11 +4,15 @@
 
 Define continuation rules for existing languages
   max99x
+  amasad
 
 Add JS engine
   max99x
 
-Work on Ruby
+Remove Ruby engine
+  amasad
+
+Add Python engine
   amasad
 
 ********************************************************************************
@@ -140,6 +144,10 @@ LISP
   https://github.com/akapav/js
   https://github.com/mishoo/JCLS
 
+LISP dialects:
+  sibilant
+  https://github.com/jbr/sibilant
+
 Ruby
   http://coderepos.org/share/wiki/JSRuby
   http://hotruby.yukoba.jp/
@@ -149,9 +157,21 @@ Javascript
   Might be a good choice as the default language
     No libs required - instant load!
     People might quickly assume that only JS is supported - NOT what we want
+      Better have a language that makes you say "wow" when you see
+      it in the browser, QBasic is a good choice for that.
 
-JS.next
-  http://code.google.com/p/traceur-compiler/
+Javascript dialects
+  JS.next
+    http://code.google.com/p/traceur-compiler/
+
+  JS11
+    http://js11.org/
+
+  Move
+    http://movelang.org/
+
+  Kaffeine
+    http://weepy.github.com/kaffeine
 
 Haskell
   http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
@@ -159,6 +179,8 @@ Haskell
       Not sure if this can be used at all
       At best we'll need to patch up a fair amount of stuff
         An opportunity to properly learn Haskell!
+  http://code.google.com/p/jshaskell/
+    Looks abandoned
 
 Bloop
   http://tim-ryan.com/labs/bloopjs/
@@ -187,6 +209,7 @@ Prolog
 Smalltalk
   http://silversmalltalk.wordpress.com/
   http://clamato.net/
+  https://github.com/NicolasPetton/jtalk
 
 Generic Algol-like languages
   http://www.zerny.dk/j-is-for-js.html
