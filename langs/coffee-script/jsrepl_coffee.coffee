@@ -1,8 +1,7 @@
 class @JSREPL::Engines::CoffeeScript
   constructor: (input, output, @result, @error, @sandbox, ready) ->
-    @sandbox.console.log = (obj) =>
-      output obj + '\n'
-    # TODO(amasad): Provide interface to input.
+    @sandbox.console.log = (obj) => output obj + '\n'
+    @sandbox.console.read = input
     ready()
 
   Destroy: ->
