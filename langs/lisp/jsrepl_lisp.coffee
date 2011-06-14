@@ -42,4 +42,16 @@ class @JSREPL::Engines::Lisp
         @Javathcript.evalMulti command, handleMultiResult, =>
           @result_handler last_result
       catch e
-        @error_func e.message
+        @error e.message
+        
+  IsCommandComplete: (command) ->
+    {tokenString:tokens:tokens} = new @Javathcript.BPWJs.TokenAssembly new @Javathcript.Tokenizer command
+    parens = 0
+    
+    for token in tokens
+      if  token.ttype is "symbol"
+        switch token.sval
+          when "(" then ++parens
+          when ")" then --parens
+          
+    return parens > 0
