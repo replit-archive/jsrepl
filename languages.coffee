@@ -73,10 +73,20 @@
   extension: 'scm'
   logo: 'extern/biwascheme/website/images/biwascheme_logo.png'
 
+@JSREPL::Languages::JavaScript =
+  name: 'JavaScript'
+  category: 'Dynamic'
+  scripts : []
+  engine: 'langs/javascript/jsrepl_js.coffee'
+  example_file: 'langs/javascript/examples.txt'
+  help_link: 'http://en.wikipedia.org/wiki/Javascript'
+  extension: 'js'
+  logo: 'langs/javascript/logo.png'
+
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
   category: 'Dynamic'
-  scripts : [ 
+  scripts : [
     'extern/coffee-script/coffee-script.js'
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
