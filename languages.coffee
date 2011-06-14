@@ -107,20 +107,3 @@
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
 
-@JSREPL::Languages::Ruby =
-  name: 'Ruby'
-  category: 'Dynamic'
-  scripts: [
-    'extern/jsruby/src/head.js'
-    'extern/jsruby/src/node.js'
-    'extern/jsruby/src/builtinobjects.js'
-    'extern/jsruby/src/parse.js'
-    'extern/jsruby/src/interpreter.js'
-    'extern/jsruby/src/builtinmethods.js'
-    'extern/jsruby/src/util.js'
-  ]
-  engine: 'langs/ruby/jsrepl_ruby.coffee'
-  example_file: 'langs/ruby/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Ruby_(programming_language)'
-  extension: 'rb'
-  logo: 'langs/ruby/logo.png'
