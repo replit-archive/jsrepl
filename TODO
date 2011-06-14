@@ -6,14 +6,12 @@ Define continuation rules for existing languages
   max99x
   amasad
 
-Add JS engine
-  max99x
-
 Remove Ruby engine
   amasad
 
 Add Python engine
   amasad
+  max99x
 
 ********************************************************************************
 *                               Brainstorming                                  *
@@ -124,6 +122,13 @@ Is jsREPL still an appropriate name?
   anyrepl.{com,net,org} - is available
   Still have a long time to decide
 
+What language to use as the default?
+  Javascript
+    No libs required - instant load!
+    People might quickly assume that only JS is supported - NOT what we want
+  A language that makes you say "wow" when you see it in the browser
+    QBasic is a good choice for that
+
 Testing
   A standard set of examples that can be applied to all languages
   Some languages have their own set of tests - we can use them too
@@ -132,44 +137,34 @@ Testing
 *                               More Languages                                 *
 ********************************************************************************
 
-LISP
-  http://kybernetikos.github.com/Javathcript/
-    Currently used
-  http://www.parkscomputing.com/lisptest.html
-  http://joeganley.com/code/jslisp.html
-  http://stevela.github.com/js-lisp/
-  http://www.ducklet.com/jisp/
-  http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
-  http://github.com/willurd/js-lisp
-  https://github.com/akapav/js
-  https://github.com/mishoo/JCLS
 
-LISP dialects:
+LISP dialects
   sibilant
-  https://github.com/jbr/sibilant
+    https://github.com/jbr/sibilant
+  Common
+    https://github.com/mishoo/JCLS
+  Generic
+    http://kybernetikos.github.com/Javathcript/
+      Currently used
+    http://www.parkscomputing.com/lisptest.html
+    http://joeganley.com/code/jslisp.html
+    http://stevela.github.com/js-lisp/
+    http://www.ducklet.com/jisp/
+    http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
+    http://github.com/willurd/js-lisp
+    https://github.com/akapav/js
 
 Ruby
   http://coderepos.org/share/wiki/JSRuby
   http://hotruby.yukoba.jp/
 
-Javascript
-  Seriously, why haven't we done this one yet?
-  Might be a good choice as the default language
-    No libs required - instant load!
-    People might quickly assume that only JS is supported - NOT what we want
-      Better have a language that makes you say "wow" when you see
-      it in the browser, QBasic is a good choice for that.
-
 Javascript dialects
   JS.next
     http://code.google.com/p/traceur-compiler/
-
   JS11
     http://js11.org/
-
   Move
     http://movelang.org/
-
   Kaffeine
     http://weepy.github.com/kaffeine
 
