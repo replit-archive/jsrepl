@@ -49,24 +49,27 @@ buildEngine = (name, lang, callback) ->
   compileCoffee engine
 
   # Merge in dependencies.
-  merged = []
-  for script in lang.scripts
-    contents = fs.readFileSync script, 'utf8'
-    if /\.coffee$/.test script
-      contents = coffee.compile contents
-    merged.push contents
+  if lang.scripts.length
+    merged = []
+    for script in lang.scripts
+      contents = fs.readFileSync script, 'utf8'
+      if /\.coffee$/.test script
+        contents = coffee.compile contents
+      merged.push contents
 
-  # Write out merged file.
-  min_path = "build/#{name}-min.js"
-  lang.scripts = [min_path]
-  fs.writeFileSync min_path, merged.join ';\n'
+    # Write out merged file.
+    min_path = "build/#{name}-min.js"
+    lang.scripts = [min_path]
+    fs.writeFileSync min_path, merged.join ';\n'
 
-  # Minify.
-  exec "#{MINIFIER} #{min_path}", maxBuffer: 1 << 21, (error, minified) ->
-    if error
-      console.log "Minifying #{name} failed:\n#{error.message}."
-      process.exit 1
-    fs.writeFileSync min_path, minified
+    # Minify.
+    exec "#{MINIFIER} #{min_path}", maxBuffer: 1 << 21, (error, minified) ->
+      if error
+        console.log "Minifying #{name} failed:\n#{error.message}."
+        process.exit 1
+      fs.writeFileSync min_path, minified
+      callback()
+  else
     callback()
 
 # Writes the specified languages list to languages.js
