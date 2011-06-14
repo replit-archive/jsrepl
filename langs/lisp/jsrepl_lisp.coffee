@@ -54,4 +54,4 @@ class @JSREPL::Engines::Lisp
           when "(" then ++parens
           when ")" then --parens
           
-    return parens > 0
+    parens > 0
