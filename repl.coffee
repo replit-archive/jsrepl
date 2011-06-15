@@ -58,7 +58,6 @@ class JSREPL
 
   # Shows a command prompt in the console and waits for input.
   StartPrompt: ->
-    console.log 's'
     @jqconsole.Prompt true, $.proxy(@Evaluate, this), (command) =>
       @engine.IsCommandComplete?(command)
 

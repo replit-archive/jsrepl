@@ -76,7 +76,9 @@
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
   category: 'Dynamic'
-  scripts : []
+  scripts : [
+    'langs/javascript/console.js'
+  ]
   engine: 'langs/javascript/jsrepl_js.coffee'
   example_file: 'langs/javascript/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Javascript'
@@ -87,7 +89,8 @@
   name: 'CoffeeScript'
   category: 'Dynamic'
   scripts : [
-    'extern/coffee-script/coffee-script.js'
+    'extern/coffee-script/coffee-script.js',
+    'langs/javascript/console.js'
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   example_file: 'langs/coffee-script/examples.txt'
