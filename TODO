@@ -2,13 +2,12 @@
 *                               Current Tasks                                  *
 ********************************************************************************
 
-Define continuation rules for existing languages
+Define continuation rules for QBasic and BrainFuck
   max99x
-  amasad
 
-Remove Ruby engine
+Think of an elegant way to implement continuation in JS and CS
   amasad
-
+ 
 Add Python engine
   amasad
   max99x
