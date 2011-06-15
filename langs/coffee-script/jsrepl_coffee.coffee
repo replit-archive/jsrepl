@@ -14,3 +14,10 @@ class @JSREPL::Engines::CoffeeScript
       @result out
     catch e
       @error e
+
+  IsCommandComplete: (command) ->
+    try
+      @sandbox.CoffeeScript.compile command
+    catch e
+      return true
+    false

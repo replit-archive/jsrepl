@@ -14,3 +14,10 @@ class @JSREPL::Engines::JavaScript
       @result out
     catch e
       @error e
+  
+  IsCommandComplete: (command) ->
+    try
+      @sandbox.Function command
+    catch e
+      return true
+    false
