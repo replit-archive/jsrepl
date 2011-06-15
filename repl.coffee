@@ -32,6 +32,7 @@ class JSREPL
     @DefineTemplates()
     @SetupConsole()
     @LoadLanguageDropdown()
+    @SetupURLHashChange() 
     # Focus the console.
     @jqconsole.Focus()
 
@@ -55,6 +56,10 @@ class JSREPL
   # buttons.
   SetupConsole: ->
     @jqconsole = $('#console').jqconsole repl_logo
+    # TODO(max99x): not working, debug
+    @jqconsole.RegisterShortcut 'Z', ()=>
+      @jqconsole.AbortPrompt()
+      @StartPrompt()
 
   # Shows a command prompt in the console and waits for input.
   StartPrompt: ->
@@ -81,9 +86,11 @@ class JSREPL
     $languages.change =>
       # TODO(amsad): Create a loading effect.
       $('body').toggleClass 'loading'
-      @LoadLanguage $languages.val(), =>
+      lang = $languages.val()
+      @LoadLanguage lang, =>
         $('body').toggleClass 'loading'
         @StartPrompt()
+        window.location.hash = lang
 
     # Load the default language by manually triggering change.
     $languages.change()
@@ -177,7 +184,23 @@ class JSREPL
         @jqconsole.Focus()
 
       signalReady()
-
+  
+  # Setup HashChange event Handler
+  # Handles cases were user is not entering language in correct case
+  SetupURLHashChange: ()->
+    propperCaseLangs = {}
+    $.each Object.keys(JSREPL::Languages::), (i, lang)-> 
+      propperCaseLangs[lang.toLowerCase()] = lang;
+      
+    $languages = $('#languages')
+    
+    $.hashchange (lang)->
+      lang = propperCaseLangs[lang.toLowerCase()]
+      if ($languages.find "[value=#{lang}]").length
+        $languages.val lang
+        $languages.change()
+  
+    
   # Receives the result of a command evaluation.
   #   @arg result: The user-readable string form of the result of an evaluation.
   ReceiveResult: (result) ->
