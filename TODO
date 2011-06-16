@@ -23,6 +23,12 @@ Version-tag lib/jq.hashchange.js and add link to original source
 *                               Brainstorming                                  *
 ********************************************************************************
 
+Fix lib/jqconsole.js
+  >>> window
+  ==> 2
+  >>> window + 3
+  ==> '[object DOMWindow]3'
+
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
   A little extra overhead by makes things neater
@@ -142,7 +148,6 @@ Testing
 ********************************************************************************
 *                               More Languages                                 *
 ********************************************************************************
-
 
 LISP dialects
   sibilant
