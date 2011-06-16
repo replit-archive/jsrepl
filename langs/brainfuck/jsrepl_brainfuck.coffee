@@ -11,3 +11,13 @@ class @JSREPL::Engines::Brainfuck
       @sandbox.BF.parse command, @result
     catch e
       @error e
+
+  IsCommandComplete: (command) ->
+    brackets = 0
+
+    for char in command
+        switch char
+          when '[' then ++brackets
+          when ']' then --brackets
+
+    return brackets <= 0

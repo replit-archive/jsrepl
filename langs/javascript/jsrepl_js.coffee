@@ -19,5 +19,5 @@ class @JSREPL::Engines::JavaScript
     try
       @sandbox.Function command
     catch e
-      return true
-    false
+      return false
+    return true

@@ -60,7 +60,7 @@ class JSREPL
   # Shows a command prompt in the console and waits for input.
   StartPrompt: ->
     @jqconsole.Prompt true, $.proxy(@Evaluate, this), (command) =>
-      @engine.IsCommandComplete?(command)
+      return not @engine.IsCommandComplete command
 
   # Populates the languages dropdown from JSREPL::Languages and triggers the
   # loading of the default language.

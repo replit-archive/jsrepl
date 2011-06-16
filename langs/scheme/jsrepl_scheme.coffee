@@ -32,4 +32,4 @@ class @JSREPL::Engines::Scheme
         when '(' then ++parens
         when ')' then --parens
 
-    return parens > 0 or brackets > 0
+    return parens <= 0 and brackets <= 0

@@ -14,7 +14,6 @@ class @JSREPL::Engines::QBasic
     ready()
 
   Destroy: ->
-    # Should be garbage collected?
     delete @virtual_machine
 
   Eval: (command) ->
@@ -26,3 +25,7 @@ class @JSREPL::Engines::QBasic
           @virtual_machine.cons.result ''
     catch e
       @virtual_machine.cons.error e.message
+
+  IsCommandComplete: (command) ->
+    # TODO(max99x): Implement.
+    return true

@@ -19,5 +19,5 @@ class @JSREPL::Engines::CoffeeScript
     try
       @sandbox.CoffeeScript.compile command
     catch e
-      return true
-    false
+      return false
+    return true
