@@ -56,10 +56,6 @@ class JSREPL
   # buttons.
   SetupConsole: ->
     @jqconsole = $('#console').jqconsole repl_logo
-    # TODO(max99x): not working, debug
-    @jqconsole.RegisterShortcut 'Z', () =>
-      @jqconsole.AbortPrompt()
-      @StartPrompt()
 
   # Shows a command prompt in the console and waits for input.
   StartPrompt: ->
@@ -109,6 +105,9 @@ class JSREPL
 
     # Empty out the history, prompt and example selection.
     @jqconsole.Reset()
+    @jqconsole.RegisterShortcut 'Z', =>
+      @jqconsole.AbortPrompt()
+      @StartPrompt()
     $('#examples').val ''
 
     # A counter to call the callback after the scripts and examples have
