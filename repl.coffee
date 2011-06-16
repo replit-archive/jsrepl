@@ -32,7 +32,7 @@ class JSREPL
     @DefineTemplates()
     @SetupConsole()
     @LoadLanguageDropdown()
-    @SetupURLHashChange() 
+    @SetupURLHashChange()
     # Focus the console.
     @jqconsole.Focus()
 
@@ -57,7 +57,7 @@ class JSREPL
   SetupConsole: ->
     @jqconsole = $('#console').jqconsole repl_logo
     # TODO(max99x): not working, debug
-    @jqconsole.RegisterShortcut 'Z', ()=>
+    @jqconsole.RegisterShortcut 'Z', () =>
       @jqconsole.AbortPrompt()
       @StartPrompt()
 
@@ -184,23 +184,22 @@ class JSREPL
         @jqconsole.Focus()
 
       signalReady()
-  
-  # Setup HashChange event Handler
-  # Handles cases were user is not entering language in correct case
-  SetupURLHashChange: ()->
-    propperCaseLangs = {}
-    $.each Object.keys(JSREPL::Languages::), (i, lang)-> 
-      propperCaseLangs[lang.toLowerCase()] = lang;
-      
+
+  # Sets up the HashChange event handler. Handles cases were user is not
+  # entering language in correct case.
+  SetupURLHashChange: ->
+    proper_case_langs = {}
+    $.each Object.keys(JSREPL::Languages::), (i, lang) ->
+      proper_case_langs[lang.toLowerCase()] = lang;
+
     $languages = $('#languages')
-    
-    $.hashchange (lang)->
-      lang = propperCaseLangs[lang.toLowerCase()]
+
+    $.hashchange (lang) ->
+      lang = proper_case_langs[lang.toLowerCase()]
       if ($languages.find "[value=#{lang}]").length
         $languages.val lang
         $languages.change()
-  
-    
+
   # Receives the result of a command evaluation.
   #   @arg result: The user-readable string form of the result of an evaluation.
   ReceiveResult: (result) ->
@@ -238,7 +237,7 @@ class JSREPL
       @engine.Eval command
     else
       @StartPrompt()
-      
+
 # The languages and engines modules.
 class JSREPL::Languages
 class JSREPL::Engines

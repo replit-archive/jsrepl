@@ -43,15 +43,16 @@ class @JSREPL::Engines::Lisp
           @result_handler last_result
       catch e
         @error e.message
-        
+
   IsCommandComplete: (command) ->
-    {tokenString:tokens:tokens} = new @Javathcript.BPWJs.TokenAssembly new @Javathcript.Tokenizer command
+    tokenizer = new @Javathcript.Tokenizer command
+    {tokenString:tokens:tokens} = new @Javathcript.BPWJs.TokenAssembly tokenizer
     parens = 0
-    
+
     for token in tokens
-      if  token.ttype is "symbol"
+      if token.ttype is 'symbol'
         switch token.sval
-          when "(" then ++parens
-          when ")" then --parens
-          
-    parens > 0
+          when '(' then ++parens
+          when ')' then --parens
+
+    return parens > 0

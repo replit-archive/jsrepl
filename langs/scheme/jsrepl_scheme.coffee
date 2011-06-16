@@ -19,18 +19,17 @@ class @JSREPL::Engines::Scheme
         @result result
     catch e
       @interpreter.on_error e.message
-      
+
   IsCommandComplete: (command) ->
     {tokens} = new @sandbox.BiwaScheme.Parser command
     parens = 0
     brackets = 0
-    
+
     for token in tokens
       switch token
         when '[' then ++brackets
         when ']' then --brackets
         when '(' then ++parens
         when ')' then --parens
-    
-    parens > 0 or brackets > 0
-    
+
+    return parens > 0 or brackets > 0

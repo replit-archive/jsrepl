@@ -77,7 +77,7 @@
   name: 'JavaScript'
   category: 'Dynamic'
   scripts : [
-    'langs/javascript/console.js'
+    'lib/console.js'
   ]
   engine: 'langs/javascript/jsrepl_js.coffee'
   example_file: 'langs/javascript/examples.txt'
@@ -90,7 +90,7 @@
   category: 'Dynamic'
   scripts : [
     'extern/coffee-script/coffee-script.js',
-    'langs/javascript/console.js'
+    'lib/console.js'
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   example_file: 'langs/coffee-script/examples.txt'

@@ -10,6 +10,13 @@ Add Python engine
   max99x
 
 Choose and add an esoteric languages 
+  max99x
+
+Version-tag lib/console.js and add link to original source
+  amasad
+  * Last version of this function resides in joyent/node:lib/util.js
+
+Version-tag lib/jq.hashchange.js and add link to original source
   amasad
 
 ********************************************************************************
