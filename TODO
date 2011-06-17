@@ -6,7 +6,7 @@ Add Python engine
   amasad
   max99x
 
-Choose and add an esoteric languages 
+Add LOLCode engine
   max99x
 
 Version-tag lib/console.js and add link to original source
@@ -20,11 +20,18 @@ Version-tag lib/jq.hashchange.js and add link to original source
 *                               Brainstorming                                  *
 ********************************************************************************
 
-Fix lib/jqconsole.js
+Fix jqconsole
+  Auto scroll on input
+  Auto indent new lines to match last line indent
+  Language-based smart auto-indent
+
+Fix lib/console.js
   >>> window
   ==> 2
   >>> window + 3
   ==> '[object DOMWindow]3'
+  * inspect() *IS* global
+  * Should ignore custom inspect()
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -37,17 +44,6 @@ Add a "library" property to the language definition
       Would still rather have plaintext libraries written in each language
 
 Input method
-  Implement language-based continuation decision
-    Scheme, Lisp
-      On unbalanced brackets/braces/parantheses
-    QBasic
-      On unfinished block
-    Python
-      On unbalanced brackets/braces/parantheses
-      On final colons
-      On non-empty multilines
-    Javascript, CoffeeScript?
-      Grow if currently entered command doesn't parse successfully
   An expanded rich text editor for code snippets
     http://codemirror.net/
       Will open in a pop-up
@@ -91,9 +87,9 @@ Exotic Future Features
     DOM
     XHR
     Canvas
-    Having good canvas support could allow for people to write games
-    Or even port games that is written in a language we support
-    give them a way to share it (url shortener + result view)
+      Having good canvas support could allow people to write games
+      Or even port games that is written in a language we support
+      Give them a way to share it (url shortener + result view)
   Server side evaluation
     Security!
     Performance hit due to latency
@@ -115,21 +111,15 @@ Usage Patterns
 Porting
   Port to Node.js
     Make it accessible from terminal
-  Port to Chrome App
-  Port to Mozilla extension
+    This would probably mean splitting the view and controller
+      We should do that eventually anyway
+  Port to Chrome app
+  Port to Firefox extension
 
 Marketing
   Target tutorial writers
   Post good StackOverflow answers with example links to jsREPL sessions
   Having a large collection of esoteric languages: can attract amateurs (good!)
-
-Is jsREPL still an appropriate name?
-  Our non-lib code is Coffee!
-  Might confuse people, implying it's just a REPL for JS
-  re.pl and repl.{net,org,com} are taken!
-    repl.{us,biz,ws,cc} are available, but somewhat meh
-  anyrepl.{com,net,org} - is available
-  Still have a long time to decide
 
 What language to use as the default?
   Javascript
@@ -137,6 +127,7 @@ What language to use as the default?
     People might quickly assume that only JS is supported - NOT what we want
   A language that makes you say "wow" when you see it in the browser
     QBasic is a good choice for that
+  Let user select, then remember in a hash+cookie
 
 Testing
   A standard set of examples that can be applied to all languages
