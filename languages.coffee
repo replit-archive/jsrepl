@@ -110,3 +110,19 @@
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
 
+@JSREPL::Languages::LOLCODE =
+  name: 'LOLCODE'
+  category: 'esoteric'
+  scripts: [
+    'extern/lol-coffee/src/base.coffee'
+    'extern/lol-coffee/src/machine.coffee'
+    'extern/lol-coffee/src/ast.coffee'
+    'extern/lol-coffee/src/parser.coffee'
+    'extern/lol-coffee/src/tokenizer.coffee'
+  ]
+  engine: 'langs/lolcode/jsrepl_lolcode.coffee'
+  example_file: 'langs/lolcode/examples.txt'
+  help_link: 'http://lolcode.com/specs/1.2'
+  extension: 'lol'
+  logo: 'langs/lolcode/logo.jpg'
+

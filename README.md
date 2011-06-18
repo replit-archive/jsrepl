@@ -12,4 +12,5 @@ single website to give an easy to use one page REPL to all of them.
 * Scheme
 * Lisp
 * Quick Basic
-* BrainFuck
+* Brainfuck
+* LOLCODE

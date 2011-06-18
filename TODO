@@ -6,13 +6,6 @@ Add Python engine
   amasad
   max99x
 
-Add LOLCode engine
-  max99x
-
-Version-tag lib/console.js and add link to original source
-  amasad
-  * Last version of this function resides in joyent/node:lib/util.js
-
 Version-tag lib/jq.hashchange.js and add link to original source
   amasad
 
@@ -25,13 +18,13 @@ Fix jqconsole
   Auto indent new lines to match last line indent
   Language-based smart auto-indent
 
-Fix lib/console.js
-  >>> window
-  ==> 2
-  >>> window + 3
-  ==> '[object DOMWindow]3'
-  * inspect() *IS* global
-  * Should ignore custom inspect()
+Clean up lib/console.js
+  Both JSConsole and inspect() are globals
+  Update version tag on change
+
+Verify sandbox security
+  No straightforward way to prevent access to window.top
+    Maybe mess with getters
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -72,7 +65,8 @@ Persistence
       Maybe an iframe or smart widget that would load only the chosen language
 
 UI Design
-  jsREPL Logo
+  jsREPL logo
+  Language logos
   Color scheme
     http://www.heroku.com/ is neat
   Something to fill in the empty space on first load
@@ -81,6 +75,7 @@ UI Design
     Something funny?
       Something funny yet subtle?
   Language-specific help link
+  Language-specific intro header?
 
 Exotic Future Features
   External Access
@@ -217,3 +212,7 @@ Lua
       We don't even know Lua as of right now! :D
     Maybe something like a Lua -> JS compiler
     Hardest feature might be coroutines
+
+Compilers for JS with continuation extensions
+  http://chumsley.org/jwacs/documentation.html
+  http://neilmix.com/narrativejs/doc/index.html
