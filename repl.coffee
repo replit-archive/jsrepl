@@ -59,8 +59,7 @@ class JSREPL
 
   # Shows a command prompt in the console and waits for input.
   StartPrompt: ->
-    @jqconsole.Prompt true, $.proxy(@Evaluate, this), (command) =>
-      return not @engine.IsCommandComplete command
+    @jqconsole.Prompt true, $.proxy(@Evaluate, @), $.proxy(@CheckLineEnd, @)
 
   # Populates the languages dropdown from JSREPL::Languages and triggers the
   # loading of the default language.
@@ -227,6 +226,16 @@ class JSREPL
   ReceiveInputRequest: (callback) ->
     @jqconsole.Input callback
     return undefined
+
+  # Checks whether the REPL should continue to the next line rather than run
+  # the evaluator. Forces evaluation if the last line is empty. Otherwise
+  # delegates to the language engine's command completion checker.
+  #   @arg command: A string containing the command entered so far.
+  CheckLineEnd: (command) ->
+    if /\n$/.test command
+      return false
+    else
+      return not @engine.IsCommandComplete command
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.

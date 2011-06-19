@@ -30,9 +30,6 @@ Verify sandbox security
 Show Brainfuck tape as REPL result
   Gives a reason to write Brainfuck in a REPL!
 
-Ignore line continuation handler after empty line
-  Provides a way to force an error if the user doesn't know why it continued
-
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
   A little extra overhead by makes things neater
