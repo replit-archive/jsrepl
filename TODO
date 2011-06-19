@@ -14,7 +14,7 @@ Version-tag lib/jq.hashchange.js and add link to original source
 ********************************************************************************
 
 Fix jqconsole
-  Auto scroll on input
+  Auto scroll on input (new lines)
   Auto indent new lines to match last line indent
   Language-based smart auto-indent
 
@@ -25,6 +25,12 @@ Clean up lib/console.js
 Verify sandbox security
   No straightforward way to prevent access to window.top
     Maybe mess with getters
+
+Show Brainfuck tape as REPL result
+  Gives a reason to write Brainfuck in a REPL!
+
+Ignore line continuation handler after empty line
+  Provides a way to force an error if the user doesn't know why it continued
 
 Add a "library" property to the language definition
   Repl.coffee will always load and run it after initializing an engine
@@ -115,6 +121,8 @@ Marketing
   Target tutorial writers
   Post good StackOverflow answers with example links to jsREPL sessions
   Having a large collection of esoteric languages: can attract amateurs (good!)
+  Contact people whose interpreters we use with a simple FYI
+    They will probably spread the word
 
 What language to use as the default?
   Javascript
@@ -132,87 +140,92 @@ Testing
 *                               More Languages                                 *
 ********************************************************************************
 
-LISP dialects
-  sibilant
-    https://github.com/jbr/sibilant
-  Common
-    https://github.com/mishoo/JCLS
-  Generic
-    http://kybernetikos.github.com/Javathcript/
-      Currently used
-    http://www.parkscomputing.com/lisptest.html
-    http://joeganley.com/code/jslisp.html
-    http://stevela.github.com/js-lisp/
-    http://www.ducklet.com/jisp/
-    http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
-    http://github.com/willurd/js-lisp
-    https://github.com/akapav/js
-
-Ruby
-  http://coderepos.org/share/wiki/JSRuby
-  http://hotruby.yukoba.jp/
 
 Javascript dialects
   JS.next
     http://code.google.com/p/traceur-compiler/
   JS11
     http://js11.org/
+    Borderline useless
   Move
     http://movelang.org/
   Kaffeine
     http://weepy.github.com/kaffeine
 
-Haskell
-  http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
-    Seems rather unstable
-      Not sure if this can be used at all
-      At best we'll need to patch up a fair amount of stuff
-        An opportunity to properly learn Haskell!
-  http://code.google.com/p/jshaskell/
-    Looks abandoned
+Languages that people would only use out of nostalgia
+  Applesoft BASIC
+    http://www.calormen.com/applesoft/
+  6502-compatible Assembler
+    http://www.6502asm.com/
+  Smalltalk
+    http://silversmalltalk.wordpress.com/
+    http://clamato.net/
+    https://github.com/NicolasPetton/jtalk
+  Forth
+    http://wiki.forthfreak.net/index.cgi?jsforth
 
-Bloop
+Serious languages
+  Python
+    http://code.google.com/p/skulpt/
+    Emscripten
+  Lua
+    Emscripten
+  LISP dialects
+    sibilant
+      https://github.com/jbr/sibilant
+    Common
+      https://github.com/mishoo/JCLS
+    Generic
+      http://kybernetikos.github.com/Javathcript/
+        Currently used
+      http://www.parkscomputing.com/lisptest.html
+      http://joeganley.com/code/jslisp.html
+      http://stevela.github.com/js-lisp/
+      http://www.ducklet.com/jisp/
+      http://www.marcbelmont.com/lisp-interpreter-in-javascript-with-jquery
+      http://github.com/willurd/js-lisp
+      https://github.com/akapav/js
+  Ruby
+    http://coderepos.org/share/wiki/JSRuby
+    http://hotruby.yukoba.jp/
+  Haskell
+    http://www.tinyrocket.se/2010/05/19/a-haskell-interpreter-in-javascript/
+      Seems rather unstable
+        Not sure if this can be used at all
+        At best we'll need to patch up a fair amount of stuff
+          An opportunity to properly learn Haskell!
+    http://code.google.com/p/jshaskell/
+      Looks abandoned
+  Prolog
+    http://ioctl.org/logic/prolog-latest
+
+Esoteric
   http://tim-ryan.com/labs/bloopjs/
+  http://www.fordi.org/lulz/
+  http://www.esolangs.org/wiki/Grin
+  http://www.esolangs.org/wiki/Unlambda
+  http://www.esolangs.org/wiki/BRZRK
+  http://www.esolangs.org/wiki/Emoticon
+  http://www.esolangs.org/wiki/Divzeros
+  http://www.esolangs.org/wiki/Dd/dd
+  http://www.esolangs.org/wiki/ContinuousEquation
+  http://www.esolangs.org/wiki/Fob
+  http://www.esolangs.org/wiki/Foo
+  http://www.esolangs.org/wiki/GASOIL
+  http://www.esolangs.org/wiki/Gibberish
+  http://www.esolangs.org/wiki/SMITHb
+  http://www.esolangs.org/wiki/Subleq
+  http://www.esolangs.org/wiki/Underload
+  http://www.esolangs.org/wiki/Var%27aq
+  http://www.esolangs.org/wiki/Wheat
+  http://www.esolangs.org/wiki/Thutu
+  http://www.dangermouse.net/esoteric/zombie.html
 
-Befunge
-  http://www.quirkster.com/js/befunge.html
-
-Applesoft BASIC
-  http://www.calormen.com/applesoft/
-
-6502-compatible Assembler
-  http://www.6502asm.com/
-
-Cat
-  http://www.cat-language.com/interpreter.html
-
-Forth
-  http://wiki.forthfreak.net/index.cgi?jsforth
-
-HQ9+
-  http://safalra.com/programming/esoteric-languages/interpreters/hq9-plus/
-
-Prolog
-  http://ioctl.org/logic/prolog-latest
-
-Smalltalk
-  http://silversmalltalk.wordpress.com/
-  http://clamato.net/
-  https://github.com/NicolasPetton/jtalk
-
-Generic Algol-like languages
-  http://www.zerny.dk/j-is-for-js.html
-
-Python
-  http://code.google.com/p/skulpt/
-
-Lua
-  Write a JS Lua interpreter ^^
-    But seriously how hard could it be?
-      We don't even know Lua as of right now! :D
-    Maybe something like a Lua -> JS compiler
-    Hardest feature might be coroutines
-
-Compilers for JS with continuation extensions
-  http://chumsley.org/jwacs/documentation.html
-  http://neilmix.com/narrativejs/doc/index.html
+Miscellaneous
+  Cat
+    http://www.cat-language.com/interpreter.html
+  Generic Algol-like languages
+    http://www.zerny.dk/j-is-for-js.html
+  Compilers for JS with continuation extensions
+    http://chumsley.org/jwacs/documentation.html
+    http://neilmix.com/narrativejs/doc/index.html
