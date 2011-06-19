@@ -13,6 +13,9 @@ Version-tag lib/jq.hashchange.js and add link to original source
 *                               Brainstorming                                  *
 ********************************************************************************
 
+Add toggleable no-declaration mode to LOLCODE for REPL friendliness?
+  REPL-friendliness wins over spec here
+
 Fix jqconsole
   Auto scroll on input (new lines)
   Auto indent new lines to match last line indent
@@ -139,7 +142,6 @@ Testing
 ********************************************************************************
 *                               More Languages                                 *
 ********************************************************************************
-
 
 Javascript dialects
   JS.next
