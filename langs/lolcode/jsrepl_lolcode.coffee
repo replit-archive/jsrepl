@@ -40,8 +40,52 @@ class @JSREPL::Engines::LOLCODE
       parsed.codegen @context
     catch e
       @error e
+      return
     @machine.run()
 
   IsCommandComplete: (command) ->
-    # TODO(max99x): Implement.
-    return true
+    # If an explicit continuation is used, the command is incomplete.
+    if /\.\.\.\s*$/.test command then return false
+
+    # Should be tokenizable.
+    try
+      tokenized = new @sandbox.LOLCoffee.Tokenizer(command).tokenize()
+    catch e
+      return true
+
+    try
+      parsed = new @sandbox.LOLCoffee.Parser(tokenized[0..]).parseProgram()
+      return true
+    catch e
+      # Expected and ignored.
+
+    # Split into logical lines (i.e. statements).
+    lines = []
+    current_line = []
+    for token in tokenized
+      if token.type is 'endline'
+        lines.push current_line
+        current_line = []
+      else
+        current_line.push token
+
+    # Check for open blocks.
+    open_blocks = []
+    for line in lines
+      top_block = open_blocks[open_blocks.length - 1]
+      switch line[0].text
+        when 'HAI'
+          open_blocks.push 'KTHXBYE'
+        when 'HOW DUZ I'
+          open_blocks.push 'IF U SAY SO'
+        when 'IM IN YR'
+          open_blocks.push 'IM OUTTA YR'
+        when 'O RLY?', 'WTF?'
+          open_blocks.push 'OIC'
+        when 'KTHXBYE', 'IF U SAY SO', 'IM OUTTA YR', 'OIC'
+          if open_blocks[open_blocks.length - 1] == line[0].text
+            open_blocks.pop()
+          else
+            return true
+
+    return open_blocks.length is 0
