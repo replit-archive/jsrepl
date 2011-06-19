@@ -86,7 +86,7 @@ class JSREPL
       @LoadLanguage lang, =>
         $('body').toggleClass 'loading'
         @StartPrompt()
-        window.location.hash = lang
+        window.location.hash = lang.toLowerCase()
 
     # Load the default language by manually triggering change.
     $languages.change()
