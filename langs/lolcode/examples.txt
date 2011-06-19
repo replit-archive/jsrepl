@@ -5,7 +5,6 @@ VISIBLE "Hello world!"
 
 Input
 ********************************************************************************
-I HAS A NAEM
 GIMMEH NAEM
 VISIBLE "Your name is :{NAEM}!"
 ********************************************************************************
@@ -14,11 +13,8 @@ Conditionals
 ********************************************************************************
 VISIBLE "Enter two numbers:: "!
 
-I HAS A X
 GIMMEH X
 X IS NOW A NUMBR
-
-I HAS A Y
 GIMMEH Y
 Y IS NOW A NUMBR
 
