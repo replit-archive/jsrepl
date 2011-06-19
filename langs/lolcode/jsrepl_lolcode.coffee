@@ -17,10 +17,14 @@ class @JSREPL::Engines::LOLCODE
       else
         @last_it = it
         result if it.value is null then '' else String(it.value)
-    callbacks = [input_handler, output_handler, error_handler, result_handler]
 
     @context = new @sandbox.LOLCoffee.CodeGenContext
-    @machine = new @sandbox.LOLCoffee.Machine @context, callbacks...
+    @machine = new @sandbox.LOLCoffee.Machine @context,
+                                              input_handler,
+                                              output_handler,
+                                              error_handler,
+                                              result_handler,
+                                              true
     @last_it = null
 
     ready()
