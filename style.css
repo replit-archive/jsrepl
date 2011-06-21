@@ -95,8 +95,16 @@ html, body {
 }
 
 .jqconsole-cursor {
-  background: #666;
+  background: #999;
   line-height: 100%;
+}
+
+.jqconsole-blurred .jqconsole-cursor {
+  background: #777;
+}
+
+.jqconsole-blurred .jqconsole-prompt {
+  color: #CCC;
 }
 
 .jqconsole-prompt, .jqconsole-old-prompt {
