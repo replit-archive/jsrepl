@@ -27,21 +27,30 @@ class @JSREPL::Engines::CoffeeScript
       return 1
     else
       try
+        all_tokens = @sandbox.CoffeeScript.tokens command
+        last_line_tokens = @sandbox.CoffeeScript.tokens last_line
+      catch e
+        # May be an unclosed string.
+        return 0
+
+      try
         # Check if the command is complete.
         @sandbox.CoffeeScript.compile command
         # If current line is indented, we may still want to continue.
         if /^\s+/.test last_line
           return 0
         else
+          # Check for a badly parsed an unclosed hereRegex.
+          for token, index in all_tokens
+            next = all_tokens[index + 1]
+            if (token[0] is 'REGEX' and token[1] is '/(?:)/' and
+                next[0] is 'MATH' and next[1] is '/')
+              return 0
           return false
       catch e
         # Check if last line opens a scope.
-        try
-          tokens = @sandbox.CoffeeScript.tokens last_line
-        catch e
-          return false
         scopes = 0
-        for token in tokens
+        for token in last_line_tokens
           if token[0] in SCOPE_OPENERS
             scopes++
           else if token.fromThen
