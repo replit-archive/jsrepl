@@ -13,3 +13,6 @@
 [submodule "extern/kaffeine"]
 	path = extern/kaffeine
 	url = git://github.com/weepy/kaffeine.git
+[submodule "extern/move"]
+	path = extern/move
+	url = git://github.com/rsms/move.git

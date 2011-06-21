@@ -138,3 +138,16 @@
   help_link: 'http://weepy.github.com/kaffeine/'
   extension: 'k'
   logo: 'langs/kaffeine/logo.png'
+
+@JSREPL::Languages::Move =
+  name: 'Move'
+  category: 'Dynamic'
+  scripts : [
+    'extern/move/web/move.js',
+    'util/inspect.js'
+  ]
+  engine: 'langs/move/jsrepl_move.coffee'
+  example_file: 'langs/move/examples.txt'
+  help_link: 'http://movelang.org/'
+  extension: 'mv'
+  logo: 'langs/move/logo.png'
