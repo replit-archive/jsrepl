@@ -224,7 +224,11 @@ class JSREPL
   #   @arg callback: The function called with the string containing the user's
   #     response. Currently called synchronously, but that is *NOT* guaranteed.
   ReceiveInputRequest: (callback) ->
-    @jqconsole.Input callback
+    @jqconsole.Input (result) =>
+      try
+        callback result
+      catch e
+        @ReceiveError e
     return undefined
 
   # Checks whether the REPL should continue to the next line rather than run
