@@ -79,7 +79,7 @@ class JSREPL
 
     # Link dropbox to language loading.
     $languages.change =>
-      # TODO(amsad): Create a loading effect.
+      # TODO(amasad): Create a loading effect.
       $('body').toggleClass 'loading'
       lang = $languages.val()
       @LoadLanguage lang, =>
