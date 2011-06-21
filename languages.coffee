@@ -100,7 +100,7 @@
 
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
-  category: 'esoteric'
+  category: 'Esoteric'
   scripts: [
     'extern/brainfuck/js/brainfuck.js'
   ]
@@ -112,7 +112,7 @@
 
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
-  category: 'esoteric'
+  category: 'Esoteric'
   scripts: [
     'extern/lol-coffee/src/base.coffee'
     'extern/lol-coffee/src/machine.coffee'
