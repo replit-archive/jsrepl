@@ -39,7 +39,7 @@ class @JSREPL::Engines::CoffeeScript
         # Check if last line opens a scope.
         try
           tokens = @sandbox.CoffeeScript.tokens last_line
-        catch
+        catch e
           return false
         scopes = 0
         for token in tokens
