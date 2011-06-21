@@ -125,3 +125,16 @@
   help_link: 'http://lolcode.com/specs/1.2'
   extension: 'lol'
   logo: 'langs/lolcode/logo.jpg'
+
+@JSREPL::Languages::Kaffeine =
+  name: 'Kaffeine'
+  category: 'Dynamic'
+  scripts : [
+    'extern/kaffeine/browser2/kaffeine-browser.js',
+    'util/inspect.js'
+  ]
+  engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
+  example_file: 'langs/kaffeine/examples.txt'
+  help_link: 'http://weepy.github.com/kaffeine/'
+  extension: 'k'
+  logo: 'langs/kaffeine/logo.png'

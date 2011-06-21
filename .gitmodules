@@ -10,3 +10,6 @@
 [submodule "extern/lol-coffee"]
 	path = extern/lol-coffee
 	url = git://github.com/max99x/lol-coffee.git
+[submodule "extern/kaffeine"]
+	path = extern/kaffeine
+	url = git://github.com/weepy/kaffeine.git
