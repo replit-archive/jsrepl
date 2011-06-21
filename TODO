@@ -13,10 +13,6 @@ Version-tag lib/jq.hashchange.js and add link to original source
 *                               Brainstorming                                  *
 ********************************************************************************
 
-Clean up lib/console.js
-  Both JSConsole and inspect() are globals
-  Update version tag on change
-
 Verify sandbox security
   No straightforward way to prevent access to window.top
     Maybe mess with getters

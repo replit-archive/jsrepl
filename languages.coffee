@@ -77,7 +77,7 @@
   name: 'JavaScript'
   category: 'Dynamic'
   scripts : [
-    'lib/console-100644.js'
+    'util/inspect.js'
   ]
   engine: 'langs/javascript/jsrepl_js.coffee'
   example_file: 'langs/javascript/examples.txt'
@@ -90,7 +90,7 @@
   category: 'Dynamic'
   scripts : [
     'extern/coffee-script/coffee-script.js',
-    'lib/console-100644.js'
+    'util/inspect.js'
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   example_file: 'langs/coffee-script/examples.txt'
@@ -125,4 +125,3 @@
   help_link: 'http://lolcode.com/specs/1.2'
   extension: 'lol'
   logo: 'langs/lolcode/logo.jpg'
-

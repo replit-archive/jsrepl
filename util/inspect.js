@@ -18,12 +18,17 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+// Original at: https://github.com/joyent/node/blob/master/lib/util.js
 
+(function(){
 
+// The maximum length of a line in the stylized output.
+var MAX_COLUMNS = 80;
 
 /**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
+ * Echos the value of a value. Tries to print the value out in the best way
+ * possible given the different types.
  *
  * @param {Object} obj The object to print out.
  * @param {Boolean} showHidden Flag that shows hidden (not enumerable)
@@ -32,10 +37,7 @@
  * @param {Boolean} colors Flag to turn on ANSI escape codes to color the
  *    output. Default is false (no coloring).
  */
-JSConsole = (function(){
-
-var MAX_COLUMNS = 50;
-inspect = function(obj, showHidden, depth, colors) {
+_inspect = function(obj, showHidden, depth, colors) {
   var seen = [];
 
   var stylize = function(str, styleType) {
@@ -224,7 +226,7 @@ inspect = function(obj, showHidden, depth, colors) {
       return prev + cur.length + 1;
     }, 0);
 
-    if (length > (MAX_COLUMNS || 50)) {
+    if (length > MAX_COLUMNS) {
       output = braces[0] +
                (base === '' ? '' : base + '\n ') +
                ' ' +
@@ -241,13 +243,11 @@ inspect = function(obj, showHidden, depth, colors) {
   return format(obj, (typeof depth === 'undefined' ? 2 : depth));
 };
 
-
 function isArray(ar) {
   return ar instanceof Array ||
          Array.isArray(ar) ||
          (ar && ar !== Object.prototype && isArray(ar.__proto__));
 }
-
 
 function isRegExp(re) {
   var s = '' + re;
@@ -261,7 +261,6 @@ function isRegExp(re) {
          s.match(/^\/.*\/[gim]{0,3}$/);
 }
 
-
 function isDate(d) {
   if (d instanceof Date) return true;
   if (typeof d !== 'object') return false;
@@ -269,9 +268,6 @@ function isDate(d) {
   var proto = d.__proto__ && Object.getOwnPropertyNames(d.__proto__);
   return JSON.stringify(proto) === JSON.stringify(properties);
 }
-
-
-
 
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
               'Oct', 'Nov', 'Dec'];
@@ -285,9 +281,4 @@ function timestamp() {
   return [d.getDate(), months[d.getMonth()], time].join(' ');
 }
 
-return {
-  inspect: inspect
-}
 })();
-
-
