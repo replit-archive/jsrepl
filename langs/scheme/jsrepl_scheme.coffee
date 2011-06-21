@@ -14,7 +14,7 @@ class @JSREPL::Engines::Scheme
     try
       @interpreter.evaluate command, (new_state) =>
         result = ''
-        if new_state and new_state isnt @sandbox.BiwaScheme.undef
+        if new_state? and new_state isnt @sandbox.BiwaScheme.undef
           result = @sandbox.BiwaScheme.to_write new_state
         @result result
     catch e
