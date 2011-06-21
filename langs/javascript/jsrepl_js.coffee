@@ -15,9 +15,13 @@ class @JSREPL::Engines::JavaScript
     catch e
       @error e
 
-  IsCommandComplete: (command) ->
+  GetNextLineIndent: (command) ->
     try
       @sandbox.Function command
-    catch e
       return false
-    return true
+    catch e
+      if /[\[\{\(]$/.test command
+        # An opening brace, bracket or paren; indent.
+        return 1
+      else
+        return 0

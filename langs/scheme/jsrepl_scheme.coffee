@@ -33,3 +33,29 @@ class @JSREPL::Engines::Scheme
         when ')' then --parens
 
     return parens <= 0 and brackets <= 0
+
+  GetNextLineIndent: (command) ->
+    countParens = (str) =>
+      {tokens} = new @sandbox.BiwaScheme.Parser str
+      parens = 0
+
+      for token in tokens
+        switch token
+          when '[', '(' then ++parens
+          when ']', ')' then --parens
+
+      return parens
+
+    if countParens(command) <= 0
+      # All S-exps closed or extra closing parens; don't continue.
+      return false
+    else
+      parens_in_last_line = countParens command.split('\n')[-1..][0]
+      if parens_in_last_line > 0
+        # A new S-exp opened on the last line; indent one level.
+        return 1
+      else if parens_in_last_line < 0
+        # Some S-exps were closed; realign with the outermost closed S-exp.
+        return parens_in_last_line
+      else
+        return 0

@@ -12,12 +12,13 @@ class @JSREPL::Engines::Brainfuck
     catch e
       @error e
 
-  IsCommandComplete: (command) ->
+  GetNextLineIndent: (command) ->
+    if /\[$/.test command then return 1
+
     brackets = 0
-
     for char in command
-        switch char
-          when '[' then ++brackets
-          when ']' then --brackets
+      switch char
+        when '[' then ++brackets
+        when ']' then --brackets
 
-    return brackets <= 0
+    return if brackets > 0 then 0 else false

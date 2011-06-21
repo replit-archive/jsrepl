@@ -232,10 +232,10 @@ class JSREPL
   # delegates to the language engine's command completion checker.
   #   @arg command: A string containing the command entered so far.
   CheckLineEnd: (command) ->
-    if /\n$/.test command
+    if /\n\s*$/.test command
       return false
     else
-      return not @engine.IsCommandComplete command
+      return @engine.GetNextLineIndent command
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.

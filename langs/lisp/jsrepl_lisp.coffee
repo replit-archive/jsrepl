@@ -44,15 +44,31 @@ class @JSREPL::Engines::Lisp
       catch e
         @error e.message
 
-  IsCommandComplete: (command) ->
-    tokenizer = new @Javathcript.Tokenizer command
-    {tokenString:tokens:tokens} = new @Javathcript.BPWJs.TokenAssembly tokenizer
-    parens = 0
+  GetNextLineIndent: (command) ->
+    countParens = (str) =>
+      tokenizer = new @Javathcript.Tokenizer str
+      assembly = new @Javathcript.BPWJs.TokenAssembly tokenizer
+      tokens = assembly.tokenString.tokens
+      parens = 0
 
-    for token in tokens
-      if token.ttype is 'symbol'
-        switch token.sval
-          when '(' then ++parens
-          when ')' then --parens
+      for token in tokens
+        if token.ttype is 'symbol'
+          switch token.sval
+            when '(' then ++parens
+            when ')' then --parens
 
-    return parens <= 0
+      return parens
+
+    if countParens(command) <= 0
+      # All S-exps closed or extra closing parens; don't continue.
+      return false
+    else
+      parens_in_last_line = countParens command.split('\n')[-1..][0]
+      if parens_in_last_line > 0
+        # A new S-exp opened on the last line; indent one level.
+        return 1
+      else if parens_in_last_line < 0
+        # Some S-exps were closed; realign with the outermost closed S-exp.
+        return parens_in_last_line
+      else
+        return 0

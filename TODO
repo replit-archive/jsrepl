@@ -13,12 +13,6 @@ Version-tag lib/jq.hashchange.js and add link to original source
 *                               Brainstorming                                  *
 ********************************************************************************
 
-Fix jqconsole
-  Auto scroll on input (new lines)
-  Auto indent new lines to match last line indent
-  Language-based smart auto-indent
-  Some way to indicate whether the console has focus
-
 Clean up lib/console.js
   Both JSConsole and inspect() are globals
   Update version tag on change

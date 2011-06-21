@@ -43,49 +43,60 @@ class @JSREPL::Engines::LOLCODE
       return
     @machine.run()
 
-  IsCommandComplete: (command) ->
-    # If an explicit continuation is used, the command is incomplete.
-    if /\.\.\.\s*$/.test command then return false
+  GetNextLineIndent: (command) ->
+    # If an explicit continuation is used, continue at the same indent level.
+    if /\.\.\.\s*$/.test command then return 0
 
     # Should be tokenizable.
     try
       tokenized = new @sandbox.LOLCoffee.Tokenizer(command).tokenize()
     catch e
-      return true
+      return false
 
     try
       parsed = new @sandbox.LOLCoffee.Parser(tokenized[0..]).parseProgram()
-      return true
+      return false
     catch e
-      # Expected and ignored.
+      # Split into logical lines (i.e. statements).
+      lines = []
+      current_line = []
+      for token in tokenized
+        if token.type is 'endline'
+          lines.push current_line
+          current_line = []
+        else
+          current_line.push token
 
-    # Split into logical lines (i.e. statements).
-    lines = []
-    current_line = []
-    for token in tokenized
-      if token.type is 'endline'
-        lines.push current_line
-        current_line = []
+      # Check for open blocks.
+      countBlocks = (lines, partial = false) ->
+        open_blocks = []
+        for line in lines
+          top_block = open_blocks[open_blocks.length - 1]
+          switch line[0].text
+            when 'HAI'
+              open_blocks.push 'KTHXBYE'
+            when 'HOW DUZ I'
+              open_blocks.push 'IF U SAY SO'
+            when 'IM IN YR'
+              open_blocks.push 'IM OUTTA YR'
+            when 'O RLY?', 'WTF?'
+              open_blocks.push 'OIC'
+            when 'YA RLY', 'NO WAI', 'MEBBE'
+              if partial and open_blocks.length == 0
+                open_blocks.push 'OIC'
+              else if open_blocks[open_blocks.length - 1] != 'OIC'
+                return -1
+            when 'KTHXBYE', 'IF U SAY SO', 'IM OUTTA YR', 'OIC'
+              if open_blocks[open_blocks.length - 1] == line[0].text
+                open_blocks.pop()
+              else
+                return -1
+
+        return open_blocks.length
+
+      if countBlocks(lines) <= 0
+        # All blocks closed or mismatch; don't continue.
+        return false
       else
-        current_line.push token
-
-    # Check for open blocks.
-    open_blocks = []
-    for line in lines
-      top_block = open_blocks[open_blocks.length - 1]
-      switch line[0].text
-        when 'HAI'
-          open_blocks.push 'KTHXBYE'
-        when 'HOW DUZ I'
-          open_blocks.push 'IF U SAY SO'
-        when 'IM IN YR'
-          open_blocks.push 'IM OUTTA YR'
-        when 'O RLY?', 'WTF?'
-          open_blocks.push 'OIC'
-        when 'KTHXBYE', 'IF U SAY SO', 'IM OUTTA YR', 'OIC'
-          if open_blocks[open_blocks.length - 1] == line[0].text
-            open_blocks.pop()
-          else
-            return true
-
-    return open_blocks.length is 0
+        # Check if a new block has just been opened.
+        return if countBlocks([lines[-1..][0]], true) > 0 then 1 else 0
