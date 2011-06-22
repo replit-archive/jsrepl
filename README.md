@@ -9,6 +9,9 @@ single website to give an easy to use one page REPL to all of them.
 
 * JavaScript
 * CoffeeScript
+* Kaffeine
+* Move
+* Traceur (JavaScript.next)
 * Scheme
 * Lisp
 * Quick Basic
