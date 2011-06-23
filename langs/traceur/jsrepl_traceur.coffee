@@ -13,8 +13,6 @@ class @JSREPL::Engines::Traceur
 
     ready()
 
-  Destroy: ->
-
   Eval: (command) ->
     # Compile.
     try

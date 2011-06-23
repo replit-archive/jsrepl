@@ -13,8 +13,6 @@ class @JSREPL::Engines::JavaScript
 
     ready()
 
-  Destroy: ->
-
   Eval: (command) ->
     try
       result = @sandbox.__eval command

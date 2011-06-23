@@ -4,8 +4,6 @@ class @JSREPL::Engines::Brainfuck
     @sandbox.BF.init output, input
     ready()
 
-  Destroy: ->
-
   Eval: (command) ->
     try
       @sandbox.BF.parse command, @result

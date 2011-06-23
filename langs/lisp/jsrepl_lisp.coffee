@@ -29,9 +29,6 @@ class @JSREPL::Engines::Lisp
 
     Javathcript.evalMulti @sandbox.JSREPL::Library, (->), ready
 
-  Destroy: ->
-    delete Javathcript
-
   Eval: (command) ->
     try
       @Javathcript.eval command, @result_handler

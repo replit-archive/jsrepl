@@ -18,9 +18,6 @@ class @JSREPL::Engines::Kaffeine
 
     ready()
 
-  Destroy: ->
-    delete @kaffeine
-
   Eval: (command) ->
     # Compile.
     try

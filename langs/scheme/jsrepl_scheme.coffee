@@ -7,9 +7,6 @@ class @JSREPL::Engines::Scheme
     @interpreter = new @sandbox.BiwaScheme.Interpreter error
     ready()
 
-  Destroy: ->
-    delete @interpreter
-
   Eval: (command) ->
     try
       @interpreter.evaluate command, (new_state) =>

@@ -98,9 +98,8 @@ class JSREPL
   # TODO(amasad): Consider error handling when loading scripts and examples.
   LoadLanguage: (lang_name, callback) ->
     # Clean up previous engine.
-    if @engine
-      @engine.Destroy()
-      delete @engine
+    @engine = null
+    @sandbox_frame?.remove?()
 
     # Empty out the history, prompt and example selection.
     @jqconsole.Reset()
@@ -109,20 +108,19 @@ class JSREPL
       @StartPrompt()
     $('#examples').val ''
 
+    # Load the iframe.
+    @sandbox_frame = $ '<iframe/>', src: 'sandbox.html', style: 'display: none'
+    @sandbox_frame.appendTo 'body'
+    @sandbox = @sandbox_frame[0].contentWindow
+
+    # Switch the language.
+    @lang = JSREPL::Languages::[lang_name]
+
     # A counter to call the callback after the scripts and examples have
     # successfully loaded.
     signals_read = 0
     signalReady = ->
       if ++signals_read == 2 then callback()
-
-    @lang = JSREPL::Languages::[lang_name]
-    # Remove the old iframe.
-    @sandbox_frame?.remove?()
-
-    # Load the iframe.
-    @sandbox_frame = $ '<iframe/>', src: 'sandbox.html', style: 'display:none'
-    @sandbox_frame.appendTo 'body'
-    @sandbox = @sandbox_frame[0].contentWindow
 
     # Create a new LAB instance inside the frame and load the engine through it.
     lab_script = $ '<script/>', src: 'lib/LAB-1.2.0.js'
@@ -262,4 +260,4 @@ $ ->
   # Disable $LAB's funkiness for debugging.
   $LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
   # Create and load the main REPL object.
-  new JSREPL
+  @REPL = new JSREPL

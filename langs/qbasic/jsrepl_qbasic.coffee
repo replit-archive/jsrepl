@@ -13,9 +13,6 @@ class @JSREPL::Engines::QBasic
     }
     ready()
 
-  Destroy: ->
-    delete @virtual_machine
-
   Eval: (command) ->
     try
       @virtual_machine.run command, =>

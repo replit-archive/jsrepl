@@ -18,8 +18,6 @@ class @JSREPL::Engines::CoffeeScript
 
     ready()
 
-  Destroy: ->
-
   Eval: (command) ->
     try
       compiled = @CoffeeScript.compile command, globals: on, bare: on

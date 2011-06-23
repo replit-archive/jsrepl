@@ -20,8 +20,6 @@ class @JSREPL::Engines::Move
 
     ready()
 
-  Destroy: ->
-
   Eval: (command) ->
     # Enable embedded HTML by default.
     command = '#pragma enable ehtml\n' + command

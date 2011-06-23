@@ -29,10 +29,6 @@ class @JSREPL::Engines::LOLCODE
 
     ready()
 
-  Destroy: ->
-    delete @machine
-    delete @context
-
   Eval: (command) ->
     try
       tokenized = new @sandbox.LOLCoffee.Tokenizer(command).tokenize()
