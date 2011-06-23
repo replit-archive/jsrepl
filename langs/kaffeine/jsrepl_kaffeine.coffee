@@ -1,11 +1,21 @@
 class @JSREPL::Engines::Kaffeine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
-    @sandbox.console.log = (obj) => output obj + '\n'
-    @sandbox.console.dir = (obj) => output @sandbox._inspect(obj) + '\n'
-    @sandbox.console.read = input
+    # Cache sandboxed objects and functions used by the engine in case sandbox
+    # bindings hide them.
+    @inspect = @sandbox._inspect
+    @functionClass = @sandbox.Function
+    @sandbox.__eval = @sandbox.eval
+
+    # Cache the tokenizer and compiler.
+    @tokenizer = @sandbox.require './token'
     Kaffeine = @sandbox.require './kaffeine'
     @kaffeine = new Kaffeine
-    @tokenizer = @sandbox.require './token'
+
+    # Define custom I/O handlers.
+    @sandbox.console.log = (obj) => output obj + '\n'
+    @sandbox.console.dir = (obj) => output @inspect(obj) + '\n'
+    @sandbox.console.read = input
+
     ready()
 
   Destroy: ->
@@ -18,7 +28,7 @@ class @JSREPL::Engines::Kaffeine
       # Kaffeine sometimes produces expressions and sometimes statements. We
       # need to try both.
       try
-        @sandbox.Function js
+        new @functionClass js
       catch e
         js = "(#{js})"
     catch e
@@ -28,7 +38,7 @@ class @JSREPL::Engines::Kaffeine
 
     # Execute.
     try
-      @result @sandbox._inspect @sandbox.eval js
+      @result @inspect @sandbox.__eval js
     catch e
       @error e
 
@@ -44,10 +54,10 @@ class @JSREPL::Engines::Kaffeine
     try
       js = @kaffeine.compile command
       try
-        @sandbox.Function js
+        new @functionClass js
       catch e
         js = "(#{js})"
-        @sandbox.Function js
+        new @functionClass js
       last_line = command.split('\n')[-1..][0]
       # If current line is indented, we may still want to continue.
       return if /^\s+/.test last_line then 0 else false

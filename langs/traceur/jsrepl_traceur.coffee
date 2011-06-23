@@ -1,9 +1,16 @@
 class @JSREPL::Engines::Traceur
   constructor: (input, output, @result, @error, @sandbox, ready) ->
-    @sandbox.console.log = (obj) => output obj + '\n'
-    @sandbox.console.dir = (obj) => output @sandbox._inspect(obj) + '\n'
-    @sandbox.console.read = input
+    # Cache sandboxed objects and functions used by the engine in case sandbox
+    # bindings hide them.
+    @inspect = @sandbox._inspect
+    @sandbox.__eval = @sandbox.eval
     @traceur = @sandbox.traceur
+
+    # Define custom I/O handlers.
+    @sandbox.console.log = (obj) => output obj + '\n'
+    @sandbox.console.dir = (obj) => output @inspect(obj) + '\n'
+    @sandbox.console.read = input
+
     ready()
 
   Destroy: ->
@@ -18,7 +25,7 @@ class @JSREPL::Engines::Traceur
 
     # Evaluate.
     try
-      @result @sandbox._inspect @sandbox.eval source
+      @result @inspect @sandbox.__eval source
     catch e
       @error e
 

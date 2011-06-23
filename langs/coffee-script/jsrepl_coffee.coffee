@@ -5,17 +5,26 @@ SCOPE_OPENERS = [
 
 class @JSREPL::Engines::CoffeeScript
   constructor: (input, output, @result, @error, @sandbox, ready) ->
+    # Cache sandboxed objects and functions used by the engine in case sandbox
+    # bindings hide them.
+    @inspect = @sandbox._inspect
+    @CoffeeScript = @sandbox.CoffeeScript
+    @sandbox.__eval = @sandbox.eval
+
+    # Define custom I/O handlers.
     @sandbox.console.log = (obj) => output obj + '\n'
-    @sandbox.console.dir = (obj) => output @sandbox._inspect(obj) + '\n'
+    @sandbox.console.dir = (obj) => output @inspect(obj) + '\n'
     @sandbox.console.read = input
+
     ready()
 
   Destroy: ->
 
   Eval: (command) ->
     try
-      result = @sandbox.CoffeeScript.eval command, globals: on, bare: on
-      @result @sandbox._inspect result
+      compiled = @CoffeeScript.compile command, globals: on, bare: on
+      result = @sandbox.__eval compiled, globals: on, bare: on
+      @result @inspect result
     catch e
       @error e
 
@@ -27,15 +36,15 @@ class @JSREPL::Engines::CoffeeScript
       return 1
     else
       try
-        all_tokens = @sandbox.CoffeeScript.tokens command
-        last_line_tokens = @sandbox.CoffeeScript.tokens last_line
+        all_tokens = @CoffeeScript.tokens command
+        last_line_tokens = @CoffeeScript.tokens last_line
       catch e
         # May be an unclosed string.
         return 0
 
       try
         # Check if the command is complete.
-        @sandbox.CoffeeScript.compile command
+        @CoffeeScript.compile command
         # If current line is indented, we may still want to continue.
         if /^\s+/.test last_line
           return 0
