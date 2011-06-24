@@ -16,3 +16,6 @@
 [submodule "extern/move"]
 	path = extern/move
 	url = git://github.com/rsms/move.git
+[submodule "extern/unlambda-coffee"]
+	path = extern/unlambda-coffee
+	url = git://github.com/max99x/unlambda-coffee.git

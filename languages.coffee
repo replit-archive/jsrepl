@@ -110,6 +110,18 @@
   extension: 'bf'
   logo: 'langs/brainfuck/brainfuck.jpg'
 
+@JSREPL::Languages::Unlambda =
+  name: 'Unlambda'
+  category: 'Esoteric'
+  scripts: [
+    'extern/unlambda-coffee/unlambda.coffee'
+  ]
+  engine: 'langs/unlambda/jsrepl_unlambda.coffee'
+  example_file: 'langs/unlambda/examples.txt'
+  help_link: 'http://en.wikipedia.org/wiki/Unlambda'
+  extension: 'unl'
+  logo: 'langs/unlambda/unlambda.jpg'
+
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
   category: 'Esoteric'
