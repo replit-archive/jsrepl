@@ -121,3 +121,13 @@ html, body {
   display: block;
   font-weight: bold;
 }
+
+.matching-1 {
+  color: #00FFFF;
+}
+.matching-2 {
+  color: #FF00FF;
+}
+.matching-3 {
+  color: #FFFF00;
+}

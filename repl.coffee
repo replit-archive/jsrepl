@@ -115,7 +115,12 @@ class JSREPL
 
     # Switch the language.
     @lang = JSREPL::Languages::[lang_name]
-
+    
+    # Register charecter matchings in jqconsole for the current language
+    i = 0
+    for [open, close] in @lang.matchings
+      @jqconsole.RegisterMatching open, close, 'matching-' + (++i)
+    
     # A counter to call the callback after the scripts and examples have
     # successfully loaded.
     signals_read = 0

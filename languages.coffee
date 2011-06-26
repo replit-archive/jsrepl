@@ -1,6 +1,7 @@
 @JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'
+  matchings:[]
   scripts: [
     'extern/qb.js/Base.js'
     'extern/qb.js/Tokenizer.js'
@@ -22,6 +23,10 @@
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+  ]
   scripts: [
     'extern/javathcript/source/Base.js'
     'extern/javathcript/source/BPWJs.js'
@@ -40,6 +45,10 @@
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+  ]
   scripts: [
     'lib/prototype-1.6.0.3.js'
     'extern/biwascheme/src/version.js.in'
@@ -76,6 +85,11 @@
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
   category: 'Dynamic'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
   scripts : [
     'util/inspect.js'
   ]
@@ -88,6 +102,11 @@
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
   category: 'Dynamic'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
   scripts : [
     'extern/coffee-script/coffee-script.js'
     'util/inspect.js'
@@ -101,6 +120,9 @@
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
   category: 'Esoteric'
+  matchings:[
+    ['[', ']']
+  ]
   scripts: [
     'extern/brainfuck/js/brainfuck.js'
   ]
@@ -113,6 +135,7 @@
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
   category: 'Esoteric'
+  matchings:[]
   scripts: [
     'extern/unlambda-coffee/unlambda.coffee'
   ]
@@ -125,6 +148,7 @@
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
   category: 'Esoteric'
+  matchings:[]
   scripts: [
     'extern/lol-coffee/src/base.coffee'
     'extern/lol-coffee/src/machine.coffee'
@@ -141,6 +165,11 @@
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
   category: 'Dynamic'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
   scripts : [
     'extern/kaffeine/browser2/kaffeine-browser.js'
     'util/inspect.js'
@@ -154,6 +183,11 @@
 @JSREPL::Languages::Move =
   name: 'Move'
   category: 'Dynamic'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
   scripts : [
     'extern/move/web/move.js'
     'util/inspect.js'
@@ -167,6 +201,11 @@
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
   category: 'Dynamic'
+  matchings:[
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
   scripts : [
     'util/inspect.js'
     'extern/traceur/traceur.js'
