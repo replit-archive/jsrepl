@@ -6,7 +6,19 @@ class @JSREPL::Engines::Brainfuck
 
   Eval: (command) ->
     try
-      @sandbox.BF.parse command, @result
+      if command == "SHOWTAPE"
+        # to be implemented
+        @result @sandbox.BF.getTape()
+      else
+        @sandbox.BF.parse command, (tape) =>
+          cells = tape.split /\s/
+          index = null
+          cells.forEach (cell, i) -> if /\[/.test cell then index = i
+          lower = if index < 10 then 0 else index - 10
+          before = cells[lower...index]
+          after = cells[index + 1...index + 10]
+          @result before.concat([cells[index]]).concat(after).join ' '
+        
     catch e
       @error e
 
