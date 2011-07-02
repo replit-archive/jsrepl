@@ -19,3 +19,6 @@
 [submodule "extern/unlambda-coffee"]
 	path = extern/unlambda-coffee
 	url = git://github.com/max99x/unlambda-coffee.git
+[submodule "extern/emoticoffee"]
+	path = extern/emoticoffee
+	url = git://github.com/amasad/emoticoffee.git
