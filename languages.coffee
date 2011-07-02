@@ -301,3 +301,18 @@
   help_link: 'http://movelang.org/'
   extension: 'js'
   logo: 'langs/traceur/logo.png'
+
+@JSREPL::Languages::Emoticon =
+  name: 'Emoticon'
+  category: 'Esoteric'
+  matchings:[
+    ['(', ')']
+  ]
+  scripts : [
+    'extern/emoticoffee/emoticon.coffee'
+  ]
+  engine: 'langs/emoticon/jsrepl_emoticon.coffee'
+  example_file: 'langs/emoticon/examples.txt'
+  help_link: 'http://www.teuton.org/~stranger/code/emoticon/manual.php'
+  extension: 'emo'
+  logo: 'langs/emoticon/logo.png'
