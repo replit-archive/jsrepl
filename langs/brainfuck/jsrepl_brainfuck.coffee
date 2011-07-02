@@ -31,4 +31,4 @@ class @JSREPL::Engines::Brainfuck
         when '[' then ++brackets
         when ']' then --brackets
 
-    return if brackets > 0 then 0 else false
+    return brackets || false
