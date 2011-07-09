@@ -19,3 +19,6 @@
 [submodule "extern/emoticoffee"]
 	path = extern/emoticoffee
 	url = git://github.com/amasad/emoticoffee.git
+[submodule "extern/bfjs"]
+	path = extern/bfjs
+	url = git://github.com/amasad/bfjs.git
