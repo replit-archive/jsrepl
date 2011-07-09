@@ -7,7 +7,7 @@
 // http://c2.com/cgi/wiki?BloopFloopAndGloop
 
 /* parsing variables */
-
+BFloop = (function () {
 var BlooP = null;
 
 var parseCode = null;
@@ -27,50 +27,35 @@ var LOOP_NEW_ABORTABLE = 2;
 var LOOP_ABORTABLE = 3;
 var LOOP_ABORTED = 4;
 
-/* html elements */
+/* handlers */
+var noop = function () {};
+var outputFunc, warningFunc, noticeFunc;
+outputFunc = errorFunc = warningFunc = noticeFunc = noop;
 
-var codeInput = null;
-var compilerOutput = null;
-var jsOutput = null;
-var programOutput = null;
 
-function setHtmlObjs() {
-    codeInput = document.getElementById("codeInput");
-    compilerOutput = document.getElementById("compilerOutput");
-    jsOutput = document.getElementById("jsOutput");
-    programOutput = document.getElementById("programOutput");
+function init(outputHandler, warningHandler, noticeHandler) {
+  outputFunc = outputHandler || noop;
+  warningFunc = warningHandler || noop;
+  noticeFunc = noticeHandler || noop;
 }
 
-function compile() {
-    setHtmlObjs();
 
-    // check which language to compile in
-    if (document.getElementById("bloopOption").checked == false 
-        && document.getElementById("floopOption").checked == false) {
-        alert("Please select a language to compile in, either BlooP or FlooP.");
-        return false;
-    } else if (document.getElementById("floopOption").checked == true) {
-        BlooP = "FlooP";
-    } else {
-        BlooP = "BlooP";
-    }
-
+function compile(codeInput) {
     // clear existing variables
     parseCode = codeLines = computedCode = code = "";
-
-    // setup the parseCode variable
-    parseCode = codeInput.value;
-    if (parseCode == null) return false;
+    
+    parseCode = codeInput;
+    if (!parseCode) return false;
     parseCode = parseCode.toUpperCase();
     parseCode = parseCode.replace(/\?/g, "q");
     parseCode = parseCode.replace(/-/g, "_");
-
+    // For examples from the book and the web to be copy pasted easily
+    // we allow unicode x (multiplaction) and unicode arrow (assignment)
+    parseCode = parseCode.replace(new RegExp(String.fromCharCode(8656), 'g'), '<=');
+    parseCode = parseCode.replace(new RegExp(String.fromCharCode(215), 'g'), '*');
+    
     // get number of lines in code
     codeLines = parseCode.split("\n").length + 1;
-
-    // clear the warning box and the outputted source
-    removeAllChildren(jsOutput);
-    removeAllChildren(compilerOutput);
 
     // parse all functions
     while (!parseCode.match(/^$/)) {
@@ -78,84 +63,21 @@ function compile() {
         computedCode += code;
     }
 
-    // output the compiled javascript code
-    jsOutput.value = computedCode;
-
-    // if not enabled, enable the "run" button
-    document.getElementById("runCode").disabled = false;
-
-    // finally,
-    // tell the user the compilation is completed
-    notice("Compilation Completed.");
-}
-
-function executeCode() {
-    // compile and run existing code
-    compile();
-    eval(computedCode);
-
-    // separate different program's output
-    programOutput.value += "\n";
-}
-
-function run() {
-    // run any generated code
-    eval(computedCode);
-
-    // separate different program's output
-    programOutput.value += "\n";
-}
-
-function removeAllChildren(n) { // removes all child nodes from node n
-    var children = n.childNodes.length;
-    for (i = 0; i < children; i++) { n.removeChild(n.childNodes[0]); }
+    return computedCode;
 }
 
 /* compiler output functions */
 
 function error(warning) {
-    var warnBox = document.createElement("div");
-    warnHeader = document.createElement("strong");
-    warnHeader.appendChild(document.createTextNode("Error: Line " + (codeLines - parseCode.split("\n").length) + ":"));
-    warnHeader.appendChild(document.createElement("br"));
-    warnBox.appendChild(warnHeader);
-    warnBox.appendChild(document.createTextNode(warning));
-    warnBox.style.color = "red";
-    compilerOutput.appendChild(warnBox);
+    throw new Error("Error: Line " + (codeLines - parseCode.split("\n").length) + ":\n" + warning);
 }
 
 function warn(warning) {
-    var warnBox = document.createElement("div");
-    warnHeader = document.createElement("strong");
-    warnHeader.appendChild(document.createTextNode("Warning: Line " + (codeLines - parseCode.split("\n").length) + ":"));
-    warnHeader.appendChild(document.createElement("br"));
-    warnBox.appendChild(warnHeader);
-    warnBox.appendChild(document.createTextNode(warning));
-    compilerOutput.appendChild(warnBox);
+    warningFunc("Warning: Line " + (codeLines - parseCode.split("\n").length) + ":\n" + warning);
 }
 
 function notice(warning) {
-    var warnBox = document.createElement("div");
-    warnHeader = document.createElement("strong");
-    warnHeader.appendChild(document.createTextNode("Notice: Line " + (codeLines - parseCode.split("\n").length) + ":"));
-    warnHeader.appendChild(document.createElement("br"));
-    warnBox.appendChild(warnHeader);
-    warnBox.appendChild(document.createTextNode(warning));
-    warnBox.style.color = "green";
-    compilerOutput.appendChild(warnBox);
-}
-
-/* editing functions */
-
-function copyItem(n) {
-    n.select();
-}
-
-function clearItem(n) {
-    if (n.tagName == "TEXTAREA")
-        n.value = "";
-    else
-        removeAllChildren(n);
+    noticeFunc("Notice: Line " + (codeLines - parseCode.split("\n").length) + ":\n" + warning);
 }
 
 /*********************/
@@ -279,11 +201,10 @@ function parse() {
     if (ns == "DEFINE") {
         definition();
     } else {
-        code += "printstring(";
         expression();
         if (code.match(/q/))
-            code += " ? \"YES\" : \"NO\"";
-        code += ");\n";
+          code += " ? \"YES\" : \"NO\"";
+        code += ";\n";
     }
 
     if (ns != ".") warn("excess junk at end of function");
@@ -500,7 +421,7 @@ function f_if() {
 function print() {
     scan();
     need("[");
-    code += "printstring(";
+    code += "BFloop.printstring(";
 
     while (true) {
         expression();
@@ -636,11 +557,16 @@ function cell() {
 /*********************/
 
 function printstring() {
-    setHtmlObjs();
-
     var output = " > ";
     for (var i=0; i<arguments.length; i++)
         output += arguments[i];
 
-    programOutput.value += output + "\n";
+    outputFunc(output + "\n");
 }
+
+return {
+  init: init,
+  compile: compile,
+  printstring: printstring
+}
+})();
