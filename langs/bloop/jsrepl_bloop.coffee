@@ -10,14 +10,22 @@ class @JSREPL::Engines::Bloop
     catch e
       @error e
     
-  
   GetNextLineIndent: (command) ->
-    lastLine = command.split('\n')[-1..][0]
-    if /begin$/.test lastLine
-      return 1
-    return false
-      
-  
-          
+    rOpen = /BLOCK\s+(\d+)\s*:\s*BEGIN/ig
+    rClose = /BLOCK\s+(\d+)\s*:\s*END/ig
+    
+    match = (code) ->
+      opens = code.match(rOpen) || []
+      closes = code.match(rClose) || []
+      return opens.length - closes.length
         
-         
+    
+    if match(command) <= 0
+      return false
+    else 
+      count = match command.split('\n')[-1..][0]
+      if count > 0
+        # Open block; indent.
+        return 1
+      else 
+        return 0
