@@ -305,10 +305,10 @@
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
   category: 'Esoteric'
-  matchings:[
+  matchings: [
     ['(', ')']
   ]
-  scripts : [
+  scripts: [
     'extern/emoticoffee/emoticon.coffee'
   ]
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
@@ -316,3 +316,15 @@
   help_link: 'http://www.teuton.org/~stranger/code/emoticon/manual.php'
   extension: 'emo'
   logo: 'langs/emoticon/logo.png'
+  
+@JSREPL::Languages::Bloop = 
+  name: 'Bloop/Floop'
+  category: 'Esoteric'
+  matchings: []
+  scripts: [
+    'extern/bloop/bloop.js'
+  ]
+  engine: 'langs/bloop/jsrepl_bloop.coffee'
+  example_file: 'langs/bloop/examples.txt'
+  extensions: 'bloop'
+  logo: 'langs/bloop/logo.png'
