@@ -21,17 +21,14 @@ class @JSREPL::Engines::Emoticon
     ready()
   
   Eval: (command) ->
-    console.log command
     try
       code = new @sandbox.Emoticon.Parser command
       @interpreter.lists.Z = @interpreter.lists.Z.concat(code)
       @interpreter.run()
-      console.log(@interpreter)
     catch e
       @error e
   
   GetNextLineIndent: (command) ->
-    console.log command
     countParens = (str) =>
       tokens = new @sandbox.Emoticon.Parser str
       parens = 0
