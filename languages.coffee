@@ -124,7 +124,7 @@
     ['[', ']']
   ]
   scripts: [
-    'extern/brainfuck/js/brainfuck.js'
+    'extern/bfjs/bfjs.js'
   ]
   engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
   example_file: 'langs/brainfuck/examples.txt'
