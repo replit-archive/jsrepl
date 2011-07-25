@@ -126,7 +126,8 @@ class JSREPL
     signals_read = 0
     signalReady = ->
       if ++signals_read == 2 then callback()
-
+    
+    deffereds = $.map @lang.libs, $.get 
     # Create a new LAB instance inside the frame and load the engine through it.
     lab_script = $ '<script/>', src: 'lib/LAB-1.2.0.js'
     lab_script.bind 'load', =>
@@ -141,14 +142,16 @@ class JSREPL
         $LAB.script(@lang.engine).wait =>
           # TODO(max99x): Debug on all target browsers.
           #               On IE 8 this doesn't work for Lisp.
-          @engine = new JSREPL::Engines::[lang_name](
-            $.proxy(@ReceiveInputRequest, this),
-            $.proxy(@ReceiveOutput, this),
-            $.proxy(@ReceiveResult, this),
-            $.proxy(@ReceiveError, this),
-            @sandbox,
-            signalReady
-          )
+          $.when(deffereds...).done (args...)=>
+            @engine = new JSREPL::Engines::[lang_name](
+              $.proxy(@ReceiveInputRequest, this),
+              $.proxy(@ReceiveOutput, this),
+              $.proxy(@ReceiveResult, this),
+              $.proxy(@ReceiveError, this),
+              @sandbox,
+              signalReady,
+              $.map args, (arg) -> arg[0]
+            )
 
     # When the iframe finishes loading, insert the $LAB script.
     @sandbox_frame.bind 'load', =>

@@ -15,6 +15,7 @@
     'extern/qb.js/QBasic.js'
   ]
   engine: 'langs/qbasic/jsrepl_qbasic.coffee'
+  libs: []
   example_file: 'langs/qbasic/examples.txt'
   help_link: 'http://westcompsci.pima.edu/cis100/'
   extension: 'bas'
@@ -37,6 +38,7 @@
     'langs/lisp/jsrepl_lisp_lib.coffee'
   ]
   engine: 'langs/lisp/jsrepl_lisp.coffee'
+  libs: ['langs/lisp/jsrepl_lisp_lib.lisp']
   example_file: 'langs/lisp/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
   extension: 'lisp'
@@ -77,6 +79,7 @@
     'extern/biwascheme/src/library/srfi.js'
   ]
   engine:'langs/scheme/jsrepl_scheme.coffee'
+  libs: []
   example_file: 'langs/scheme/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
   extension: 'scm'
@@ -94,6 +97,7 @@
     'util/inspect.js'
   ]
   engine: 'langs/javascript/jsrepl_js.coffee'
+  libs: []
   example_file: 'langs/javascript/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Javascript'
   extension: 'js'
@@ -112,6 +116,7 @@
     'util/inspect.js'
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
+  libs: []
   example_file: 'langs/coffee-script/examples.txt'
   help_link: 'http://jashkenas.github.com/coffee-script/'
   extension: 'coffee'
@@ -127,6 +132,7 @@
     'extern/bfjs/bfjs.js'
   ]
   engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
+  libs: []
   example_file: 'langs/brainfuck/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Brainfuck'
   extension: 'bf'
@@ -140,6 +146,7 @@
     'extern/unlambda-coffee/unlambda.coffee'
   ]
   engine: 'langs/unlambda/jsrepl_unlambda.coffee'
+  libs: []
   example_file: 'langs/unlambda/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Unlambda'
   extension: 'unl'
@@ -157,6 +164,7 @@
     'extern/lol-coffee/src/tokenizer.coffee'
   ]
   engine: 'langs/lolcode/jsrepl_lolcode.coffee'
+  libs: []
   example_file: 'langs/lolcode/examples.txt'
   help_link: 'http://lolcode.com/specs/1.2'
   extension: 'lol'
@@ -175,6 +183,7 @@
     'util/inspect.js'
   ]
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
+  libs: []
   example_file: 'langs/kaffeine/examples.txt'
   help_link: 'http://weepy.github.com/kaffeine/'
   extension: 'k'
@@ -193,6 +202,7 @@
     'util/inspect.js'
   ]
   engine: 'langs/move/jsrepl_move.coffee'
+  libs: []
   example_file: 'langs/move/examples.txt'
   help_link: 'http://movelang.org/'
   extension: 'mv'
@@ -297,6 +307,7 @@
     'extern/traceur/util/traits.js'
   ]
   engine: 'langs/traceur/jsrepl_traceur.coffee'
+  libs: []
   example_file: 'langs/traceur/examples.txt'
   help_link: 'http://movelang.org/'
   extension: 'js'
@@ -312,6 +323,7 @@
     'extern/emoticoffee/emoticon.coffee'
   ]
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
+  libs: []
   example_file: 'langs/emoticon/examples.txt'
   help_link: 'http://www.teuton.org/~stranger/code/emoticon/manual.php'
   extension: 'emo'
@@ -325,6 +337,7 @@
     'extern/bloop/bloop.js'
   ]
   engine: 'langs/bloop/jsrepl_bloop.coffee'
+  libs: []
   example_file: 'langs/bloop/examples.txt'
   extensions: 'bloop'
   logo: 'langs/bloop/logo.png'

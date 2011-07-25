@@ -1,6 +1,3 @@
-class @JSREPL
-
-JSREPL::Library = '''
 (defun caar (x) (car (car x)))
 (defun caar (x) (car (car x)))
 (defun cadr (x) (car (cdr x)))
@@ -32,7 +29,7 @@ JSREPL::Library = '''
 (defun cddddr (x) (cdr (cdr (cdr (cdr x)))))
 (def + plus)
 (def define def)
-(def #t \'t)
+(def #t 't)
 (def #f Nil)
 (def nil Nil)
 (def - minus)
@@ -53,8 +50,7 @@ JSREPL::Library = '''
 (defun evenp (x) (equal (rem x 2) 0))
 (defun oddp (x) (/= (rem x 2) 1))
 (defun list-member (E L) (cond ((null L) Nil)
-                          ((equal E (first L))  \'t)
-                          (\'t (list-member E (rest L)))))
+                          ((equal E (first L))  't)
+                          ('t (list-member E (rest L)))))
 (defun map (F L) (if (null L) Nil (cons (F (head L)) (map F (tail L)))))
-; TODO(amasad): Implement Math functions.
-'''
+
