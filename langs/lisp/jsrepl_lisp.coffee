@@ -2,7 +2,7 @@ isNil = (x) ->
   (not x?) or (x instanceof Array and x.length == 0)
 
 class @JSREPL::Engines::Lisp
-  constructor: (input, output, result, @error, @sandbox, ready) ->
+  constructor: (input, output, result, @error, @sandbox, ready, libs) ->
     Javathcript = @Javathcript = @sandbox.Javathcript
     Javathcript.Environment::princ = (obj, callback) ->
       this._value obj, (val) ->
@@ -26,7 +26,14 @@ class @JSREPL::Engines::Lisp
 
     @result_handler = (r) ->
       result if isNil(r) then '' else r.toString()
-
+    
+    i = 0
+    do load = ()->
+      if lib = libs[i++]
+        Javathcript.evalMulti lib, (->), load
+      else
+        do ready
+      
     Javathcript.evalMulti @sandbox.JSREPL::Library, (->), ready
 
   Eval: (command) ->
