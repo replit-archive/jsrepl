@@ -26,7 +26,7 @@ class @JSREPL::Engines::Lisp
 
     @result_handler = (r) ->
       result if isNil(r) then '' else r.toString()
-    
+
     i = 0
     do load = ()->
       if lib = libs[i++]

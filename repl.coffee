@@ -142,7 +142,14 @@ class JSREPL
         $LAB.script(@lang.engine).wait =>
           # TODO(max99x): Debug on all target browsers.
           #               On IE 8 this doesn't work for Lisp.
+          # When XHRs are all done instantiate the engine
           $.when(deffereds...).done (args...)=>
+            # args could be multiple/single/none response arguments
+            libs = if deffereds.length > 1
+              $.map args, (arg) -> arg[0]
+            else
+              if args[0]? then [args[0]] else []
+              
             @engine = new JSREPL::Engines::[lang_name](
               $.proxy(@ReceiveInputRequest, this),
               $.proxy(@ReceiveOutput, this),
@@ -150,7 +157,7 @@ class JSREPL
               $.proxy(@ReceiveError, this),
               @sandbox,
               signalReady,
-              $.map args, (arg) -> arg[0]
+              libs
             )
 
     # When the iframe finishes loading, insert the $LAB script.
