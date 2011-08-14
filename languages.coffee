@@ -1,7 +1,7 @@
 @JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   category: 'Imperative'
-  matchings:[]
+  matchings: []
   scripts: [
     'extern/qb.js/Base.js'
     'extern/qb.js/Tokenizer.js'
@@ -24,7 +24,7 @@
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
   category: 'Functional'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
   ]
@@ -35,7 +35,6 @@
     'extern/javathcript/source/JavathcriptParser.js'
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
-    'langs/lisp/jsrepl_lisp_lib.coffee'
   ]
   engine: 'langs/lisp/jsrepl_lisp.coffee'
   libs: ['langs/lisp/jsrepl_lisp_lib.lisp']
@@ -47,7 +46,7 @@
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
   category: 'Functional'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
   ]
@@ -78,7 +77,7 @@
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
   ]
-  engine:'langs/scheme/jsrepl_scheme.coffee'
+  engine: 'langs/scheme/jsrepl_scheme.coffee'
   libs: []
   example_file: 'langs/scheme/examples.txt'
   help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
@@ -88,12 +87,12 @@
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
   category: 'Dynamic'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
     ['{', '}']
   ]
-  scripts : [
+  scripts: [
     'util/inspect.js'
   ]
   engine: 'langs/javascript/jsrepl_js.coffee'
@@ -106,12 +105,12 @@
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
   category: 'Dynamic'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
     ['{', '}']
   ]
-  scripts : [
+  scripts: [
     'extern/coffee-script/coffee-script.js'
     'util/inspect.js'
   ]
@@ -125,7 +124,7 @@
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
   category: 'Esoteric'
-  matchings:[
+  matchings: [
     ['[', ']']
   ]
   scripts: [
@@ -141,7 +140,7 @@
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
   category: 'Esoteric'
-  matchings:[]
+  matchings: []
   scripts: [
     'extern/unlambda-coffee/unlambda.coffee'
   ]
@@ -155,7 +154,7 @@
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
   category: 'Esoteric'
-  matchings:[]
+  matchings: []
   scripts: [
     'extern/lol-coffee/src/base.coffee'
     'extern/lol-coffee/src/machine.coffee'
@@ -173,12 +172,12 @@
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
   category: 'Dynamic'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
     ['{', '}']
   ]
-  scripts : [
+  scripts: [
     'extern/kaffeine/browser2/kaffeine-browser.js'
     'util/inspect.js'
   ]
@@ -192,12 +191,12 @@
 @JSREPL::Languages::Move =
   name: 'Move'
   category: 'Dynamic'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
     ['{', '}']
   ]
-  scripts : [
+  scripts: [
     'extern/move/web/move.js'
     'util/inspect.js'
   ]
@@ -211,12 +210,12 @@
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
   category: 'Dynamic'
-  matchings:[
+  matchings: [
     ['(', ')']
     ['[', ']']
     ['{', '}']
   ]
-  scripts : [
+  scripts: [
     'util/inspect.js'
     'extern/traceur/traceur.js'
     'extern/traceur/util/ObjectMap.js'
