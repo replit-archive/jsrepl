@@ -40,7 +40,7 @@ var title      = "## JS-Forth " + version + "." + subversion + " ##" ;
 // --------------------------------------------- vars you may wish to customize ---------------------------------------------------
 
 var memend               = 0x100000 ;                         // memory allocated to jsforth (1 megacells is more than plenty)
-var maxcookies           = 4                                  // number of disk sectors. >4 may be unsafe.
+var maxcookies           = 25                                 // number of disk sectors. >4 may be unsafe.
 var cookiebasename       = "jsrepl-jsforth" ;                 // cookie name for saved blocks (blk number gets appended)
 var cookieexpirationdate = Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000) ;  // the date your hard disk will get erased.
 var infolines            = 1000 ;                             // backscroll buffer size of info screen
@@ -612,13 +612,20 @@ function _error(str) {
 
 // throw without catch frame - top level error handler
 function exception(x)  {
-    _error(errordialog(x));
+   var word;
+   if (m[blk]>=0)   {
+      var temp = m[toin] % 64 ;
+      word = pack(parsebuf + m[toin] - temp,temp) ;
+   } else {
+      word = pack(parsebuf,m[toin]) ;
+   }
+   _error(word + ': ' + errordialog(x));
 // just calling the virtual machine won't do, as that would require more and more javascript return stack.
 //  stopping the interpreter, and have it restart with a one-time event at the warm start point solves this.
-    debug("issuing timed event 'warmstart vm in 1 ms'") ;
-    suspended = warm ;
-    setTimeout(function() { virtualmachine(warm) ; }, 1) ;
-    tos = s[sp--] ;
+   debug("issuing timed event 'warmstart vm in 1 ms'") ;
+   suspended = warm ;
+   setTimeout(function() { virtualmachine(warm) ; }, 1) ;
+   tos = s[sp--] ;
 }
 
 
@@ -1166,8 +1173,13 @@ primitive("cls",cls) ;
 describe("--",jsf) ;
 
 
-function forthprompt()   {                                       // prompt
+// THIS SHOULD BE REPLACED BY THE DESIRED PROMPTING FUNCTION.
+function _prompt() {
    // Nothing.
+}
+
+function forthprompt()   {                                       // prompt
+  _prompt();
 }
 var x_prompt=primitive("prompt",forthprompt) ;
 describe("--",any) ;
@@ -2927,138 +2939,6 @@ function localcapacity()        { return (ramdrivecapacity() + cookiedrivecapaci
 
 
 
-
-
-
-// ------------------------ remote web server drive ------------------------
-
-
-// the quest for getting to the contents of the data has been elegantly solved by
-// molily from #selfhtml, and my gratitude for taking this load off me goes fully to him.
-// Thank you very much, molily !
-
-
-// server know different block types. only public are supported first.
-// public      ( read-only )
-// private     ( read/write in user sandbox )
-// exported    ( read/write in specific server block range, copied from private )
-
-
-
-
-var requesting_load = 0 ;
-var waitingforblock = wc ;                            // suspension id
-var bufferforrequest = new Array() ;                  // buffer queue
-var blockwatchdog ;                                   // carry event id across functions
-
-
-
-function blockreadtimeout() {
-   exception("file transaction not completed in time") ;
-   requesting_load = 0 ;
-   throwerror(-37)  ;   // general i/o error
-}
-
-
-
-function unpackfiletobuffer(remotefile)  {
-   var bufaddr = bufferforrequest.shift() ;                                 // full file buffer from queue
-   var contents ;                                                           // retrieve block data and buffer address
-   if (remotefile.contentDocument.getElementsByTagName("pre")[0]) {
-      contents = remotefile.contentDocument.getElementsByTagName("pre")[0].firstChild.nodeValue ;
-   }
-   if (contents)  {
-      var inpointer = 0 ;
-      var outpointer = 0;
-      var i=contents.length ;
-      debug("unpacking " + i + " chars to addr " + bufaddr) ;
-      for ( ; i ; i-- )  {
-         var temp = contents.charCodeAt(inpointer++) ;
-         if (temp == 0x0a) {
-            for (var j = 64 - (outpointer % 64) ; j ; j--)   m[bufaddr+outpointer++] = bl;     // pad line remainder with spaces
-         } else {
-            m[bufaddr+outpointer++] = temp ;
-         }
-         if (outpointer >= 1024)  break ;
-      }
-      for ( ; outpointer<1024 ; outpointer++ )  m[bufaddr+outpointer] = bl ;
-   }
-}
-
-
-
-
-
-
-
-// --- event handler, gets called when block transfer to iframe has completed
-function LoadingCompleteEvent(remotefile) {
-   if(requesting_load) {                                                       // only take action if i/o requested
-      debug("iframe event handler executes: suspended=" + suspended) ;
-      if (suspended == waitingforblock)  {                                     // vm has been stopped, waiting for block completion
-         window.clearTimeout(blockwatchdog) ;
-         debug("cancelled block watchdog because load completed in time. restarting vm") ;
-         suspended = 0 ;
-         unpackfiletobuffer(remotefile)
-         requesting_load-- ;                                                   // counter of pending requests
-         virtualmachine(ip);                                                   // restart vm where we left it
-      } else {                                                                 // imframe load complete without vm suspend
-         unpackfiletobuffer(remotefile)
-         requesting_load-- ;
-         debug("unsuspended file request completed") ;
-      }
-   } else {
-      debug("iframe onload handler executed without request")
-   }
-   return true ;
-}
-
-
-
-
-function readfilefromweb(filename,destaddr) {
-   bufferforrequest.push(destaddr) ;                                          // queue buffer address
-   debug("server file " + filename + " requested") ;
-   requesting_load++ ;
-   window.frames['dataframe'].window.location.replace(filename);              // trigger iframe load
-   suspended = waitingforblock ;                                              // suspend until timeout of block complete
-   debug("issuing timed event 'blockreadtimeout in " + blocktimeout + " ms, suspend code=" + suspended) ;
-   blockwatchdog = window.setTimeout(blockreadtimeout,blocktimeout) ;         // start block timeout
-}
-
-
-// - - - - -
-
-
-
-function loadblockfromweb(blknum,destaddr)  {
-   if (requesting_load)  {
-      exception("previous request not completed") ;
-      throwerror(-37)  ;                                                      // general i/o error
-   } else {
-      readfilefromweb(('webdrive/blk' + blknum),destaddr) ;
-   }
-   return destaddr ;
-}
-
-
-
-function savebuftoweb(addr,blknum)  { throwerror(-71) ; }
-
-
-
-
-var storedremotecapacity = 20 ;
-
-function remotecapacity()       {
-   return storedremotecapacity ;
-}
-
-
-
-
-
-
 // ------------------------------ peer drives ------------------------------
 
 
@@ -3071,7 +2951,7 @@ function remotecapacity()       {
 
 
 
-function capacity()             { return localcapacity() + remotecapacity() ; }
+function capacity()             { return localcapacity() ; }
 
 
 function forthcapacity()        {  s[++sp] = tos ;  tos = capacity() ; }
@@ -3097,11 +2977,7 @@ function savebuf(buffer)    {
       savebuftocookie(bufaddr,blknum) ;
    } else {
       var temp = localcapacity() ;
-      if (blknum<temp)  {
-         savebuftoram(bufaddr,blknum-maxcookies) ;
-      } else {
-         savebuftoweb(bufaddr,blknum-temp) ;
-      }
+      savebuftoram(bufaddr,blknum-maxcookies) ;
    }
    bufdirty[buffer] = 0 ;                      // set clean
    var stoptime = new Date().getTime();
@@ -3117,11 +2993,7 @@ function loadblock(blknum,buffer)  {
       var blockdata = loadblockfromcookie(blknum,buffer) ;
    } else {
       var temp = localcapacity() ;
-      if (blknum<temp)  {
-         blockdata = loadblockfromram(blknum-maxcookies,buffer) ;
-      } else {
-         blockdata = loadblockfromweb(blknum-temp,buffer) ;
-      }
+       blockdata = loadblockfromram(blknum-maxcookies,buffer) ;
    }
    var stoptime = new Date().getTime();
    debug("block " + blknum + " read took " + (stoptime-starttime) + "ms") ;
@@ -5281,8 +5153,7 @@ function virtualmachine(entrypoint)  {
    do {
       w=m[ip++] ;                                 // read next xt from address list
       t[w]();                                     // execute
-   } while (!suspended)
-   write("") ;                                    // flush output buffer
+   } while (!suspended) ;
 }
 
 
