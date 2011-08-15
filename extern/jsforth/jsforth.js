@@ -1,60 +1,56 @@
-// Disclaimer: JS-Forth is delivered as-is. No warranties,
-// implicit or explicit, towards its function, usability, fitness
-// for any purpose are given. It is distributed for educative
-// purposes, you may study it to your hearts delight. Should 
-// you plan to execute JS-Forth on any computer, you declare
-// to not hold the programmer liable in any way for any damage
-// JS-Forth may cause, be it to that computer, peripherals, or any
-// other object in the range of several thousand kilometers, or
-// more. The person initiating execution of JS-Forth is the one
-// carrying sole responsibility for all and any damage resulting
-// from this action. Also, you do not hold the programmer liable
-// for any damage resulting from the study of JS-Forth.  Please
-// do not stick your tongue into the power supply of the computer
-// which is running JS-Forth.
-// By opening JS-Forth for reading or execution, you make a full
-// statement that you have read and understood all of the above
-// disclaimer, and proceed willingly, volunteerily, and of your
-// own choice on your own risk and responsability.
-//
-// Having said that, i can assure you that JS-Forth has not been
-// written to perform any malicious action on your computer or 
-// anyone elses. I run Js-Forth frequently, and no damage has
-// occured from doing so, though no extensive testing has been
-// done on it as a whole yet. Those parts which work do so in a
-// pretty stable manner. A major version jump to v0.01 may be imminent.
+/**
+  @preserve
 
+  JS-Forth
+  http: www.forthfreak.net/index.cgi?jsforth
+  Licensed under th GNU GPL.
+
+  Disclaimer: JS-Forth is delivered as-is. No warranties,
+  implicit or explicit, towards its function, usability, fitness
+  for any purpose are given. It is distributed for educative
+  purposes, you may study it to your hearts delight. Should
+  you plan to execute JS-Forth on any computer, you declare
+  to not hold the programmer liable in any way for any damage
+  JS-Forth may cause, be it to that computer, peripherals, or any
+  other object in the range of several thousand kilometers, or
+  more. The person initiating execution of JS-Forth is the one
+  carrying sole responsibility for all and any damage resulting
+  from this action. Also, you do not hold the programmer liable
+  for any damage resulting from the study of JS-Forth.  Please
+  do not stick your tongue into the power supply of the computer
+  which is running JS-Forth.
+
+  By opening JS-Forth for reading or execution, you make a full
+  statement that you have read and understood all of the above
+  disclaimer, and proceed willingly, volunteerily, and of your
+  own choice on your own risk and responsability.
+
+  Having said that, I can assure you that JS-Forth has not been
+  written to perform any malicious action on your computer or
+  anyone elses. I run Js-Forth frequently, and no damage has
+  occured from doing so, though no extensive testing has been
+  done on it as a whole yet. Those parts which work do so in a
+  pretty stable manner. A major version jump to v0.01 may be imminent.
+*/
 
 var version    = "0" ;
 var subversion = "5200804171342" ;
 var title      = "## JS-Forth " + version + "." + subversion + " ##" ;
 
-
-
-// if (document.captureEvents) document.captureEvents(Event.KEYPRESS) ;
-// if (window.captureEvents)   window.captureEvents(Event.CLICK) ;
-   if (document.domain.indexOf("forthfreak.net") == -1)  { version = -1 ; location.replace("http://forthfreak.net/jsforth80x25.html") ; }
-// document.getElementById('status').contentDocument.designMode = "on";
-
-
-
 // --------------------------------------------- vars you may wish to customize ---------------------------------------------------
 
 var memend               = 0x100000 ;                         // memory allocated to jsforth (1 megacells is more than plenty)
 var maxcookies           = 4                                  // number of disk sectors. >4 may be unsafe.
-var cookiebasename       = "jsfblk" ;                         // cookie name for saved blocks (blk number gets appended)
-var cookieexpirationdate = "Fri, 31 Dec 2015 23:59:59 GMT" ;  // the date your hard disk will get erased.
+var cookiebasename       = "jsrepl-jsforth" ;                 // cookie name for saved blocks (blk number gets appended)
+var cookieexpirationdate = Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000) ;  // the date your hard disk will get erased.
 var infolines            = 1000 ;                             // backscroll buffer size of info screen
 var paddistance          = 512  ;                             // space between here and pad.
 var padsize              = 512 ;                              // remaining space above pad until dictionary overflow error
-var maxbufs              = 2                                  // number of buffers. works with any between 1 ... maxmem
+var maxbufs              = 2 ;                                // number of buffers. works with any between 1 ... maxmem
                                                               // default=2, more may be useful if working with many remote blocks
-var blocktimeout         = 5000                               // file i/o error if request not completed with this time (ms)
-                                                           
+var blocktimeout         = 5000 ;                             // file i/o error if request not completed with this time (ms)
+
 // --------------------------------------------------------------------------------------------------------------------------------
-
-
-
 
 
 // --- character codes
@@ -73,11 +69,11 @@ var wc             =   0 ;              // header count
 var inbuf          =  new Array()  ;    // accumulated input characters
 
 
-var linelen        =  80 ;              // main screen 
+var linelen        =  80 ;              // main screen
 var lines          =  30 ;
 
 var linelen2       =  55 ;              // info screen
-var lines2         =  lines ;              
+var lines2         =  lines ;
 
 
 var screensize     = lines * linelen ;
@@ -94,12 +90,8 @@ var immediate      =  1 ;
 var smudgebit      =  2 ;
 var precedencebit  =  immediate ;
 
-var dp_cold ;                           // allows "cold" to restore dp and wc to
-var wc_cold ;                           // initial settings
-var heap_cold ;
 
-
-var s              = new Array();       // data stack 
+var s              = new Array();       // data stack
 var r              = new Array();       // return stack
 var m              = new Array();       // main memory
 var h              = new Array();       // headers
@@ -111,7 +103,7 @@ var sourceid       = new Array();       // nested loads/evaluate stack previous 
                                         // code for next per wordtype. this array contains
                                         // the proper next to use. this should also
                                         // simplify does>
-h[0] = "" ;                             // in case header 0 gets accidently requested 
+h[0] = "" ;                             // in case header 0 gets accidently requested
 var f              = new Array();       // float stack
 var ip;                                 // forth vm instruction pointer
 var w;                                  // forth vm word register
@@ -152,7 +144,7 @@ nextvocabulary <<= 1 ;    var teststuff =  nextvocabulary  ;
                           var lastsystemvocabulary =  nextvocabulary  ;
 
 
-var vocstack = new Array() ;                        // top element is in m[context] 
+var vocstack = new Array() ;                        // top element is in m[context]
 var vocname = new Array() ;                         // contains xt of all vocs
 
 
@@ -178,12 +170,11 @@ function jshiallot0(n)  {      // heap (buffers, allocate)
 
 // variables, shared between javascript and forth:
 // addressed by m[varname] from javascript, define a constant
-// with value of address for access from forth. 
+// with value of address for access from forth.
 var casesensitive = jscomma(0) ;      // switch case sensitive/insensitive dictionary search
 var debugging     = jscomma(0) ;      // get spilled with output on info display
-var popups        = jscomma(0) ;      // errors to terminal or popup alert
 var warnings      = jscomma(-1) ;     // meant to disable javascript warnings, but hides only error messages
-var compliance    = jscomma(jsf) ;    // cause find, words to scope only those words complying with the selected standard 
+var compliance    = jscomma(jsf) ;    // cause find, words to scope only those words complying with the selected standard
 var fittype       = jscomma(0) ;      // ALLOCATE chunk matching:    0: first, other: best fit
 var outfile       = jscomma(-1) ;     // switch between output routines:
                                       //  -1 : fast terminal
@@ -229,7 +220,7 @@ var blockstat     = new Array()       // -1: indexed by blk, gives -1 for unbuff
 // also trying to use these for vocabularies
 // "standard" is printed along with help. As this information is supplied
 // anyway, the compiler could use it, by making sure only words which belong
-// to a user specified standard are used, or printing warning otherwise. 
+// to a user specified standard are used, or printing warning otherwise.
 
 
 var ds            = new Array();      // bitmask for compliancy and vocs
@@ -242,20 +233,10 @@ for ( var i=0 ; i<linelen ; i++ ) lineofspaces += " " ;
 
 
 
-var linesonscreen = 1 ;
-var terminal      = new Array() ;   terminal[0]     = "" ;
-var charsperline  = new Array() ;   charsperline[0] = 0 ;
-
-
 function describe(string1,bitmask)  {
    dse[wc] = string1 ;
    ds[wc]  = 0 | m[current] ; if (bitmask) ds[wc] = bitmask | m[current];
 }
-
-
-
-var infoline = new Array() ;
-var allinfos = 0 ;
 
 
 
@@ -270,132 +251,51 @@ var allinfos = 0 ;
 // ---- infos screen ----
 
 function printinfos()  {
-   for (var i=infoline.length ; i>infolines ; i--) infoline.shift() ;              // limit #lines in buffer
-   if (allinfos) {
-      temp = infoline.join("\n") ;                                                 // want to see all lines
-   } else {
-      var temp="" ;
-      for (i=Math.max(0,infoline.length-lines2); i<infoline.length ; i++)  {
-         temp += (infoline[i] + "\n") ;                                            // want to see only last x lines
-      }
-   }
-   document.terminal.status.value = temp ;                                         // flush
+   // Nothing.
 }
-
-
-
-function clsinfo()      { for (i=infoline.length ; i ; i--) infoline.shift() ; }
-function info(string)   { infoline.push((string+"").substr(0,linelen2)) ; }
+function info(string)   {
+  // Nothing.
+}
 function debug(string)  { if (m[debugging]) info(string) ; }
 
-
-
-
-function moreinfo(string)  {              // appends to last info line
-   var temp  = infoline.length - 1 ;
-   var temp2 = infoline[temp] + string ;
-   infoline[temp] = temp2.substr(0,linelen2) ;
-}
-
-
-function seperator()  {
-   info("----------------------------------------------------------------") ;
-}
-
-
-
-
-
-
-
-
 // ---- interactive terminal screen ----
-function flushscreen()  {
-   document.terminal.dialog.value = terminal.join("\n") ;
-   printinfos() ;
- }
 
-
-function show() { flushscreen() } ;
+// THIS SHOULD BE REPLACED BY THE DESIRED PRINTING FUNCTION.
+function _print(str) {
+   document.terminal.dialog.value += str;
+}
 
 function type(string)  {
-   terminal[--linesonscreen] += string ;                                          // add output text to cursorline
-   charsperline[linesonscreen++] += string.length ;                               // update chars/line accordingly
-   if (charsperline[linesonscreen-1] <= linelen) return ;
-   for ( var lastline = --linesonscreen ; charsperline[lastline] > linelen ; ) {  // line longer than terminal wide ?
-      if (lastline >= lines) {                                                    // need to scroll ?
-         terminal.shift() ;                                                       // remove top line
-         charsperline.shift() ;
-         lastline-- ;                                                             // unregister top line
-      }
-      terminal.push(terminal[lastline].substr(linelen)) ;                         // break line, adding a new one
-      terminal[lastline] = terminal[lastline].substr(0,linelen) ;                 // move part beyond linelen to next line
-      charsperline.push(charsperline[lastline]-linelen) ;                         // calculate count chars on new line
-      charsperline[lastline++] = linelen ;                                        // set line len for cut line
-      if (m[outfile]==-2) flushscreen() ;                                         // update screen
-   }
-   linesonscreen = ++lastline ;
+   _print(string);
 }
 
 
 
-function write(string)  {
-   type(string) ;
-   flushscreen() ;
-}
+var write = type;
 
 
 
 function cr()  {
-   terminal.push("") ;                                              // add new empty line
-   charsperline.push(0) ;                                           // add new chars per line
-   linesonscreen++ ;
-   if (linesonscreen<lines)  {                                      // no scrolling, need to update only last line
-      document.terminal.dialog.value += terminal[linesonscreen-1] ;
-   } else {
-      for ( ; linesonscreen > lines ; linesonscreen-- ) {           // scrolling necessary ?
-         terminal.shift() ;                                         // remove top line
-         charsperline.shift() ;                                     // remove top line length
-      }
-      if (m[outfile]==-2) flushscreen() ;                           // update screen
-   }
+   _print("\n");
 }
 
 
 
 function cls()     {
-   for ( ; linesonscreen > 1 ; linesonscreen-- )  {                 // remove all but one lines
-      terminal.pop()  ;
-      charsperline.pop() ;
-   }
-   terminal[0]="" ;                                                 // empty the one remaining line
-   charsperline[0] = 0 ;
-   flushscreen() ;
+   // Nothing.
 }
 
 
 
 function backspaces(n)    {
-   if (n>0)  {
-      var lastline = linesonscreen - 1 ;
-      var charstoremain = charsperline[lastline] - n ;
-      if (charstoremain < 0) {
-         charstoremain = 0 ;
-      }
-      terminal[lastline] = terminal[lastline].substr(0,charstoremain) ;
-      charsperline[lastline] = charstoremain ;
-   }
+   // Nothing.
 }
 
 
 function emit(asc)     { type(String.fromCharCode(asc)); }
 
 
-
-function querytype(string)  {    // breaks line if string won't fit
-   if ((charsperline[linesonscreen-1] + string.length) > linelen)  cr() ;
-   type(string) ;
-}
+var querytype = type;
 
 
 
@@ -472,10 +372,6 @@ function headerless()  {  h[wc] = "" ;  }
 
 
 
-primitive("cls2",clsinfo) ;                 // clear info window
-describe("--",jsf) ;
-
-
 definitions(hidden) ;
 
 function pack(a,n)   {
@@ -499,7 +395,7 @@ function unpackstring(string,address)   {  // returns len
 
 
 
-// unpack packed string x to address, return number of characters 
+// unpack packed string x to address, return number of characters
 // can reuse the function above
 function unpack()   {                                     // ( x a -- n )
    var string = s[sp--] ;                                 // string
@@ -543,22 +439,12 @@ describe("a n --",jsf) ;
 
 
 definitions(forth)
-function forthinfo() {   // ( a n -- )                   info 
+function forthinfo() {   // ( a n -- )                   info
    info(pack(s[sp--],tos)) ;
    tos = m[sp--] ;
 }
 primitive("info",forthinfo) ;
 describe("a n --",jsf) ;
-
-
-function forthmoreinfo() {   // ( a n -- )                ...info 
-   moreinfo(pack(s[sp--],tos)) ;
-   tos = m[sp--] ;
-}
-primitive("...info",forthmoreinfo) ;
-describe("a n --",jsf) ;
-
-
 
 
 
@@ -588,7 +474,7 @@ describe("-- u",jsf) ;
 
 
 
-// ----- multi standard selection ----- 
+// ----- multi standard selection -----
 
 definitions(forth) ;
 
@@ -719,29 +605,19 @@ function errordialog(x)   {
 
 
 
-
+// THIS SHOULD BE REPLACED BY THE DESIRED ERROR FUNCTION.
+function _error(str) {
+   info(str);
+}
 
 // throw without catch frame - top level error handler
 function exception(x)  {
-   cr() ;
-
-   if (m[blk]>=0)   {
-      var temp = m[toin] % 64 ;
-      write(pack(parsebuf + m[toin] - temp,temp)) ;
-   } else {
-      write(pack(parsebuf,m[toin])) ;
-   }
-   cr() ;
-   if (m[popups]) {
-      alert(errordialog(x)) ;
-    } else {
-      type("=== " + errordialog(x) + " ===") ; cr() ;
-    }
+    _error(errordialog(x));
 // just calling the virtual machine won't do, as that would require more and more javascript return stack.
 //  stopping the interpreter, and have it restart with a one-time event at the warm start point solves this.
-    debug("issuing timed event 'warmstart vm in 1 ms'") ; 
+    debug("issuing timed event 'warmstart vm in 1 ms'") ;
     suspended = warm ;
-    setTimeout(virtualmachine,1,warm) ;
+    setTimeout(function() { virtualmachine(warm) ; }, 1) ;
     tos = s[sp--] ;
 }
 
@@ -754,7 +630,7 @@ function forththrow0()  {
    catchframe = r[rp] ;
    sp = r[--rp] ;
    ip = r[--rp] ;
-   rp-- ;  
+   rp-- ;
    tos = 0 ;
 }
 var brthrow0 = dp
@@ -763,10 +639,10 @@ m[dp++] = primitive("throw0",forththrow0) ;
 
 definitions(forth) ;
 function forthcatch() {
-   r[++rp] = ip ;  
+   r[++rp] = ip ;
    r[++rp] = sp ;
-   r[++rp] = catchframe ;    
-   catchframe = rp ;   
+   r[++rp] = catchframe ;
+   catchframe = rp ;
    r[++rp] = brthrow0 ;
    forthexecute() ;
 }
@@ -822,7 +698,7 @@ describe("a n1 n2 --",jsf) ;
 
 
 definitions(hidden) ;
-function forthdolit()      { s[++sp]=tos ; tos=m[ip++] ; } 
+function forthdolit()      { s[++sp]=tos ; tos=m[ip++] ; }
 var x_lit=primitive("(lit)",forthdolit) ;
 
 
@@ -835,7 +711,7 @@ var x_brcquote=primitive('(c")',forthbrcquote) ;
 
 
 
-function forthbrdotquote()  { 
+function forthbrdotquote()  {
    forthbrsquote() ;
     forthpack() ;
     type(tos) ;
@@ -865,8 +741,8 @@ function forthbranch()     { ip+=m[ip] ; }
 var x_branch=primitive("(branch)",forthbranch) ;
 
 
-function forth0branch()   { 
-   if (tos)  { 
+function forth0branch()   {
+   if (tos)  {
       ip++ ;
    } else    {
       ip+=m[ip] ;
@@ -894,51 +770,12 @@ var x_warminit = primitive("warminit",forthwarminit) ;
 
 
 
-function forthcoldinit() {                                        // not for interactive use
-    window.onerror = ErrorEvent ;
-    window.onwarning = ErrorEvent ;
-    window.offscreenBuffering = false ;
-    for ( ; sourceid.length ; sourceid.pop() ) ;
-    for ( ; nextvocabulary>lastsystemvocabulary ; nextvocabulary>>=1 )  vocname.pop()  ;
-
-    dp = dp_cold ;
-    wc = wc_cold ;
-    heapend = heap_cold ;
-
-    for ( ; usedchunk.length; usedchunk.pop()) ;
-    nusedchunks = 0 ;
-    for ( ; i=freechunk.length ; freechunk.pop() ) ;
-    nfreechunks = 0 ;
-
-    for (i=0 ; i<maxbufs ; i++  )  {                              // for each buffer:
-       buf[i] = jshiallot0(1024) ;                                // allocate and initialize buffer
-       info("buffer " + i + " allocated at addr " + buf[i]) ; 
-       bufdirty[i] = 0 ;                                          //  set flushed
-       bufblk[i] = -1 ;                                           //  contains no block
-    }
-    for (i=0 ; i<capacity() ; blockstat[i++] = -1 ) ;             // mark all blocks unbuffered
-
-    coldstartinfo() ;
-    m[base] = 10 ;
-
-    forthonly() ;
-    forthforth() ;
-    forthalso() ;
-    m[current] = forth ;
-
-    forthwarminit() ;
-  }
-var x_coldinit = primitive("coldinit",forthcoldinit) ;
-
-
-
-
 function forthbrabortquote()   {
    if (tos)   {
       forthbrsquote() ;
       forthpack() ;
       systemerror[2] = tos ;
-      throwerror(-2) ; 
+      throwerror(-2) ;
    } else {
       tos = s[sp--] ;
       ip += m[ip]+1 ;
@@ -1171,8 +1008,8 @@ describe("a -- d",any) ;
 
 
 function forth2store()    {                                      // 2!
-   m[tos++] = s[sp--] ; 
-   m[tos] = s[sp--] ; 
+   m[tos++] = s[sp--] ;
+   m[tos] = s[sp--] ;
    tos = s[sp--] ;
 }
 var x_2store=primitive("2!",forth2store) ;
@@ -1191,17 +1028,17 @@ describe("c a --",any) ;
 
 function forthcount()    { s[++sp]=tos+1 ; tos=m[tos]&255 ; }     // count
 var x_count=primitive("count",forthcount) ;
-describe("a1 -- a2 c",any) ; 
+describe("a1 -- a2 c",any) ;
 
 
 function forthskim()     { s[++sp]=tos+1 ; tos=m[tos] ; }        // skim
 var x_skim=primitive("skim",forthskim) ;
-describe("a1 -- a2 x",jsf) ; 
+describe("a1 -- a2 x",jsf) ;
 
 
 function forthexchange() { w = m[tos] ; m[tos] = s[sp--] ; tos = w ; }  // exchange
 var x_exchange=primitive("exchange",forthexchange) ;
-describe("x1 a -- x2",jsf) ; 
+describe("x1 a -- x2",jsf) ;
 
 
 function forthon()  { m[tos] = -1 ; tos = s[sp--] ; }            // on
@@ -1221,7 +1058,7 @@ function forthfill()     {                                       // fill
    tos = s[sp--] ;
 }
 var x_fill=primitive("fill",forthfill) ;
-describe("a u c --",any) ; 
+describe("a u c --",any) ;
 
 
 function fortherase()    { s[++sp] = tos ; tos = 0 ; forthfill() ; }
@@ -1237,18 +1074,18 @@ function forthslashstring()  {                                   //  /string
    tos -= w ;
 }
 var x_slashstring=primitive("/string",forthslashstring) ;
-describe("a1 n1 u -- a2 n2",ans|jsf|uncertain) ; 
+describe("a1 n1 u -- a2 n2",ans|jsf|uncertain) ;
 
 
 
-function noop()  { }    
+function noop()  { }
 
 primitive("align",noop|immediate) ;                                 // align
 describe("--",ans|jsf) ;
 
 
 primitive("aligned",noop|immediate) ;                               // aligned
-describe("a1 -- a2",ans|jsf) 
+describe("a1 -- a2",ans|jsf)
 
 
 function forthpad()   { s[++sp] = tos ; tos = dp + paddistance ; }
@@ -1292,47 +1129,8 @@ describe("n --",any) ;
 definitions(hidden) ;
 
 
-// --- messages written to info screen ---
-function coldstartinfo() {
-    clsinfo();
-    seperator();
-    info("COLD START");
-    seperator();
-    info("this window is output only.");
-    info("terminal size has been set to " + linelen + "x" + lines +".") ;
-    info("heap is at addr " + heapend) ;
-    info("blocks 0 .. " + (cookiedrivecapacity()-1) + " mapped to cookiedrive.") ;
-    info("blocks " + cookiedrivecapacity() + " .. " +  (cookiedrivecapacity() + ramdrivecapacity() - 1) + " mapped to ramdrive.") ;
-    info("blocks " + localcapacity() + " .. " + (capacity()-1) + " mapped to webdrive (read/only)") ; 
-    seperator();
-    info(cookiedrivecapacity() + " LOAD      to add more block words, like LS W") ; 
-    seperator();
-    info("Next steps work with \"best viewed with\" browsers only:");
-    info("21 LOAD   loads the decompiler SEE"); 
-    info("Use it like SEE word, some words are in the HIDDEN voc"); 
-    
-    seperator();
-}
-
-
-
 
 // --- messages written to dialog screen ---
-function center(string)  {  type(lineofspaces.substring(0,Math.max((linelen - string.length),0)/2) + string ) ; }
-function forthhello()    {                                       // hello
-   var home = -1 ;
-          center("================================================================================");
-   cr() ; center(title) ; 
-   cr() ; center("This program is published under the GPL.");
-   cr() ; center("To read the licence, type GPL <enter>")
-   cr() ; center("================================================================================");
-   cr() ; type("  ok");
-}  
-
-var x_hello=primitive("hello",forthhello) ;
-describe("--",jsf) ;
-
-
 
 definitions(forth) ;
 function forthspace()    { type(" ") ; }                         // space
@@ -1369,15 +1167,7 @@ describe("--",jsf) ;
 
 
 function forthprompt()   {                                       // prompt
-   if (m[state])   {
-      cr() ; type("|  ") ;
-   } else {
-      type(" ok") ;
-      if (sp>0) {
-          for ( var i=Math.min(sp,16) ; i ; i-- )  type(".") ;
-      }
-      cr();
-   }
+   // Nothing.
 }
 var x_prompt=primitive("prompt",forthprompt) ;
 describe("--",any) ;
@@ -1438,7 +1228,12 @@ definitions(hidden) ;
 // the high level key and key? word call both parts, and, at the
 // same time, provide the after-event reentry point.
 
-function forthkey1()    { if (!inbuf.length)  suspended = w ; }
+function forthkey1()    {
+  if (!inbuf.length) {
+    suspended = w ;
+    _input(function() { virtualmachine(ip) ; }) ;
+  }
+}
 var x_key1 = primitive("key1",forthkey1) ;
 describe("--",jsf)
 
@@ -1452,7 +1247,7 @@ describe("-- c",jsf)
 function forthkey1query()    {
    if (!inbuf.length)  {                                    // key buffered - no need for event
       suspended = w ;                                       // stop interpreter shortly to allow possible key event
-      setTimeout(virtualmachine,0,ip) ;                     // restart short time later 
+      setTimeout(function() { virtualmachine(ip) ; }, 0) ;  // restart short time later
    }
 }
 var x_key1query = primitive("key1?",forthkey1query) ;
@@ -1473,12 +1268,11 @@ describe("-- f",jsf)
 
 
 // ( bufaddr editaddr nkeys ascii -- bufaddr editaddr nkeys )
-function forthacceptprintable()  { 
+function forthacceptprintable()  {
    w = tos ;
-   tos = s[sp--] ;        // w:asc,  tos:n keys to go, s[sp]:editing address, s[sp-1]: buffer start 
+   tos = s[sp--] ;        // w:asc,  tos:n keys to go, s[sp]:editing address, s[sp-1]: buffer start
    if (tos>1)  {
       m[s[sp]] = w ;
-      emit(w) ;           // echo one char
       s[sp]++ ;
       tos-- ;
    }
@@ -1488,8 +1282,8 @@ function forthacceptprintable()  {
 
 
 // ( bufaddr editaddr nkeys ascii -- bufaddr editaddr nkeys )
-function forthacceptescape()     { 
-   tos = s[sp--] ;        // tos:n keys to go, s[sp]:editing address, s[sp-1]: buffer start 
+function forthacceptescape()     {
+   tos = s[sp--] ;        // tos:n keys to go, s[sp]:editing address, s[sp-1]: buffer start
    tos += (s[sp] - s[sp-1]) ;
    backspaces(s[sp]-s[sp-1]) ;
    s[sp] = s[sp-1] ;
@@ -1617,7 +1411,7 @@ translatedchar[37] = "F" ;
 translatedchar[59] = "G" ;
 
 var translatechar = new Array(0,9,10,13,32,37,59) ;
- 
+
 
 
 function encoded(text)  {
@@ -1672,7 +1466,7 @@ function readcookie(name)  {
    var cookieend = temp.indexOf(";") ;
    if (cookieend != -1)  return decoded(temp.substr(0,cookieend)) ;
    return decoded(temp) ;
-}  
+}
 
 
 
@@ -1814,7 +1608,7 @@ describe("x1 x2 -- x3 x4",any|foerthchen) ;
 function forthstarslashmod()      {                                  // */mod
    if (tos)  {
       w = s[sp--] * s[sp] ;
-      s[sp] = w % tos ; 
+      s[sp] = w % tos ;
       tos = w / tos ;
       if (tos<0)  tos += floorfix ;
       tos = Math.floor(tos) ;
@@ -1836,7 +1630,7 @@ var x_abs=primitive("abs",forthabs) ;
 describe("n -- u",any) ;
 
 
-function forthlshift()     { 
+function forthlshift()     {
    if (tos>31) {
       tos=0;
       sp--;
@@ -1850,7 +1644,7 @@ primitive("<<",forthlshift) ;
 describe("x1 u -- x2",jsf) ;
 
 
-function forthrshift()     { 
+function forthrshift()     {
    if (tos>31) {
       tos=0;
       sp--;
@@ -1883,7 +1677,7 @@ function forthrange()  {
    s[sp] += temp ;
 }
 var x_range = primitive("range",forthrange) ;
-describe("x n -- x+n x",ans|jsf|f83) ; 
+describe("x n -- x+n x",ans|jsf|f83) ;
 
 
 
@@ -1924,13 +1718,13 @@ describe("d -- ud",any) ;
 
 
 function forthdplus()  {                                             // d+
-   if (tos<0) tos += 0x100000000 ; 
+   if (tos<0) tos += 0x100000000 ;
    var low2 = s[sp--] ; if (low2<0)  low2 += 0x100000000 ;
    var high1 = s[sp--] ; if (high1<0) high1 += 0x100000000 ;
    var low1 = s[sp]   ; if (low1<0)  low1 += 0x100000000 ;
    tos += high1 ;
    w = low1+low2 ;
-   if (w > 0x100000000) {     // detect carry 
+   if (w > 0x100000000) {     // detect carry
       w &= 0xffffffff ;
       tos++ ;                 // apply carry
    }
@@ -1951,7 +1745,7 @@ function forthummul()  {     // ( u1 u2 -- ud )                       // um*
       resulthi <<= 1 ;
       if (resultlo & 0x80000000)  resulthi++ ;
       resultlo <<= 1 ;
-      if (tos & 0x80000000)  { 
+      if (tos & 0x80000000)  {
          if ((resultlo + temp) > 0xffffffff)  resulthi++ ;
          resultlo += temp ;
       }
@@ -1997,7 +1791,7 @@ describe("d1 d2 -- f",any) ;
 
 
 function forthdequ()  {                                                 // d=
-  tos = -((tos == s[sp-1]) & (s[sp] == s[sp-2]))  
+  tos = -((tos == s[sp-1]) & (s[sp] == s[sp-2]))
    sp -= 3 ;
 }
 primitive("d=",forthdequ) ;
@@ -2015,7 +1809,7 @@ function forthumslashmod()  {    //    ( d u1 -- u2 u3 )
 // tos = divisor
 
    var quotient = 0 ;
-   var remainder  = 0 ;                                      // portion of divident         
+   var remainder  = 0 ;                                      // portion of divident
    var divbit = 0 ;
    if (tos)  {                                               // hi part not 0 ?
       divbit = 0x80000000 ;
@@ -2024,14 +1818,14 @@ function forthumslashmod()  {    //    ( d u1 -- u2 u3 )
       }
    }
    for (var j=2 ; j ; j--)  {                                // crunch 2x 32 bit
-      var divident = s[sp--] ;                               // next divident portion        
-      for ( ; divbit ; divbit>>>=1)  { 
+      var divident = s[sp--] ;                               // next divident portion
+      for ( ; divbit ; divbit>>>=1)  {
          remainder <<= 1 ;
          if (divident & divbit) remainder++ ;
          quotient<<=1 ;
          if (remainder>=tos)  {
             remainder-=tos ;
-            quotient++ 
+            quotient++
          }
       }
    divbit = 0x80000000 ;
@@ -2040,11 +1834,11 @@ function forthumslashmod()  {    //    ( d u1 -- u2 u3 )
    s[++sp] = remainder ;
 }
 primitive("um/mod",forthumslashmod) ;
-describe("d u1 -- u2 u3",any) ; 
+describe("d u1 -- u2 u3",any) ;
 
 
 
-function forthudslashmod()  {    //    ( d1 u1 -- u2 d2 ) 
+function forthudslashmod()  {    //    ( d1 u1 -- u2 d2 )
    w = tos ;
    s[++sp] = 0 ;
    forthumslashmod() ;
@@ -2056,7 +1850,7 @@ function forthudslashmod()  {    //    ( d1 u1 -- u2 d2 )
    tos = w ;
 }
 var x_udslashmod = primitive("ud/mod",forthudslashmod) ;
-describe("d1 u1 -- u2 d2",jsf) ; 
+describe("d1 u1 -- u2 d2",jsf) ;
 
 
 
@@ -2101,7 +1895,7 @@ describe("x1 -- x2",fig|f79) ;
 // =================================================================================================
 //                                              logic
 // =================================================================================================
-function forthequ()        { tos = -(tos == s[sp--]) ; }             // = 
+function forthequ()        { tos = -(tos == s[sp--]) ; }             // =
 var x_equ = primitive("=",forthequ) ;
 describe("x1 x2 -- f",any) ;
 
@@ -2116,12 +1910,12 @@ var x_more = primitive(">",forthmore) ;
 describe("n1 n2 -- f",any) ;
 
 
-function forthless()        { tos = -(tos > s[sp--]) ; }             // < 
+function forthless()        { tos = -(tos > s[sp--]) ; }             // <
 var x_less = primitive("<",forthless) ;
 describe("n1 n2 -- f",any) ;
 
 
-function forth0equ()     { tos = -(tos == 0) ;  }                    // 0= 
+function forth0equ()     { tos = -(tos == 0) ;  }                    // 0=
 var x_0equ = primitive("0=",forth0equ) ;
 describe("x -- f",any) ;
 
@@ -2142,7 +1936,7 @@ describe("n -- f",any) ;
 
 
 
-function forthuless()        {                                       // u< 
+function forthuless()        {                                       // u<
    w = s[sp--] ;
    if (tos<0)    tos += 0x100000000 ;
    if (w<0)      w   += 0x100000000 ;
@@ -2152,7 +1946,7 @@ primitive("u<",forthuless) ;
 describe("u1 u2 -- f",any) ;
 
 
-function forthumore()        {                                       // u> 
+function forthumore()        {                                       // u>
    w = s[sp--] ;
    if (tos<0)    tos += 0x100000000 ;
    if (w<0)      w   += 0x100000000 ;
@@ -2167,7 +1961,7 @@ describe("u1 u2 -- f",any) ;
 function forthwithin()  {       // ( x1 x2 x3 -- flag )              // within
    w = s[sp--] ;
    var temp = s[sp--] ;
-   var temp2 = tos ; 
+   var temp2 = tos ;
    tos = -1 ;
    if (w < temp2)  {
       if (w <= temp)  {
@@ -2194,7 +1988,7 @@ describe("x1 x2 x3 -- f",any) ;
 //                                    pictured number conversion
 // =================================================================================================
 
-// non standard stack: does currently not expect double, but single number 
+// non standard stack: does currently not expect double, but single number
 // that's why further implementation has been postponed - need double math first.
 // ( d -- d )
 
@@ -2205,7 +1999,7 @@ function forthlesshash()  {                                          // <#
    picturedoutpos = dp + paddistance ;
    picturedoutlen = 0 ;                                              // avoiding len calc allow to allot
 }                                                                    // during pic num conv
-var x_lesshash = primitive("<#",forthlesshash) ;  
+var x_lesshash = primitive("<#",forthlesshash) ;
 describe("--",any) ;
 
 
@@ -2215,7 +2009,7 @@ function forthhold()  {
    picturedoutlen++ ;
    tos = s[sp--]  ;
 }
-var x_hold = primitive("hold",forthhold) ;  
+var x_hold = primitive("hold",forthhold) ;
 describe("c --",any) ;
 
 
@@ -2227,7 +2021,7 @@ function forthsign()  {
    }
    tos = s[sp--]
 }
-var x_sign = primitive("sign",forthsign) ;  
+var x_sign = primitive("sign",forthsign) ;
 describe("n --",any) ;
 
 
@@ -2237,7 +2031,7 @@ function forthhashmore()  {                                          // #>
    s[sp] = picturedoutpos ;
    tos = picturedoutlen ;
 }                                                                    // during pic num conv
-var x_hashmore = primitive("#>",forthhashmore) ;  
+var x_hashmore = primitive("#>",forthhashmore) ;
 describe("-- a n",any) ;
 
 
@@ -2260,15 +2054,15 @@ function dodoes()  {
    s[++sp] = tos  ;  tos = x[w] ;              // push words address of defined word
    r[++rp] = ip   ;                            // nest
    ip = m[tos++]  ;                            // set ip to does> part, and tos to body of defined word
-   w = m[ip++]    ;  t[w]() ;                  // next                     
+   w = m[ip++]    ;  t[w]() ;                  // next
 }
 
 
 
 // compiled to end of create part by does>
-// executed during execution of defining word 
+// executed during execution of defining word
 function setdoes()  {                                                 // tos: xt of does> part
-  m[x[wc]] = ip+1 ;                                                   // created word points to does> 
+  m[x[wc]] = ip+1 ;                                                   // created word points to does>
   t[wc] = dodoes ;                                                    // created word linkage code is dodoes
 }
 var x_setdoes = primitive("setdoes",setdoes) ;
@@ -2289,7 +2083,7 @@ definitions(hidden) ;
 
 function forthbrfor()  {
    r[++rp]=tos ;
-   r[++rp]=tos ; 
+   r[++rp]=tos ;
    ip++  ;
    tos=s[sp--] ;
 }
@@ -2375,7 +2169,7 @@ function forthbrloop() {
 }
 var x_brloop=primitive("(loop)",forthbrloop) ;
 describe("--",jsf) ;
- 
+
 
 
 function forthbrplusloop()   {                         // (+loop)
@@ -2438,11 +2232,11 @@ function forthi() {  s[++sp]=tos  ;  tos=r[rp] ; }
 var x_i=primitive("i",forthi) ;
 describe("-- x",any) ;
 
- 
+
 function forthj() {  s[++sp]=tos  ;  tos=r[rp-2] ; }
 var x_j=primitive("j",forthj) ;
 describe("-- x",any) ;
- 
+
 
 
 definitions(hidden) ;
@@ -2453,7 +2247,7 @@ function forthunstructured()  {
    systemerror[66] = "unstructured, missing " + controlflow[tos] + ", expected " + controlflowwant[s[sp]] ;
    throwerror(-66) ;
 }
-var x_unstructured = primitive("unstructured",forthunstructured) 
+var x_unstructured = primitive("unstructured",forthunstructured)
 
 
 
@@ -2467,17 +2261,17 @@ var x_unstructured = primitive("unstructured",forthunstructured)
 definitions(forth) ;
 
 function forthmove()   {                                  // move
-   if ( s[sp] > s[sp+1] )  { 
+   if ( s[sp] > s[sp+1] )  {
       dest = s[sp--] + tos ;
       src = s[sp--] + tos ;
       for ( ; tos ; tos-- ) m[--dest] = m[--src] ;
-   } else {   
+   } else {
       var dest = s[sp--] ;
       var src = s[sp--] ;
       for ( ; tos ; tos-- ) m[dest++] = m[src++] ;
    }
    tos = s[sp--] ;
-}   
+}
 var x_move = primitive("move",forthmove) ;
 describe("a1 a2 u --",any) ;
 
@@ -2547,17 +2341,17 @@ function forthqsinglenumber()  {        // a n -- x -1 | 0 )
    var  sign=0 ;
    var radix=m[base] ;
    i = tos ;                            // number of digits to test/convert
-   tos = -1 ;                           // assume valid number     
+   tos = -1 ;                           // assume valid number
    w = s[sp] ;                          // addr of next digit
    s[sp] = 0 ;                          // accumulator
    if ( m[w] == 45 ) {                  // leading -
       sign = -1 ;
       w++ ;                             // strip
-      i-- ; 
+      i-- ;
    }
    for ( var i ; i ; i-- )  {           // for all digits
       digit = m[w++] - 48 ;             // read digit
-      if ( digit == -2 )   info("no input support for floating point numbers yet") ;
+      if ( digit == -2 )   exception("no input support for floating point numbers yet") ;
       if ( digit > 9 )    {
          if ( digit < 17)  { tos = 0 ; break ; }
          digit -= 7 ;
@@ -2565,7 +2359,7 @@ function forthqsinglenumber()  {        // a n -- x -1 | 0 )
       if ( digit > 41 )    digit -= 32 ;
       if ( digit < 0 )     { tos = 0 ; break ; }
       if  (digit >= radix) { tos = 0 ; break ; }
-      s[sp] *= radix ;                   
+      s[sp] *= radix ;
       s[sp] += digit ;
    }
    if (tos)  {
@@ -2581,10 +2375,10 @@ function forthqsinglenumber()  {        // a n -- x -1 | 0 )
 
 function forthqnumber()  {        // a n -- x -1 | 0 )
    if (m[s[sp]+tos-1]==46) {
-      info("no input support for double length numbers yet")
+      exception("no input support for double length numbers yet") ;
       sp-- ; tos=0 ;
    } else {
-      forthqsinglenumber()  
+      forthqsinglenumber()
    }
 }
 var x_qnumber = primitive("?number",forthqnumber) ;
@@ -2602,7 +2396,7 @@ function forthinterpretnumber()  {    // ( a n -- x -1 | d -1 | r -1 | -1 | 0 )
       }
    }
 }
-var x_interpretnumber = primitive("interpretnumber",forthinterpretnumber) ; 
+var x_interpretnumber = primitive("interpretnumber",forthinterpretnumber) ;
 
 
 
@@ -2616,13 +2410,13 @@ var x_interpretnumber = primitive("interpretnumber",forthinterpretnumber) ;
 //      else
 //        char = . ?
 //        if
-//           
+//
 //        else
 //          otherlegalchars? none if NaN then
 //        then
 //      then
 //    next
-//    negate? 
+//    negate?
 //    state @ if
 //      compile lit
 //    then  ;
@@ -2644,7 +2438,7 @@ function forthwords()  {                                          // words
    for (var i=wc; i; i--)  {
       if (h[i])  {
          if (m[context] & ds[i]) {
-            if (m[compliance] & ds[i])  querytype(h[i]+" ") ;  
+            if (m[compliance] & ds[i])  querytype(h[i]+" ") ;
          }
       }
    }
@@ -2799,8 +2593,8 @@ function forthbodyfrom()  {                             // ( a1 -- a2 )
          if (x[i] == tos)  {                            // word pointer match ?
             tos = i;                                    // yes, return xt
             return;
-         }   
-      }      
+         }
+      }
    }
    throwerror(-65) ;
 }
@@ -2922,8 +2716,6 @@ describe("-- u",ans|jsf) ;
 
 
 
-primitive("seperator",seperator) ;
-describe("--",jsf) ;
 
 
 function forthheap()  {         // ( -- a )
@@ -2973,7 +2765,7 @@ function saveblock()  {
 screenline = new Array() ;
 screenline.push("( ramdrive block 0 - essential block words      -load- )") ;
 screenline.push(": copy (s u1 u2 -- ) swap block swap buffer c/s move update ;") ;
-screenline.push(": clear (s u -- ) buffer c/s blank update ;") ; 
+screenline.push(": clear (s u -- ) buffer c/s blank update ;") ;
 screenline.push(": index1 (s u -- )  dup scr ! 2 .r space 0 .line ;") ;
 screenline.push(": index (s u1 u2 -- ) 1+ swap ?do cr i index1 loop ;") ;
 screenline.push(": ls (s -- ) 0 capacity 1- index ;") ;
@@ -3001,7 +2793,7 @@ screenline.push("") ;
 screenline.push(": .line2 (s u -- ) c/l * screen + c/l -trailing info ;") ;
 screenline.push("") ;
 screenline.push("( list screen on info window )") ;
-screenline.push(": list2 (s u -- ) scr ! seperator l/s 0 do i .line2 loop ;") ;
+screenline.push(": list2 (s u -- ) scr ! l/s 0 do i .line2 loop ;") ;
 screenline.push("") ;
 screenline.push("( list all screens on info, enable backscroll )") ;
 screenline.push(": sources (s -- )  capacity 0 do i list2 loop all ;") ;
@@ -3115,7 +2907,7 @@ function loadblockfromcookie(blknum,destaddr)  {       // unpack block to addres
       }
    }
    return destaddr ;
-} 
+}
 
 
 function savebuftocookie(addr,blknum)  {
@@ -3157,12 +2949,12 @@ function localcapacity()        { return (ramdrivecapacity() + cookiedrivecapaci
 var requesting_load = 0 ;
 var waitingforblock = wc ;                            // suspension id
 var bufferforrequest = new Array() ;                  // buffer queue
-var blockwatchdog ;                                   // carry event id across functions             
+var blockwatchdog ;                                   // carry event id across functions
 
 
 
 function blockreadtimeout() {
-   info("file transaction not completed in time") ;
+   exception("file transaction not completed in time") ;
    requesting_load = 0 ;
    throwerror(-37)  ;   // general i/o error
 }
@@ -3185,11 +2977,11 @@ function unpackfiletobuffer(remotefile)  {
          if (temp == 0x0a) {
             for (var j = 64 - (outpointer % 64) ; j ; j--)   m[bufaddr+outpointer++] = bl;     // pad line remainder with spaces
          } else {
-            m[bufaddr+outpointer++] = temp ;    
-         } 
-         if (outpointer >= 1024)  break ;         
+            m[bufaddr+outpointer++] = temp ;
+         }
+         if (outpointer >= 1024)  break ;
       }
-      for ( ; outpointer<1024 ; outpointer++ )  m[bufaddr+outpointer] = bl ; 
+      for ( ; outpointer<1024 ; outpointer++ )  m[bufaddr+outpointer] = bl ;
    }
 }
 
@@ -3201,7 +2993,7 @@ function unpackfiletobuffer(remotefile)  {
 
 // --- event handler, gets called when block transfer to iframe has completed
 function LoadingCompleteEvent(remotefile) {
-   if(requesting_load) {                                                       // only take action if i/o requested 
+   if(requesting_load) {                                                       // only take action if i/o requested
       debug("iframe event handler executes: suspended=" + suspended) ;
       if (suspended == waitingforblock)  {                                     // vm has been stopped, waiting for block completion
          window.clearTimeout(blockwatchdog) ;
@@ -3240,8 +3032,8 @@ function readfilefromweb(filename,destaddr) {
 
 
 function loadblockfromweb(blknum,destaddr)  {
-   if (requesting_load)  { 
-      info("previous request not completed") ;
+   if (requesting_load)  {
+      exception("previous request not completed") ;
       throwerror(-37)  ;                                                      // general i/o error
    } else {
       readfilefromweb(('webdrive/blk' + blknum),destaddr) ;
@@ -3283,7 +3075,7 @@ function capacity()             { return localcapacity() + remotecapacity() ; }
 
 
 function forthcapacity()        {  s[++sp] = tos ;  tos = capacity() ; }
-primitive("capacity",forthcapacity) ;  
+primitive("capacity",forthcapacity) ;
 describe("-- u",jsf) ;
 
 
@@ -3322,7 +3114,7 @@ function savebuf(buffer)    {
 function loadblock(blknum,buffer)  {
    var starttime = new Date().getTime();
    if (blknum<maxcookies) {
-      var blockdata = loadblockfromcookie(blknum,buffer) ; 
+      var blockdata = loadblockfromcookie(blknum,buffer) ;
    } else {
       var temp = localcapacity() ;
       if (blknum<temp)  {
@@ -3344,7 +3136,7 @@ var hotbuffer ;                                        // for update
 
 function forthblockorbuffer(flag) {                    // ( u -- a )  /  flag=true:block    false:buffer
    if ((tos>=capacity()) || (tos<0))  throwerror(-35) ;
-   if (blockstat[tos] >= 0) {                       // block already mapped: 
+   if (blockstat[tos] >= 0) {                       // block already mapped:
       hotbuffer = blockstat[tos] ;
       tos = buf[hotbuffer] ;                        // return buffer address
    } else {                                         // block not mapped:
@@ -3370,19 +3162,19 @@ function forthblockorbuffer(flag) {                    // ( u -- a )  /  flag=tr
 
 
 function forthbuffer() { forthblockorbuffer(false) ; }   // ( u -- a )
-var x_buffer = primitive("buffer",forthbuffer) ;  
+var x_buffer = primitive("buffer",forthbuffer) ;
 describe("u -- a",any) ;
 
 
 
 function forthblock()  { forthblockorbuffer(true) ; }    // ( u -- a )
-var x_block = primitive("block",forthblock) ;  
+var x_block = primitive("block",forthblock) ;
 describe("u -- a",any) ;
 
 
 
 function forthupdate()   { bufdirty[hotbuffer] = -1 ; }
-primitive("update",forthupdate) ;  
+primitive("update",forthupdate) ;
 describe("--",any) ;
 
 
@@ -3394,7 +3186,7 @@ function forthsavebuffers()  {
       blockstat[bufblk[i]] = -1;               // write block info "unbuffered"
    }
 }
-primitive("save-buffers",forthsavebuffers) ;  
+primitive("save-buffers",forthsavebuffers) ;
 describe("--",any) ;
 
 
@@ -3405,11 +3197,11 @@ function forthemptybuffers()  {
       if (bufblk[i]>=0)  {                     // buffer has block in ?
          blockstat[bufblk[i]] = -1 ;           // mark block as not buffered anymore
          bufblk[i] = -1 ;                      // mark buffer as not containing a block
-         bufdirty[i] = 0 ;                     // set clean 
+         bufdirty[i] = 0 ;                     // set clean
       }
    }
 }
-primitive("empty-buffers",forthemptybuffers) ;  
+primitive("empty-buffers",forthemptybuffers) ;
 describe("--",any) ;
 
 
@@ -3442,7 +3234,7 @@ function forthbufstats() {
    }
   forthblockstats() ;
 }
-primitive("bufstats",forthbufstats) ;  
+primitive("bufstats",forthbufstats) ;
 describe("--",jsf) ;
 
 
@@ -3461,10 +3253,10 @@ describe("--",jsf) ;
 
 
 // =================================================================================================
-//                                          vocabularies                            
+//                                          vocabularies
 // =================================================================================================
 
-// i'll try to use the standards selector to implement conventional vocabularies 
+// i'll try to use the standards selector to implement conventional vocabularies
 
 
 definitions(forth) ;
@@ -3603,7 +3395,7 @@ primitive("fdup",forthfdup) ;
 describe("r -- r r",any) ;
 
 
- 
+
 function forthfswap()     {                                            // fswap
     w = f.pop() ;
     f.push(ftos) ;
@@ -3983,7 +3775,7 @@ describe("r --",any) ;
 primitive("falign",noop,immediate)                                         // falign
 describe("--",ans) ;
 
-primitive("faligned",noop,immediate)                                       // faligned  
+primitive("faligned",noop,immediate)                                       // faligned
 describe("--",ans) ;
 
 
@@ -4038,7 +3830,7 @@ function searchfit(size)  {
       var temp = 0xffffffff ;                     // any chunk is better
       for (var i=0 ; i<nfreechunks ; i++)  {
          var slack = m[freechunk[i]-1] - size ;
-         if (slack == 0)  return i 
+         if (slack == 0)  return i
          if (slack > 2 )  {
             if (!fittype) return i ;
             if ( slack < temp )  {
@@ -4070,7 +3862,7 @@ describe("u -- a 0 | err",ans|jsf) ;
 
 function forthfree()  {    // ( a -- 0 | err )
    var temp = Math.min(m[tos-2],nusedchunks-1) ;
-   var chunkaddr = usedchunk[temp] ; 
+   var chunkaddr = usedchunk[temp] ;
    if (chunkaddr != tos)  {
       throwerror(-72) ;
    } else {
@@ -4087,7 +3879,7 @@ function forthfree()  {    // ( a -- 0 | err )
 
 // combining from end of memory towards lower addresses may be quicker .
    for (temp = 1 ; temp < nfreechunks ; temp++)  {
-      if (freechunk[temp] == chunkaddr)  {                      // merge chunks 
+      if (freechunk[temp] == chunkaddr)  {                      // merge chunks
          chunksize = m[freechunk[temp]-1] + 2 ;
          m[freechunk[temp-1]-1] += chunksize ;
          chunkaddr +=  chunksize ;
@@ -4102,7 +3894,7 @@ function forthfree()  {    // ( a -- 0 | err )
    temp = freechunk[nfreechunks-1] ;
    if (( temp + m[temp-1]) == heapend )  {
       nfreechunks-- ;
-      heapend = (freechunk.pop() - 2 ) ; 
+      heapend = (freechunk.pop() - 2 ) ;
    }
    tos = 0 ;
 }
@@ -4116,7 +3908,7 @@ describe("a -- 0 | err",ans|jsf) ;
 // RESIZE
 //    freed areas appendable ?
 //    yes: append
-//    no: allocate new, copy 
+//    no: allocate new, copy
 
 
 
@@ -4232,9 +4024,9 @@ describe("a1 n1 a2 -- n2",jsf) ;
 
 function forthms()  {
    suspended = w ;
-   setTimeout(virtualmachine,tos,ip) ;
+   setTimeout(function() { virtualmachine(ip) ; }, tos) ;
    tos = s[sp--] ;
-}   
+}
 var x_ms = primitive("ms",forthms) ;
 describe("u --",jsf) ;
 
@@ -4243,7 +4035,7 @@ describe("u --",jsf) ;
 function forthepoch()  {                                  // ( -- u )
    s[++sp] = tos ;
    w = new Date().getTime() ;
-   tos = Math.floor(w/1000) ;    
+   tos = Math.floor(w/1000) ;
 }
 primitive("epoch",forthepoch)
 describe("-- u",jsf) ;
@@ -4256,99 +4048,6 @@ function forthrandom()  {
 }
 primitive("random",forthrandom) ;
 describe("u1 -- u2",jsf)
-
-
-
-
-
-// ------------- http loading -------------
-
-
-
-function loadurl(url)  {
-   if (url.substr(0,7) != "http://")   url = ("http://" + url);
-   window.frames['help'].window.location.replace(url);
-}
-
-
-function forthurl()  {      // ( a n -- )   open the url in a new window
-   forthpack();
-   loadurl(tos);
-   tos=s[sp--];
-}
-primitive("url",forthurl)
-describe("a n ",jsf);
-
-
-function wiki(pagename)  {
-   loadurl("wiki.forthfreak.net/index.cgi?" + pagename);
- }
-
-
-function forthwiki()  {
-   wiki(pack(s[sp],tos)) ;
-   sp-- ;
-   tos = s[sp--] ;
-}
-primitive("wiki",forthwiki) ;
-
-
-
-function forthgpl()  { loadurl("www.gnu.org/licenses/gpl.txt")  }
-primitive("gpl",forthgpl) ;
-describe("--",jsf) ;
-
-
-function forthquickref()  { wiki("JavaScriptForthQuickReference")  }
-primitive("quickref",forthquickref) ;
-describe("--",jsf) ;
-
-
-function tutorials() { wiki("ForthTutorials") }
-primitive("tutorials",tutorials) ;
-describe("--",jsf) ;
-
-
-function andsoforth() { loadurl("http://www.xs4all.nl/~thebeez/ForthPrimer/Forth_primer.html#tth_chAp2") }
-primitive("AndSoForth",andsoforth) ;
-describe("--",jsf) ;
-
-
-
-function startingforth() { window.open("http://wiki.forthfreak.net/index.cgi/?StartingForth") }
-primitive("starting",startingforth) ;
-describe("--",jsf) ;
-
-
-
-
-// ------------ "direct screen" -------------
-
-
-
-
-function forthreadline()  {   //   ( n1 a -- n2 )  forth "direct" screen access 
-   w = s[sp] ;
-   s[sp] = terminal[tos] ;
-   tos = w ;
-   unpack() ;   
-}
-primitive("readline",forthreadline) ;
-describe("a n1 -- n2",jsf) ;
-
-
-
-function forthwriteline()  {   //   ( a n1 n2 -- )  forth "direct" screen access 
-   for ( ; linesonscreen<=tos ; )  cr() ;
-   w = s[sp--] ;
-   terminal[tos] = pack(s[sp--],w) ;
-   tos = s[sp--]
-}
-primitive("writeline",forthwriteline) ;
-describe("a n1 n2 --",jsf) ;
-
-
-
 
 
 // --------- helpers for see -----------
@@ -4382,7 +4081,7 @@ function forthdisassemble()  {                    // ( xt a -- n )
 }
 primitive("disassemble",forthdisassemble) ;
 describe("xt a -- n",jsf) ;
- 
+
 definitions(forth) ;
 
 
@@ -4393,15 +4092,15 @@ definitions(forth) ;
 
 
 
-function infosall()  { allinfos = -1 } ; primitive("all",infosall) ;
+function infosall()  { /* No-op. */ } ; primitive("all",infosall) ;
 describe("--",jsf) ;
 
-function infostail() { allinfos = 0  } ; primitive("tail",infostail) ;
+function infostail() { /* No-op. */ } ; primitive("tail",infostail) ;
 describe("--",jsf) ;
 
 
 
-function setinfoslines()  { 
+function setinfoslines()  {
    infolines = tos ;
    info("* buffer size set to " + tos + " lines.") ;
    tos = s[sp--] ;
@@ -4437,7 +4136,7 @@ var x_loadhelp = primitive("loadhelp",forthloadhelp) ;
 // =================================================================================================
 // =================================================================================================
 // =================================================================================================
-//                               no more primitives below this point                                    
+//                               no more primitives below this point
 // =================================================================================================
 // =================================================================================================
 // =================================================================================================
@@ -4514,7 +4213,7 @@ function UNTIL()     { m[dp++] = x_0branch ; m[dp] = tos-dp++ ; tos = s[sp--]; }
 function WHILE()     { IF() ; }
 function REPEAT()    { m[dp++] = x_branch  ; m[dp] = s[sp--]-dp++ ; m[tos] = dp-tos ; tos = s[sp--]; }
 function AGAIN()     { m[dp++] = x_branch  ; m[dp] = tos-dp++ ; tos = s[sp--]; }
-function makeDO(xt)  { m[dp++] = xt; s[++sp] = m[innerloop]; m[innerloop] = dp; s[++sp] = dp ; dp++ ; } 
+function makeDO(xt)  { m[dp++] = xt; s[++sp] = m[innerloop]; m[innerloop] = dp; s[++sp] = dp ; dp++ ; }
 function DO()        { makeDO(x_brdo)  ; }
 function QDO()       { makeDO(x_brqdo) ; }
 function LOOP()      { m[dp++] = x_brloop; m[dp++] = s[sp]+2-dp; m[s[sp]] = dp-s[sp--]; m[innerloop] = s[sp--]; }
@@ -4548,7 +4247,6 @@ var x_esc       = constant("esc",esc) ;                       describe("-- c",js
                   constant("true",-1) ;                       describe("-- -1",any) ;
                   constant("false",0) ;                       describe("-- 0",any) ;
                   constant("casesensitive",casesensitive) ;   describe("-- a",jsf) ;
-                  constant("popups",popups) ;                 describe("-- a",jsf) ;
                   constant("warnings",warnings) ;             describe("-- a",jsf) ;
                   constant("debugger",debugging) ;            describe("-- a",jsf) ;
 var x_xontext   = constant("context",context) ;               describe("-- a",jsf) ;
@@ -4638,7 +4336,7 @@ describe("xt --",any) ;
 
 definitions(hidden) ;
 
-var x_commastr = colon(",$") ; 
+var x_commastr = colon(",$") ;
      compile(x_here,x_over,x_1plus,x_allot,x_movestr);
 semicolon()
 describe("a n --",jsf) ;
@@ -4774,7 +4472,7 @@ describe("ud1 a1 u1 -- ud2 a2 u2",ans|jsf)
 //      if ( digit > 36 )  digit -= 32 ;
 //      if ( (digit >= 0) && (digit < radix) )  {
 
-//         s[sp-2] *= radix ;                   
+//         s[sp-2] *= radix ;
 //         s[sp-2] += digit ;
 
 //         w++ ;
@@ -4901,7 +4599,7 @@ describe("a n --",fig|f79|f83|ans) ;
 var x_query = colon("query") ;
    compile(x_tib,x_dup,x_lit,tibsize,x_accept) ;
    compile(x_dup,x_hashtib,x_store,x_storesource) ;
-   compile(x_in,x_off,x_space) ;
+   compile(x_in,x_off) ;
 semicolon() ;
 describe("--",any) ;
 
@@ -4995,7 +4693,7 @@ describe("d --",any) ;
 var x_ddotr = colon("d.r")  ;                                            // d.r
    compile(x_tor) ;
    compile(x_dup,x_tor,x_dabs,x_lesshash,x_hashs,x_rfrom,x_sign,x_hashmore) ;
-   compile(x_rfrom,x_2dup,x_more) ; 
+   compile(x_rfrom,x_2dup,x_more) ;
    IF() ;
       BEGIN() ;
          compile(x_qdup) ;
@@ -5318,7 +5016,7 @@ definitions(forth) ;
 var x_tick = colon("'") ;
    compile(x_bl,x_parse,x_search,x_qdup,x_0equ) ;
    IF() ;
-      compile(x_notfound) ;   
+      compile(x_notfound) ;
    THEN() ;
 semicolon() ;
 describe("<stream> -- xt",ans|f83|jsf) ;
@@ -5552,8 +5250,8 @@ var x_quit = colon("quit") ;
    BEGIN() ;
       compile(x_query,x_source,x_qdup)
       IF() ;
-         compile(x_cr,x_evaluate) ;
-         compile(x_space,x_0) ;
+         compile(x_evaluate) ;
+         compile(x_0) ;
       THEN() ;
       compile(x_drop,x_prompt) ;
    AGAIN() ;
@@ -5563,9 +5261,6 @@ semicolon() ;
 var x_warm = colon("warm") ; compile(x_warminit,x_quit) ;
 describe("??? --",jsf) ;
 
-
-var x_cold = colon("cold") ; compile(x_coldinit,x_page,x_hello,x_cr,x_warm) ;
-describe("??? --",jsf) ;
 
 definitions(hidden) ;
 
@@ -5577,12 +5272,7 @@ definitions(forth) ;
 
 
 var warm    = dp ; comma(x_warm)  ;   // called with  virtualmachine(warm)
-var cold    = dp ; comma(x_cold)  ;   // called with  virtualmachine(cold)
 var error   = dp ; comma(x_error) ;   // called from  javascript onError
-
-dp_cold = dp ;
-wc_cold = wc ;
-heap_cold = heapend ;
 
 
 function virtualmachine(entrypoint)  {
@@ -5596,75 +5286,44 @@ function virtualmachine(entrypoint)  {
 }
 
 
-if (version != -1)  virtualmachine(cold)          // initialize interpreter
-
-
-
-
-
 // =================================================================================================
-//                                        input events
+//                                        jsrepl helpers
 // =================================================================================================
 
-
-
-// The new set of i/o routines implement query in forth, by calling upon accept, which in turn calls key. 
-
-function KeyEvent(e)  {
-   inbuf.push((e.keyCode | e.which)) ;            // read and buffer key
-   if (suspended == x_key1) virtualmachine(ip) ;  // reenter interpreter
-   return false ;                                 // char not echoed - accept handles this.
+function _init() {
+  virtualmachine(warm);
 }
 
-
-
-function FocusEvent(e)  {
-   document.terminal.dialog.focus();
-   return true ;
+function _run(str) {
+  for (var i = 0; i < str.length; i++) {
+    var chr = str.charCodeAt(i);
+    inbuf.push(chr === 10 ? 13 : chr);
+  }
+  inbuf.push(carriagereturn);
+  virtualmachine(ip);
 }
 
-
-
-function PasteEvent(e)  {
-//   inbuf.push(window.getSelection) ;             // read and buffer key
-//   if (suspended == x_key1) virtualmachine(ip) ; // reenter interpreter
-//     info("PasteEvent: " + window.getSelection(e)) ;
-   return false ;                                // char not echoed - accept handles this.
+function _stacktop(elementCount) {
+  // Must be called during execution.
+  var buffer = [];
+  s[++sp] = tos;
+  for (var i = 1; i < sp && i <= elementCount; i++) {
+    buffer.push(s[sp - i + 1].toString(m[base]));
+  }
+  sp-- ;
+  return buffer.reverse();
 }
 
-
-
-
-function getHelp(e)  { 
-   return true ;
+function _input(callback) {
+  // Nothing.
 }
 
-
-
-function SelectEvent(e)  { 
-   allinfos = allinfos ^ -1 ;                     // mouse click toggle backscroll
-   printinfos() ;
-   return false ; 
+definitions(forth) ;
+function _finish() {
+  console.log('finished.');
 }
-
-
-
-
-function ErrorEvent(msg,url,line)  {
-   if (msg.substr(0,8) == "uncaught")    {       // can't handle these
-      info("uncaught javascript exception ignored") ;
-      return true ; 
-   }
-   systemerror[68] = (msg + " (line " + line + ")") ;
-   tos = -68 ;
-   virtualmachine(error) ;
-   return !(m[warnings]) ;
-}
-
-
-
-
-
+primitive("_finish", function() { _finish(); }) ;
+describe("--", jsf);
 
 // =================================================================================================
 //                                        end of program

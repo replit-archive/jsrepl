@@ -327,8 +327,8 @@
   help_link: 'http://www.teuton.org/~stranger/code/emoticon/manual.php'
   extension: 'emo'
   logo: 'langs/emoticon/logo.png'
-  
-@JSREPL::Languages::Bloop = 
+
+@JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
   category: 'Esoteric'
   matchings: []
@@ -340,3 +340,19 @@
   example_file: 'langs/bloop/examples.txt'
   extensions: 'bloop'
   logo: 'langs/bloop/logo.png'
+
+@JSREPL::Languages::Forth = 
+  name: 'Forth'
+  category: 'Stack-based'
+  matchings: [
+    ['(', ')']
+    [':', ';']
+  ]
+  scripts: [
+    'extern/jsforth/jsforth.js'
+  ]
+  engine: 'langs/forth/jsrepl_forth.coffee'
+  libs: []
+  example_file: 'langs/forth/examples.txt'
+  extensions: '4th'
+  logo: 'langs/forth/logo.png'
