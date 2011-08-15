@@ -2,18 +2,28 @@
 
 ##In a nutshell
 
-A collection of language interpreters written in JavaScript to be put on a
-single website to give an easy to use one page REPL to all of them.
+A one-page client-side REPL for many languages.
 
-##Languages
+##Current Languages
 
-* JavaScript
-* CoffeeScript
-* Kaffeine
-* Move
-* Traceur (JavaScript.next)
-* Scheme
-* Lisp
-* Quick Basic
-* Brainfuck
-* LOLCODE
+* JavaScript Variants
+  * JavaScript
+  * CoffeeScript
+  * Kaffeine
+  * Move
+  * Traceur (JavaScript.next)
+
+* Esoteric
+  * Bloop
+  * Brainfuck
+  * LOLCODE
+  * Unlambda
+  * Emoticon
+
+* Classic
+  * Quick Basic
+  * Forth
+
+* Serious
+  * Scheme
+  * Lisp
