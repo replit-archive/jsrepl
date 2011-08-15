@@ -2,7 +2,7 @@
   @preserve
 
   JS-Forth
-  http: www.forthfreak.net/index.cgi?jsforth
+  http://www.forthfreak.net/index.cgi?jsforth
   Licensed under th GNU GPL.
 
   Disclaimer: JS-Forth is delivered as-is. No warranties,
@@ -5195,12 +5195,3 @@ function _finish() {
 }
 primitive("_finish", function() { _finish(); }) ;
 describe("--", jsf);
-
-// =================================================================================================
-//                                        end of program
-// =================================================================================================
-
-
-// unsolved:
-//   have getSelection actually return the marked string (for HELP on doubleclick)
-
