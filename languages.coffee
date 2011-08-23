@@ -356,3 +356,21 @@
   example_file: 'langs/forth/examples.txt'
   extensions: '4th'
   logo: 'langs/forth/logo.png'
+
+@JSREPL::Languages::Lua =
+  name: 'Lua'
+  category: 'Multi-paradigm'
+  matchings: [
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
+  scripts: [
+    'extern/lua/lua.closure.js'
+  ]
+  engine: 'langs/lua/jsrepl_lua.coffee'
+  libs: []
+  example_file: 'langs/lua/examples.txt'
+  help_link: 'http://en.wikipedia.org/wiki/Lua_(programming_language)'
+  extension: 'lua'
+  logo: 'langs/lua/logo.png'
