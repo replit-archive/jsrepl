@@ -1,0 +1,23 @@
+#!/bin/bash
+
+CLOSURE_JAR=/home/max/emscripten-workspace/closure/build/compiler.jar
+
+./emscripten.py tests/lua/lua.ll \
+    -m \
+    -O \
+    -o lua.js \
+    -s INVOKE_RUN=0 \
+    -s SAFE_HEAP=0 \
+    -s INIT_STACK=1 \
+    -s OPTIMIZE=1 \
+    -s RELOOP=1 \
+    -s ASSERTIONS=0 \
+    -s CORRECT_SIGNS=1 \
+    -s CORRECT_OVERFLOWS=1 \
+    -s EXPORTED_FUNCTIONS='["FS","allocate","intArrayFromString","Pointer_stringify","_free","__Z13luaL_newstatev","__Z13luaL_openlibsP9lua_State","__Z8lua_typeP9lua_Statei","__Z13lua_tobooleanP9lua_Statei","__Z12lua_tonumberP9lua_Statei","__Z13lua_tolstringP9lua_StateiPj","__Z12lua_typenameP9lua_Statei","__Z13lua_topointerP9lua_Statei","__Z15luaL_loadbufferP9lua_StatePKcjS2_","__Z13lua_tolstringP9lua_StateiPj","__Z9lua_pcallP9lua_Stateiii","__Z10lua_settopP9lua_Statei"]'
+
+cat entry_point.js >> lua.js
+
+coffee tools/eliminator/eliminator.coffee < lua.js > lua.opt.js
+
+java -Xmx4g -jar $CLOSURE_JAR --compilation_level ADVANCED_OPTIMIZATIONS --js lua.opt.js --js_output_file lua.closure.js

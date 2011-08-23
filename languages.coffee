@@ -357,23 +357,42 @@
   extensions: '4th'
   logo: 'langs/forth/logo.png'
 
-@JSREPL::Languages::Smalltalk =
-  name: 'Smalltalk'
-  category: 'Dynamic'
+@JSREPL::Languages::Lua =
+  name: 'Lua'
+  category: 'Multi-paradigm'
   matchings: [
     ['(', ')']
     ['[', ']']
+    ['{', '}']
   ]
   scripts: [
-    'extern/jtalk/js/boot.js'
-    'extern/jtalk/js/Kernel.js'
-    'extern/jtalk/js/Parser.js'
-    'extern/jtalk/js/Compiler.js'
-    'extern/jtalk/js/Canvas.js'
-    'extern/jtalk/js/init.js'
+    'extern/lua/lua.closure.js'
   ]
-  engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
+  engine: 'langs/lua/jsrepl_lua.coffee'
   libs: []
-  example_file: 'langs/smalltalk/examples.txt'
-  extensions: 'st'
-  logo: 'langs/smalltalk/logo.png'
+  example_file: 'langs/lua/examples.txt'
+  help_link: 'http://en.wikipedia.org/wiki/Lua_(programming_language)'
+  extension: 'lua'
+  logo: 'langs/lua/logo.png'
+  
+  @JSREPL::Languages::Smalltalk =
+    name: 'Smalltalk'
+    category: 'Dynamic'
+    matchings: [
+      ['(', ')']
+      ['[', ']']
+    ]
+    scripts: [
+      'extern/jtalk/js/boot.js'
+      'extern/jtalk/js/Kernel.js'
+      'extern/jtalk/js/Parser.js'
+      'extern/jtalk/js/Compiler.js'
+      'extern/jtalk/js/Canvas.js'
+      'extern/jtalk/js/init.js'
+    ]
+    engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
+    libs: []
+    example_file: 'langs/smalltalk/examples.txt'
+    extensions: 'st'
+    logo: 'langs/smalltalk/logo.png'
+
