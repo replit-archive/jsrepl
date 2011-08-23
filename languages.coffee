@@ -375,24 +375,24 @@
   extension: 'lua'
   logo: 'langs/lua/logo.png'
   
-  @JSREPL::Languages::Smalltalk =
-    name: 'Smalltalk'
-    category: 'Dynamic'
-    matchings: [
-      ['(', ')']
-      ['[', ']']
-    ]
-    scripts: [
-      'extern/jtalk/js/boot.js'
-      'extern/jtalk/js/Kernel.js'
-      'extern/jtalk/js/Parser.js'
-      'extern/jtalk/js/Compiler.js'
-      'extern/jtalk/js/Canvas.js'
-      'extern/jtalk/js/init.js'
-    ]
-    engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
-    libs: []
-    example_file: 'langs/smalltalk/examples.txt'
-    extensions: 'st'
-    logo: 'langs/smalltalk/logo.png'
+@JSREPL::Languages::Smalltalk =
+  name: 'Smalltalk'
+  category: 'Dynamic'
+  matchings: [
+    ['(', ')']
+    ['[', ']']
+  ]
+  scripts: [
+    'extern/jtalk/js/boot.js'
+    'extern/jtalk/js/Kernel.js'
+    'extern/jtalk/js/Parser.js'
+    'extern/jtalk/js/Compiler.js'
+    'extern/jtalk/js/Canvas.js'
+    'extern/jtalk/js/init.js'
+  ]
+  engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
+  libs: []
+  example_file: 'langs/smalltalk/examples.txt'
+  extensions: 'st'
+  logo: 'langs/smalltalk/logo.png'
 
