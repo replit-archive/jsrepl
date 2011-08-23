@@ -22,3 +22,6 @@
 [submodule "extern/bfjs"]
 	path = extern/bfjs
 	url = git://github.com/amasad/bfjs.git
+[submodule "extern/jtalk"]
+	path = extern/jtalk
+	url = git://github.com/amasad/jtalk.git
