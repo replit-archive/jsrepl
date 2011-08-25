@@ -34,7 +34,6 @@ class @JSREPL::Engines::Lisp
       else
         do ready
       
-    Javathcript.evalMulti @sandbox.JSREPL::Library, (->), ready
 
   Eval: (command) ->
     try

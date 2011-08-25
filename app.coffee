@@ -25,7 +25,13 @@ SetupConsole = (header='') ->
 
 # Shows a command prompt in the console and waits for input.
 StartPrompt = ->
-  jqconsole.Prompt true, $.proxy(jsrepl.Evaluate, jsrepl), $.proxy(jsrepl.CheckLineEnd, jsrepl)
+  Evaluate = (command)->
+    $('#examples').val ''
+    if command
+      jsrepl.Evaluate command
+    else
+      StartPrompt()
+  jqconsole.Prompt true, Evaluate, $.proxy(jsrepl.CheckLineEnd, jsrepl)
 
 # Populates the languages dropdown from JSREPL::Languages and triggers the
 # loading of the default language.
@@ -62,6 +68,7 @@ LoadLanguageDropdown= ->
       # Clear the existing examples.
       examples = {}
       $examples = $('#examples')
+      $examples.unbind 'change'
       $(':not(:first)', $examples).remove()
 
       # Parse out the new examples.
@@ -77,7 +84,6 @@ LoadLanguageDropdown= ->
         else
           title = part
           $examples.append $.tmpl 'option', value: title
-
       # Set up response to example selection.
       $examples.change =>
         code = examples[$examples.val()]
