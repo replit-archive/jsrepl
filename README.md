@@ -26,4 +26,4 @@ A one-page client-side REPL for many languages.
 * Serious
   * Scheme
   * Lua
-  * Lisp (to be replace)
+  * Lisp (to be replaced)
