@@ -15,81 +15,20 @@ repl_logo = '''
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
-  constructor: ->
+  constructor: ({@languages, @ResultCallback, @ErrorCallback, @InputCallback, @OutputCallback}) ->
     # The definition of the current language.
     @lang = null
     # The interpreter engine of the current language.
     @engine = null
     # The examples of the current language.
     @examples = null
-    # The JQConsole object.
-    @jqconsole = null
     # The sandbox iframe.
     @sandbox_frame = null
     # The sandbox window global object.
     @sandbox = null
-    # Set up the UI.
-    @DefineTemplates()
-    @SetupConsole()
-    @LoadLanguageDropdown()
-    @SetupURLHashChange()
-    # Focus the console.
-    @jqconsole.Focus()
-
-  # Defines global jQuery templates used by the various functions interacting
-  # with the UI.
-  DefineTemplates: ->
-    $.template 'optgroup', '''
-                           {{each(cat, names_arr) data}}
-                             <optgroup label="${cat}">
-                               {{each names_arr}}
-                                 <option value="${$value.value}">
-                                   ${$value.display}
-                                 </option>
-                               {{/each}}
-                             </optgroup>
-                           {{/each}}
-                           '''
-    $.template 'option', '<option>${value}</option>'
-
-  # Initializes the behaviour of the command prompt and the expand and eval
-  # buttons.
-  SetupConsole: ->
-    @jqconsole = $('#console').jqconsole repl_logo
-
-  # Shows a command prompt in the console and waits for input.
-  StartPrompt: ->
-    @jqconsole.Prompt true, $.proxy(@Evaluate, @), $.proxy(@CheckLineEnd, @)
-
-  # Populates the languages dropdown from JSREPL::Languages and triggers the
-  # loading of the default language.
-  LoadLanguageDropdown: ->
-    # Sort languages into categories.
-    categories = {}
-    for system_name, lang_def of JSREPL::Languages::
-      if not categories[lang_def.category]?
-        categories[lang_def.category] = []
-      categories[lang_def.category].push
-        display: lang_def.name
-        value: system_name
-
-    # Fill the dropdown.
-    $languages = $('#languages')
-    $languages.empty().append $.tmpl 'optgroup', data: categories
-
-    # Link dropbox to language loading.
-    $languages.change =>
-      # TODO(amasad): Create a loading effect.
-      $('body').toggleClass 'loading'
-      lang = $languages.val()
-      @LoadLanguage lang, =>
-        $('body').toggleClass 'loading'
-        @StartPrompt()
-        window.location.hash = lang.toLowerCase()
-
-    # Load the default language by manually triggering change.
-    $languages.change()
-
+    # Disable $LAB's funkiness for debugging.
+    $LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
+    
   # Loads the specified language engine with its examples and calls the callback
   # once all loading is done.
   #   @arg lang_name: The name of the language to load, a member of
@@ -101,13 +40,6 @@ class JSREPL
     @engine = null
     @sandbox_frame?.remove?()
 
-    # Empty out the history, prompt and example selection.
-    @jqconsole.Reset()
-    @jqconsole.RegisterShortcut 'Z', =>
-      @jqconsole.AbortPrompt()
-      @StartPrompt()
-    $('#examples').val ''
-
     # Load the iframe.
     @sandbox_frame = $ '<iframe/>', src: 'sandbox.html', style: 'display: none'
     @sandbox_frame.appendTo 'body'
@@ -115,17 +47,6 @@ class JSREPL
 
     # Switch the language.
     @lang = JSREPL::Languages::[lang_name]
-    
-    # Register charecter matchings in jqconsole for the current language
-    i = 0
-    for [open, close] in @lang.matchings
-      @jqconsole.RegisterMatching open, close, 'matching-' + (++i)
-    
-    # A counter to call the callback after the scripts and examples have
-    # successfully loaded.
-    signals_read = 0
-    signalReady = ->
-      if ++signals_read == 2 then callback()
     
     deffereds = $.map @lang.libs, $.get 
     # Create a new LAB instance inside the frame and load the engine through it.
@@ -151,98 +72,18 @@ class JSREPL
               if args[0]? then [args[0]] else []
               
             @engine = new JSREPL::Engines::[lang_name](
-              $.proxy(@ReceiveInputRequest, this),
-              $.proxy(@ReceiveOutput, this),
-              $.proxy(@ReceiveResult, this),
-              $.proxy(@ReceiveError, this),
+              $.proxy(@InputCallback, this),
+              $.proxy(@OutputCallback, this),
+              $.proxy(@ResultCallback, this),
+              $.proxy(@ErrorCallback, this),
               @sandbox,
-              signalReady,
+              callback,
               libs
             )
 
     # When the iframe finishes loading, insert the $LAB script.
     @sandbox_frame.bind 'load', =>
       @sandbox.document.body.appendChild lab_script[0]
-
-    # Load logo.
-    $('#lang_logo').attr 'src', @lang.logo
-
-    # Load examples.
-    $.get @lang.example_file, (raw_examples) =>
-      # Clear the existing examples.
-      @examples = {}
-      $examples = $('#examples')
-      $(':not(:first)', $examples).remove()
-
-      # Parse out the new examples.
-      example_parts = raw_examples.split /\*{80}/
-      title = null
-      for part in example_parts
-        part = part.replace /^\s+|\s*$/g, ''
-        if not part then continue
-        if title
-          code = part
-          @examples[title] = code
-          title = null
-        else
-          title = part
-          $examples.append $.tmpl 'option', value: title
-
-      # Set up response to example selection.
-      $examples.change =>
-        code = @examples[$examples.val()]
-        @jqconsole.SetPromptText code
-        @jqconsole.Focus()
-
-      signalReady()
-
-  # Sets up the HashChange event handler. Handles cases were user is not
-  # entering language in correct case.
-  SetupURLHashChange: ->
-    proper_case_langs = {}
-    $.each Object.keys(JSREPL::Languages::), (i, lang) ->
-      proper_case_langs[lang.toLowerCase()] = lang;
-
-    $languages = $('#languages')
-
-    $.hashchange (lang) ->
-      lang = proper_case_langs[lang.toLowerCase()]
-      if ($languages.find "[value=#{lang}]").length
-        $languages.val lang
-        $languages.change()
-
-  # Receives the result of a command evaluation.
-  #   @arg result: The user-readable string form of the result of an evaluation.
-  ReceiveResult: (result) ->
-    if result
-      @jqconsole.Write '==> ' + result, 'result'
-    @StartPrompt()
-
-  # Receives an error message resulting from a command evaluation.
-  #   @arg error: A message describing the error.
-  ReceiveError: (error) ->
-    @jqconsole.Write String(error), 'error'
-    @StartPrompt()
-
-  # Receives any output from a language engine. Acts as a low-level output
-  # stream or port.
-  #   @arg output: The string to output. May contain control characters.
-  #   @arg cls: An optional class for styling the output.
-  ReceiveOutput: (output, cls) ->
-    @jqconsole.Write output, cls
-    return undefined
-
-  # Receives a request for a string input from a language engine. Passes back
-  # the user's response asynchronously.
-  #   @arg callback: The function called with the string containing the user's
-  #     response. Currently called synchronously, but that is *NOT* guaranteed.
-  ReceiveInputRequest: (callback) ->
-    @jqconsole.Input (result) =>
-      try
-        callback result
-      catch e
-        @ReceiveError e
-    return undefined
 
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise
@@ -269,10 +110,3 @@ class JSREPL::Engines
 
 # Export JSREPL to the world.
 @JSREPL = JSREPL
-
-# Start the REPL interface.
-$ ->
-  # Disable $LAB's funkiness for debugging.
-  $LAB.setGlobalDefaults {UsePreloading: false, UseLocalXHR: false}
-  # Create and load the main REPL object.
-  @REPL = new JSREPL

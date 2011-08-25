@@ -124,7 +124,7 @@ task 'watch', 'Watch all coffee files and compile them live to javascript', ->
       console.log "Error reading language config: #{e}."
       return
 
-    files_to_watch = ['repl.coffee']
+    files_to_watch = ['repl.coffee', 'app.coffee']
     for name, config of langs
       files_to_watch.push config.engine
       config.engine = config.engine.replace /\.coffee$/, '.js'
