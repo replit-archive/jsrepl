@@ -1,5 +1,6 @@
-THIS_FILE = 'loader.js'
-SANDBOX_SRC = 'sandbox.html'
+# TODO(amasad): Make this detect location dynamically
+THIS_FILE = "/jsrepl/loader.js"
+SANDBOX_SRC = "/jsrepl/sandbox.html"
 
 # Loader module, can load multiple files/js using XHR, if js config settings 
 #   is set to true then script loading order is respected.
