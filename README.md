@@ -1,7 +1,5 @@
 #jsREPL
 
-##In a nutshell
-
 A one-page client-side REPL for many languages.
 
 ##Current Languages
@@ -23,7 +21,9 @@ A one-page client-side REPL for many languages.
 * Classic
   * Quick Basic
   * Forth
+  * Smalltalk (GUI-less)
 
 * Serious
   * Scheme
-  * Lisp
+  * Lua
+  * Lisp (to be replace)
