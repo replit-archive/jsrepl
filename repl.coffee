@@ -47,6 +47,7 @@ class JSREPL
           # language engine and pass along the child window object "sandbox".
           Loader.load @lang.engine,
             js: true
+            debug: true
             success: =>
               # TODO(max99x): Debug on all target browsers.
               #               On IE 8 this doesn't work for Lisp.

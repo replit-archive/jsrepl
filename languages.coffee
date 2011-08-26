@@ -1,5 +1,6 @@
 @JSREPL::Languages::QBasic =
   name: 'Quick Basic'
+  extension: 'bas'
   category: 'Imperative'
   matchings: []
   scripts: [
@@ -14,15 +15,12 @@
     'extern/qb.js/VirtualMachine.js'
     'extern/qb.js/QBasic.js'
   ]
-  engine: 'langs/qbasic/jsrepl_qbasic.coffee'
+  engine: '/jsrepl/langs/qbasic/jsrepl_qbasic.coffee'
   libs: []
-  example_file: 'langs/qbasic/examples.txt'
-  help_link: 'http://westcompsci.pima.edu/cis100/'
-  extension: 'bas'
-  logo: 'langs/qbasic/logo.png'
 
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
+  extension: 'lisp'
   category: 'Functional'
   matchings: [
     ['(', ')']
@@ -36,15 +34,12 @@
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
   ]
-  engine: 'langs/lisp/jsrepl_lisp.coffee'
+  engine: '/jsrepl/langs/lisp/jsrepl_lisp.coffee'
   libs: ['langs/lisp/jsrepl_lisp_lib.lisp']
-  example_file: 'langs/lisp/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Lisp_(programming_language)'
-  extension: 'lisp'
-  logo: 'langs/lisp/logo.jpg'
 
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
+  extension: 'scm'
   category: 'Functional'
   matchings: [
     ['(', ')']
@@ -77,15 +72,12 @@
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
   ]
-  engine: 'langs/scheme/jsrepl_scheme.coffee'
+  engine: '/jsrepl/langs/scheme/jsrepl_scheme.coffee'
   libs: []
-  example_file: 'langs/scheme/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Scheme_(programming_language)'
-  extension: 'scm'
-  logo: 'extern/biwascheme/website/images/biwascheme_logo.png'
 
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
+  extension: 'js'
   category: 'Dynamic'
   matchings: [
     ['(', ')']
@@ -95,15 +87,12 @@
   scripts: [
     'util/inspect.js'
   ]
-  engine: 'langs/javascript/jsrepl_js.coffee'
+  engine: '/jsrepl/langs/javascript/jsrepl_js.coffee'
   libs: []
-  example_file: 'langs/javascript/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Javascript'
-  extension: 'js'
-  logo: 'langs/javascript/logo.png'
 
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
+  extension: 'coffee'
   category: 'Dynamic'
   matchings: [
     ['(', ')']
@@ -114,15 +103,12 @@
     'extern/coffee-script/coffee-script.js'
     'util/inspect.js'
   ]
-  engine: 'langs/coffee-script/jsrepl_coffee.coffee'
+  engine: '/jsrepl/langs/coffee-script/jsrepl_coffee.coffee'
   libs: []
-  example_file: 'langs/coffee-script/examples.txt'
-  help_link: 'http://jashkenas.github.com/coffee-script/'
-  extension: 'coffee'
-  logo: 'langs/coffee-script/logo.png'
 
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
+  extension: 'bf'
   category: 'Esoteric'
   matchings: [
     ['[', ']']
@@ -130,29 +116,24 @@
   scripts: [
     'extern/bfjs/bfjs.js'
   ]
-  engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
+  engine: '/jsrepl/langs/brainfuck/jsrepl_brainfuck.coffee'
   libs: []
-  example_file: 'langs/brainfuck/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Brainfuck'
-  extension: 'bf'
-  logo: 'langs/brainfuck/brainfuck.jpg'
 
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
+  extension: 'unl'
   category: 'Esoteric'
   matchings: []
   scripts: [
     'extern/unlambda-coffee/unlambda.coffee'
   ]
-  engine: 'langs/unlambda/jsrepl_unlambda.coffee'
+  engine: '/jsrepl/langs/unlambda/jsrepl_unlambda.coffee'
   libs: []
-  example_file: 'langs/unlambda/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Unlambda'
-  extension: 'unl'
-  logo: 'langs/unlambda/unlambda.jpg'
+
 
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
+  extension: 'lol'
   category: 'Esoteric'
   matchings: []
   scripts: [
@@ -162,15 +143,13 @@
     'extern/lol-coffee/src/parser.coffee'
     'extern/lol-coffee/src/tokenizer.coffee'
   ]
-  engine: 'langs/lolcode/jsrepl_lolcode.coffee'
+  engine: '/jsrepl/langs/lolcode/jsrepl_lolcode.coffee'
   libs: []
-  example_file: 'langs/lolcode/examples.txt'
-  help_link: 'http://lolcode.com/specs/1.2'
-  extension: 'lol'
-  logo: 'langs/lolcode/logo.jpg'
+
 
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
+  extension: 'k'
   category: 'Dynamic'
   matchings: [
     ['(', ')']
@@ -181,15 +160,12 @@
     'extern/kaffeine/browser2/kaffeine-browser.js'
     'util/inspect.js'
   ]
-  engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
+  engine: '/jsrepl/langs/kaffeine/jsrepl_kaffeine.coffee'
   libs: []
-  example_file: 'langs/kaffeine/examples.txt'
-  help_link: 'http://weepy.github.com/kaffeine/'
-  extension: 'k'
-  logo: 'langs/kaffeine/logo.png'
 
 @JSREPL::Languages::Move =
   name: 'Move'
+  extension: 'mv'
   category: 'Dynamic'
   matchings: [
     ['(', ')']
@@ -200,15 +176,12 @@
     'extern/move/web/move.js'
     'util/inspect.js'
   ]
-  engine: 'langs/move/jsrepl_move.coffee'
+  engine: '/jsrepl/langs/move/jsrepl_move.coffee'
   libs: []
-  example_file: 'langs/move/examples.txt'
-  help_link: 'http://movelang.org/'
-  extension: 'mv'
-  logo: 'langs/move/logo.png'
 
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
+  extension: 'js'
   category: 'Dynamic'
   matchings: [
     ['(', ')']
@@ -305,15 +278,12 @@
     'extern/traceur/runtime.js'
     'extern/traceur/util/traits.js'
   ]
-  engine: 'langs/traceur/jsrepl_traceur.coffee'
+  engine: '/jsrepl/langs/traceur/jsrepl_traceur.coffee'
   libs: []
-  example_file: 'langs/traceur/examples.txt'
-  help_link: 'http://movelang.org/'
-  extension: 'js'
-  logo: 'langs/traceur/logo.png'
 
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
+  extension: 'emo'
   category: 'Esoteric'
   matchings: [
     ['(', ')']
@@ -321,28 +291,23 @@
   scripts: [
     'extern/emoticoffee/emoticon.coffee'
   ]
-  engine: 'langs/emoticon/jsrepl_emoticon.coffee'
+  engine: '/jsrepl/langs/emoticon/jsrepl_emoticon.coffee'
   libs: []
-  example_file: 'langs/emoticon/examples.txt'
-  help_link: 'http://www.teuton.org/~stranger/code/emoticon/manual.php'
-  extension: 'emo'
-  logo: 'langs/emoticon/logo.png'
 
 @JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
+  extensions: 'bloop'
   category: 'Esoteric'
   matchings: []
   scripts: [
     'extern/bloop/bloop.js'
   ]
-  engine: 'langs/bloop/jsrepl_bloop.coffee'
+  engine: '/jsrepl/langs/bloop/jsrepl_bloop.coffee'
   libs: []
-  example_file: 'langs/bloop/examples.txt'
-  extensions: 'bloop'
-  logo: 'langs/bloop/logo.png'
 
 @JSREPL::Languages::Forth = 
   name: 'Forth'
+  extensions: '4th'
   category: 'Stack-based'
   matchings: [
     ['(', ')']
@@ -351,14 +316,13 @@
   scripts: [
     'extern/jsforth/jsforth.js'
   ]
-  engine: 'langs/forth/jsrepl_forth.coffee'
+  engine: '/jsrepl/langs/forth/jsrepl_forth.coffee'
   libs: []
-  example_file: 'langs/forth/examples.txt'
-  extensions: '4th'
-  logo: 'langs/forth/logo.png'
+
 
 @JSREPL::Languages::Lua =
   name: 'Lua'
+  extension: 'lua'
   category: 'Multi-paradigm'
   matchings: [
     ['(', ')']
@@ -368,15 +332,12 @@
   scripts: [
     'extern/lua/lua.closure.js'
   ]
-  engine: 'langs/lua/jsrepl_lua.coffee'
+  engine: '/jsrepl/langs/lua/jsrepl_lua.coffee'
   libs: []
-  example_file: 'langs/lua/examples.txt'
-  help_link: 'http://en.wikipedia.org/wiki/Lua_(programming_language)'
-  extension: 'lua'
-  logo: 'langs/lua/logo.png'
   
 @JSREPL::Languages::Smalltalk =
   name: 'Smalltalk'
+  extensions: 'st'
   category: 'Dynamic'
   matchings: [
     ['(', ')']
@@ -390,9 +351,6 @@
     'extern/jtalk/js/Canvas.js'
     'extern/jtalk/js/init.js'
   ]
-  engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
+  engine: '/jsrepl/langs/smalltalk/jsrepl_smalltalk.coffee'
   libs: []
-  example_file: 'langs/smalltalk/examples.txt'
-  extensions: 'st'
-  logo: 'langs/smalltalk/logo.png'
 
