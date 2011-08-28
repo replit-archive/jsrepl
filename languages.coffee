@@ -15,7 +15,7 @@
     'extern/qb.js/VirtualMachine.js'
     'extern/qb.js/QBasic.js'
   ]
-  engine: '/jsrepl/langs/qbasic/jsrepl_qbasic.coffee'
+  engine: 'langs/qbasic/jsrepl_qbasic.coffee'
   libs: []
 
 @JSREPL::Languages::Lisp =
@@ -34,7 +34,7 @@
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
   ]
-  engine: '/jsrepl/langs/lisp/jsrepl_lisp.coffee'
+  engine: 'langs/lisp/jsrepl_lisp.coffee'
   libs: ['langs/lisp/jsrepl_lisp_lib.lisp']
 
 @JSREPL::Languages::Scheme =
@@ -72,7 +72,7 @@
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
   ]
-  engine: '/jsrepl/langs/scheme/jsrepl_scheme.coffee'
+  engine: 'langs/scheme/jsrepl_scheme.coffee'
   libs: []
 
 @JSREPL::Languages::JavaScript =
@@ -87,7 +87,7 @@
   scripts: [
     'util/inspect.js'
   ]
-  engine: '/jsrepl/langs/javascript/jsrepl_js.coffee'
+  engine: 'langs/javascript/jsrepl_js.coffee'
   libs: []
 
 @JSREPL::Languages::CoffeeScript =
@@ -103,7 +103,7 @@
     'extern/coffee-script/coffee-script.js'
     'util/inspect.js'
   ]
-  engine: '/jsrepl/langs/coffee-script/jsrepl_coffee.coffee'
+  engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   libs: []
 
 @JSREPL::Languages::Brainfuck =
@@ -116,7 +116,7 @@
   scripts: [
     'extern/bfjs/bfjs.js'
   ]
-  engine: '/jsrepl/langs/brainfuck/jsrepl_brainfuck.coffee'
+  engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
   libs: []
 
 @JSREPL::Languages::Unlambda =
@@ -127,7 +127,7 @@
   scripts: [
     'extern/unlambda-coffee/unlambda.coffee'
   ]
-  engine: '/jsrepl/langs/unlambda/jsrepl_unlambda.coffee'
+  engine: 'langs/unlambda/jsrepl_unlambda.coffee'
   libs: []
 
 
@@ -143,7 +143,7 @@
     'extern/lol-coffee/src/parser.coffee'
     'extern/lol-coffee/src/tokenizer.coffee'
   ]
-  engine: '/jsrepl/langs/lolcode/jsrepl_lolcode.coffee'
+  engine: 'langs/lolcode/jsrepl_lolcode.coffee'
   libs: []
 
 
@@ -160,7 +160,7 @@
     'extern/kaffeine/browser2/kaffeine-browser.js'
     'util/inspect.js'
   ]
-  engine: '/jsrepl/langs/kaffeine/jsrepl_kaffeine.coffee'
+  engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
   libs: []
 
 @JSREPL::Languages::Move =
@@ -176,7 +176,7 @@
     'extern/move/web/move.js'
     'util/inspect.js'
   ]
-  engine: '/jsrepl/langs/move/jsrepl_move.coffee'
+  engine: 'langs/move/jsrepl_move.coffee'
   libs: []
 
 @JSREPL::Languages::Traceur =
@@ -278,7 +278,7 @@
     'extern/traceur/runtime.js'
     'extern/traceur/util/traits.js'
   ]
-  engine: '/jsrepl/langs/traceur/jsrepl_traceur.coffee'
+  engine: 'langs/traceur/jsrepl_traceur.coffee'
   libs: []
 
 @JSREPL::Languages::Emoticon =
@@ -291,7 +291,7 @@
   scripts: [
     'extern/emoticoffee/emoticon.coffee'
   ]
-  engine: '/jsrepl/langs/emoticon/jsrepl_emoticon.coffee'
+  engine: 'langs/emoticon/jsrepl_emoticon.coffee'
   libs: []
 
 @JSREPL::Languages::Bloop =
@@ -302,7 +302,7 @@
   scripts: [
     'extern/bloop/bloop.js'
   ]
-  engine: '/jsrepl/langs/bloop/jsrepl_bloop.coffee'
+  engine: 'langs/bloop/jsrepl_bloop.coffee'
   libs: []
 
 @JSREPL::Languages::Forth = 
@@ -316,7 +316,7 @@
   scripts: [
     'extern/jsforth/jsforth.js'
   ]
-  engine: '/jsrepl/langs/forth/jsrepl_forth.coffee'
+  engine: 'langs/forth/jsrepl_forth.coffee'
   libs: []
 
 
@@ -332,7 +332,7 @@
   scripts: [
     'extern/lua/lua.closure.js'
   ]
-  engine: '/jsrepl/langs/lua/jsrepl_lua.coffee'
+  engine: 'langs/lua/jsrepl_lua.coffee'
   libs: []
   
 @JSREPL::Languages::Smalltalk =
@@ -351,6 +351,6 @@
     'extern/jtalk/js/Canvas.js'
     'extern/jtalk/js/init.js'
   ]
-  engine: '/jsrepl/langs/smalltalk/jsrepl_smalltalk.coffee'
+  engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
   libs: []
 

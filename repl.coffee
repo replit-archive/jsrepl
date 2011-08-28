@@ -15,7 +15,7 @@ repl_logo = '''
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
-  constructor: ({@languages, @ResultCallback, @ErrorCallback, @InputCallback, @OutputCallback}) ->
+  constructor: ({@JSREPL_dir, @languages, @ResultCallback, @ErrorCallback, @InputCallback, @OutputCallback}) ->
     # The definition of the current language.
     @lang = null
     # The interpreter engine of the current language.
@@ -46,6 +46,7 @@ class JSREPL
           # When the iframe finishes loading the language scripts, create the
           # language engine and pass along the child window object "sandbox".
           Loader.load @lang.engine,
+            base_dir: @JSREPL_dir or ''
             js: true
             debug: true
             success: =>
@@ -79,7 +80,10 @@ class JSREPL
   #   @arg command: A string containing the code to execute.
   Evaluate: (command) ->
     @engine.Eval command
-
+  
+  EvaluateSync: (command) ->
+    @engine.EvalSync command
+    
 # The languages and engines modules.
 class JSREPL::Languages
 class JSREPL::Engines

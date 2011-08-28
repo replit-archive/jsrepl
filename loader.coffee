@@ -43,7 +43,7 @@ class Loader
   #   calls error with the XHR object that caused the error.
   _getXHR: (url, callback, errCallback, index) ->
     http = new @xhr()
-    http.open 'GET', url, true
+    http.open 'GET', @config.base_dir + url, true
     http.onreadystatechange = ()->
       if http.readyState == 4
         if http.status == 200
@@ -70,7 +70,7 @@ class Loader
   #   calls error with the erroneous XHR object.
   _getScript: (src, callback, errCallback) ->
     if @config.debug
-      @_appendChild 'head', @_createScript src, callback
+      @_appendChild 'head', @_createScript @config.base_dir + src, callback
     else
       cb = (response) ->
         eval(response)
@@ -110,6 +110,7 @@ class Loader
       files = [files]
     # Config defaults
     @config = 
+      base_dir: config.base_dir or ''
       debug: config.debug or false
       js: config.js or false
       success: config.success or @noop
