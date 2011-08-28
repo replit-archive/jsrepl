@@ -19,7 +19,10 @@ class @JSREPL::Engines::JavaScript
       @result @inspect result
     catch e
       @error e
-
+  
+  EvalSync: (command) ->
+    return @sandbox.__eval command
+    
   GetNextLineIndent: (command) ->
     try
       new @functionClass command

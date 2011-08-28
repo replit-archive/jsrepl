@@ -18,6 +18,13 @@ class @JSREPL::Engines::Lua
         @result result
     catch e
       @error e
-
+  
+  EvalSync: (command) ->
+    @error_buffer = []
+    result = @Lua.eval command
+    if @error_buffer.length
+      throw @error_buffer.join ''
+    return result
+    
   GetNextLineIndent: (command) ->
     return if @Lua.isFinished command then false else 0 

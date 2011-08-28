@@ -9,6 +9,10 @@ class @JSREPL::Engines::Bloop
       @result @sandbox.eval code
     catch e
       @error e
+  
+  EvalSync: (command) ->
+    code = @sandbox.BFloop.compile command
+    return @sandbox.eval code
     
   GetNextLineIndent: (command) ->
     rOpen = /BLOCK\s+(\d+)\s*:\s*BEGIN/ig

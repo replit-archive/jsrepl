@@ -10,7 +10,7 @@ class @JSREPL::Engines::LOLCODE
       @machine.reset()
       @machine.halted = true
       @machine.instruction_ptr = @machine.instructions.length
-    result_handler = =>
+    @result_handler = =>
       it = @machine.frames[0].variables['IT']
       if it is @last_it
         result ''
@@ -23,22 +23,38 @@ class @JSREPL::Engines::LOLCODE
                                               input_handler,
                                               output_handler,
                                               error_handler,
-                                              result_handler,
+                                              @result_handler,
                                               true
     @last_it = null
 
     ready()
 
+  Compile: (command) ->
+    tokenized = new @sandbox.LOLCoffee.Tokenizer(command).tokenize()
+    parsed = new @sandbox.LOLCoffee.Parser(tokenized).parseProgram()
+    parsed.codegen @context
+    
   Eval: (command) ->
     try
-      tokenized = new @sandbox.LOLCoffee.Tokenizer(command).tokenize()
-      parsed = new @sandbox.LOLCoffee.Parser(tokenized).parseProgram()
-      parsed.codegen @context
+      @Compile command
     catch e
       @error e
       return
     @machine.run()
 
+  EvalSync: (command) ->
+    @Compile command
+    @machine.done = ()->
+    @machine.run()
+    @machine.done = @result_handler
+    it = @machine.frames[0].variables['IT']
+    if it is @last_it
+      return null
+    else
+      @last_it = it
+      return it.value
+      
+    
   GetNextLineIndent: (command) ->
     # If an explicit continuation is used, continue at the same indent level.
     if /\.\.\.\s*$/.test command then return 0

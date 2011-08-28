@@ -46,7 +46,21 @@ class @JSREPL::Engines::Lisp
           @result_handler last_result
       catch e
         @error e.message
-
+  
+  EvalSync: (command) ->
+    ret = null
+    try
+      @Javathcript.eval command, (r) ->
+        ret = r
+    catch e
+      last_result = null
+      handleMultiResult = (r) => last_result = r
+      @Javathcript.evalMulti command, handleMultiResult, =>
+        ret = last_result
+    
+    return ret
+    
+    
   GetNextLineIndent: (command) ->
     countParens = (str) =>
       tokenizer = new @Javathcript.Tokenizer str

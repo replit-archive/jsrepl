@@ -26,7 +26,11 @@ class @JSREPL::Engines::Traceur
       @result @inspect @sandbox.__eval source
     catch e
       @error e
-
+  
+  EvalSync: (command) ->
+    source = @_Compile command
+    return @sandbox.__eval source
+  
   GetNextLineIndent: (command) ->
     # Check if it compiles.
     try

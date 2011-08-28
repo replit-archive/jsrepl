@@ -1,27 +1,29 @@
 class @JSREPL::Engines::Brainfuck
   constructor: (input, output, @result, @error, @sandbox, ready) ->
-    @result_handler = (data, index) =>
-      epi = '...'
-      # Copy the data array
-      cells = data.map (x) -> x
-      # When we are at a newly visited unmodified cell 
-      # the data array length is wrong.
-      cells.length = if cells.length < index then index + 1 else cells.length
-      cells[i] ||= 0 for v,i in cells
+    @result_fn_factory = (result_fn) =>
+      (data, index)=>
+        epi = '...'
+        # Copy the data array
+        cells = data.map (x) -> x
+        # When we are at a newly visited unmodified cell 
+        # the data array length is wrong.
+        cells.length = if cells.length < index then index + 1 else cells.length
+        cells[i] ||= 0 for v,i in cells
       
-      if index < 10
-         lower = 0 
-      else 
-         lower = index - 10
-         cells[lower] = epi + cells[lower]
+        if index < 10
+           lower = 0 
+        else 
+           lower = index - 10
+           cells[lower] = epi + cells[lower]
       
-      cells[index] ||= 0
-      before = cells[lower...index]
-      if cells[index + 10]? then cells[index + 10] += epi
-      after = cells[index + 1..index + 10]
-      @result before.concat([ '[' + cells[index] + ']' ]).concat(after).join ' '
+        cells[index] ||= 0
+        before = cells[lower...index]
+        if cells[index + 10]? then cells[index + 10] += epi
+        after = cells[index + 1..index + 10]
+        result_fn before.concat([ '[' + cells[index] + ']' ]).concat(after).join ' '
       
-    # TODO(amasad): Buffer input.
+    @result_handler = @result_fn_factory @result
+    #TODO(amasad): Buffer input.
     @BFI = new @sandbox.BF.Interpreter input, output, @result_handler
       
     ready()
@@ -44,11 +46,20 @@ class @JSREPL::Engines::Brainfuck
         @BFI.reset()
         @result ''
       else
-        @BFI.evaluate(command)
+        @BFI.evaluate command
         
     catch e
       @error e
-
+  
+  EvalSync: (command) ->
+    ret = null
+    @BFI.result = @result_fn_factory (res)->
+      ret = res
+      
+    @BFI.evaluate command
+    @BFI.result = @result_handler
+    return ret
+    
   GetNextLineIndent: (command) ->
     countParens = (str) =>
       tokens = str.split ''

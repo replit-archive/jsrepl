@@ -59,7 +59,11 @@ class @JSREPL::Engines::Forth
     catch e
       @sandbox._error e
       return
-
+  
+  # TODO (max99x): Implement
+  EvalSync: (command) ->
+    
+    
   GetNextLineIndent: (command) ->
     countParens = (str) =>
       depth = 0

@@ -17,17 +17,22 @@ class @JSREPL::Engines::Kaffeine
     @sandbox.console.read = input
 
     ready()
-
+  
+  Compile: (command) ->
+    js = @kaffeine.compile command
+    # Kaffeine sometimes produces expressions and sometimes statements. We
+    # need to try both.
+    try
+      new @functionClass js
+    catch e
+      js = "(#{js})"
+    
+    return js
+      
   Eval: (command) ->
     # Compile.
     try
-      js = @kaffeine.compile command
-      # Kaffeine sometimes produces expressions and sometimes statements. We
-      # need to try both.
-      try
-        new @functionClass js
-      catch e
-        js = "(#{js})"
+      js = @Compile command
     catch e
       e.message = 'Compiling: ' + e.message
       @error e
@@ -39,6 +44,9 @@ class @JSREPL::Engines::Kaffeine
     catch e
       @error e
 
+  EvalSync: (command) ->
+    @sandbox.__eval @Compile command
+    
   GetNextLineIndent: (command) ->
     # If we have an async-wrapping bang anywhere in the command, we will be
     # wrapping the following lines, so continue until explicitly finished.

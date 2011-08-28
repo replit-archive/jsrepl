@@ -25,7 +25,11 @@ class @JSREPL::Engines::CoffeeScript
       @result @inspect result
     catch e
       @error e
-
+  
+  EvalSync: (command) ->
+    compiled = @CoffeeScript.compile command, globals: on, bare: on
+    return @sandbox.__eval compiled, globals: on, bare: on
+    
   GetNextLineIndent: (command) ->
     last_line = command.split('\n')[-1..][0]
 

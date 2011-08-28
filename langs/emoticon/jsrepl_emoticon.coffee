@@ -1,17 +1,18 @@
 class @JSREPL::Engines::Emoticon
   constructor: (@input, @output, result, @error, @sandbox, ready) ->
-    
-    @result_handler = (env) =>
-      result_env = ''
-      for listName, list of env
-        listStr = list.toString()
-        len = listStr.length - 74
-        len = if len > 0 then len else 0
-        listStr = listStr[len...]
-        listStr = '...' + listStr if len > 0
-        result_env += "\n#{listName}: " + listStr
-      result result_env
-      
+    @result_fn_factory = (result_fn) ->
+      (env) ->
+        result_env = ''
+        for listName, list of env
+          listStr = list.toString()
+          len = listStr.length - 74
+          len = if len > 0 then len else 0
+          listStr = listStr[len...]
+          listStr = '...' + listStr if len > 0
+          result_env += "\n#{listName}: " + listStr
+        result_fn result_env
+        
+    @result_handler = @result_fn_factory result
     @interpreter = new @sandbox.Emoticon.Interpreter {
       source: []
       input: @input
@@ -23,11 +24,22 @@ class @JSREPL::Engines::Emoticon
   Eval: (command) ->
     try
       code = new @sandbox.Emoticon.Parser command
-      @interpreter.lists.Z = @interpreter.lists.Z.concat(code)
+      @interpreter.lists.Z = @interpreter.lists.Z.concat code
       @interpreter.run()
     catch e
       @error e
   
+  EvalSync: (command) ->
+    code = new @sandbox.Emoticon.Parser command
+    @interpreter.lists.Z = @interpreter.lists.Z.concat code
+    ret = null
+    @interpreter.result = @result_fn_factory (res)->
+      ret = res
+    @interpreter.run()
+    @interpreter.result = @result_handler
+    return ret
+      
+      
   GetNextLineIndent: (command) ->
     countParens = (str) =>
       tokens = new @sandbox.Emoticon.Parser str

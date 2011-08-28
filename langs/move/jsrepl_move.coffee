@@ -19,17 +19,23 @@ class @JSREPL::Engines::Move
       @sandbox[name] = func
 
     ready()
-
+    
+  # Enable embedded HTML by default.
+  _EnableEHTML: (command) -> '#pragma enable ehtml\n' + command
+  
   Eval: (command) ->
-    # Enable embedded HTML by default.
-    command = '#pragma enable ehtml\n' + command
-
+    command = @_EnableEHTML command
     try
       js = @compile command, strict: true, raw: true
       @result @inspect @sandbox.__eval js
     catch e
       @error e
-
+  
+  EvalSync: (command) ->
+    command = @_EnableEHTML command
+    js = @compile command, strict: true, raw: true
+    return @sandbox.__eval js
+  
   GetNextLineIndent: (command) ->
     # Enable embedded HTML by default.
     command = '#pragma enable ehtml\n' + command

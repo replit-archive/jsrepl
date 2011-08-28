@@ -11,7 +11,19 @@ class @JSREPL::Engines::Unlambda
       @error e
       return
     @Unlambda.eval parsed, @result, @input, @output, @error
-
+  
+  EvalSync: (command) ->
+    ret = null
+    parsed = @Unlambda.parse command
+    
+    input = (callback) -> callback()
+    error = (error) -> throw error
+    result = (res) -> ret = res
+    
+    @Unlambda.eval parsed, result, input, @output, error
+    return ret
+    
+  
   GetNextLineIndent: (command) ->
     # There's no point in having an application operator at the end of a line
     # unless you want to continue to the next.

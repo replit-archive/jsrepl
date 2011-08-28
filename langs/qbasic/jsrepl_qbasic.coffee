@@ -22,7 +22,15 @@ class @JSREPL::Engines::QBasic
           @virtual_machine.cons.result ''
     catch e
       @virtual_machine.cons.error e.message
-
+  
+  EvalSync: (command) ->
+    ret = null
+    @virtual_machine.run command, =>
+      if @virtual_machine.stack.length
+        ret = @virtual_machine.stack.pop()
+        
+    return ret
+  
   GetNextLineIndent: (command) ->
     @sandbox.QBasic.Program::createParser()
     parser = @sandbox.QBasic.Program.parser

@@ -16,7 +16,13 @@ class @JSREPL::Engines::Scheme
         @result result
     catch e
       @interpreter.on_error e.message
-
+  
+  # TODO: Make sure the interpreter doesn't halt for input
+  EvalSync: (command) ->
+    ret = null
+    @interpreter.evaluate command, (state) -> ret = state
+    return ret
+  
   IsCommandComplete: (command) ->
     {tokens} = new @sandbox.BiwaScheme.Parser command
     parens = 0
