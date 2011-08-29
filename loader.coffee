@@ -169,7 +169,6 @@ if BASE_PATH?
   # We are in the top window loader.
   @JSREPLLoader.load ["repl.js", "languages.js"],
     success: =>
-      console.log window.JSREPL
       # Fire the load callback.
       @JSREPLLoader.jsrepl_load_fn()
     js: on
