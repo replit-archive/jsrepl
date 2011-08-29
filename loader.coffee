@@ -1,6 +1,12 @@
-# TODO(amasad): Make this detect location dynamically
-THIS_FILE = "/jsrepl/loader.js"
-SANDBOX_SRC = "/jsrepl/sandbox.html"
+# Get this loader script_element element.
+script_element = document.getElementById 'jsrepl_loader'
+# If we are in teh sandbox there would be no loader script with this id.
+if script_element?
+  # The source of this file.
+  THIS_FILE = script_element.src
+  # The path that would prefix all files to load.
+  BASE_PATH = THIS_FILE.split('/')[...-1].join '/'
+  SANDBOX_SRC = "#{BASE_PATH}/sandbox.html"
 
 # Loader module, can load multiple files/js using XHR, if js config settings 
 #   is set to true then script loading order is respected.
@@ -25,7 +31,12 @@ class Loader
     @iframe = null
     # noob
     @noop = ->
+    @jsrepl_load_fn = @noop
   
+  # Assign a callback for when this file, jsrepl and language definitions are all loaded.
+  onload: (callback) ->
+    @jsrepl_load_fn = callback or @noop
+    
   # Appends an element to the head or body tag, queues call till window load
   #   if the tag in question is not available.
   _appendChild: (tag, elem) ->
@@ -43,7 +54,9 @@ class Loader
   #   calls error with the XHR object that caused the error.
   _getXHR: (url, callback, errCallback, index) ->
     http = new @xhr()
-    http.open 'GET', @config.base_dir + url, true
+    if BASE_PATH?
+      url = "#{BASE_PATH}/#{url}"
+    http.open 'GET',  url, true
     http.onreadystatechange = ()->
       if http.readyState == 4
         if http.status == 200
@@ -70,7 +83,9 @@ class Loader
   #   calls error with the erroneous XHR object.
   _getScript: (src, callback, errCallback) ->
     if @config.debug
-      @_appendChild 'head', @_createScript @config.base_dir + src, callback
+      if BASE_PATH?
+        src = "#{BASE_PATH}/#{src}"
+      @_appendChild 'head', @_createScript src, callback
     else
       cb = (response) ->
         eval(response)
@@ -110,7 +125,6 @@ class Loader
       files = [files]
     # Config defaults
     @config = 
-      base_dir: config.base_dir or ''
       debug: config.debug or false
       js: config.js or false
       success: config.success or @noop
@@ -150,4 +164,13 @@ class Loader
       # Regular files, fuck order. CHAOS!
       @_getXHR file, cb, @config.error, i for file, i in files
 
-@Loader = new Loader
+@JSREPLLoader = new Loader
+if BASE_PATH?
+  # We are in the top window loader.
+  @JSREPLLoader.load ["repl.js", "languages.js"],
+    success: =>
+      console.log window.JSREPL
+      # Fire the load callback.
+      @JSREPLLoader.jsrepl_load_fn()
+    js: on
+    debug: true

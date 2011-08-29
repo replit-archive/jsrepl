@@ -11,7 +11,7 @@ repl_logo = '''
             \t.-. :         jsREPL v0.1
             \t`._.' Amjad Masad & Max Shawabkeh
             '''
-            
+
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
@@ -36,8 +36,8 @@ class JSREPL
     @engine = null
     # Switch the language.
     @lang = JSREPL::Languages::[lang_name]
-    Loader.createSandBox (sandbox)=>
-      loader = sandbox.Loader
+    JSREPLLoader.createSandBox (sandbox)=>
+      loader = sandbox.JSREPLLoader
       config = 
         js: true
         debug: true
@@ -45,15 +45,14 @@ class JSREPL
           
           # When the iframe finishes loading the language scripts, create the
           # language engine and pass along the child window object "sandbox".
-          Loader.load @lang.engine,
-            base_dir: @JSREPL_dir or ''
+          JSREPLLoader.load @lang.engine,
             js: true
             debug: true
             success: =>
               # TODO(max99x): Debug on all target browsers.
               #               On IE 8 this doesn't work for Lisp.
               # When XHRs are all done instantiate the engine
-              Loader.load @lang.libs, (libs)=>
+              JSREPLLoader.load @lang.libs, (libs)=>
                 @engine = new JSREPL::Engines::[lang_name](
                   $.proxy(@InputCallback, this),
                   $.proxy(@OutputCallback, this),
