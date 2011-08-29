@@ -1,7 +1,6 @@
 @JSREPL::Languages::QBasic =
   name: 'Quick Basic'
   extension: 'bas'
-  category: 'Imperative'
   matchings: []
   scripts: [
     'extern/qb.js/Base.js'
@@ -21,7 +20,6 @@
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
   extension: 'lisp'
-  category: 'Functional'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -40,7 +38,6 @@
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
   extension: 'scm'
-  category: 'Functional'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -78,7 +75,6 @@
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
   extension: 'js'
-  category: 'Dynamic'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -93,7 +89,6 @@
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
   extension: 'coffee'
-  category: 'Dynamic'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -109,7 +104,6 @@
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
   extension: 'bf'
-  category: 'Esoteric'
   matchings: [
     ['[', ']']
   ]
@@ -122,7 +116,6 @@
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
   extension: 'unl'
-  category: 'Esoteric'
   matchings: []
   scripts: [
     'extern/unlambda-coffee/unlambda.coffee'
@@ -134,7 +127,6 @@
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
   extension: 'lol'
-  category: 'Esoteric'
   matchings: []
   scripts: [
     'extern/lol-coffee/src/base.coffee'
@@ -146,11 +138,9 @@
   engine: 'langs/lolcode/jsrepl_lolcode.coffee'
   libs: []
 
-
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
   extension: 'k'
-  category: 'Dynamic'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -166,7 +156,6 @@
 @JSREPL::Languages::Move =
   name: 'Move'
   extension: 'mv'
-  category: 'Dynamic'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -182,7 +171,6 @@
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
   extension: 'js'
-  category: 'Dynamic'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -284,7 +272,6 @@
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
   extension: 'emo'
-  category: 'Esoteric'
   matchings: [
     ['(', ')']
   ]
@@ -297,7 +284,6 @@
 @JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
   extensions: 'bloop'
-  category: 'Esoteric'
   matchings: []
   scripts: [
     'extern/bloop/bloop.js'
@@ -308,7 +294,6 @@
 @JSREPL::Languages::Forth = 
   name: 'Forth'
   extensions: '4th'
-  category: 'Stack-based'
   matchings: [
     ['(', ')']
     [':', ';']
@@ -322,7 +307,6 @@
 @JSREPL::Languages::Lua =
   name: 'Lua'
   extension: 'lua'
-  category: 'Multi-paradigm'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -337,7 +321,6 @@
 @JSREPL::Languages::Python =
   name: 'Python'
   extension: 'py'
-  category: 'Multi-paradigm'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -352,7 +335,6 @@
 @JSREPL::Languages::Smalltalk =
   name: 'Smalltalk'
   extensions: 'st'
-  category: 'Dynamic'
   matchings: [
     ['(', ')']
     ['[', ']']
@@ -367,4 +349,3 @@
   ]
   engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
   libs: []
-
