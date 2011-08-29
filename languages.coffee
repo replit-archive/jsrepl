@@ -319,7 +319,6 @@
   engine: 'langs/forth/jsrepl_forth.coffee'
   libs: []
 
-
 @JSREPL::Languages::Lua =
   name: 'Lua'
   extension: 'lua'
@@ -334,7 +333,22 @@
   ]
   engine: 'langs/lua/jsrepl_lua.coffee'
   libs: []
-  
+
+@JSREPL::Languages::Python =
+  name: 'Python'
+  extension: 'py'
+  category: 'Multi-paradigm'
+  matchings: [
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
+  scripts: [
+    'extern/python/python.elim.js'
+  ]
+  engine: 'langs/python/jsrepl_python.coffee'
+  libs: []
+
 @JSREPL::Languages::Smalltalk =
   name: 'Smalltalk'
   extensions: 'st'
