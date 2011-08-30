@@ -327,7 +327,7 @@
     ['{', '}']
   ]
   scripts: [
-    'extern/python/python.elim.js'
+    'extern/python/python.js'
   ]
   engine: 'langs/python/jsrepl_python.coffee'
   libs: []
