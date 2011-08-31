@@ -1,12 +1,14 @@
-class @JSREPL::Engines::Python
+class self.JSREPLEngine
   constructor: (unused_input, output, @result, @error, sandbox, ready) ->
     sandbox.print = (->)
     @error_buffer = []
     @Python = sandbox.Python
-    @Python.initialize(null,
-                      (chr) -> if chr? then output String.fromCharCode chr
-                      (chr) => @error_buffer.push String.fromCharCode chr)
-    ready()
+    callback = () =>
+      @Python.initialize(null,
+                        (chr) -> if chr? then output String.fromCharCode chr
+                        (chr) => @error_buffer.push String.fromCharCode chr)
+      ready()
+    setTimeout callback, 100
 
   Eval: (command) ->
     @error_buffer = []

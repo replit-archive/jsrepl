@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Bloop
+class self.JSREPLEngine
   constructor: (@input, @output, @result, @error, @sandbox, ready) ->
     @sandbox.BFloop.init @output
     ready()

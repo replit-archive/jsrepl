@@ -1,7 +1,7 @@
 # TODO(max99x): Fix keyword arg breakage for runtime in raw mode. See:
 #               https://github.com/rsms/move/issues/8
 
-class @JSREPL::Engines::Move
+class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     # Cache sandboxed objects and functions used by the engine in case sandbox
     # bindings hide them.

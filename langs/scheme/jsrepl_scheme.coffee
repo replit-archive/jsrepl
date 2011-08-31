@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Scheme
+class self.JSREPLEngine
   constructor: (input, output, @result, error, @sandbox, ready) ->
     Port = @sandbox.BiwaScheme.Port
     Port.current_input = new Port.CustomInput input

@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Lua
+class self.JSREPLEngine
   constructor: (unused_input, output, @result, @error, sandbox, ready) ->
     sandbox.print = (->)
     @error_buffer = []

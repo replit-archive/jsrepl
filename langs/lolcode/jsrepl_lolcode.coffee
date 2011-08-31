@@ -1,4 +1,4 @@
-class @JSREPL::Engines::LOLCODE
+class self.JSREPLEngine
   constructor: (input, output, result, @error, @sandbox, ready) ->
     input_handler = =>
       input (text) => @machine.resume text

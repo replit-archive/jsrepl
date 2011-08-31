@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Brainfuck
+class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     @result_fn_factory = (result_fn) =>
       (data, index)=>

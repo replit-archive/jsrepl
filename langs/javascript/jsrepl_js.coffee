@@ -1,4 +1,4 @@
-class @JSREPL::Engines::JavaScript
+class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     # Cache sandboxed objects and functions used by the engine in case sandbox
     # bindings hide them.

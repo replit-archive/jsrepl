@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Smalltalk
+class self.JSREPLEngine
   constructor: (@input, @output, @result, @error, @sandbox, ready) ->
     @smalltalk = @sandbox.smalltalk
     ready()

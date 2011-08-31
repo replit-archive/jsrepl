@@ -1,7 +1,7 @@
 # How many stack items to print when showing the result of a command.
 RESULT_SIZE = 5
 
-class @JSREPL::Engines::Forth
+class self.JSREPLEngine
   constructor: (input, output, result, error, @sandbox, ready) ->
     # Have we printed at least one character this run?
     @printed = false

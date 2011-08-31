@@ -1,4 +1,4 @@
-class @JSREPL::Engines::Unlambda
+class self.JSREPLEngine
   constructor: (@input, @output, @result, @error, @sandbox, ready) ->
     @Unlambda = @sandbox.Unlambda
     @result = (value) => result @Unlambda.unparse value
