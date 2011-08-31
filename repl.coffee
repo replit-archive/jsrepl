@@ -57,7 +57,7 @@ class JSREPL
     # Define a route to the loadlangauge ready callback.
     @worker.defineIncoming 'ready', callback
     # Load worker with language specific scripts.
-    @worker.load @lang.scripts.concat [@lang.engine]
+    @worker.load @lang.scripts.concat([@lang.engine]), @lang.worker_friendly
 
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise

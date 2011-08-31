@@ -15,6 +15,7 @@
     'extern/qb.js/QBasic.js'
   ]
   engine: 'langs/qbasic/jsrepl_qbasic.coffee'
+  worker_friendly: true
   libs: []
 
 @JSREPL::Languages::Lisp =
@@ -33,6 +34,7 @@
     'extern/javathcript/source/Javathcript.js'
   ]
   engine: 'langs/lisp/jsrepl_lisp.coffee'
+  worker_friendly: false
   libs: ['langs/lisp/jsrepl_lisp_lib.lisp']
 
 @JSREPL::Languages::Scheme =
@@ -70,6 +72,7 @@
     'extern/biwascheme/src/library/srfi.js'
   ]
   engine: 'langs/scheme/jsrepl_scheme.coffee'
+  worker_friendly: true
   libs: []
 
 @JSREPL::Languages::JavaScript =
@@ -85,6 +88,7 @@
   ]
   engine: 'langs/javascript/jsrepl_js.coffee'
   libs: []
+  worker_friendly: true
 
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
@@ -100,6 +104,7 @@
   ]
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   libs: []
+  worker_friendly: true
 
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
@@ -112,6 +117,7 @@
   ]
   engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
   libs: []
+  worker_friendly: true
 
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
@@ -122,7 +128,7 @@
   ]
   engine: 'langs/unlambda/jsrepl_unlambda.coffee'
   libs: []
-
+  worker_friendly: true
 
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
@@ -137,6 +143,7 @@
   ]
   engine: 'langs/lolcode/jsrepl_lolcode.coffee'
   libs: []
+  worker_friendly: true
 
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
@@ -152,6 +159,7 @@
   ]
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
   libs: []
+  worker_friendly: true
 
 @JSREPL::Languages::Move =
   name: 'Move'
@@ -167,7 +175,8 @@
   ]
   engine: 'langs/move/jsrepl_move.coffee'
   libs: []
-
+  worker_friendly: true
+  
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
   extension: 'js'
@@ -268,7 +277,8 @@
   ]
   engine: 'langs/traceur/jsrepl_traceur.coffee'
   libs: []
-
+  worker_friendly: true
+    
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
   extension: 'emo'
@@ -280,7 +290,8 @@
   ]
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
   libs: []
-
+  worker_friendly: true
+  
 @JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
   extensions: 'bloop'
@@ -290,7 +301,8 @@
   ]
   engine: 'langs/bloop/jsrepl_bloop.coffee'
   libs: []
-
+  worker_friendly: true
+  
 @JSREPL::Languages::Forth = 
   name: 'Forth'
   extensions: '4th'
@@ -303,7 +315,8 @@
   ]
   engine: 'langs/forth/jsrepl_forth.coffee'
   libs: []
-
+  worker_friendly: true
+  
 @JSREPL::Languages::Lua =
   name: 'Lua'
   extension: 'lua'
@@ -317,7 +330,8 @@
   ]
   engine: 'langs/lua/jsrepl_lua.coffee'
   libs: []
-
+  worker_friendly: false
+  
 @JSREPL::Languages::Python =
   name: 'Python'
   extension: 'py'
@@ -331,7 +345,8 @@
   ]
   engine: 'langs/python/jsrepl_python.coffee'
   libs: []
-
+  worker_friendly: false
+  
 @JSREPL::Languages::Smalltalk =
   name: 'Smalltalk'
   extensions: 'st'
@@ -349,3 +364,4 @@
   ]
   engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
   libs: []
+  worker_friendly: true

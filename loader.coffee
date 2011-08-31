@@ -167,7 +167,6 @@ class Loader
       @_getXHR file, cb, @config.error, i for file, i in files
 
 workerSupported = 'Worker' of window
-console.log workerSupported
 class Sandbox
   # baseScripts: The scripts that loads every time a new worker is created.
   # messages: Message routes to functions.
@@ -178,7 +177,7 @@ class Sandbox
     @messages[type] = fn
   
   # Loads a new instance of a worker with the basescripts + the new scripts
-  load: (moreScripts) ->
+  load: (moreScripts, workerFriendly=true) ->
     allScripts = @baseScripts.concat moreScripts
     base = allScripts.shift()
     # onmessage handler for worker.
@@ -197,15 +196,18 @@ class Sandbox
     # If we already have a worker then kill that bastard!
     if @worker?
       @kill()
-    if not workerSupported
+      
+    if not workerSupported or not workerFriendly
       # Worker is not supported, create a new iframe sandbox replacing the old one.
       JSREPLLoader.createSandbox (sandbox) =>
         @worker = sandbox
+        @workerIsIframe = true
         window.onmessage = onmsg
         startImport()
     else
       # Workers are supported \o/
       @worker = new Worker base
+      @workerIsIframe = false
       @worker.onmessage = onmsg
       startImport()
       
@@ -213,14 +215,18 @@ class Sandbox
     # Since all messages are going to the Sandboss, we hardcode it.
     msgObj.type = 'Sandboss.' + msgObj.type
     msgStr = JSON.stringify msgObj
-    if workerSupported
+    if not @workerIsIframe
       @worker.postMessage msgStr
     else
       # Worker is an iframe, additional origin argument required.
       @worker.postMessage msgStr, '*'
   
   # Only kill actual worker, iframe disposal is taken care of by the loader.
-  kill: () -> @worker.terminate() if workerSupported
+  kill: () -> 
+    @worker.terminate?()
+    if JSREPLLoader.body? and JSREPLLoader.iframe
+      JSREPLLoader.body.removeChild JSREPLLoader.iframe
+      delete JSREPLLoader['iframe']
   
 @JSREPLLoader = new Loader
 if BASE_PATH?
