@@ -10,12 +10,13 @@ repl_logo = '''
             \t  : :`.__.':_;:_;`.__.':_;   :___.'
             \t.-. :         jsREPL v0.1
             \t`._.' Amjad Masad & Max Shawabkeh
-            '''
+            '''        
+    
 
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
-  constructor: ({@JSREPL_dir, @languages, @ResultCallback, @ErrorCallback, @InputCallback, @OutputCallback}) ->
+  constructor: ({@JSREPL_dir, @languages, ResultCallback, ErrorCallback, InputCallback, OutputCallback}) ->
     # The definition of the current language.
     @lang = null
     # The interpreter engine of the current language.
@@ -24,7 +25,20 @@ class JSREPL
     @sandbox_frame = null
     # The sandbox window global object.
     @sandbox = null
-    
+    # Create initial worker.
+    @worker = Sandboss.create
+      baseScripts: ['jsrepl/sandbox.js', 'util/polyfills.js', 'util/mtwister.js']
+      incoming:
+        'out': OutputCallback
+        'input': ->
+          InputCallback (data) =>
+            this.post
+              type: 'input.write'
+              data: data
+        'err': ErrorCallback
+        'result': ResultCallback
+          
+      
   # Loads the specified language engine with its examples and calls the callback
   # once all loading is done.
   #   @arg lang_name: The name of the language to load, a member of
@@ -36,49 +50,34 @@ class JSREPL
     @engine = null
     # Switch the language.
     @lang = JSREPL::Languages::[lang_name]
-    JSREPLLoader.createSandBox (sandbox)=>
-      loader = sandbox.JSREPLLoader
-      config = 
-        js: true
-        debug: true
-        success: =>
-          
-          # When the iframe finishes loading the language scripts, create the
-          # language engine and pass along the child window object "sandbox".
-          JSREPLLoader.load @lang.engine,
-            js: true
-            debug: true
-            success: =>
-              # TODO(max99x): Debug on all target browsers.
-              #               On IE 8 this doesn't work for Lisp.
-              # When XHRs are all done instantiate the engine
-              JSREPLLoader.load @lang.libs, (libs)=>
-                @engine = new JSREPL::Engines::[lang_name](
-                  $.proxy(@InputCallback, this),
-                  $.proxy(@OutputCallback, this),
-                  $.proxy(@ResultCallback, this),
-                  $.proxy(@ErrorCallback, this),
-                  sandbox,
-                  callback,
-                  libs
-                )
-      loader.load @lang.scripts, config
-
+    # Callback to get indent.
+    indentCB = (data)=> @IndentCallback(data)
+    # Define a route for the indent callback.
+    @worker.defineIncoming 'indent', indentCB
+    # Define a route to the loadlangauge ready callback.
+    @worker.defineIncoming 'ready', callback
+    # Load worker with language specific scripts.
+    @worker.load @lang.scripts.concat [@lang.engine]
 
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise
   # delegates to the language engine's command completion checker.
   #   @arg command: A string containing the command entered so far.
-  CheckLineEnd: (command) ->
+  CheckLineEnd: (command, callback) ->
     if /\n\s*$/.test command
-      return false
+      callback false
     else
-      return @engine.GetNextLineIndent command
+      @worker.post
+        type: 'getNextLineIndent'
+        data: command
+      @IndentCallback = callback
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.
   Evaluate: (command) ->
-    @engine.Eval command
+    @worker.post
+      type: 'engine.Eval'
+      data: command
   
   EvaluateSync: (command) ->
     @engine.EvalSync command
@@ -89,3 +88,4 @@ class JSREPL::Engines
 
 # Export JSREPL to the world.
 @JSREPL = JSREPL
+

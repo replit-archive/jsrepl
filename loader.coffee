@@ -71,10 +71,12 @@ class Loader
     script.type = 'text/javascript'
     script.src = src
     script.async = true
-    script.onload = callback
-    script.onreadystatechange = ()->
-      if /^loaded|complete$/.test script.readyState
-        callback()
+    if script.onreadystatechange?  
+      script.onreadystatechange = ()->
+        if /^loaded|complete$/.test script.readyState
+          callback()
+    else
+      script.onload = callback
     return script
     
   # Loads a script file using a script tag if the debug option is set to true
@@ -94,7 +96,7 @@ class Loader
   
   # Creates a new sandbox (iframe window), and injects self into it.
   #   Calls callback with the new sandbox.
-  createSandBox: (callback) ->
+  createSandbox: (callback) ->
     if @iframe?
       @body.removeChild @iframe
     @iframe = document.createElement 'iframe'
@@ -164,6 +166,62 @@ class Loader
       # Regular files, fuck order. CHAOS!
       @_getXHR file, cb, @config.error, i for file, i in files
 
+workerSupported = 'Worker' of window
+console.log workerSupported
+class Sandbox
+  # baseScripts: The scripts that loads every time a new worker is created.
+  # messages: Message routes to functions.
+  constructor: (@baseScripts, @messages) ->
+  
+  # Defines a new route.
+  defineIncoming: (type, fn) ->
+    @messages[type] = fn
+  
+  # Loads a new instance of a worker with the basescripts + the new scripts
+  load: (moreScripts) ->
+    allScripts = @baseScripts.concat moreScripts
+    base = allScripts.shift()
+    # onmessage handler for worker.
+    onmsg = (event) =>
+      # IE fires stupid events to convey its stupidity!
+      try
+        msg = JSON.parse event.data
+        # Route message to funciton.
+        @messages[msg.type].call(@, msg.data)
+      catch e
+    # Function to order worker to start importing scripts.
+    startImport = ()=> 
+      @post
+        type: 'importScripts'
+        data: allScripts
+    # If we already have a worker then kill that bastard!
+    if @worker?
+      @kill()
+    if not workerSupported
+      # Worker is not supported, create a new iframe sandbox replacing the old one.
+      JSREPLLoader.createSandbox (sandbox) =>
+        @worker = sandbox
+        window.onmessage = onmsg
+        startImport()
+    else
+      # Workers are supported \o/
+      @worker = new Worker base
+      @worker.onmessage = onmsg
+      startImport()
+      
+  post: (msgObj) ->
+    # Since all messages are going to the Sandboss, we hardcode it.
+    msgObj.type = 'Sandboss.' + msgObj.type
+    msgStr = JSON.stringify msgObj
+    if workerSupported
+      @worker.postMessage msgStr
+    else
+      # Worker is an iframe, additional origin argument required.
+      @worker.postMessage msgStr, '*'
+  
+  # Only kill actual worker, iframe disposal is taken care of by the loader.
+  kill: () -> @worker.terminate() if workerSupported
+  
 @JSREPLLoader = new Loader
 if BASE_PATH?
   # We are in the top window loader.
@@ -173,3 +231,8 @@ if BASE_PATH?
       @JSREPLLoader.jsrepl_load_fn()
     js: on
     debug: true
+  # We don't need a sandboss in the iframe
+  @Sandboss = 
+    create: (config) -> @sandbox = new Sandbox config.baseScripts, config.incoming
+  
+  
