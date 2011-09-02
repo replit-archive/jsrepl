@@ -22,7 +22,7 @@ class self.JSREPLEngine
     try
       compiled = @CoffeeScript.compile command, globals: on, bare: on
       result = @sandbox.__eval compiled, globals: on, bare: on
-      @result @inspect result
+      @result @inspect if result == undefined then '' else result
     catch e
       @error e
   
