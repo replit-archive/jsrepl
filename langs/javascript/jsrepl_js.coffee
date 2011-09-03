@@ -16,7 +16,7 @@ class self.JSREPLEngine
   Eval: (command) ->
     try
       result = @sandbox.__eval command
-      @result @inspect result
+      @result if result == undefined then '' else @inspect result
     catch e
       @error e
   
