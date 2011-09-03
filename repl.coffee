@@ -1,18 +1,3 @@
-# Shorthand for jQuery.
-$ = jQuery
-
-# The logo to print at the top of the console.
-repl_logo = '''
-            \t   _       .---.  .--. .---. .-.
-            \t  :_;      : .; :: .--': .; :: :
-            \t  .-. .--. :   .': `;  :  _.': :
-            \t  : :`._-.': :.`.: :__ : :   : :__
-            \t  : :`.__.':_;:_;`.__.':_;   :___.'
-            \t.-. :         jsREPL v0.1
-            \t`._.' Amjad Masad & Max Shawabkeh
-            '''        
-    
-
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
@@ -27,7 +12,7 @@ class JSREPL
     @sandbox = null
     # Create initial worker.
     @worker = Sandboss.create
-      baseScripts: ['jsrepl/sandbox.js', 'util/polyfills.js', 'util/mtwister.js']
+      baseScripts: ['sandbox.js', 'util/polyfills.js', 'util/mtwister.js']
       incoming:
         'out': OutputCallback
         'input': ->
