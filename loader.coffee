@@ -170,8 +170,8 @@ workerSupported = 'Worker' of window
 class Sandbox
   # baseScripts: The scripts that loads every time a new worker is created.
   # messages: Message routes to functions.
-  constructor: (@baseScripts, @messages) ->
-  
+  constructor: (baseScripts, @messages) ->
+    @baseScripts = ("#{BASE_PATH}/#{path}" for path in baseScripts)
   # Defines a new route.
   defineIncoming: (type, fn) ->
     @messages[type] = fn
@@ -230,14 +230,7 @@ class Sandbox
   
 @JSREPLLoader = new Loader
 if BASE_PATH?
-  # We are in the top window loader.
-  @JSREPLLoader.load ["repl.js", "languages.js"],
-    success: =>
-      # Fire the load callback.
-      @JSREPLLoader.jsrepl_load_fn()
-    js: on
-    debug: true
-  # We don't need a sandboss in the iframe
+  # We don't need a sandboss in the iframe.
   @Sandboss = 
     create: (config) -> @sandbox = new Sandbox config.baseScripts, config.incoming
   
