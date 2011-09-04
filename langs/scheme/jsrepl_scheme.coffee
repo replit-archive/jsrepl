@@ -10,10 +10,14 @@ class self.JSREPLEngine
   Eval: (command) ->
     try
       @interpreter.evaluate command, (new_state) =>
-        result = ''
-        if new_state? and new_state isnt @sandbox.BiwaScheme.undef
-          result = @sandbox.BiwaScheme.to_write new_state
-        @result result
+        # When the result is JS undefined then this eval was an error and the 
+        # error callback has been already called. 
+        # Schemeseems to return a result even on error.
+        if new_state isnt undefined
+          result = ''
+          if new_state? and new_state isnt @sandbox.BiwaScheme.undef
+            result = @sandbox.BiwaScheme.to_write new_state
+          @result result
     catch e
       @interpreter.on_error e.message
   
