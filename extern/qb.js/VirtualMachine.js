@@ -364,6 +364,20 @@
         vm.stack.push(str);
       }
     },
+    "STRING$": {
+      type: "STRING",
+      args: ["INTEGER", "STRING"],
+      minArgs: 2,
+      action: function (vm) {
+        var chr = vm.stack.pop();
+        var numChars = vm.stack.pop();
+        var str = "";
+        for (var i = 0; i < numChars; i++) {
+          str += chr;
+        }
+        vm.stack.push(str);
+      }
+    },
     "VAL": {
       type: "SINGLE",
       args: ["STRING"],
