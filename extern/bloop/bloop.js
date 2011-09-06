@@ -117,7 +117,7 @@ function scan() {
 
         if (parseCode.match(/^$/)) return false;
 
-        if (parseCode.match(/^\/\*.*\*\//)) {
+        if (parseCode.match(/^\/\*.*?\*\//)) {
             parseCode = parseCode.replace(/^\/\*.*\*\//, "");
             continue MATCH;
         }
