@@ -326,6 +326,7 @@
     ['{', '}']
   ]
   scripts: [
+    'util/utf8.coffee'
     'extern/lua/lua.closure.js'
   ]
   engine: 'langs/lua/jsrepl_lua.coffee'
@@ -341,6 +342,7 @@
     ['{', '}']
   ]
   scripts: [
+    'util/utf8.coffee'
     'extern/python/python.js'
   ]
   engine: 'langs/python/jsrepl_python.coffee'

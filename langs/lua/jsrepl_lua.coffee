@@ -4,14 +4,14 @@ class self.JSREPLEngine
     @error_buffer = []
     @Lua = sandbox.Module.Lua
     @Lua.initialize(null,
-                    (chr) -> output String.fromCharCode chr
+                    makeUtf8Print output,
                     (chr) => @error_buffer.push String.fromCharCode chr)
     ready()
 
   Eval: (command) ->
     @error_buffer = []
     try
-      result = @Lua.eval command
+      result = @Lua.eval encodeUtf8 command
       if @error_buffer.length
         @error @error_buffer.join ''
       else
@@ -21,7 +21,7 @@ class self.JSREPLEngine
   
   EvalSync: (command) ->
     @error_buffer = []
-    result = @Lua.eval command
+    result = @Lua.eval encodeUtf8 command
     if @error_buffer.length
       throw @error_buffer.join ''
     return result
