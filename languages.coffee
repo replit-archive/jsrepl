@@ -170,7 +170,7 @@
     ['{', '}']
   ]
   scripts: [
-    'extern/move/web/move.js'
+    'extern/move/move.js'
     'util/inspect.js'
   ]
   engine: 'langs/move/jsrepl_move.coffee'
