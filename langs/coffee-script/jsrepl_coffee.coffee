@@ -22,14 +22,14 @@ class self.JSREPLEngine
     try
       compiled = @CoffeeScript.compile command, globals: on, bare: on
       result = @sandbox.__eval compiled, globals: on, bare: on
-      @result @inspect if result == undefined then '' else result
+      @result if result == undefined then '' else @inspect result
     catch e
       @error e
-  
+
   EvalSync: (command) ->
     compiled = @CoffeeScript.compile command, globals: on, bare: on
     return @sandbox.__eval compiled, globals: on, bare: on
-    
+
   GetNextLineIndent: (command) ->
     last_line = command.split('\n')[-1..][0]
 

@@ -19,10 +19,10 @@ class self.JSREPLEngine
       @result if result == undefined then '' else @inspect result
     catch e
       @error e
-  
+
   EvalSync: (command) ->
     return @sandbox.__eval command
-    
+
   GetNextLineIndent: (command) ->
     try
       new @functionClass command

@@ -23,7 +23,8 @@ class self.JSREPLEngine
 
     # Evaluate.
     try
-      @result @inspect @sandbox.__eval source
+      result = @sandbox.__eval source
+      @result if result == undefined then '' else @inspect result
     catch e
       @error e
   
