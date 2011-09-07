@@ -197,7 +197,7 @@ MersenneTwister.prototype.genrand_res53 = function() {
 /** jsREPL **/
 (function() {
   Math._random = Math.random;
-  var M = new MersenneTwister(Math._random());
+  var M = new MersenneTwister(42);
   Math.random = function() {
     return M.random();
   };
