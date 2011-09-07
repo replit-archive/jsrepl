@@ -1,6 +1,3 @@
-# TODO(max99x): Fix keyword arg breakage for runtime in raw mode. See:
-#               https://github.com/rsms/move/issues/8
-
 class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     # Cache sandboxed objects and functions used by the engine in case sandbox
@@ -20,21 +17,16 @@ class self.JSREPLEngine
 
     ready()
 
-  # Enable embedded HTML by default.
-  _EnableEHTML: (command) -> '#pragma enable ehtml\n' + command
-
   Eval: (command) ->
-    command = @_EnableEHTML command
     try
-      js = @compile command, strict: true, raw: true
+      js = @compile command, wrapSource: false, includeRuntime: false
       result = @sandbox.__eval js
       @result if result == undefined then '' else @inspect result
     catch e
       @error e
 
   EvalSync: (command) ->
-    command = @_EnableEHTML command
-    js = @compile command, strict: true, raw: true
+    js = @compile command, wrapSource: false, includeRuntime: false
     return @sandbox.__eval js
 
   GetNextLineIndent: (command) ->
@@ -43,7 +35,8 @@ class self.JSREPLEngine
 
     # Check if it compiles.
     try
-      new @functionClass @compile command, strict: true, raw: true
+      js = @compile command, wrapSource: false, includeRuntime: false
+      new @functionClass js
       last_line = command.split('\n')[-1..][0]
       # If current line is indented, we may still want to continue.
       return if /^\s+/.test last_line then 0 else false
