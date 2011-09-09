@@ -2,7 +2,7 @@ class self.JSREPLEngine
   constructor: (unused_input, output, @result, @error, sandbox, ready) ->
     sandbox.print = (->)
     @error_buffer = []
-    @Lua = sandbox.Module.Lua
+    @Lua = sandbox.Lua
     @Lua.initialize(null,
                     makeUtf8Print output,
                     (chr) => @error_buffer.push String.fromCharCode chr)

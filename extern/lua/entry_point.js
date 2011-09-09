@@ -1,14 +1,20 @@
-Module['Lua'] = {
+this['Lua'] = {
+  isInitialize: null,
   state: null,
   streamName: null,
-  reportError: function () {},
+  reportError: function () {
+    _lua_settop(this.state, 0);
+  },
+  // Allocates a string on the heap.
   allocateString: function(str) {
-    var arr = Module['intArrayFromString'](str);
-    return Module['allocate'](arr, 'i8', 0);  // ALLOC_NORMAL
+    var arr = intArrayFromString(str);
+    return allocate(arr, 'i8', 0);  // ALLOC_NORMAL
   },
   // Parses Lua code and loads it into the execution buffer. Returns true on
   // success.
   parse: function (command) {
+    // =x commands explicitly ask for the result.
+    if (command.match(/^=(?!=)/)) command = 'return ' + command.slice(1);
     // Prepare the command, as an expression and a statement.
     var commandPtr = this.allocateString(command);
     var evalCommand = 'return ' + command;
@@ -16,93 +22,106 @@ Module['Lua'] = {
 
     // Try parsing the command, first as an expression, then if that fails, as a
     // statement.
-    var load = Module['__Z15luaL_loadbufferP9lua_StatePKcjS2_'];
-    var parseFailed = load(
+    var parseFailed = _luaL_loadbuffer(
         this.state, evalCommandPtr, evalCommand.length, this.streamName);
     if (parseFailed) {
-      parseFailed = load(
+      _lua_settop(this.state, -2)  // Discard error message.
+      parseFailed = _luaL_loadbuffer(
         this.state, commandPtr, command.length, this.streamName);
     }
 
     // Cleanup.
-    Module['_free'](commandPtr);
-    Module['_free'](evalCommandPtr);
+    _free(commandPtr);
+    _free(evalCommandPtr);
 
     return !parseFailed;
   },
   // Returns the string representation of the value at the top of the Lua stack.
-  getTopOfStack: function () {
-    var type = Module['__Z8lua_typeP9lua_Statei'](this.state, -1);
+  popStack: function () {
+    var ret;
+    var type = _lua_type(this.state, -1);
     switch (type) {
       case -1:  // LUA_TNONE
       case 0:   // LUA_TNIL
-        return null;
+        ret = null;
+        break;
       case 1:   // LUA_TBOOLEAN
-        var result = Module['__Z13lua_tobooleanP9lua_Statei'](this.state, -1);
-        return result ? 'true' : 'false';
+        var result = _lua_toboolean(this.state, -1);
+        ret = result ? 'true' : 'false';
+        break;
       case 3:   // LUA_TNUMBER
-        return Module['__Z12lua_tonumberP9lua_Statei'](this.state, -1);
+        ret = _lua_tonumber(this.state, -1);
+        break;
       case 4:   // LUA_TSTRING
-        var ptr = Module['__Z13lua_tolstringP9lua_StateiPj'](this.state, -1, 0);
-        return Module['Pointer_stringify'](ptr);
+        var ptr = _lua_tolstring(this.state, -1, 0);
+        var len = _lua_objlen(this.state, -1);
+        var buffer = [];
+        for (var i = 0; i < len; i++) {
+          buffer.push(String.fromCharCode(HEAP[ptr + i]));
+        }
+        ret = buffer.join('');
+        break;
       default:
-        var ptr = Module['__Z12lua_typenameP9lua_Statei'](this.state, type);
-        var typename = Module['Pointer_stringify'](ptr);
-        var address = Module['__Z13lua_topointerP9lua_Statei'](this.state, -1);
-        return typename + ': 0x' + address.toString(16);
+        var ptr = _lua_typename(this.state, type);
+        var typename = Pointer_stringify(ptr);
+        var address = _lua_topointer(this.state, -1);
+        ret = typename + ': 0x' + address.toString(16);
     }
+    _lua_settop(this.state, -2);
+    return ret;
   },
-  // Initializes the Lua runtime with optional standard I/O callbacks.
+  // Initializes the Lua runtime with optional standard I/O callbacks. The input
+  // callback is asynchronous and takes a callback which should be passed a
+  // string. The output and error callbacks are synchronous and are passed
+  // character codes.
   'initialize': function (input, output, error) {
-    Module['FS'].init(input, output, function (chr) { /* Ignore stderr. */ });
+    if (this.isInitialize) throw new Error('Lua already initialized.');
+    FS.init(null, output, function (chr) { /* Ignore stderr. */ });
     if (error) {
       this.reportError = function(defaultMessage) {
-        var errorMessage = this.getTopOfStack();
-        Module['__Z10lua_settopP9lua_Statei'](this.state, 0);
+        var errorMessage = this.popStack();
         if (!errorMessage.length) errorMessage = defaultMessage;
         for (var i = 0; i < errorMessage.length; i++) {
           error(errorMessage.charCodeAt(i));
         }
+        _lua_settop(this.state, 0);
       }
     }
-    Module['run']();
+    run();
     this.streamName = this.allocateString('stdin');
-    this.state = Module['__Z13luaL_newstatev']();
-    Module['__Z13luaL_openlibsP9lua_State'](this.state);
+    this.state = _luaL_newstate();
+    _luaL_openlibs(this.state);
+    this.isInitialize = true;
   },
   // Checks whether a command is finished and does not require more input.
   // Useful when running a REPL.
   'isFinished': function (command) {
+    if (!this.isInitialize) throw new Error('Lua not initialized.');
     var parseSuccess = this.parse(command);
-    if (!parseSuccess) Module['__Z10lua_settopP9lua_Statei'](this.state, 0);
+    if (!parseSuccess) this.popStack();
     return parseSuccess;
   },
-  // Evaluates Lua code. Returns:
+  // Evaluates Lua code and returns the result.
   //   1. If an expression is passed, returns the representation of the value of
   //      this expression, or null if the value is nil.
-  //   2. If a statement of set of statements is passed, returns null.
+  //   2. If a statement or set of statements is passed, returns null.
   //   3. If an error occurs, returns undefined.
   'eval': function (command) {
+    if (!this.isInitialize) throw new Error('Lua not initialized.');
+
     // Parse and load the command.
     var parseSuccess = this.parse(command);
     if (!parseSuccess) {
       this.reportError('Unknown parsing error.');
-      return undefined;
     }
 
     // Execute the code.
-    var execFailed = Module['__Z9lua_pcallP9lua_Stateiii'](this.state, 0, 1, 0);
-    if (execFailed) {
+    var result = _lua_pcall(this.state, 0, 1, 0);
+
+    if (result == 0) {  // LUA_OK
+      return _lua_gettop(this.state) > 0 ? this.popStack() : null;
+    } else {  // LUA_ERR*
       this.reportError('Unknown evaluation error.');
-      return undefined;
     }
-
-    // Get the result.
-    var ret = this.getTopOfStack();
-
-    // Clean up.
-    Module['__Z10lua_settopP9lua_Statei'](this.state, 0);
-
-    return ret;
   }
 };
