@@ -1,6 +1,6 @@
 #jsREPL
 
-A one-page client-side REPL for many languages.
+A client-side REPL engine for languages implemented or compiled to JavaScript.
 
 ##Current Languages
 
@@ -21,9 +21,10 @@ A one-page client-side REPL for many languages.
 * Classic
   * Quick Basic
   * Forth
-  * Smalltalk (GUI-less)
+  * Smalltalk (GUI-less/Incomplete)
 
 * Serious
   * Scheme
   * Lua
   * Lisp (to be replaced)
+  * Python
