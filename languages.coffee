@@ -176,7 +176,7 @@
   engine: 'langs/move/jsrepl_move.coffee'
   libs: []
   worker_friendly: true
-  
+
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
   extension: 'js'
@@ -278,7 +278,7 @@
   engine: 'langs/traceur/jsrepl_traceur.coffee'
   libs: []
   worker_friendly: true
-    
+
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
   extension: 'emo'
@@ -291,7 +291,7 @@
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
   libs: []
   worker_friendly: true
-  
+
 @JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
   extensions: 'bloop'
@@ -302,8 +302,8 @@
   engine: 'langs/bloop/jsrepl_bloop.coffee'
   libs: []
   worker_friendly: true
-  
-@JSREPL::Languages::Forth = 
+
+@JSREPL::Languages::Forth =
   name: 'Forth'
   extensions: '4th'
   matchings: [
@@ -316,7 +316,7 @@
   engine: 'langs/forth/jsrepl_forth.coffee'
   libs: []
   worker_friendly: true
-  
+
 @JSREPL::Languages::Lua =
   name: 'Lua'
   extension: 'lua'
@@ -332,7 +332,7 @@
   engine: 'langs/lua/jsrepl_lua.coffee'
   libs: []
   worker_friendly: false
-  
+
 @JSREPL::Languages::Python =
   name: 'Python'
   extension: 'py'
@@ -348,7 +348,22 @@
   engine: 'langs/python/jsrepl_python.coffee'
   libs: []
   worker_friendly: false
-  
+
+@JSREPL::Languages::Ruby =
+  name: 'Ruby'
+  extension: 'rb'
+  matchings: [
+    ['(', ')']
+    ['[', ']']
+    ['{', '}']
+  ]
+  scripts: [
+    'extern/ruby/dist/ruby.closure.js'
+  ]
+  engine: 'langs/ruby/jsrepl_ruby.coffee'
+  libs: []
+  worker_friendly: false
+
 @JSREPL::Languages::Smalltalk =
   name: 'Smalltalk'
   extensions: 'st'

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+EMSCRIPTEN_ROOT=/home/max/emscripten-workspace/emscripten
+LLVM_DIS=/home/max/emscripten-workspace/llvm-build/Release/bin/llvm-dis
+CLOSURE_JAR=/home/max/emscripten-workspace/closure/build/compiler.jar
+
+make
+
+$EMSCRIPTEN_ROOT/emscripten.py \
+  libruby-static.a.ll \
+  -m \
+  -O \
+  -o ruby.js \
+  -s EXCEPTION_DEBUG=0 \
+  -s CORRECT_SIGNS=1 \
+  -s CORRECT_OVERFLOWS=1 \
+  -s INVOKE_RUN=0 \
+  -s SAFE_HEAP=0 \
+  -s ASSERTIONS=0 \
+  -s OPTIMIZE=1
+
+cp ruby.js dist
+./map_filesystem.py dist >> dist/ruby.js
+cat entry_point.js >> dist/ruby.js
+
+coffee /home/max/emscripten-workspace/emscripten/tools/eliminator/eliminator.coffee < ruby.js > ruby.opt.js
+
+java -Xmx4g -jar $CLOSURE_JAR --compilation_level ADVANCED_OPTIMIZATIONS --js ruby.opt.js --js_output_file ruby.closure.js
