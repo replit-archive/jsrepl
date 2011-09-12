@@ -4,7 +4,7 @@ class self.JSREPLEngine
     @error_buffer = []
     @Lua = sandbox.Lua
     @Lua.initialize(null,
-                    makeUtf8Print output,
+                    makeUtf8Print(output),
                     (chr) => @error_buffer.push String.fromCharCode chr)
     ready()
 
@@ -18,13 +18,13 @@ class self.JSREPLEngine
         @result result
     catch e
       @error e
-  
+
   EvalSync: (command) ->
     @error_buffer = []
     result = @Lua.eval encodeUtf8 command
     if @error_buffer.length
       throw @error_buffer.join ''
     return result
-    
+
   GetNextLineIndent: (command) ->
     return if @Lua.isFinished command then false else 0 

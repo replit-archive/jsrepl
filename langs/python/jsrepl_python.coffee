@@ -4,7 +4,7 @@ class self.JSREPLEngine
     sandbox.print = (->)
     @error_buffer = []
     @Python.initialize(null,
-                       makeUtf8Print output,
+                       makeUtf8Print(output),
                        (chr) => @error_buffer.push String.fromCharCode chr)
     ready()
 
