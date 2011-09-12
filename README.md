@@ -27,3 +27,5 @@ A one-page client-side REPL for many languages.
   * Scheme
   * Lua
   * Lisp (to be replaced)
+  * Python
+  * Ruby
