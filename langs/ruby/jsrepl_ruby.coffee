@@ -3,9 +3,10 @@ class self.JSREPLEngine
     @Ruby = sandbox.Ruby
     sandbox.print = (->)
     @error_buffer = []
-    @Ruby.initialize(null,
-                     (chr) => output String.fromCharCode chr,
-                     (chr) => @error_buffer.push String.fromCharCode chr)
+    printOutput = (chr) => if chr? then output String.fromCharCode chr
+    bufferError = (chr) =>
+      if chr? then @error_buffer.push String.fromCharCode chr
+    @Ruby.initialize null, printOutput, bufferError
     ready()
 
   Eval: (command) ->

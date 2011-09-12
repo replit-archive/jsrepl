@@ -3,9 +3,9 @@ class self.JSREPLEngine
     sandbox.print = (->)
     @error_buffer = []
     @Lua = sandbox.Lua
-    @Lua.initialize(null,
-                    makeUtf8Print(output),
-                    (chr) => @error_buffer.push String.fromCharCode chr)
+    bufferError = (chr) =>
+      if chr? then @error_buffer.push String.fromCharCode chr
+    @Lua.initialize null, makeUtf8Print(output), bufferError
     ready()
 
   Eval: (command) ->
@@ -17,7 +17,7 @@ class self.JSREPLEngine
       else
         @result result
     catch e
-      @error 'Internalt error: ' + e
+      @error 'Internal error: ' + e
 
   EvalSync: (command) ->
     @error_buffer = []
