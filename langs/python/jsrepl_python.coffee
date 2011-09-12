@@ -17,7 +17,7 @@ class self.JSREPLEngine
       else
         @result result
     catch e
-      @error e
+      @error 'Internalt error: ' + e
 
   EvalSync: (command) ->
     @error_buffer = []
