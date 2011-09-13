@@ -1,4 +1,3 @@
-// better check?
 if (typeof window === "undefined") {
   // Some scripts assume there is a window, don't let them down.
   window = self;
@@ -8,22 +7,26 @@ if (typeof window === "undefined") {
 }
 
 // Recieve messages.
-self.onmessage = function (e) {
-  var message = JSON.parse(e.data),
-      current = self,
-      parts = message['type'].split('.');
-  // Route message.
-  for (var i = 0; i < parts.length; i++) {
-    current = current[parts[i]];
-  }
-  current(message.data)
-};
+(function () {
+  var msg_handler = function (e) {
+    var message = JSON.parse(e.data),
+        current = self,
+        parts = message['type'].split('.');
+    // Route message.
+    for (var i = 0; i < parts.length; i++) {
+      current = current[parts[i]];
+    }
+    current(message.data)
+  };
+  window.addEventListener('message', msg_handler, false); 
+})();
 
 // Dummy console for some scripts would think there is one.
-console = {
-  log: function(){}
-};
-
+if (typeof console === "undefined") {
+  console = {
+    log: function(){}
+  };  
+}
 
 Sandboss = {
   // Whethere this is an iframe or a worker. better check?
@@ -54,7 +57,7 @@ Sandboss = {
         }
       });
     } else {
-      // Asynchronusly load scripts \o/
+      // Synchronusly load scripts
       self.importScripts.apply(self, scriptsArr);
       // Instantiate the engine and bind all its methods
       this.engine = new JSREPLEngine(this.input, this.out, this.result, this.err, self, this.ready);
@@ -126,6 +129,5 @@ Sandboss = {
     }
   }
 };
-
 // Bind all the sand minions to the SANDBOSS!! MWAHAHAHA
 Sandboss.bindAll(Sandboss)
