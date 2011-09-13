@@ -96,6 +96,7 @@ Sandboss = {
       type: 'err',
       data: e
     };
+    this.flush();
     this.post(message);
   },
   // Outbound input.
@@ -105,6 +106,7 @@ Sandboss = {
     var message = {
       type: 'input'
     };
+    this.flush();
     this.post(message);
   },
   result: function (data) {
@@ -112,6 +114,7 @@ Sandboss = {
       type: 'result',
       data: data
     };
+    this.flush();
     this.post(message);
   },
   // Outbound language ready function.
