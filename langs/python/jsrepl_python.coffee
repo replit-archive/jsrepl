@@ -3,9 +3,14 @@ class self.JSREPLEngine
     @Python = sandbox.Python
     sandbox.print = (->)
     @error_buffer = []
+    printOutput = makeUtf8Print(output)
     bufferError = (chr) =>
-      if chr? then @error_buffer.push String.fromCharCode chr
-    @Python.initialize null, makeUtf8Print(output), bufferError
+      if chr?
+        if @Python.isHandlingError
+          @error_buffer.push String.fromCharCode chr
+        else
+          printOutput chr
+    @Python.initialize null, printOutput, bufferError
     ready()
 
   Eval: (command) ->
