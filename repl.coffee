@@ -1,3 +1,12 @@
+UA_REGEXS =
+  firefox_3: /firefox\/3/i
+  opera: /opera/i
+
+UA = ''
+for ua, ua_regex of UA_REGEXS
+  if ua_regex.test window.navigator.userAgent
+    UA = ua
+
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
@@ -42,7 +51,12 @@ class JSREPL
     # Define a route to the loadlangauge ready callback.
     @worker.defineIncoming 'ready', callback
     # Load worker with language specific scripts.
-    @worker.load @lang.scripts.concat([@lang.engine]), @lang.worker_friendly
+    lang_scripts = for script in @lang.scripts
+      if typeof script == 'object'
+        script[UA] || script['default']
+      else
+        script
+    @worker.load lang_scripts.concat([@lang.engine]), @lang.worker_friendly
 
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise

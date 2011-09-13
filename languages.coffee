@@ -343,7 +343,10 @@
   ]
   scripts: [
     'util/utf8.coffee'
-    'extern/python/python.js'
+    {
+      firefox_3: 'extern/python.opt.js'
+      default: 'extern/python/python.js' 
+    }
   ]
   engine: 'langs/python/jsrepl_python.coffee'
   libs: []
@@ -358,7 +361,10 @@
     ['{', '}']
   ]
   scripts: [
-    'extern/ruby/dist/ruby.closure.js'
+    {
+      firefox_3: 'extern/ruby/dist/ruby.opt.js'
+      default: 'extern/ruby/dist/ruby.closure.js'
+    }
   ]
   engine: 'langs/ruby/jsrepl_ruby.coffee'
   libs: []

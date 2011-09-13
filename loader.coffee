@@ -176,18 +176,18 @@ class Sandbox
   defineIncoming: (type, fn) ->
     @messages[type] = fn
   
+  # onmessage handler for worker.
+  onmsg: (event) =>
+    # IE fires stupid events to convey its stupidity!
+    try
+      msg = JSON.parse event.data
+      # Route message to funciton.
+      @messages[msg.type].call(@, msg.data)
+    catch e
   # Loads a new instance of a worker with the basescripts + the new scripts
   load: (moreScripts, workerFriendly=true) ->
     allScripts = @baseScripts.concat moreScripts
     base = allScripts.shift()
-    # onmessage handler for worker.
-    onmsg = (event) =>
-      # IE fires stupid events to convey its stupidity!
-      try
-        msg = JSON.parse event.data
-        # Route message to funciton.
-        @messages[msg.type].call(@, msg.data)
-      catch e
     # Function to order worker to start importing scripts.
     startImport = ()=> 
       @post
@@ -202,13 +202,14 @@ class Sandbox
       JSREPLLoader.createSandbox (sandbox) =>
         @worker = sandbox
         @workerIsIframe = true
-        window.onmessage = onmsg
+        window.removeEventListener 'message', @onmsg, false
+        window.addEventListener 'message', @onmsg, false
         startImport()
     else
       # Workers are supported \o/
       @worker = new Worker base
       @workerIsIframe = false
-      @worker.onmessage = onmsg
+      @worker.addEventListener 'message', @onmsg, false
       startImport()
       
   post: (msgObj) ->
