@@ -1,3 +1,9 @@
+/**
+ * @preserve
+ * BlooPJS
+ * Copyright (c) 2011 Tim Ryan
+ * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ */
 /* spiffy links */
 
 // http://www.amazon.com/gp/product/offer-listing/0394756827/ref=dp_pb_a//102-3710615-5652939?condition=all
@@ -8,7 +14,7 @@
 
 /* parsing variables */
 BFloop = (function () {
-var BlooP = null;
+var BlooP = "BlooP";
 
 var parseCode = null;
 var codeLines = null;

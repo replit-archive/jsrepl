@@ -1,4 +1,5 @@
 /**
+ * @preserve
  * CoffeeScript Compiler v1.0.1
  * http://coffeescript.org
  *

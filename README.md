@@ -2,7 +2,7 @@
 
 A client-side REPL engine for languages implemented or compiled to JavaScript.
 
-##Current Languages
+###Current Languages
 
 * JavaScript Variants
   * JavaScript
@@ -28,4 +28,10 @@ A client-side REPL engine for languages implemented or compiled to JavaScript.
   * Lua
   * Lisp (to be replaced)
   * Python
-  * Ruby
+  * Ruby (beta)
+
+###License
+
+jsREPL is available under the MIT license. Language interpreters and the 
+modifications done to them by jsREPL developers have their own licenses, found
+in their `extern/{language}` folders or submodules.
