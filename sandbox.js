@@ -29,6 +29,10 @@ if (typeof console === "undefined") {
 }
 
 Sandboss = {
+  outTimeout: 0,
+  output_buffer: [],
+  OUT_EVERY_MS: 50,
+  syncTimeout: Infinity,
   // Whethere this is an iframe or a worker. better check?
   isFrame : typeof document !== 'undefined',
   // Responsible for posting messages.
@@ -64,13 +68,27 @@ Sandboss = {
       this.bindAll(Sandboss.engine);
     }
   },
-  // Responsible for sending outbound messages.
+  // Outbound output.
   out: function (text) {
+    var that = this;
+    this.output_buffer.push(text);
+    if (this.outTimeout === 0) {
+      this.outTimeout = setTimeout(this.flush, this.OUT_EVERY_MS);
+      this.syncTimeout = Date.now();
+    } else if (Date.now() - this.syncTimeout > this.OUT_EVERY_MS) {
+      clearTimeout(this.outTimeout);
+      this.flush();
+    }
+  },
+  
+  flush: function () {
     var message = {
       type: 'out',
-      data: text
+      data: this.output_buffer.join('')
     };
     this.post(message);
+    this.outTimeout = 0;
+    this.output_buffer = [];
   },
   // Outbound errors.
   err: function (e) {
