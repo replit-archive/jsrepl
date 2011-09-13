@@ -16,7 +16,7 @@ class self.JSREPLEngine
       @result @Ruby.stringify result
     catch e
       if typeof e isnt 'number'
-        @error 'Internal error. Restart may be required.'
+        @error 'Internal error: ' + e
       else if @error_buffer.length
         @error @error_buffer.join ''
       else
