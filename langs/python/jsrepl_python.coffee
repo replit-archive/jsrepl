@@ -3,27 +3,33 @@ class self.JSREPLEngine
     @Python = sandbox.Python
     sandbox.print = (->)
     @error_buffer = []
-    @Python.initialize(null,
-                       makeUtf8Print output,
-                       (chr) => @error_buffer.push String.fromCharCode chr)
+    printOutput = makeUtf8Print(output)
+    bufferError = (chr) =>
+      if chr?
+        if @Python.isHandlingError
+          @error_buffer.push String.fromCharCode chr
+        else
+          printOutput chr
+    @Python.initialize null, printOutput, bufferError
     ready()
 
   Eval: (command) ->
     @error_buffer = []
     try
       result = @Python.eval encodeUtf8 command
-      if @error_buffer.length
-        @error @error_buffer.join ''
+      if result == undefined
+        @error @error_buffer.join('') or 'Unknown error.'
       else
+        @output @error_buffer.join ''
         @result result
     catch e
-      @error e
+      @error 'Internal error: ' + e
 
   EvalSync: (command) ->
     @error_buffer = []
     result = @Python.eval encodeUtf8 command
-    if @error_buffer.length
-      throw @error_buffer.join ''
+    if result == undefined
+      throw @error_buffer.join('') or 'Unknown error.'
     return result
 
   GetNextLineIndent: (command) ->

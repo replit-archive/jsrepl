@@ -3,9 +3,10 @@ class self.JSREPLEngine
     @Ruby = sandbox.Ruby
     sandbox.print = (->)
     @error_buffer = []
-    @Ruby.initialize(null,
-                     (chr) => output String.fromCharCode chr,
-                     (chr) => @error_buffer.push String.fromCharCode chr)
+    printOutput = (chr) => if chr? then output String.fromCharCode chr
+    bufferError = (chr) =>
+      if chr? then @error_buffer.push String.fromCharCode chr
+    @Ruby.initialize null, printOutput, bufferError
     ready()
 
   Eval: (command) ->
@@ -15,7 +16,7 @@ class self.JSREPLEngine
       @result @Ruby.stringify result
     catch e
       if typeof e isnt 'number'
-        @error 'Internal error. Restart may be required.'
+        @error 'Internal error: ' + e
       else if @error_buffer.length
         @error @error_buffer.join ''
       else
