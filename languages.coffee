@@ -45,7 +45,7 @@
     ['[', ']']
   ]
   scripts: [
-    'lib/prototype-1.6.0.3.js'
+    'extern/biwascheme/src/prototype-stripped.js'
     'extern/biwascheme/src/version.js.in'
     'extern/biwascheme/src/stackbase.js'
     'extern/biwascheme/src/system/set.js'
