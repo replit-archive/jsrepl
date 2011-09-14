@@ -1,13 +1,3 @@
-UA_REGEXS =
-  firefox_3: /firefox\/3/i
-  opera: /opera/i
-  chrome: /chrome/i
-
-UA = ''
-for ua, ua_regex of UA_REGEXS
-  if ua_regex.test window.navigator.userAgent
-    UA = ua
-
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
@@ -27,26 +17,25 @@ class JSREPL
         'out': OutputCallback
         'input': ->
           InputCallback (data) =>
-            this.post
+            @post
               type: 'input.write'
               data: data
         'err': ErrorCallback
         'result': ResultCallback
-          
-      
+
   # Loads the specified language engine with its examples and calls the callback
   # once all loading is done.
   #   @arg lang_name: The name of the language to load, a member of
-  #     JSREPL::Languages as defined in languages.js.
+  #     JSREPL::Languages as defined in languages.coffee.
   #   @arg callback: The function to call after loading finishes.
-  # TODO(amasad): Consider error handling when loading scripts and examples.
+  # TODO(amasad): Consider error handling when loading scripts.
   LoadLanguage: (lang_name, callback) ->
     # Clean up previous engine.
     @engine = null
     # Switch the language.
     @lang = JSREPL::Languages::[lang_name]
     # Callback to get indent.
-    indentCB = (data)=> @IndentCallback(data)
+    indentCB = (data) => @IndentCallback data
     # Define a route for the indent callback.
     @worker.defineIncoming 'indent', indentCB
     # Define a route to the loadlangauge ready callback.
@@ -78,14 +67,19 @@ class JSREPL
     @worker.post
       type: 'engine.Eval'
       data: command
-  
-  EvaluateSync: (command) ->
-    @engine.EvalSync command
-    
+
+# Basic user agent detection.
+UA_REGEXS =
+  firefox_3: /firefox\/3/i
+  opera: /opera/i
+  chrome: /chrome/i
+UA = ''
+for ua, ua_regex of UA_REGEXS
+  if ua_regex.test window.navigator.userAgent
+    UA = ua
+
 # The languages and engines modules.
 class JSREPL::Languages
-class JSREPL::Engines
 
 # Export JSREPL to the world.
 @JSREPL = JSREPL
-

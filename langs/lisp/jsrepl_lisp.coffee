@@ -1,8 +1,66 @@
 isNil = (x) ->
   (not x?) or (x instanceof Array and x.length == 0)
 
-class @JSREPL::Engines::Lisp
-  constructor: (input, output, result, @error, @sandbox, ready, libs) ->
+LIB = '''
+(defun caar (x) (car (car x)))
+(defun caar (x) (car (car x)))
+(defun cadr (x) (car (cdr x)))
+(defun cdar (x) (cdr (car x)))
+(defun cddr (x) (cdr (cdr x)))
+(defun caaar (x) (car (car (car x))))
+(defun caadr (x) (car (car (cdr x))))
+(defun cadar (x) (car (cdr (car x))))
+(defun caddr (x) (car (cdr (cdr x))))
+(defun cdaar (x) (cdr (car (car x))))
+(defun cdadr (x) (cdr (car (cdr x))))
+(defun cddar (x) (cdr (cdr (car x))))
+(defun cdddr (x) (cdr (cdr (cdr x))))
+(defun caaaar (x) (car (car (car (car x)))))
+(defun caaadr (x) (car (car (car (cdr x)))))
+(defun caadar (x) (car (car (cdr (car x)))))
+(defun caaddr (x) (car (car (cdr (cdr x)))))
+(defun cadaar (x) (car (cdr (car (car x)))))
+(defun cadadr (x) (car (cdr (car (cdr x)))))
+(defun caddar (x) (car (cdr (cdr (car x)))))
+(defun cadddr (x) (car (cdr (cdr (cdr x)))))
+(defun cdaaar (x) (cdr (car (car (car x)))))
+(defun cdaadr (x) (cdr (car (car (cdr x)))))
+(defun cdadar (x) (cdr (car (cdr (car x)))))
+(defun cdaddr (x) (cdr (car (cdr (cdr x)))))
+(defun cddaar (x) (cdr (cdr (car (car x)))))
+(defun cddadr (x) (cdr (cdr (car (cdr x)))))
+(defun cdddar (x) (cdr (cdr (cdr (car x)))))
+(defun cddddr (x) (cdr (cdr (cdr (cdr x)))))
+(def + plus)
+(def define def)
+(def #t 't)
+(def #f Nil)
+(def nil Nil)
+(def - minus)
+(def / divide)
+(def % rem)
+(def * times)
+(def = equal)
+(def eq equal)
+(def head car)
+(def first car)
+(def tail cdr)
+(def rest cdr)
+(def eq equal)
+(defun null (x) (equal x Nil))
+(defun zerop (x) (equal x 0))
+(defun plusp (x) (> x 0))
+(defun minusp (x) (< x 0))
+(defun evenp (x) (equal (rem x 2) 0))
+(defun oddp (x) (/= (rem x 2) 1))
+(defun list-member (E L) (cond ((null L) Nil)
+                          ((equal E (first L))  't)
+                          ('t (list-member E (rest L)))))
+(defun map (F L) (if (null L) Nil (cons (F (head L)) (map F (tail L)))))
+'''
+
+class self.JSREPLEngine
+  constructor: (input, output, result, @error, @sandbox, ready) ->
     Javathcript = @Javathcript = @sandbox.Javathcript
     Javathcript.Environment::princ = (obj, callback) ->
       this._value obj, (val) ->
@@ -27,13 +85,8 @@ class @JSREPL::Engines::Lisp
     @result_handler = (r) ->
       result if isNil(r) then '' else r.toString()
 
-    i = 0
-    do load = ()->
-      if lib = libs[i++]
-        Javathcript.evalMulti lib, (->), load
-      else
-        do ready
-      
+    Javathcript.evalMulti LIB, (->) ready
+
 
   Eval: (command) ->
     try
@@ -46,7 +99,7 @@ class @JSREPL::Engines::Lisp
           @result_handler last_result
       catch e
         @error e.message
-  
+
   EvalSync: (command) ->
     ret = null
     try
@@ -57,10 +110,10 @@ class @JSREPL::Engines::Lisp
       handleMultiResult = (r) => last_result = r
       @Javathcript.evalMulti command, handleMultiResult, =>
         ret = last_result
-    
+
     return ret
-    
-    
+
+
   GetNextLineIndent: (command) ->
     countParens = (str) =>
       tokenizer = new @Javathcript.Tokenizer str
