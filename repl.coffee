@@ -1,6 +1,7 @@
 UA_REGEXS =
   firefox_3: /firefox\/3/i
   opera: /opera/i
+  chrome: /chrome/i
 
 UA = ''
 for ua, ua_regex of UA_REGEXS

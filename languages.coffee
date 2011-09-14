@@ -344,9 +344,9 @@
   scripts: [
     'util/utf8.coffee'
     {
-      firefox_3: 'extern/python/unclosured/python.js'
       opera: 'extern/python/unclosured/python.js'
-      default: 'extern/python/closured/python.js'
+      chrome: 'extern/python/closured/python.js'
+      default: 'extern/python/reloop-closured/python.js'
     }
   ]
   engine: 'langs/python/jsrepl_python.coffee'
