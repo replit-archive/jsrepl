@@ -363,6 +363,7 @@
   scripts: [
     {
       firefox_3: 'extern/ruby/dist/ruby.opt.js'
+      opera: 'extern/ruby/dist/ruby.opt.js'
       default: 'extern/ruby/dist/ruby.closure.js'
     }
   ]
