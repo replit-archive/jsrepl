@@ -154,7 +154,7 @@
     ['{', '}']
   ]
   scripts: [
-    'extern/kaffeine/browser2/kaffeine-browser.js'
+    'extern/kaffeine/web/try/kaffeine-browser.js'
     'util/inspect.js'
   ]
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
