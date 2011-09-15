@@ -18,14 +18,14 @@ if (typeof window === "undefined") {
     }
     current(message.data)
   };
-  window.addEventListener('message', msg_handler, false); 
+  window.addEventListener('message', msg_handler, false);
 })();
 
 // Dummy console for some scripts would think there is one.
 if (typeof console === "undefined") {
   console = {
     log: function(){}
-  };  
+  };
 }
 
 Sandboss = {
@@ -80,7 +80,7 @@ Sandboss = {
       this.flush();
     }
   },
-  
+
   flush: function () {
     var message = {
       type: 'out',
@@ -127,7 +127,7 @@ Sandboss = {
   // Inbound/Outbound getNextLineIndent.
   // Gets the nextline indent and sends it in an 'indent' message.
   getNextLineIndent: function (data) {
-    // Get line indent 
+    // Get line indent
     var indent = this.engine.GetNextLineIndent(data);
     var message = {
       type: 'indent',

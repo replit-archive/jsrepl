@@ -14,9 +14,10 @@
     'extern/qb.js/VirtualMachine.js'
     'extern/qb.js/QBasic.js'
   ]
+  includes: []
   engine: 'langs/qbasic/jsrepl_qbasic.coffee'
   worker_friendly: true
-  libs: []
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
@@ -33,9 +34,10 @@
     'extern/javathcript/source/Environment.js'
     'extern/javathcript/source/Javathcript.js'
   ]
+  includes: []
   engine: 'langs/lisp/jsrepl_lisp.coffee'
   worker_friendly: false
-  libs: ['langs/lisp/jsrepl_lisp_lib.lisp']
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
@@ -71,9 +73,10 @@
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
   ]
+  includes: []
   engine: 'langs/scheme/jsrepl_scheme.coffee'
   worker_friendly: true
-  libs: []
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
@@ -86,9 +89,10 @@
   scripts: [
     'util/inspect.js'
   ]
+  includes: []
   engine: 'langs/javascript/jsrepl_js.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
@@ -102,9 +106,10 @@
     'extern/coffee-script/coffee-script.js'
     'util/inspect.js'
   ]
+  includes: []
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
@@ -115,9 +120,10 @@
   scripts: [
     'extern/bfjs/bfjs.js'
   ]
+  includes: []
   engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
@@ -126,9 +132,10 @@
   scripts: [
     'extern/unlambda-coffee/unlambda.coffee'
   ]
+  includes: []
   engine: 'langs/unlambda/jsrepl_unlambda.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
@@ -141,9 +148,10 @@
     'extern/lol-coffee/src/parser.coffee'
     'extern/lol-coffee/src/tokenizer.coffee'
   ]
+  includes: []
   engine: 'langs/lolcode/jsrepl_lolcode.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
@@ -154,12 +162,13 @@
     ['{', '}']
   ]
   scripts: [
-    'extern/kaffeine/browser2/kaffeine-browser.js'
+    'extern/kaffeine/web/try/kaffeine-browser.js'
     'util/inspect.js'
   ]
+  includes: []
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Move =
   name: 'Move'
@@ -173,9 +182,10 @@
     'extern/move/move.js'
     'util/inspect.js'
   ]
+  includes: []
   engine: 'langs/move/jsrepl_move.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
@@ -275,9 +285,10 @@
     'extern/traceur/runtime.js'
     'extern/traceur/util/traits.js'
   ]
+  includes: []
   engine: 'langs/traceur/jsrepl_traceur.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
@@ -288,9 +299,10 @@
   scripts: [
     'extern/emoticoffee/emoticon.coffee'
   ]
+  includes: []
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
@@ -299,9 +311,10 @@
   scripts: [
     'extern/bloop/bloop.js'
   ]
+  includes: []
   engine: 'langs/bloop/jsrepl_bloop.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Forth =
   name: 'Forth'
@@ -313,9 +326,10 @@
   scripts: [
     'extern/jsforth/jsforth.js'
   ]
+  includes: []
   engine: 'langs/forth/jsrepl_forth.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'
 
 @JSREPL::Languages::Lua =
   name: 'Lua'
@@ -329,9 +343,10 @@
     'util/utf8.coffee'
     'extern/lua/lua.closure.js'
   ]
+  includes: []
   engine: 'langs/lua/jsrepl_lua.coffee'
-  libs: []
   worker_friendly: false
+  minifier: 'none'
 
 @JSREPL::Languages::Python =
   name: 'Python'
@@ -344,13 +359,19 @@
   scripts: [
     'util/utf8.coffee'
     {
-      firefox_3: 'extern/python.opt.js'
-      default: 'extern/python/python.js' 
+      opera: 'extern/python/unclosured/python.js'
+      chrome: 'extern/python/closured/python.js'
+      default: 'extern/python/reloop-closured/python.js'
     }
   ]
+  includes: [
+    'extern/python/unclosured'
+    'extern/python/closured'
+    'extern/python/reloop-closured'
+  ]
   engine: 'langs/python/jsrepl_python.coffee'
-  libs: []
   worker_friendly: false
+  minifier: 'none'
 
 @JSREPL::Languages::Ruby =
   name: 'Ruby'
@@ -363,12 +384,16 @@
   scripts: [
     {
       firefox_3: 'extern/ruby/dist/ruby.opt.js'
+      opera: 'extern/ruby/dist/ruby.opt.js'
       default: 'extern/ruby/dist/ruby.closure.js'
     }
   ]
+  includes: [
+    'extern/ruby/dist/lib'
+  ]
   engine: 'langs/ruby/jsrepl_ruby.coffee'
-  libs: []
   worker_friendly: false
+  minifier: 'none'
 
 @JSREPL::Languages::Smalltalk =
   name: 'Smalltalk'
@@ -385,6 +410,7 @@
     'extern/jtalk/js/Canvas.js'
     'extern/jtalk/js/init.js'
   ]
+  includes: []
   engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
-  libs: []
   worker_friendly: true
+  minifier: 'closure-advanced'

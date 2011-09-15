@@ -7,8 +7,8 @@ class self.JSREPLEngine
     @sandbox.__eval = @sandbox.eval
 
     # Cache the tokenizer and compiler.
-    @tokenizer = @sandbox.require './token'
-    Kaffeine = @sandbox.require './kaffeine'
+    @tokenizer = @sandbox.require 'kaffeine/token'
+    Kaffeine = @sandbox.require 'kaffeine'
     @kaffeine = new Kaffeine
 
     # Define custom I/O handlers.
@@ -17,7 +17,7 @@ class self.JSREPLEngine
     @sandbox.console.read = input
 
     ready()
-  
+
   Compile: (command) ->
     js = @kaffeine.compile command
     # Kaffeine sometimes produces expressions and sometimes statements. We
@@ -26,9 +26,9 @@ class self.JSREPLEngine
       new @functionClass js
     catch e
       js = "(#{js})"
-    
+
     return js
-      
+
   Eval: (command) ->
     # Compile.
     try
