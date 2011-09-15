@@ -19,6 +19,3 @@
 [submodule "extern/jtalk"]
 	path = extern/jtalk
 	url = git://github.com/amasad/jtalk.git
-[submodule "extern/kaffeine"]
-	path = extern/kaffeine
-	url = git@github.com:max99x/kaffeine.git
