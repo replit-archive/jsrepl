@@ -162,7 +162,7 @@
     ['{', '}']
   ]
   scripts: [
-    'extern/kaffeine/web/try/kaffeine-browser.js'
+    'extern/kaffeine/kaffeine-browser.js'
     'util/inspect.js'
   ]
   includes: []
