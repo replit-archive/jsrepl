@@ -41,12 +41,12 @@ traceur.define('syntax', function() {
     this.value = value;
   }
 
-  LiteralToken.prototype = {
+  traceur.inherits(LiteralToken, Token, {
     __proto__: Token.prototype,
     toString: function() {
       return this.value;
     }
-  };
+  });
 
   return {
     LiteralToken: LiteralToken

@@ -66,7 +66,7 @@ traceur.define('codegeneration.generator', function() {
   }
 
   var proto = ParseTreeTransformer.prototype;
-  BreakContinueTransformer.prototype = {
+  traceur.inherits(BreakContinueTransformer, ParseTreeTransformer, {
     __proto__: proto,
 
     /** @return {number} */
@@ -162,8 +162,8 @@ traceur.define('codegeneration.generator', function() {
     transformWhileStatement: function(tree) {
       return tree;
     }
-  };
-
+  });
+  
   return {
     BreakContinueTransformer: BreakContinueTransformer
   };

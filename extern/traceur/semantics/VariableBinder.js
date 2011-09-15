@@ -139,7 +139,8 @@ traceur.define('semantics', function() {
   };
 
   var proto = ParseTreeVisitor.prototype;
-  VariableBinder.prototype = {
+  
+  traceur.inherits(VariableBinder, ParseTreeVisitor, {
     __proto__: proto,
 
     /** @param {FunctionDeclaration} tree */
@@ -318,7 +319,7 @@ traceur.define('semantics', function() {
           throw new Error('unreachable');
       }
     }
-  };
+  });
 
   return {
     VariableBinder: VariableBinder

@@ -26,7 +26,7 @@ traceur.define('codegeneration.generator', function() {
     State.call(this, id);
   }
 
-  EndState.prototype = {
+  traceur.inherits(EndState, State, {
     __proto__: State.prototype,
 
     /**
@@ -47,7 +47,7 @@ traceur.define('codegeneration.generator', function() {
     transform: function(enclosingFinally, machineEndState, reporter) {
       return State.generateJump(enclosingFinally, machineEndState);
     }
-  };
+  });
 
   return {
     EndState: EndState

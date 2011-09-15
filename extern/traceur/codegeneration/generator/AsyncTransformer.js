@@ -90,8 +90,8 @@ traceur.define('codegeneration.generator', function() {
   AsyncTransformer.transformAsyncBody = function(reporter, body) {
     return new AsyncTransformer(reporter).transformAsyncBody(body);
   };
-
-  AsyncTransformer.prototype = {
+  
+  traceur.inherits(AsyncTransformer, CPSTransformer, {
     __proto__: CPSTransformer.prototype,
 
     /**
@@ -360,7 +360,7 @@ traceur.define('codegeneration.generator', function() {
           // break;
           createBreakStatement());
     }
-  };
+  });
 
   return {
     AsyncTransformer: AsyncTransformer

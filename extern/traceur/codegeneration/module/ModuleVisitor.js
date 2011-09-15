@@ -37,8 +37,8 @@ traceur.define('codegeneration.module', function() {
     this.reporter_ = reporter;
     this.currentModule_ = module;
   }
-
-  ModuleVisitor.prototype = {
+  
+  traceur.inherits(ModuleVisitor, ParseTreeVisitor, {
     __proto__: ParseTreeVisitor.prototype,
 
     get currentModule() {
@@ -188,7 +188,7 @@ traceur.define('codegeneration.module', function() {
                                                    this);
       }
     }
-  };
+  });
   return {
     ModuleVisitor: ModuleVisitor
   };

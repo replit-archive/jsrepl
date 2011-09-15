@@ -46,9 +46,9 @@ traceur.define('semantics.symbols', function() {
     this.from_ = from;
   }
 
-  RequiresSymbol.prototype = {
+  traceur.inherits(RequiresSymbol, MemberSymbol, {
     __proto__: MemberSymbol.prototype
-  };
+  });
 
   return {
     RequiresSymbol: RequiresSymbol

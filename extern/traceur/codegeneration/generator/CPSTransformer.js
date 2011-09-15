@@ -130,7 +130,7 @@ traceur.define('codegeneration.generator', function() {
   }
 
   var proto = ParseTreeTransformer.prototype;
-  CPSTransformer.prototype = {
+  traceur.inherits(CPSTransformer, ParseTreeTransformer, {
     __proto__: proto,
 
     /** @return {number} */
@@ -1216,7 +1216,7 @@ traceur.define('codegeneration.generator', function() {
 
       return this.transformStatementList_(maybeTransformedStatements);
     }
-  };
+  });
 
   return {
     CPSTransformer: CPSTransformer

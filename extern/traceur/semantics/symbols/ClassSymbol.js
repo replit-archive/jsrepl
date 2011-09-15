@@ -32,10 +32,10 @@ traceur.define('semantics.symbols', function() {
     AggregateSymbol.call(this, SymbolType.CLASS, tree, name);
     this.tree = tree;
   }
-
-  ClassSymbol.prototype = {
+  
+  traceur.inherits(ClassSymbol, AggregateSymbol, {
     __proto__: AggregateSymbol.prototype
-  };
+  });
 
   return {
     ClassSymbol: ClassSymbol

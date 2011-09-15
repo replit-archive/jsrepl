@@ -34,8 +34,8 @@ traceur.define('codegeneration.generator', function() {
     this.elseState = elseState;
     this.condition = condition;
   }
-
-  ConditionalState.prototype = {
+  
+  traceur.inherits(ConditionalState, State, {
     __proto__: State.prototype,
 
     /**
@@ -66,7 +66,7 @@ traceur.define('codegeneration.generator', function() {
             createBlock(State.generateJump(enclosingFinally, this.ifState)),
             createBlock(State.generateJump(enclosingFinally, this.elseState)))];
     }
-  };
+  });
 
   return {
     ConditionalState: ConditionalState

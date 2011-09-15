@@ -30,12 +30,12 @@ traceur.define('syntax', function() {
     this.value = value;
   }
 
-  IdentifierToken.prototype = {
+  traceur.inherits(IdentifierToken, Token, {
     __proto__: Token.prototype,
     toString: function() {
       return this.value;
     }
-  };
+  });
 
   return {
     IdentifierToken: IdentifierToken

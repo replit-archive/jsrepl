@@ -35,8 +35,8 @@ traceur.define('codegeneration.generator', function() {
     this.finallyState = finallyState;
     this.fallThroughState = fallThroughState;
   }
-
-  FinallyState.prototype = {
+  
+  traceur.inherits(FinallyState, TryState, {
     __proto__: TryState.prototype,
 
     /**
@@ -51,7 +51,7 @@ traceur.define('codegeneration.generator', function() {
           this.replaceAllStates(oldState, newState),
           this.replaceNestedTrys(oldState, newState));
     }
-  };
+  });
 
   return {
     FinallyState: FinallyState

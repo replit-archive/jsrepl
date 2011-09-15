@@ -58,7 +58,7 @@ traceur.define('codegeneration.generator', function() {
     this.clauses = clauses;
   }
 
-  SwitchState.prototype = {
+  traceur.inherits(SwitchState, State, {
     __proto__: State.prototype,
 
     /**
@@ -102,7 +102,7 @@ traceur.define('codegeneration.generator', function() {
           new SwitchStatement(null, this.expression, clauses),
           createBreakStatement());
     }
-  };
+  });
 
   return {
     SwitchClause: SwitchClause,

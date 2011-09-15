@@ -89,7 +89,7 @@ traceur.define('syntax.trees', function() {
     }
   }
 
-  StateMachine.prototype = {
+  traceur.inherits(StateMachine, ParseTree, {
     __proto__: ParseTree.prototype,
 
     /**
@@ -138,7 +138,7 @@ traceur.define('syntax.trees', function() {
       addAllCatchStates(this.exceptionBlocks, catches);
       return catches;
     }
-  };
+  });
 
   return {
     StateMachine: StateMachine

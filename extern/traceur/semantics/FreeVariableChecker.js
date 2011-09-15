@@ -97,7 +97,7 @@ traceur.define('semantics', function() {
   }
 
   var proto = ParseTreeVisitor.prototype;
-  FreeVariableChecker.prototype = {
+  traceur.inherits(FreeVariableChecker, ParseTreeVisitor, {
     __proto__: proto,
 
     /** Current scope (block, program) */
@@ -280,7 +280,7 @@ traceur.define('semantics', function() {
       args[0] = location;
       this.reporter_.reportError.apply(this.reporter_, args);
     }
-  };
+  });
 
   return {
     FreeVariableChecker: FreeVariableChecker

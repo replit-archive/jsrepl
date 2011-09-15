@@ -61,8 +61,8 @@ traceur.define('codegeneration', function() {
     }
     return writer.result_.toString();
   }
-
-  ParseTreeWriter.prototype = {
+  
+  traceur.inherits(ParseTreeWriter, ParseTreeVisitor, {
     __proto__: ParseTreeVisitor.prototype,
 
     /**
@@ -1071,7 +1071,7 @@ traceur.define('codegeneration', function() {
         this.indentDepth_++;
       }
     }
-  };
+  });
 
   return {
     ParseTreeWriter: ParseTreeWriter

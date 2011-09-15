@@ -36,8 +36,8 @@ traceur.define('codegeneration.module', function() {
     this.inExport_ = false;
     this.relatedTree_ = null;
   }
-
-  ExportVisitor.prototype = {
+  
+  traceur.inherits(ExportVisitor, ModuleVisitor, {
     __proto__: ModuleVisitor.prototype,
 
     addExport_: function(name, tree) {
@@ -122,7 +122,7 @@ traceur.define('codegeneration.module', function() {
     visitVariableDeclaration: function(tree) {
       this.addExport_(tree.lvalue.identifierToken.value, tree);
     }
-  };
+  });
 
   return {
     ExportVisitor: ExportVisitor
