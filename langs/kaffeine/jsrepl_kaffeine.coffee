@@ -47,14 +47,18 @@ class self.JSREPLEngine
 
   EvalSync: (command) ->
     @sandbox.__eval @Compile command
-    
+
   GetNextLineIndent: (command) ->
     # If we have an async-wrapping bang anywhere in the command, we will be
     # wrapping the following lines, so continue until explicitly finished.
-    token = @tokenizer.ize command
-    while token?
-      if token.bang then return 0
-      token = token.next
+    try
+      token = @tokenizer.ize command
+      while token?
+        if token.bang then return 0
+        token = token.next
+    catch e
+      # May be unbalanced parens. Optimistically assume there's more to come.
+      return 1
 
     # Check if it compiles.
     try
