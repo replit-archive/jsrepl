@@ -166,692 +166,692 @@ traceur.define('codegeneration', function() {
   }
 
   var proto = ParseTreeTransformer.prototype;
-  BlockBindingTransformer.prototype = {
-    __proto__: proto,
+  traceur.inherits(BlockBindingTransformer, ParseTreeTransformer, {
+      __proto__: proto,
 
-    /**
-     * Current scope (block, program)
-     */
-    scope_: null,
+      /**
+       * Current scope (block, program)
+       */
+      scope_: null,
 
-    /**
-     * Creates top level (program) scope.
-     * Inside the scope, let/const become vars (const only temporarily),
-     * functions are unchanged.
-     * @return {Scope}
-     */
-    createProgramScope_: function() {
-      // program scope is never a block/let scope
-      return new Scope(this.scope__, ScopeType.PROGRAM);
-    },
+      /**
+       * Creates top level (program) scope.
+       * Inside the scope, let/const become vars (const only temporarily),
+       * functions are unchanged.
+       * @return {Scope}
+       */
+      createProgramScope_: function() {
+        // program scope is never a block/let scope
+        return new Scope(this.scope__, ScopeType.PROGRAM);
+      },
 
-    /**
-     * Creates function level scope.
-     * let/const is rewritten, function names are not.
-     * @return {Scope}
-     */
-    createFunctionScope_: function() {
-      if (this.scope_ == null) {
-        throw new Error('Top level function scope found.');
-      }
-      // program scope is never a block/let scope
-      return new Scope(this.scope_, ScopeType.FUNCTION);
-    },
+      /**
+       * Creates function level scope.
+       * let/const is rewritten, function names are not.
+       * @return {Scope}
+       */
+      createFunctionScope_: function() {
+        if (this.scope_ == null) {
+          throw new Error('Top level function scope found.');
+        }
+        // program scope is never a block/let scope
+        return new Scope(this.scope_, ScopeType.FUNCTION);
+      },
 
-    /**
-     * Creates block scope - inside it let/const/function have limited scope.
-     * @return {Scope}
-     */
-    createBlockScope_: function() {
-      if (this.scope_ == null) {
-        throw new Error('Top level block scope found.');
-      }
-      // contained within block scope
-      return new Scope(this.scope_, ScopeType.BLOCK);
-    },
+      /**
+       * Creates block scope - inside it let/const/function have limited scope.
+       * @return {Scope}
+       */
+      createBlockScope_: function() {
+        if (this.scope_ == null) {
+          throw new Error('Top level block scope found.');
+        }
+        // contained within block scope
+        return new Scope(this.scope_, ScopeType.BLOCK);
+      },
 
-    /**
-     * Pushes new scope
-     * @param {Scope} scope
-     * @return {Scope}
-     */
-    push_: function(scope) {
-      this.scope_ = scope;
-      return scope;
-    },
+      /**
+       * Pushes new scope
+       * @param {Scope} scope
+       * @return {Scope}
+       */
+      push_: function(scope) {
+        this.scope_ = scope;
+        return scope;
+      },
 
-    /**
-     * Pops scope, tracks proper matching of push_/pop_ operations.
-     * @param {Scope} scope
-     */
-    pop_: function(scope) {
-      if (this.scope_ != scope) {
-        throw new Error('BlockBindingTransformer scope mismatch');
-      }
-
-      this.scope_ = scope.parent;
-    },
-
-    // The transform methods override from the base.
-
-    /**
-     * Transforms block scope, rewriting all block-scoped variables/functions.
-     * @param {Block} tree
-     * @return {ParseTree}
-     */
-    transformBlock: function(tree) {
-      // Push new scope.
-      var scope = this.push_(this.createBlockScope_());
-
-      // Transform the block contents
-      var statements = this.transformSourceElements(tree.statements);
-
-      if (scope.blockVariables != null) {
-        // rewrite into catch construct
-        tree = toBlock(
-            this.rewriteAsCatch_(scope.blockVariables, createBlock(statements)));
-      } else if (statements != tree.statements) {
-        tree = createBlock(statements);
-      }
-
-      this.pop_(scope);
-      return tree;
-    },
-
-    /**
-     * Declares block-scoped variables. Does so by wrapping a block in
-     * a try .. catch for each block scoped variable in the set.
-     *
-     * 'let x = 1;' turns into:
-     *
-     * try {
-     *   throw undefined;
-     * } catch (x) {
-     *   x = 1;   // let x = 1
-     *   ...
-     *   }
-     * }
-     *
-     * @param {Object} blockVariables
-     * @param {ParseTree} statements
-     * @return {ParseTree}
-     */
-    rewriteAsCatch_: function(blockVariables, statement) {
-      // Build the try .. catch structure from within.
-      // try {
-      //   throw undefined;
-      // } catch (<block scoped variable>) {
-      //   <block>
-      // }
-      for (var variable in blockVariables) {
-        statement =
-            createTryStatement(
-                createBlock(                  // try
-                    createThrowStatement(
-                        createUndefinedExpression())),
-                createCatch(                  // catch
-                    createIdentifierToken(variable),
-                    toBlock(statement)),
-                null);                       // finally
-      }
-
-      return statement;
-    },
-
-    /** Class declarations should have been transformed away. */
-    /**
-     * @param {ClassDeclaration} tree
-     * @return {ParseTree}
-     */
-    transformClassDeclaration: function(tree) {
-      throw new Error('ClassDeclaration should be transformed away.');
-    },
-
-    /**
-     * Transforms for .. in statement.
-     */
-    /**
-     * @param {ForInStatement} tree
-     * @return {ParseTree}
-     */
-    transformForInStatement: function(tree) {
-      // Save it here because tree may change in the variable rewrite
-      var treeBody = tree.body;
-
-      var initializer;
-      if (tree.initializer != null &&
-          tree.initializer.type == ParseTreeType.VARIABLE_DECLARATION_LIST) {
-
-        // for (var/let/const x [ = ...] in ...)
-        var variables = tree.initializer;
-
-        // Only one declaration allowed.
-        if (variables.declarations.length != 1) {
-          throw new Error('for .. in has != 1 variables');
+      /**
+       * Pops scope, tracks proper matching of push_/pop_ operations.
+       * @param {Scope} scope
+       */
+      pop_: function(scope) {
+        if (this.scope_ != scope) {
+          throw new Error('BlockBindingTransformer scope mismatch');
         }
 
-        var variable = variables.declarations[0];
-        var variableName = this.getVariableName_(variable);
+        this.scope_ = scope.parent;
+      },
 
-        switch (variables.declarationType) {
-          case LET:
-          case CONST: {
-            // initializer is illegal in for (const/let x in ...)
-            // this should have been caught in the parser.
-            if (variable.initializer != null) {
-              throw new Error(
-                  'const/let in for-in may not have an initializer');
+      // The transform methods override from the base.
+
+      /**
+       * Transforms block scope, rewriting all block-scoped variables/functions.
+       * @param {Block} tree
+       * @return {ParseTree}
+       */
+      transformBlock: function(tree) {
+        // Push new scope.
+        var scope = this.push_(this.createBlockScope_());
+
+        // Transform the block contents
+        var statements = this.transformSourceElements(tree.statements);
+
+        if (scope.blockVariables != null) {
+          // rewrite into catch construct
+          tree = toBlock(
+              this.rewriteAsCatch_(scope.blockVariables, createBlock(statements)));
+        } else if (statements != tree.statements) {
+          tree = createBlock(statements);
+        }
+
+        this.pop_(scope);
+        return tree;
+      },
+
+      /**
+       * Declares block-scoped variables. Does so by wrapping a block in
+       * a try .. catch for each block scoped variable in the set.
+       *
+       * 'let x = 1;' turns into:
+       *
+       * try {
+       *   throw undefined;
+       * } catch (x) {
+       *   x = 1;   // let x = 1
+       *   ...
+       *   }
+       * }
+       *
+       * @param {Object} blockVariables
+       * @param {ParseTree} statements
+       * @return {ParseTree}
+       */
+      rewriteAsCatch_: function(blockVariables, statement) {
+        // Build the try .. catch structure from within.
+        // try {
+        //   throw undefined;
+        // } catch (<block scoped variable>) {
+        //   <block>
+        // }
+        for (var variable in blockVariables) {
+          statement =
+              createTryStatement(
+                  createBlock(                  // try
+                      createThrowStatement(
+                          createUndefinedExpression())),
+                  createCatch(                  // catch
+                      createIdentifierToken(variable),
+                      toBlock(statement)),
+                  null);                       // finally
+        }
+
+        return statement;
+      },
+
+      /** Class declarations should have been transformed away. */
+      /**
+       * @param {ClassDeclaration} tree
+       * @return {ParseTree}
+       */
+      transformClassDeclaration: function(tree) {
+        throw new Error('ClassDeclaration should be transformed away.');
+      },
+
+      /**
+       * Transforms for .. in statement.
+       */
+      /**
+       * @param {ForInStatement} tree
+       * @return {ParseTree}
+       */
+      transformForInStatement: function(tree) {
+        // Save it here because tree may change in the variable rewrite
+        var treeBody = tree.body;
+
+        var initializer;
+        if (tree.initializer != null &&
+            tree.initializer.type == ParseTreeType.VARIABLE_DECLARATION_LIST) {
+
+          // for (var/let/const x [ = ...] in ...)
+          var variables = tree.initializer;
+
+          // Only one declaration allowed.
+          if (variables.declarations.length != 1) {
+            throw new Error('for .. in has != 1 variables');
+          }
+
+          var variable = variables.declarations[0];
+          var variableName = this.getVariableName_(variable);
+
+          switch (variables.declarationType) {
+            case LET:
+            case CONST: {
+              // initializer is illegal in for (const/let x in ...)
+              // this should have been caught in the parser.
+              if (variable.initializer != null) {
+                throw new Error(
+                    'const/let in for-in may not have an initializer');
+              }
+
+              // Build the result
+              // for (var $x in ...) {
+              //   let x = $x;
+              //   ...
+              // }
+              // TODO: Use temp allocator.
+              initializer = createVariableDeclarationList(
+                  TokenType.VAR, '$' + variableName, null);
+
+              // Add the let statement into the block and rewrite it next.
+              // It is easier than creating the catch block manually etc.
+              treeBody = this.prependToBlock_(
+                  createVariableStatement(
+                      TokenType.LET,
+                      variableName,
+                      createIdentifierExpression('$' + variableName)),
+                  treeBody);
+              break;
             }
 
-            // Build the result
-            // for (var $x in ...) {
-            //   let x = $x;
-            //   ...
-            // }
-            // TODO: Use temp allocator.
-            initializer = createVariableDeclarationList(
-                TokenType.VAR, '$' + variableName, null);
+            case VAR:
+              // No special work for var
+              initializer = this.transformVariables_(variables);
+              break;
 
-            // Add the let statement into the block and rewrite it next.
-            // It is easier than creating the catch block manually etc.
-            treeBody = this.prependToBlock_(
-                createVariableStatement(
-                    TokenType.LET,
-                    variableName,
-                    createIdentifierExpression('$' + variableName)),
-                treeBody);
-            break;
+            default:
+              throw new Error('Unreachable.');
           }
-
-          case VAR:
-            // No special work for var
-            initializer = this.transformVariables_(variables);
-            break;
-
-          default:
-            throw new Error('Unreachable.');
-        }
-      } else {
-        initializer = this.transformAny(tree.initializer);
-      }
-
-      var result = tree;
-      var collection = this.transformAny(tree.collection);
-      var body = this.transformAny(treeBody);
-
-      if (initializer != tree.initializer ||
-          collection != tree.collection ||
-          body != tree.body) {
-        result = createForInStatement(initializer, collection, body);
-      }
-
-      return result;
-    },
-
-    /**
-     * TODO: Use non-scoped blocks (statement comma) when available.
-     * @param {ParseTree} statement
-     * @param {ParseTree} body
-     * @return {Block}
-     */
-    prependToBlock_: function(statement, body) {
-      if (body.type == ParseTreeType.BLOCK) {
-        var block = body;
-        var list = [];
-        list.push(statement);
-        list.push.apply(list, block.statements);
-        return createBlock(list);
-      } else {
-        return createBlock(statement, body);
-      }
-    },
-
-    /**
-     * Transforms the for ( ... ; ... ; ... ) { ... } statement.
-     * @param {ForStatement} tree
-     * @return {ParseTree}
-     */
-    transformForStatement: function(tree) {
-      var initializer;
-      if (tree.initializer != null &&
-          tree.initializer.type == ParseTreeType.VARIABLE_DECLARATION_LIST) {
-
-        // for (var/let/const ... ; ; ) { ... }
-        var variables = tree.initializer;
-
-        switch (variables.declarationType) {
-          case LET:
-          case CONST:
-            // let/const are rewritten differently so the code below doesn't apply
-            return this.transformForLet_(tree, variables);
-
-          case VAR:
-            // No special work for var.
-            initializer = this.transformVariables_(variables);
-            break;
-
-          default:
-            throw new Error('Reached unreachable.');
-        }
-      } else {
-        // The non-var case: for (x = ...; ; ) { ... }
-        initializer = this.transformAny(tree.initializer);
-      }
-
-      // Finish transforming the body.
-      var condition = this.transformAny(tree.condition);
-      var increment = this.transformAny(tree.increment);
-      var body = this.transformAny(tree.body);
-
-      var result = tree;
-
-      if (initializer != tree.initializer ||
-          condition != tree.condition ||
-          increment != tree.increment ||
-          body != tree.body) {
-        // Create new for statement.
-        result = createForStatement(initializer, condition, increment, body);
-      }
-
-      return result;
-    },
-
-    /*
-     * Transforms the for (let ...; ...; ...) { ... } statement. There are few
-     * steps to this:
-     *
-     * 1. Hoist the declaration out of the for loop (keep as let for further
-     *    rewrite)
-     * 2. Rename the hoisted declared variables
-     * 3. Wrap the for loop body in a try..finally block
-     * 4. Before the try block, copy all variables into new block scoped
-     *    variables (using original names)
-     * 5. In the finally, write-back the to the hoisted variables
-     *
-     * For example:
-     *
-     * for (let x = 1, y = x + 2; x + y < 10, x ++, y ++) {
-     *  if (condition) {
-     *    continue;
-     *  }
-     * }
-     *
-     * translates into:
-     *
-     * {
-     *   let $x = 1, $y = $x + 2;     // initializer dependencies
-     *   for ( ; $x + $y < 10; $x++, $y++) {
-     *     let x = $x, y = $y;
-     *     try {
-     *       // for loop body
-     *       if (condition) {
-     *         continue;
-     *       }
-     *
-     *     } finally {
-     *       $x = x;    // write-backs into the hoisted variables
-     *       $y = y;
-     *     }
-     *   }
-     * }
-     * @param {ForStatement} tree
-     * @param {VariableDeclarationList} variables
-     * @return {ParseTree}
-     */
-    transformForLet_: function(tree, variables) {
-
-      // Accumulator for 'let x = $x;'
-      var copyFwd = [];
-
-      // Accumulator for '$x = x' copybacks
-      var copyBak = [];
-
-      // Accumulator for the hoisted declaration: let $x = 1, ...;
-      var hoisted = [];
-
-      var renames = [];
-
-      variables.declarations.forEach(function(variable) {
-        var variableName = this.getVariableName_(variable);
-        var hoistedName = '$' + variableName;
-
-        // perform renames in the initializer
-        var initializer = renameAll(renames, variable.initializer);
-
-        // hoisted declaration: let $x = 1
-        hoisted.push(createVariableDeclaration(hoistedName, initializer));
-
-        // copy forward: let x = $x;
-        copyFwd.push(
-            createVariableDeclaration(
-                variableName,
-                createIdentifierExpression(hoistedName)));
-
-        // copy back: $x = x;
-        copyBak.push(
-            createExpressionStatement(
-                createAssignmentExpression(
-                    createIdentifierExpression(hoistedName),
-                    createIdentifierExpression(variableName))));
-
-        // Remember rename for the subsequent initializers
-        renames.push(new Rename(variableName, hoistedName));
-      }, this);
-
-      // 'tree.condition' with renamed variables
-      var condition = renameAll(renames, tree.condition);
-      // 'tree.increment' with renamed variables
-      var increment = renameAll(renames, tree.increment);
-
-      // package it all up
-      var transformedForLoop = createBlock(
-          // hoisted declaration
-          createVariableStatement(
-              createVariableDeclarationList(
-                  TokenType.LET, hoisted)),
-          // for loop
-          createForStatement(
-              new NullTree(),
-              condition,
-              increment,
-              // body
-              createBlock(
-                  createVariableStatement(
-                      // let x = $x;
-                      createVariableDeclarationList(
-                          TokenType.LET, copyFwd)),
-          // try { ... } finally { copyBak }
-          createTryStatement(
-                          // try - the original for loop body
-                          tree.body,
-                          // catch (none)
-                          new NullTree(),
-                          // finally - the writebacks
-                          createFinally(createBlock(copyBak))))));
-
-      // Now transform the rewritten for loop! This is safe to do because the
-      return this.transformAny(transformedForLoop);
-    },
-
-    /**
-     * Transforms a function. Function name in the block scope
-     * is scoped to the block only, so the same rewrite applies.
-     *
-     * @param {FunctionDeclaration} tree
-     * @return {ParseTree}
-     */
-    transformFunctionDeclaration: function(tree) {
-      var body = this.transformFunctionBody_(tree.functionBody);
-
-      if (tree.name != null && this.scope_.type == ScopeType.BLOCK) {
-        // Named function in a block scope is only scoped to the block.
-        // Add function name into variable hash to later 'declare' the
-        // block scoped variable for it.
-        this.scope_.addBlockScopedVariable(tree.name.value);
-
-        // f = function f( ... ) { ... }
-        return createParenExpression(
-            createAssignmentExpression(
-                createIdentifierExpression(tree.name),
-                createFunctionDeclaration(tree.name,
-                    tree.formalParameterList, body)));
-      } else if (body != tree.functionBody) {
-        return createFunctionDeclaration(
-            tree.name, tree.formalParameterList, body);
-      } else {
-        return tree;
-      }
-    },
-
-    /**
-     * @param {GetAccessor} tree
-     * @return {ParseTree}
-     */
-    transformGetAccessor: function(tree) {
-      var body = this.transformFunctionBody_(tree.body);
-
-      if (body != tree.body) {
-        tree = createGetAccessor(tree.propertyName, tree.isStatic, body);
-      }
-
-      return tree;
-    },
-
-    /**
-     * Mixin should be compiled away by now.
-     * @param {Mixin} tree
-     * @return {ParseTree}
-     */
-    transformMixin: function(tree) {
-      throw new Error('Mixin should be transformed away.');
-    },
-
-    /**
-     * Transforms the whole program.
-     * @param {Program} tree
-     * @return {ParseTree}
-     */
-    transformProgram: function(tree) {
-      // Push new scope
-      var scope = this.push_(this.createProgramScope_());
-
-      var result = proto.transformProgram.call(this, tree);
-
-      this.pop_(scope);
-      return result;
-    },
-
-    /**
-     * @param {SetAccessor} tree
-     * @return {ParseTree}
-     */
-    transformSetAccessor: function(tree) {
-      var body = this.transformFunctionBody_(tree.body);
-
-      if (body != tree.body) {
-        tree = createSetAccessor(
-            tree.propertyName, tree.isStatic, tree.parameter, body);
-      }
-      return tree;
-    },
-
-    /** Trait should be transformed away by now. */
-    /**
-     * @param {TraitDeclaration} tree
-     * @return {ParseTree}
-     */
-    transformTraitDeclaration: function(tree) {
-      // This should be rewritten away by now.
-      throw new Error('Trait should be transformed away.');
-    },
-
-    /**
-     * Variable declarations are detected earlier and handled elsewhere.
-     * @param {VariableDeclaration} tree
-     * @return {ParseTree}
-     */
-    transformVariableDeclaration: function(tree) {
-      throw new Error('Should never see variable declaration tree.');
-    },
-
-    /**
-     * Variable declarations are detected earlier and handled elsewhere.
-     * @param {VariableDeclarationList} tree
-     * @return {ParseTree}
-     */
-    transformVariableDeclarationList: function(tree) {
-      throw new Error('Should never see variable declaration list.');
-    },
-
-    /**
-     * Transforms the variable statement. Inside a block const and let
-     * are transformed into block-scoped variables.
-     * Outside of the block, const stays the same, let becomes regular
-     * variable.
-     * @param {VariableStatement} tree
-     * @return {ParseTree}
-     */
-    transformVariableStatement: function(tree) {
-      if (this.scope_.type == ScopeType.BLOCK) {
-        // let/const have block scoped meaning only in block scope.
-        switch (tree.declarations.declarationType) {
-          case CONST:
-          case LET:
-            return this.transformBlockVariables_(tree.declarations);
-
-          default:
-            break;
-        }
-      }
-
-      // Default handling.
-      var variables = this.transformVariables_(tree.declarations);
-
-      if (variables != tree.declarations) {
-        tree = createVariableStatement(variables);
-      }
-
-      return tree;
-    },
-
-    /**
-     * Transforms block scoped variables.
-     * Series of declarations become a comma of assignment expressions
-     * which is later turned into a statement, minimizing block creation
-     * overhead.
-     * @param {VariableDeclarationList} tree
-     * @return {ParseTree}
-     */
-    transformBlockVariables_: function(tree) {
-      var variables = tree.declarations;
-      var comma = [];
-
-      variables.forEach(function(variable) {
-        switch (tree.declarationType) {
-          case LET:
-          case CONST:
-            break;
-          default:
-            throw new Error('Only let/const allowed here.');
+        } else {
+          initializer = this.transformAny(tree.initializer);
         }
 
-        var variableName = this.getVariableName_(variable);
+        var result = tree;
+        var collection = this.transformAny(tree.collection);
+        var body = this.transformAny(treeBody);
 
-        // Store the block scoped variable for future 'declaration'.
-        this.scope_.addBlockScopedVariable(variableName);
-        var initializer = this.transformAny(variable.initializer);
-
-        if (initializer != null) {
-          // varname = initializer, ...
-          comma.push(
-              createAssignmentExpression(
-                  createIdentifierExpression(variableName),
-                  initializer));
+        if (initializer != tree.initializer ||
+            collection != tree.collection ||
+            body != tree.body) {
+          result = createForInStatement(initializer, collection, body);
         }
-      }, this);
 
-      switch (comma.length) {
-        case 0:
-          return createEmptyStatement();
-        case 1:
-          return createExpressionStatement(comma[0]);
-        default:
-          // Turn comma into statements
-          for (var i = 0; i < comma.length; i++) {
-            comma[i] = createExpressionStatement(comma[i]);
+        return result;
+      },
+
+      /**
+       * TODO: Use non-scoped blocks (statement comma) when available.
+       * @param {ParseTree} statement
+       * @param {ParseTree} body
+       * @return {Block}
+       */
+      prependToBlock_: function(statement, body) {
+        if (body.type == ParseTreeType.BLOCK) {
+          var block = body;
+          var list = [];
+          list.push(statement);
+          list.push.apply(list, block.statements);
+          return createBlock(list);
+        } else {
+          return createBlock(statement, body);
+        }
+      },
+
+      /**
+       * Transforms the for ( ... ; ... ; ... ) { ... } statement.
+       * @param {ForStatement} tree
+       * @return {ParseTree}
+       */
+      transformForStatement: function(tree) {
+        var initializer;
+        if (tree.initializer != null &&
+            tree.initializer.type == ParseTreeType.VARIABLE_DECLARATION_LIST) {
+
+          // for (var/let/const ... ; ; ) { ... }
+          var variables = tree.initializer;
+
+          switch (variables.declarationType) {
+            case LET:
+            case CONST:
+              // let/const are rewritten differently so the code below doesn't apply
+              return this.transformForLet_(tree, variables);
+
+            case VAR:
+              // No special work for var.
+              initializer = this.transformVariables_(variables);
+              break;
+
+            default:
+              throw new Error('Reached unreachable.');
           }
-          return createBlock(comma);
-      }
-    },
+        } else {
+          // The non-var case: for (x = ...; ; ) { ... }
+          initializer = this.transformAny(tree.initializer);
+        }
 
-    /**
-     * Transforms variables unaffected by block scope.
-     * @param {VariableDeclarationList} tree
-     * @return {VariableDeclarationList}
-     */
-    transformVariables_: function(tree) {
+        // Finish transforming the body.
+        var condition = this.transformAny(tree.condition);
+        var increment = this.transformAny(tree.increment);
+        var body = this.transformAny(tree.body);
 
-      var variables = tree.declarations;
-      var transformed = null;
+        var result = tree;
 
-      for (var index = 0; index < variables.length; index++) {
-        var variable = variables[index];
-        var variableName = this.getVariableName_(variable);
+        if (initializer != tree.initializer ||
+            condition != tree.condition ||
+            increment != tree.increment ||
+            body != tree.body) {
+          // Create new for statement.
+          result = createForStatement(initializer, condition, increment, body);
+        }
 
-        // Transform the initializer.
-        var initializer = this.transformAny(variable.initializer);
+        return result;
+      },
 
-        if (transformed != null || initializer != variable.initializer) {
-          // Variable was rewritten.
-          if (transformed == null) {
-            transformed = [];
-            transformed.push.apply(transformed, variables.slice(0, index));
-          }
+      /*
+       * Transforms the for (let ...; ...; ...) { ... } statement. There are few
+       * steps to this:
+       *
+       * 1. Hoist the declaration out of the for loop (keep as let for further
+       *    rewrite)
+       * 2. Rename the hoisted declared variables
+       * 3. Wrap the for loop body in a try..finally block
+       * 4. Before the try block, copy all variables into new block scoped
+       *    variables (using original names)
+       * 5. In the finally, write-back the to the hoisted variables
+       *
+       * For example:
+       *
+       * for (let x = 1, y = x + 2; x + y < 10, x ++, y ++) {
+       *  if (condition) {
+       *    continue;
+       *  }
+       * }
+       *
+       * translates into:
+       *
+       * {
+       *   let $x = 1, $y = $x + 2;     // initializer dependencies
+       *   for ( ; $x + $y < 10; $x++, $y++) {
+       *     let x = $x, y = $y;
+       *     try {
+       *       // for loop body
+       *       if (condition) {
+       *         continue;
+       *       }
+       *
+       *     } finally {
+       *       $x = x;    // write-backs into the hoisted variables
+       *       $y = y;
+       *     }
+       *   }
+       * }
+       * @param {ForStatement} tree
+       * @param {VariableDeclarationList} variables
+       * @return {ParseTree}
+       */
+      transformForLet_: function(tree, variables) {
 
-          // var/const x = <initializer>;
-          transformed.push(
+        // Accumulator for 'let x = $x;'
+        var copyFwd = [];
+
+        // Accumulator for '$x = x' copybacks
+        var copyBak = [];
+
+        // Accumulator for the hoisted declaration: let $x = 1, ...;
+        var hoisted = [];
+
+        var renames = [];
+
+        variables.declarations.forEach(function(variable) {
+          var variableName = this.getVariableName_(variable);
+          var hoistedName = '$' + variableName;
+
+          // perform renames in the initializer
+          var initializer = renameAll(renames, variable.initializer);
+
+          // hoisted declaration: let $x = 1
+          hoisted.push(createVariableDeclaration(hoistedName, initializer));
+
+          // copy forward: let x = $x;
+          copyFwd.push(
               createVariableDeclaration(
-                  createIdentifierToken(variableName), initializer));
+                  variableName,
+                  createIdentifierExpression(hoistedName)));
+
+          // copy back: $x = x;
+          copyBak.push(
+              createExpressionStatement(
+                  createAssignmentExpression(
+                      createIdentifierExpression(hoistedName),
+                      createIdentifierExpression(variableName))));
+
+          // Remember rename for the subsequent initializers
+          renames.push(new Rename(variableName, hoistedName));
+        }, this);
+
+        // 'tree.condition' with renamed variables
+        var condition = renameAll(renames, tree.condition);
+        // 'tree.increment' with renamed variables
+        var increment = renameAll(renames, tree.increment);
+
+        // package it all up
+        var transformedForLoop = createBlock(
+            // hoisted declaration
+            createVariableStatement(
+                createVariableDeclarationList(
+                    TokenType.LET, hoisted)),
+            // for loop
+            createForStatement(
+                new NullTree(),
+                condition,
+                increment,
+                // body
+                createBlock(
+                    createVariableStatement(
+                        // let x = $x;
+                        createVariableDeclarationList(
+                            TokenType.LET, copyFwd)),
+            // try { ... } finally { copyBak }
+            createTryStatement(
+                            // try - the original for loop body
+                            tree.body,
+                            // catch (none)
+                            new NullTree(),
+                            // finally - the writebacks
+                            createFinally(createBlock(copyBak))))));
+
+        // Now transform the rewritten for loop! This is safe to do because the
+        return this.transformAny(transformedForLoop);
+      },
+
+      /**
+       * Transforms a function. Function name in the block scope
+       * is scoped to the block only, so the same rewrite applies.
+       *
+       * @param {FunctionDeclaration} tree
+       * @return {ParseTree}
+       */
+      transformFunctionDeclaration: function(tree) {
+        var body = this.transformFunctionBody_(tree.functionBody);
+
+        if (tree.name != null && this.scope_.type == ScopeType.BLOCK) {
+          // Named function in a block scope is only scoped to the block.
+          // Add function name into variable hash to later 'declare' the
+          // block scoped variable for it.
+          this.scope_.addBlockScopedVariable(tree.name.value);
+
+          // f = function f( ... ) { ... }
+          return createParenExpression(
+              createAssignmentExpression(
+                  createIdentifierExpression(tree.name),
+                  createFunctionDeclaration(tree.name,
+                      tree.formalParameterList, body)));
+        } else if (body != tree.functionBody) {
+          return createFunctionDeclaration(
+              tree.name, tree.formalParameterList, body);
+        } else {
+          return tree;
+        }
+      },
+
+      /**
+       * @param {GetAccessor} tree
+       * @return {ParseTree}
+       */
+      transformGetAccessor: function(tree) {
+        var body = this.transformFunctionBody_(tree.body);
+
+        if (body != tree.body) {
+          tree = createGetAccessor(tree.propertyName, tree.isStatic, body);
+        }
+
+        return tree;
+      },
+
+      /**
+       * Mixin should be compiled away by now.
+       * @param {Mixin} tree
+       * @return {ParseTree}
+       */
+      transformMixin: function(tree) {
+        throw new Error('Mixin should be transformed away.');
+      },
+
+      /**
+       * Transforms the whole program.
+       * @param {Program} tree
+       * @return {ParseTree}
+       */
+      transformProgram: function(tree) {
+        // Push new scope
+        var scope = this.push_(this.createProgramScope_());
+
+        var result = proto.transformProgram.call(this, tree);
+
+        this.pop_(scope);
+        return result;
+      },
+
+      /**
+       * @param {SetAccessor} tree
+       * @return {ParseTree}
+       */
+      transformSetAccessor: function(tree) {
+        var body = this.transformFunctionBody_(tree.body);
+
+        if (body != tree.body) {
+          tree = createSetAccessor(
+              tree.propertyName, tree.isStatic, tree.parameter, body);
+        }
+        return tree;
+      },
+
+      /** Trait should be transformed away by now. */
+      /**
+       * @param {TraitDeclaration} tree
+       * @return {ParseTree}
+       */
+      transformTraitDeclaration: function(tree) {
+        // This should be rewritten away by now.
+        throw new Error('Trait should be transformed away.');
+      },
+
+      /**
+       * Variable declarations are detected earlier and handled elsewhere.
+       * @param {VariableDeclaration} tree
+       * @return {ParseTree}
+       */
+      transformVariableDeclaration: function(tree) {
+        throw new Error('Should never see variable declaration tree.');
+      },
+
+      /**
+       * Variable declarations are detected earlier and handled elsewhere.
+       * @param {VariableDeclarationList} tree
+       * @return {ParseTree}
+       */
+      transformVariableDeclarationList: function(tree) {
+        throw new Error('Should never see variable declaration list.');
+      },
+
+      /**
+       * Transforms the variable statement. Inside a block const and let
+       * are transformed into block-scoped variables.
+       * Outside of the block, const stays the same, let becomes regular
+       * variable.
+       * @param {VariableStatement} tree
+       * @return {ParseTree}
+       */
+      transformVariableStatement: function(tree) {
+        if (this.scope_.type == ScopeType.BLOCK) {
+          // let/const have block scoped meaning only in block scope.
+          switch (tree.declarations.declarationType) {
+            case CONST:
+            case LET:
+              return this.transformBlockVariables_(tree.declarations);
+
+            default:
+              break;
+          }
+        }
+
+        // Default handling.
+        var variables = this.transformVariables_(tree.declarations);
+
+        if (variables != tree.declarations) {
+          tree = createVariableStatement(variables);
+        }
+
+        return tree;
+      },
+
+      /**
+       * Transforms block scoped variables.
+       * Series of declarations become a comma of assignment expressions
+       * which is later turned into a statement, minimizing block creation
+       * overhead.
+       * @param {VariableDeclarationList} tree
+       * @return {ParseTree}
+       */
+      transformBlockVariables_: function(tree) {
+        var variables = tree.declarations;
+        var comma = [];
+
+        variables.forEach(function(variable) {
+          switch (tree.declarationType) {
+            case LET:
+            case CONST:
+              break;
+            default:
+              throw new Error('Only let/const allowed here.');
+          }
+
+          var variableName = this.getVariableName_(variable);
+
+          // Store the block scoped variable for future 'declaration'.
+          this.scope_.addBlockScopedVariable(variableName);
+          var initializer = this.transformAny(variable.initializer);
+
+          if (initializer != null) {
+            // varname = initializer, ...
+            comma.push(
+                createAssignmentExpression(
+                    createIdentifierExpression(variableName),
+                    initializer));
+          }
+        }, this);
+
+        switch (comma.length) {
+          case 0:
+            return createEmptyStatement();
+          case 1:
+            return createExpressionStatement(comma[0]);
+          default:
+            // Turn comma into statements
+            for (var i = 0; i < comma.length; i++) {
+              comma[i] = createExpressionStatement(comma[i]);
+            }
+            return createBlock(comma);
+        }
+      },
+
+      /**
+       * Transforms variables unaffected by block scope.
+       * @param {VariableDeclarationList} tree
+       * @return {VariableDeclarationList}
+       */
+      transformVariables_: function(tree) {
+
+        var variables = tree.declarations;
+        var transformed = null;
+
+        for (var index = 0; index < variables.length; index++) {
+          var variable = variables[index];
+          var variableName = this.getVariableName_(variable);
+
+          // Transform the initializer.
+          var initializer = this.transformAny(variable.initializer);
+
+          if (transformed != null || initializer != variable.initializer) {
+            // Variable was rewritten.
+            if (transformed == null) {
+              transformed = [];
+              transformed.push.apply(transformed, variables.slice(0, index));
+            }
+
+            // var/const x = <initializer>;
+            transformed.push(
+                createVariableDeclaration(
+                    createIdentifierToken(variableName), initializer));
+          }
+        }
+
+        // Package up in the declaration list.
+        if (transformed != null || tree.declarationType == TokenType.LET) {
+          var declarations = transformed != null ? transformed : tree.declarations;
+          var declarationType = tree.declarationType == TokenType.LET ?
+              TokenType.VAR :
+              tree.declarationType;
+
+          tree = createVariableDeclarationList(declarationType, declarations);
+        }
+        return tree;
+      },
+
+      /**
+       * @param {Block} tree
+       * @return {Block}
+       */
+      transformFunctionBody_: function(body) {
+        // Push new function context
+        var scope = this.push_(this.createFunctionScope_());
+
+        body = this.transformBlockStatements_(body);
+
+        this.pop_(scope);
+        return body;
+      },
+
+      /**
+       * @param {Block} tree
+       * @return {Block}
+       */
+      transformBlockStatements_: function(tree) {
+        var statements = this.transformSourceElements(tree.statements);
+
+        if (this.scope_.blockVariables != null) {
+          // rewrite into catch construct
+          tree = toBlock(
+              this.rewriteAsCatch_(this.scope_.blockVariables, createBlock(statements)));
+        } else if (statements != tree.statements) {
+          tree = createBlock(statements);
+        }
+
+        return tree;
+      },
+
+      /**
+       * @param {VariableDeclaration} variable
+       * @return {string}
+       */
+      getVariableName_: function(variable) {
+        var lvalue = variable.lvalue;
+        if (lvalue.type == ParseTreeType.IDENTIFIER_EXPRESSION) {
+          return lvalue.identifierToken.value;
+        } else {
+          throw new Error('Unexpected destructuring declaration found.');
         }
       }
-
-      // Package up in the declaration list.
-      if (transformed != null || tree.declarationType == TokenType.LET) {
-        var declarations = transformed != null ? transformed : tree.declarations;
-        var declarationType = tree.declarationType == TokenType.LET ?
-            TokenType.VAR :
-            tree.declarationType;
-
-        tree = createVariableDeclarationList(declarationType, declarations);
-      }
-      return tree;
-    },
-
-    /**
-     * @param {Block} tree
-     * @return {Block}
-     */
-    transformFunctionBody_: function(body) {
-      // Push new function context
-      var scope = this.push_(this.createFunctionScope_());
-
-      body = this.transformBlockStatements_(body);
-
-      this.pop_(scope);
-      return body;
-    },
-
-    /**
-     * @param {Block} tree
-     * @return {Block}
-     */
-    transformBlockStatements_: function(tree) {
-      var statements = this.transformSourceElements(tree.statements);
-
-      if (this.scope_.blockVariables != null) {
-        // rewrite into catch construct
-        tree = toBlock(
-            this.rewriteAsCatch_(this.scope_.blockVariables, createBlock(statements)));
-      } else if (statements != tree.statements) {
-        tree = createBlock(statements);
-      }
-
-      return tree;
-    },
-
-    /**
-     * @param {VariableDeclaration} variable
-     * @return {string}
-     */
-    getVariableName_: function(variable) {
-      var lvalue = variable.lvalue;
-      if (lvalue.type == ParseTreeType.IDENTIFIER_EXPRESSION) {
-        return lvalue.identifierToken.value;
-      } else {
-        throw new Error('Unexpected destructuring declaration found.');
-      }
-    }
-  };
+  });
 
   return {
     BlockBindingTransformer: BlockBindingTransformer

@@ -31,10 +31,10 @@ traceur.define('semantics.symbols', function() {
     PropertyAccessor.call(this, property);
     this.tree = tree;
   }
-
-  GetAccessor.prototype = {
+  
+  traceur.inherits(GetAccessor, PropertyAccessor, {
     __proto__: PropertyAccessor.prototype
-  };
+  });
 
   return {
     GetAccessor: GetAccessor

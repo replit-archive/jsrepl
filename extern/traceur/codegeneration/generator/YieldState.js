@@ -40,8 +40,8 @@ traceur.define('codegeneration.generator', function() {
     this.fallThroughState = fallThroughState;
     this.expression = expression;
   }
-
-  YieldState.prototype = {
+  
+  traceur.inherits(YieldState, State, {
     __proto__: State.prototype,
 
     /**
@@ -82,7 +82,7 @@ traceur.define('codegeneration.generator', function() {
       result.push(createReturnStatement(createTrueLiteral()));
       return result;
     }
-  };
+  });
 
   return {
     YieldState: YieldState

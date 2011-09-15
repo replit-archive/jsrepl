@@ -33,7 +33,7 @@ traceur.define('semantics.symbols', function() {
     this.tree = tree;
   }
 
-  MethodSymbol.prototype = {
+  traceur.inherits(MethodSymbol, MemberSymbol, {
     __proto__: MemberSymbol.prototype,
 
     /**
@@ -42,7 +42,7 @@ traceur.define('semantics.symbols', function() {
     isConstructor: function() {
       return this.name == PredefinedName.NEW;
     }
-  };
+  });
 
   return {
     MethodSymbol: MethodSymbol

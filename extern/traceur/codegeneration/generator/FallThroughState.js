@@ -29,8 +29,8 @@ traceur.define('codegeneration.generator', function() {
     this.fallThroughState = fallThroughState;
     this.statements = statements;
   }
-
-  FallThroughState.prototype = {
+  
+  traceur.inherits(FallThroughState, State, {
     __proto__: State.prototype,
 
     /**
@@ -58,7 +58,7 @@ traceur.define('codegeneration.generator', function() {
           State.generateJump(enclosingFinally, this.fallThroughState));
       return statements;
     }
-  };
+  });
 
   return {
     FallThroughState: FallThroughState

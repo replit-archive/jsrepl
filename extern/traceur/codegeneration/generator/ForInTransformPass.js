@@ -61,8 +61,7 @@ traceur.define('codegeneration.generator', function() {
   ForInTransformPass.transformTree = function(identifierGenerator, tree) {
     return new ForInTransformPass(identifierGenerator).transformAny(tree);
   };
-
-  ForInTransformPass.prototype = {
+  traceur.inherits(ForInTransformPass, ParseTreeTransformer, {
     __proto__: ParseTreeTransformer.prototype,
 
     // for ( var key in object ) statement
@@ -181,7 +180,7 @@ traceur.define('codegeneration.generator', function() {
 
       return createBlock(elements);
     }
-  };
+  });
 
   return {
     ForInTransformPass: ForInTransformPass

@@ -56,9 +56,9 @@ traceur.define('syntax', function() {
     this.tree = tree;
     this.message = message;
   }
-  ValidationError.prototype = {
+  traceur.inherits(ValidationError, Error, {
     __proto__: Error.prototype
-  };
+  });
 
   /**
    * Validates a parse tree.  Validation failures are compiler bugs.
@@ -94,7 +94,7 @@ traceur.define('syntax', function() {
     }
   };
 
-  ParseTreeValidator.prototype = {
+  traceur.inherits(ParseTreeValidator, ParseTreeVisitor, {
     __proto__: ParseTreeVisitor.prototype,
 
     /**
@@ -933,7 +933,7 @@ traceur.define('syntax', function() {
             'expression expected');
       }
     }
-  };
+  });
 
   // Export
   return {

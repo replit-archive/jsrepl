@@ -68,12 +68,12 @@ traceur.define('codegeneration', function() {
     Desugaring.call(this, rvalue);
     this.statements = [];
   }
-  AssignmentStatementDesugaring.prototype = {
+  traceur.inherits(AssignmentStatementDesugaring, Desugaring, {
     __proto__: Desugaring.prototype,
     assign: function(lvalue, rvalue) {
       this.statements.push(createAssignmentStatement(lvalue, rvalue));
     }
-  };
+  });
 
   /**
    * Collects assignments as variable declarations. This is the
@@ -86,12 +86,12 @@ traceur.define('codegeneration', function() {
     Desugaring.call(this, rvalue);
     this.declarations = [];
   }
-  VariableDeclarationDesugaring.prototype = {
+  traceur.inherits(VariableDeclarationDesugaring, Desugaring, {
     __proto__: Desugaring.prototype,
     assign: function(lvalue, rvalue) {
       this.declarations.push(createVariableDeclaration(lvalue, rvalue));
     }
-  };
+  });
 
   /**
    * Desugars destructuring assignment.
@@ -112,7 +112,7 @@ traceur.define('codegeneration', function() {
   };
 
   var proto = ParseTreeTransformer.prototype;
-  DestructuringTransformer.prototype = {
+  traceur.inherits(DestructuringTransformer, ParseTreeTransformer, {
     __proto__: proto,
 
     /**
@@ -359,7 +359,7 @@ traceur.define('codegeneration', function() {
       return identifiers;
     }
 
-  };
+  });
 
   return {
     DestructuringTransformer: DestructuringTransformer

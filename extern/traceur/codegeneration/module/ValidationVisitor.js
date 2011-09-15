@@ -31,7 +31,7 @@ traceur.define('codegeneration.module', function() {
     ModuleVisitor.call(this, reporter, module);
   }
 
-  ValidationVisitor.prototype = {
+  traceur.inherits(ValidationVisitor, ModuleVisitor, {
     __proto__: ModuleVisitor.prototype,
 
     checkExport_: function(tree, name) {
@@ -87,7 +87,7 @@ traceur.define('codegeneration.module', function() {
       var module = this.getModuleForModuleExpression(tree.moduleExpression);
       this.visitAndValidate_(module, tree, tree.identifier.value);
     }
-  };
+  });
 
   return {
     ValidationVisitor: ValidationVisitor

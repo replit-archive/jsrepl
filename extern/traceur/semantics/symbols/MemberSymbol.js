@@ -36,7 +36,7 @@ traceur.define('semantics.symbols', function() {
     containingAggregate.addMember(this);
   }
 
-  MemberSymbol.prototype = {
+  traceur.inherits(MemberSymbol, Symbol, {
     __proto__: Symbol.prototype,
 
     /**
@@ -66,7 +66,7 @@ traceur.define('semantics.symbols', function() {
     getQualifiedName: function() {
       return this.containingAggregate.name + '.' + name;
     }
-  };
+  });
 
   return {
     MemberSymbol: MemberSymbol

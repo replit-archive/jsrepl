@@ -76,10 +76,22 @@ var traceur = (function() {
     return ++uidCounter;
   }
 
+  function inherits(ctor, superCtor, members) {
+    var name;
+    function BASE() {}
+    BASE.prototype = superCtor.prototype;
+    ctor.prototype = new BASE();
+    for (name in members) {
+      if (members.hasOwnProperty(name)) {
+        ctor.prototype[name] = members[name];
+      }
+    }
+  }
   global.traceur = {
     define: define,
     assert: assert,
-    getUid: getUid
+    getUid: getUid,
+    inherits: inherits
   };
 
   return global.traceur;

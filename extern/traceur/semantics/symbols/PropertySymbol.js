@@ -32,10 +32,10 @@ traceur.define('semantics.symbols', function() {
     MemberSymbol.call(this, SymbolType.PROPERTY, tree, name,
                       containingAggregate, isStatic);
   }
-
-  PropertySymbol.prototype = {
+  
+  traceur.inherits(PropertySymbol, MemberSymbol, {
     __proto__: MemberSymbol.prototype
-  };
+  });
 
   return {
     PropertySymbol: PropertySymbol

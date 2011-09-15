@@ -30,9 +30,9 @@ traceur.define('semantics.symbols', function() {
     this.relatedTree = relatedTree;
   }
 
-  ExportSymbol.prototype = {
+  traceur.inherits(ExportSymbol, Symbol, {
     __proto__: Symbol.prototype
-  };
+  });
 
   return {
     ExportSymbol: ExportSymbol

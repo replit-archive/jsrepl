@@ -33,7 +33,7 @@ traceur.define('semantics.symbols', function() {
     this.tree = tree;
   }
 
-  ModuleSymbol.prototype = {
+  traceur.inherits(ModuleSymbol, Symbol, {
     __proto__: Symbol.prototype,
 
     /**
@@ -103,7 +103,7 @@ traceur.define('semantics.symbols', function() {
         return exports[key];
       });
     }
-  };
+  });
 
   return {
     ModuleSymbol: ModuleSymbol

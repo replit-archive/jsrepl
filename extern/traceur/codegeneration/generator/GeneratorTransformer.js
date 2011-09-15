@@ -71,8 +71,8 @@ traceur.define('codegeneration.generator', function() {
   GeneratorTransformer.transformGeneratorBody = function(reporter, body) {
     return new GeneratorTransformer(reporter).transformGeneratorBody(body);
   };
-
-  GeneratorTransformer.prototype = {
+  
+  traceur.inherits(GeneratorTransformer, CPSTransformer, {
     __proto__: CPSTransformer.prototype,
 
     /**
@@ -219,7 +219,7 @@ traceur.define('codegeneration.generator', function() {
     machineEndStatements: function() {
       return [createReturnStatement(createFalseLiteral())];
     }
-  };
+  });
 
   return {
     GeneratorTransformer: GeneratorTransformer

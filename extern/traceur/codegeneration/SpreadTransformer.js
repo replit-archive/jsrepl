@@ -185,8 +185,8 @@ traceur.define('codegeneration', function() {
   SpreadTransformer.transformTree = function(tree) {
     return new SpreadTransformer().transformAny(tree);
   };
-
-  SpreadTransformer.prototype = {
+  
+  traceur.inherits(SpreadTransformer, ParseTreeTransformer, {
     __proto__: ParseTreeTransformer.prototype,
 
     transformArrayLiteralExpression: function(tree) {
@@ -212,7 +212,7 @@ traceur.define('codegeneration', function() {
       return ParseTreeTransformer.prototype.transformNewExpression.
           call(this, tree);
     }
-  };
+  });
 
   return {
     SpreadTransformer: SpreadTransformer

@@ -139,8 +139,8 @@ traceur.define('codegeneration', function() {
   function ModuleTransformer() {
     ParseTreeTransformer.call(this);
   }
-
-  ModuleTransformer.prototype = {
+  
+  traceur.inherits(ModuleTransformer, ParseTreeTransformer, {
     __proto__: ParseTreeTransformer.prototype,
 
     /**
@@ -176,7 +176,7 @@ traceur.define('codegeneration', function() {
       return transformQualifiedReferenceParts(tree.moduleExpression,
           tree.identifier);
     }
-  };
+  });
 
   /**
    * @param {Project} project
