@@ -17,7 +17,7 @@
   includes: []
   engine: 'langs/qbasic/jsrepl_qbasic.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Lisp =
   name: 'Lisp'
@@ -37,7 +37,7 @@
   includes: []
   engine: 'langs/lisp/jsrepl_lisp.coffee'
   worker_friendly: false
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Scheme =
   name: 'Scheme'
@@ -76,7 +76,7 @@
   includes: []
   engine: 'langs/scheme/jsrepl_scheme.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'yui'
 
 @JSREPL::Languages::JavaScript =
   name: 'JavaScript'
@@ -92,7 +92,7 @@
   includes: []
   engine: 'langs/javascript/jsrepl_js.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::CoffeeScript =
   name: 'CoffeeScript'
@@ -109,7 +109,7 @@
   includes: []
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Brainfuck =
   name: 'Brainfuck'
@@ -123,7 +123,7 @@
   includes: []
   engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Unlambda =
   name: 'Unlambda'
@@ -135,7 +135,7 @@
   includes: []
   engine: 'langs/unlambda/jsrepl_unlambda.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::LOLCODE =
   name: 'LOLCODE'
@@ -151,7 +151,7 @@
   includes: []
   engine: 'langs/lolcode/jsrepl_lolcode.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Kaffeine =
   name: 'Kaffeine'
@@ -168,7 +168,7 @@
   includes: []
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Move =
   name: 'Move'
@@ -185,7 +185,7 @@
   includes: []
   engine: 'langs/move/jsrepl_move.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Traceur =
   name: 'Traceur'
@@ -288,7 +288,7 @@
   includes: []
   engine: 'langs/traceur/jsrepl_traceur.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'uglify'
 
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'
@@ -302,7 +302,7 @@
   includes: []
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Bloop =
   name: 'Bloop/Floop'
@@ -314,7 +314,7 @@
   includes: []
   engine: 'langs/bloop/jsrepl_bloop.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Forth =
   name: 'Forth'
@@ -329,7 +329,7 @@
   includes: []
   engine: 'langs/forth/jsrepl_forth.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'
 
 @JSREPL::Languages::Lua =
   name: 'Lua'
@@ -413,4 +413,4 @@
   includes: []
   engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
   worker_friendly: true
-  minifier: 'closure-advanced'
+  minifier: 'closure'

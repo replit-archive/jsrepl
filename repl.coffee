@@ -1,3 +1,8 @@
+# The Cakefile defines this to be true, to prevent JSREPL from loading files
+# that have already been merged in.
+# window.__BAKED_JSREPL_BUILD__ = false
+
+
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
 class JSREPL
@@ -11,8 +16,11 @@ class JSREPL
     # The sandbox window global object.
     @sandbox = null
     # Create initial worker.
+    baseScripts = ['sandbox.js']
+    if not window.__BAKED_JSREPL_BUILD__
+      baseScripts.concat ['util/polyfills.js', 'util/mtwister.js']
     @worker = Sandboss.create
-      baseScripts: ['sandbox.js', 'util/polyfills.js', 'util/mtwister.js']
+      baseScripts: baseScripts
       incoming:
         'out': OutputCallback
         'input': ->
