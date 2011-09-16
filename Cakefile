@@ -11,12 +11,13 @@ coffee = require 'coffee-script'
 #                                    Config                                    #
 #------------------------------------------------------------------------------#
 
-CLOSURE_COMPILER_PATH = '/home/max/emscripten-workspace/closure2/build/compiler.jar'
+CLOSURE_COMPILER_PATH = './tools/closure-compiler/trunk/build/compiler.jar'
+YUI_COMPRESSOR_PATH = './tools/yuicompressor-2.4.6/build/yuicompressor-2.4.6.jar'
 
 # The command to use for minifying merged interpreter scripts.
 MINIFIERS =
   none: 'cat '
-  yui: 'yuicompressor --type js '
+  yui: "java -jar #{YUI_COMPRESSOR_PATH} --type js "
   uglify: 'uglifyjs -nc --unsafe '
   closure: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --compilation_level SIMPLE_OPTIMIZATIONS --js "
   closure_advanced: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --compilation_level ADVANCED_OPTIMIZATIONS --js "
