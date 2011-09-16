@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/226/trunk/javadoc/com/google/javascript/jscomp/deps
+END
+JsFileLineParser.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/226/trunk/javadoc/com/google/javascript/jscomp/deps/JsFileLineParser.html
+END
+package-frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/deps/package-frame.html
+END
+SimpleDependencyInfo.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/190/trunk/javadoc/com/google/javascript/jscomp/deps/SimpleDependencyInfo.html
+END
+package-summary.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/deps/package-summary.html
+END
+SortedDependencies.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/deps/SortedDependencies.html
+END
+DepsFileParser.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/226/trunk/javadoc/com/google/javascript/jscomp/deps/DepsFileParser.html
+END
+package-tree.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/deps/package-tree.html
+END
+SortedDependencies.CircularDependencyException.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/deps/SortedDependencies.CircularDependencyException.html
+END
+JsFileParser.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/226/trunk/javadoc/com/google/javascript/jscomp/deps/JsFileParser.html
+END
+DependencyInfo.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/190/trunk/javadoc/com/google/javascript/jscomp/deps/DependencyInfo.html
+END

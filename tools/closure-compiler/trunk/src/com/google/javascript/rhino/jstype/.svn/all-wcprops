@@ -1,0 +1,281 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/1439/trunk/src/com/google/javascript/rhino/jstype
+END
+UnionTypeBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1362/trunk/src/com/google/javascript/rhino/jstype/UnionTypeBuilder.java
+END
+UnknownType.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1242/trunk/src/com/google/javascript/rhino/jstype/UnknownType.java
+END
+ErrorFunctionType.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/ErrorFunctionType.java
+END
+NoObjectType.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1367/trunk/src/com/google/javascript/rhino/jstype/NoObjectType.java
+END
+StaticReference.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1259/trunk/src/com/google/javascript/rhino/jstype/StaticReference.java
+END
+BooleanLiteralSet.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/BooleanLiteralSet.java
+END
+StaticSourceFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1303/trunk/src/com/google/javascript/rhino/jstype/StaticSourceFile.java
+END
+UnresolvedTypeExpression.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/UnresolvedTypeExpression.java
+END
+ProxyObjectType.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1389/trunk/src/com/google/javascript/rhino/jstype/ProxyObjectType.java
+END
+FunctionParamBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/FunctionParamBuilder.java
+END
+TemplateType.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/TemplateType.java
+END
+NoType.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/NoType.java
+END
+ValueType.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/ValueType.java
+END
+RecordType.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1242/trunk/src/com/google/javascript/rhino/jstype/RecordType.java
+END
+IndexedType.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/IndexedType.java
+END
+NoResolvedType.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/NoResolvedType.java
+END
+FunctionType.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1437/trunk/src/com/google/javascript/rhino/jstype/FunctionType.java
+END
+RecordTypeBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/955/trunk/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java
+END
+SimpleSlot.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1424/trunk/src/com/google/javascript/rhino/jstype/SimpleSlot.java
+END
+FunctionBuilder.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/FunctionBuilder.java
+END
+ParameterizedType.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/ParameterizedType.java
+END
+Visitor.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/Visitor.java
+END
+VoidType.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/VoidType.java
+END
+EnumType.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/1242/trunk/src/com/google/javascript/rhino/jstype/EnumType.java
+END
+JSTypeRegistry.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1438/trunk/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java
+END
+StringType.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/StringType.java
+END
+SimpleReference.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1334/trunk/src/com/google/javascript/rhino/jstype/SimpleReference.java
+END
+ObjectType.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1438/trunk/src/com/google/javascript/rhino/jstype/ObjectType.java
+END
+AllType.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/AllType.java
+END
+SimpleSourceFile.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1303/trunk/src/com/google/javascript/rhino/jstype/SimpleSourceFile.java
+END
+NullType.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/NullType.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/package.html
+END
+JSType.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1439/trunk/src/com/google/javascript/rhino/jstype/JSType.java
+END
+EnumElementType.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1367/trunk/src/com/google/javascript/rhino/jstype/EnumElementType.java
+END
+StaticScope.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1275/trunk/src/com/google/javascript/rhino/jstype/StaticScope.java
+END
+BooleanType.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/BooleanType.java
+END
+TernaryValue.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/TernaryValue.java
+END
+JSTypeNative.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/JSTypeNative.java
+END
+StaticSymbolTable.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1275/trunk/src/com/google/javascript/rhino/jstype/StaticSymbolTable.java
+END
+NamedType.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1367/trunk/src/com/google/javascript/rhino/jstype/NamedType.java
+END
+StaticSlot.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1259/trunk/src/com/google/javascript/rhino/jstype/StaticSlot.java
+END
+NumberType.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/NumberType.java
+END
+UnionType.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1427/trunk/src/com/google/javascript/rhino/jstype/UnionType.java
+END
+ArrowType.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/jstype/ArrowType.java
+END
+InstanceObjectType.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1414/trunk/src/com/google/javascript/rhino/jstype/InstanceObjectType.java
+END
+PrototypeObjectType.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1424/trunk/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java
+END

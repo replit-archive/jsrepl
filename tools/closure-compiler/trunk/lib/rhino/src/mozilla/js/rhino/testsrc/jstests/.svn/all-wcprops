@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/jstests
+END
+437988.jstest
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/jstests/437988.jstest
+END
+420012.jstest
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/jstests/420012.jstest
+END
+destructuringLvalue.jstest
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/jstests/destructuringLvalue.jstest
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch
+END
+Main.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch/Main.java
+END
+IdValuePair.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch/IdValuePair.java
+END
+SwitchGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch/SwitchGenerator.java
+END
+FileBody.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch/FileBody.java
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch/README
+END
+CodePrinter.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/idswitch/CodePrinter.java
+END

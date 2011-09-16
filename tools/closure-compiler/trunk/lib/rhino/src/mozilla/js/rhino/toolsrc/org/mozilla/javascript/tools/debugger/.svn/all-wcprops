@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger
+END
+GuiCallback.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/GuiCallback.java
+END
+ScopeProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/ScopeProvider.java
+END
+Main.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/Main.java
+END
+Dim.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/Dim.java
+END
+test.js
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/test.js
+END
+SwingGui.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/SwingGui.java
+END
+.cvsignore
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/.cvsignore
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/build.xml
+END

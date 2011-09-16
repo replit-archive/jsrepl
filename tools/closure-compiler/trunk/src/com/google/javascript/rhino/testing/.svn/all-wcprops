@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1299/trunk/src/com/google/javascript/rhino/testing
+END
+Asserts.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/rhino/testing/Asserts.java
+END
+BaseJSTypeTestCase.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1242/trunk/src/com/google/javascript/rhino/testing/BaseJSTypeTestCase.java
+END
+AbstractStaticScope.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1299/trunk/src/com/google/javascript/rhino/testing/AbstractStaticScope.java
+END
+MapBasedScope.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1275/trunk/src/com/google/javascript/rhino/testing/MapBasedScope.java
+END
+TestErrorReporter.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1299/trunk/src/com/google/javascript/rhino/testing/TestErrorReporter.java
+END

@@ -1,0 +1,233 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/1445/trunk/externs
+END
+w3c_css.js
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1195/trunk/externs/w3c_css.js
+END
+w3c_xml.js
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1403/trunk/externs/w3c_xml.js
+END
+w3c_dom2.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/1200/trunk/externs/w3c_dom2.js
+END
+webkit_notifications.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1000/trunk/externs/webkit_notifications.js
+END
+w3c_selectors.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1000/trunk/externs/w3c_selectors.js
+END
+iphone.js
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1443/trunk/externs/iphone.js
+END
+webkit_dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/1000/trunk/externs/webkit_dom.js
+END
+webkit_event.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1000/trunk/externs/webkit_event.js
+END
+es3.js
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1421/trunk/externs/es3.js
+END
+w3c_css3d.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1000/trunk/externs/w3c_css3d.js
+END
+es5.js
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1110/trunk/externs/es5.js
+END
+w3c_event.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1000/trunk/externs/w3c_event.js
+END
+gecko_css.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1032/trunk/externs/gecko_css.js
+END
+deprecated.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/1000/trunk/externs/deprecated.js
+END
+webstorage.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/1000/trunk/externs/webstorage.js
+END
+ie_css.js
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1000/trunk/externs/ie_css.js
+END
+window.js
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1000/trunk/externs/window.js
+END
+w3c_range.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1000/trunk/externs/w3c_range.js
+END
+gecko_xml.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1000/trunk/externs/gecko_xml.js
+END
+gears_symbols.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1000/trunk/externs/gears_symbols.js
+END
+fileapi.js
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1206/trunk/externs/fileapi.js
+END
+ie_vml.js
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1000/trunk/externs/ie_vml.js
+END
+w3c_dom1.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/1000/trunk/externs/w3c_dom1.js
+END
+google.js
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1000/trunk/externs/google.js
+END
+w3c_dom3.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/1000/trunk/externs/w3c_dom3.js
+END
+w3c_geolocation.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1422/trunk/externs/w3c_geolocation.js
+END
+w3c_event3.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/1000/trunk/externs/w3c_event3.js
+END
+gears_types.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/1237/trunk/externs/gears_types.js
+END
+gecko_dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1270/trunk/externs/gecko_dom.js
+END
+w3c_elementtraversal.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1000/trunk/externs/w3c_elementtraversal.js
+END
+gecko_event.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/1000/trunk/externs/gecko_event.js
+END
+html5.js
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/1445/trunk/externs/html5.js
+END
+ie_dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/1436/trunk/externs/ie_dom.js
+END
+webkit_css.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/1257/trunk/externs/webkit_css.js
+END
+flash.js
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/1082/trunk/externs/flash.js
+END
+ie_event.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/1000/trunk/externs/ie_event.js
+END
+webgl.js
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/1280/trunk/externs/webgl.js
+END
+w3c_indexeddb.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1440/trunk/externs/w3c_indexeddb.js
+END

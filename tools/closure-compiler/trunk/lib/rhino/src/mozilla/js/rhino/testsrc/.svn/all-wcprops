@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc
+END
+base.skip
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/base.skip
+END
+opt-1.tests
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/opt-1.tests
+END
+opt0.tests
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/opt0.tests
+END
+opt1.skip
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/opt1.skip
+END
+opt9.tests
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/opt9.tests
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/build.xml
+END

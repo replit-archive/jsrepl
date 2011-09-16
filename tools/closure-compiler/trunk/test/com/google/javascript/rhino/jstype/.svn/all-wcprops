@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1439/trunk/test/com/google/javascript/rhino/jstype
+END
+EnumElementTypeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1276/trunk/test/com/google/javascript/rhino/jstype/EnumElementTypeTest.java
+END
+TernaryValueTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/jstype/TernaryValueTest.java
+END
+UnionTypeBuilderTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/jstype/UnionTypeBuilderTest.java
+END
+NamedTypeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1242/trunk/test/com/google/javascript/rhino/jstype/NamedTypeTest.java
+END
+FunctionTypeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1391/trunk/test/com/google/javascript/rhino/jstype/FunctionTypeTest.java
+END
+JSTypeRegistryTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1299/trunk/test/com/google/javascript/rhino/jstype/JSTypeRegistryTest.java
+END
+BooleanLiteralSetTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/jstype/BooleanLiteralSetTest.java
+END
+UnionTypeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1439/trunk/test/com/google/javascript/rhino/jstype/UnionTypeTest.java
+END
+FunctionParamBuilderTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/jstype/FunctionParamBuilderTest.java
+END
+JSTypeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1425/trunk/test/com/google/javascript/rhino/jstype/JSTypeTest.java
+END
+PrototypeObjectTypeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1385/trunk/test/com/google/javascript/rhino/jstype/PrototypeObjectTypeTest.java
+END

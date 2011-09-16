@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 28
+/svn/!svn/ver/1281/trunk/lib
+END
+jsr305.jar
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1000/trunk/lib/jsr305.jar
+END
+jarjar.jar
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1213/trunk/lib/jarjar.jar
+END
+junit.jar
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/1000/trunk/lib/junit.jar
+END
+caja-r4314.jar
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/1000/trunk/lib/caja-r4314.jar
+END
+json.jar
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/1000/trunk/lib/json.jar
+END
+args4j.jar
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1000/trunk/lib/args4j.jar
+END
+protobuf-java.jar
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/1281/trunk/lib/protobuf-java.jar
+END
+ant-launcher.jar
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/1000/trunk/lib/ant-launcher.jar
+END
+ant.jar
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/1000/trunk/lib/ant.jar
+END
+guava.jar
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/1135/trunk/lib/guava.jar
+END

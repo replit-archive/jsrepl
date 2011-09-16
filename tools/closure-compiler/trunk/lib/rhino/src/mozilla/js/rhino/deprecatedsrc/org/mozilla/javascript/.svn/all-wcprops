@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript
+END
+PropertyException.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/PropertyException.java
+END
+NotAFunctionException.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/NotAFunctionException.java
+END
+ClassDefinitionException.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/ClassDefinitionException.java
+END

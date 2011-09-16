@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/annotations
+END
+JSConstructor.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/annotations/JSConstructor.java
+END
+JSFunction.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/annotations/JSFunction.java
+END
+JSSetter.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/annotations/JSSetter.java
+END
+JSGetter.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/annotations/JSGetter.java
+END
+JSStaticFunction.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/annotations/JSStaticFunction.java
+END

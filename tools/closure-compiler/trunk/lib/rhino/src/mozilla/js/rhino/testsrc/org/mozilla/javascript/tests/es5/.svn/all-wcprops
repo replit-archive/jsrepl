@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/org/mozilla/javascript/tests/es5
+END
+ObjectKeysTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/org/mozilla/javascript/tests/es5/ObjectKeysTest.java
+END
+ObjectGetOwnPropertyNamesTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/org/mozilla/javascript/tests/es5/ObjectGetOwnPropertyNamesTest.java
+END
+ObjectGetOwnPropertyDescriptorTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/testsrc/org/mozilla/javascript/tests/es5/ObjectGetOwnPropertyDescriptorTest.java
+END

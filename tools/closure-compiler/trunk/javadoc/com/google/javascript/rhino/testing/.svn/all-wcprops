@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/231/trunk/javadoc/com/google/javascript/rhino/testing
+END
+TestErrorReporter.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/77/trunk/javadoc/com/google/javascript/rhino/testing/TestErrorReporter.html
+END
+package-frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/77/trunk/javadoc/com/google/javascript/rhino/testing/package-frame.html
+END
+Asserts.html
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/231/trunk/javadoc/com/google/javascript/rhino/testing/Asserts.html
+END
+BaseJSTypeTestCase.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/77/trunk/javadoc/com/google/javascript/rhino/testing/BaseJSTypeTestCase.html
+END
+package-summary.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/77/trunk/javadoc/com/google/javascript/rhino/testing/package-summary.html
+END
+EmptyScope.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/77/trunk/javadoc/com/google/javascript/rhino/testing/EmptyScope.html
+END
+package-tree.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/77/trunk/javadoc/com/google/javascript/rhino/testing/package-tree.html
+END

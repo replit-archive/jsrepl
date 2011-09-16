@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src
+END
+manifest
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/manifest
+END
+build.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/build.xml
+END

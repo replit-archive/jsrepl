@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/37/trunk/javadoc/com/google/javascript/jscomp/testing
+END
+TestErrorReporter.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/37/trunk/javadoc/com/google/javascript/jscomp/testing/TestErrorReporter.html
+END
+SimpleSourceExcerptProvider.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/18/trunk/javadoc/com/google/javascript/jscomp/testing/SimpleSourceExcerptProvider.html
+END
+package-frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/18/trunk/javadoc/com/google/javascript/jscomp/testing/package-frame.html
+END
+package-summary.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/18/trunk/javadoc/com/google/javascript/jscomp/testing/package-summary.html
+END
+package-tree.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/18/trunk/javadoc/com/google/javascript/jscomp/testing/package-tree.html
+END

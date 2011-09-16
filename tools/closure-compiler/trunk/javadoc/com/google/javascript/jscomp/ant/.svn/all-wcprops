@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/ant
+END
+package-frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/65/trunk/javadoc/com/google/javascript/jscomp/ant/package-frame.html
+END
+package-summary.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/157/trunk/javadoc/com/google/javascript/jscomp/ant/package-summary.html
+END
+AntErrorManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/65/trunk/javadoc/com/google/javascript/jscomp/ant/AntErrorManager.html
+END
+package-tree.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/157/trunk/javadoc/com/google/javascript/jscomp/ant/package-tree.html
+END
+CompileTask.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/ant/CompileTask.html
+END

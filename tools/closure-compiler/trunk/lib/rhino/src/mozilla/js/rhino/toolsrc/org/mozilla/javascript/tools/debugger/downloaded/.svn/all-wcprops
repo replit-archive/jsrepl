@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/downloaded
+END
+.cvsignore
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/toolsrc/org/mozilla/javascript/tools/debugger/downloaded/.cvsignore
+END

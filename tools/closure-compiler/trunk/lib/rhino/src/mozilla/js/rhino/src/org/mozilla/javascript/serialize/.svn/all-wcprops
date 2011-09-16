@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/serialize
+END
+ScriptableInputStream.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/serialize/ScriptableInputStream.java
+END
+ScriptableOutputStream.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/src/org/mozilla/javascript/serialize/ScriptableOutputStream.java
+END

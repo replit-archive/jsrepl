@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1396/trunk/src/com/google/javascript/jscomp/ant
+END
+AntErrorManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/ant/AntErrorManager.java
+END
+CompileTask.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1396/trunk/src/com/google/javascript/jscomp/ant/CompileTask.java
+END

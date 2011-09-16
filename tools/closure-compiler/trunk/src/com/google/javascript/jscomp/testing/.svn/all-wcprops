@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1301/trunk/src/com/google/javascript/jscomp/testing
+END
+SimpleSourceExcerptProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/testing/SimpleSourceExcerptProvider.java
+END
+TestErrorReporter.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1301/trunk/src/com/google/javascript/jscomp/testing/TestErrorReporter.java
+END

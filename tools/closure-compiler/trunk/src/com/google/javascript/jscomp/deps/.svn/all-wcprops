@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/1201/trunk/src/com/google/javascript/jscomp/deps
+END
+JsFunctionParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/JsFunctionParser.java
+END
+JsFileLineParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/JsFileLineParser.java
+END
+DepsGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/1201/trunk/src/com/google/javascript/jscomp/deps/DepsGenerator.java
+END
+SimpleDependencyInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/SimpleDependencyInfo.java
+END
+SortedDependencies.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/SortedDependencies.java
+END
+DepsFileParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1173/trunk/src/com/google/javascript/jscomp/deps/DepsFileParser.java
+END
+JsFileParser.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/JsFileParser.java
+END
+PathUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1201/trunk/src/com/google/javascript/jscomp/deps/PathUtil.java
+END
+DependencyInfo.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/DependencyInfo.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1000/trunk/src/com/google/javascript/jscomp/deps/package.html
+END

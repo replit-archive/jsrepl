@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1402/trunk/test/com/google/debugging/sourcemap
+END
+SourceMapConsumerV1Test.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1023/trunk/test/com/google/debugging/sourcemap/SourceMapConsumerV1Test.java
+END
+SourceMapConsumerV2Test.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1023/trunk/test/com/google/debugging/sourcemap/SourceMapConsumerV2Test.java
+END
+Base64Test.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1026/trunk/test/com/google/debugging/sourcemap/Base64Test.java
+END
+Base64VLQTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1026/trunk/test/com/google/debugging/sourcemap/Base64VLQTest.java
+END
+SourceMapTestCase.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1265/trunk/test/com/google/debugging/sourcemap/SourceMapTestCase.java
+END
+SourceMapGeneratorV1Test.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1402/trunk/test/com/google/debugging/sourcemap/SourceMapGeneratorV1Test.java
+END
+SourceMapGeneratorV2Test.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1402/trunk/test/com/google/debugging/sourcemap/SourceMapGeneratorV2Test.java
+END
+SourceMapGeneratorV3Test.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1402/trunk/test/com/google/debugging/sourcemap/SourceMapGeneratorV3Test.java
+END

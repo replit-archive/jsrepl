@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl
+END
+XmlProcessor.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XmlProcessor.java
+END
+XML.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XML.java
+END
+XMLName.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XMLName.java
+END
+QName.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/QName.java
+END
+XmlNode.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XmlNode.java
+END
+XMLWithScope.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XMLWithScope.java
+END
+XMLCtor.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XMLCtor.java
+END
+XMLLibImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XMLLibImpl.java
+END
+XMLObjectImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XMLObjectImpl.java
+END
+Namespace.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/Namespace.java
+END
+XMLList.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/xmlimplsrc/org/mozilla/javascript/xmlimpl/XMLList.java
+END

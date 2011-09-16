@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans
+END
+XML.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XML.java
+END
+XMLName.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XMLName.java
+END
+QName.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/QName.java
+END
+XMLWithScope.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XMLWithScope.java
+END
+XMLCtor.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XMLCtor.java
+END
+LogicalEquality.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/LogicalEquality.java
+END
+XMLLibImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XMLLibImpl.java
+END
+XMLObjectImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XMLObjectImpl.java
+END
+NamespaceHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/NamespaceHelper.java
+END
+Namespace.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/Namespace.java
+END
+XMLList.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/1214/trunk/lib/rhino/src/mozilla/js/rhino/deprecatedsrc/org/mozilla/javascript/xml/impl/xmlbeans/XMLList.java
+END

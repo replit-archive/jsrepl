@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1439/trunk/test/com/google/javascript/rhino
+END
+NodeTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/1341/trunk/test/com/google/javascript/rhino/NodeTest.java
+END
+TokenStreamTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/TokenStreamTest.java
+END
+ParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/ParserTest.java
+END
+JSDocInfoTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/rhino/JSDocInfoTest.java
+END

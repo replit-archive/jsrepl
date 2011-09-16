@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1301/trunk/test/com/google/javascript/jscomp/jsonml
+END
+SecureCompilerTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/jsonml/SecureCompilerTest.java
+END
+JsonMLConversionTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1301/trunk/test/com/google/javascript/jscomp/jsonml/JsonMLConversionTest.java
+END
+JsonMLValidationTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/jsonml/JsonMLValidationTest.java
+END

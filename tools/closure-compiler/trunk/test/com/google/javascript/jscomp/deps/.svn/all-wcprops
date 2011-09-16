@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/deps
+END
+JsFunctionParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/deps/JsFunctionParserTest.java
+END
+JsFileLineParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/deps/JsFileLineParserTest.java
+END
+SortedDependenciesTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/deps/SortedDependenciesTest.java
+END
+DepsFileParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/deps/DepsFileParserTest.java
+END
+JsFileParserTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/1000/trunk/test/com/google/javascript/jscomp/deps/JsFileParserTest.java
+END

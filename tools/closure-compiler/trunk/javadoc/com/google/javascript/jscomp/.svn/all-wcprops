@@ -1,0 +1,635 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp
+END
+PrintStreamErrorManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/141/trunk/javadoc/com/google/javascript/jscomp/PrintStreamErrorManager.html
+END
+Result.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/200/trunk/javadoc/com/google/javascript/jscomp/Result.html
+END
+JsMessage.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/JsMessage.html
+END
+JsMessage.PlaceholderReference.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/JsMessage.PlaceholderReference.html
+END
+JSModuleGraph.ModuleDependenceException.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/JSModuleGraph.ModuleDependenceException.html
+END
+JsMessage.IdGenerator.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/JsMessage.IdGenerator.html
+END
+VariableMap.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/VariableMap.html
+END
+ShowByPathWarningsGuard.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/ShowByPathWarningsGuard.html
+END
+JSError.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/JSError.html
+END
+CodingConvention.SubclassType.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/123/trunk/javadoc/com/google/javascript/jscomp/CodingConvention.SubclassType.html
+END
+Instrumentation.Builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/Instrumentation.Builder.html
+END
+FunctionInformationMap.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/111/trunk/javadoc/com/google/javascript/jscomp/FunctionInformationMap.html
+END
+FunctionInformationMap.Entry.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/111/trunk/javadoc/com/google/javascript/jscomp/FunctionInformationMap.Entry.html
+END
+Compiler.CodeBuilder.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/Compiler.CodeBuilder.html
+END
+AbstractMessageFormatter.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/89/trunk/javadoc/com/google/javascript/jscomp/AbstractMessageFormatter.html
+END
+DiagnosticGroupWarningsGuard.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/DiagnosticGroupWarningsGuard.html
+END
+DefaultPassConfig.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/DefaultPassConfig.html
+END
+FunctionInfo.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/72/trunk/javadoc/com/google/javascript/jscomp/FunctionInfo.html
+END
+CodingConvention.DelegateRelationship.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/203/trunk/javadoc/com/google/javascript/jscomp/CodingConvention.DelegateRelationship.html
+END
+FindExportableNodes.GenerateNodeContext.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/72/trunk/javadoc/com/google/javascript/jscomp/FindExportableNodes.GenerateNodeContext.html
+END
+SourceExcerptProvider.ExcerptFormatter.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/SourceExcerptProvider.ExcerptFormatter.html
+END
+PeepholeSubstituteAlternateSyntax.html
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.html
+END
+StrictWarningsGuard.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/StrictWarningsGuard.html
+END
+CodingConvention.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/CodingConvention.html
+END
+JsMessage.Builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/JsMessage.Builder.html
+END
+AnonymousFunctionNamingPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/AnonymousFunctionNamingPolicy.html
+END
+NodeTraversal.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/159/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.html
+END
+Scope.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/Scope.html
+END
+Compiler.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/Compiler.html
+END
+WarningsGuard.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/WarningsGuard.html
+END
+PerformanceTracker.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/235/trunk/javadoc/com/google/javascript/jscomp/PerformanceTracker.html
+END
+FunctionInformationMap.Entry.Builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/FunctionInformationMap.Entry.Builder.html
+END
+FunctionInformationMap.Builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/FunctionInformationMap.Builder.html
+END
+TypeCheck.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/49/trunk/javadoc/com/google/javascript/jscomp/TypeCheck.html
+END
+JsMessage.Style.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/232/trunk/javadoc/com/google/javascript/jscomp/JsMessage.Style.html
+END
+package-frame.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/package-frame.html
+END
+NodeUtil.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/184/trunk/javadoc/com/google/javascript/jscomp/NodeUtil.html
+END
+Compiler.IntermediateState.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/Compiler.IntermediateState.html
+END
+ReplaceStrings.html
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/200/trunk/javadoc/com/google/javascript/jscomp/ReplaceStrings.html
+END
+PeepholeRemoveDeadCode.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/PeepholeRemoveDeadCode.html
+END
+NodeTraversal.AbstractPostOrderCallback.html
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/200/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.AbstractPostOrderCallback.html
+END
+CheckLevelLegacy.html
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CheckLevelLegacy.html
+END
+PassConfig.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/PassConfig.html
+END
+PassFactory.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/PassFactory.html
+END
+FindExportableNodes.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/133/trunk/javadoc/com/google/javascript/jscomp/FindExportableNodes.html
+END
+Scope.Var.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/Scope.Var.html
+END
+SourceFile.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/226/trunk/javadoc/com/google/javascript/jscomp/SourceFile.html
+END
+ComposeWarningsGuard.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/89/trunk/javadoc/com/google/javascript/jscomp/ComposeWarningsGuard.html
+END
+CompilerPass.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/CompilerPass.html
+END
+DiagnosticGroup.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/DiagnosticGroup.html
+END
+NodeTraversal.AbstractNodeTypePruningCallback.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.AbstractNodeTypePruningCallback.html
+END
+NodeTraversal.Callback.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/200/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.Callback.html
+END
+CompilationLevel.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/123/trunk/javadoc/com/google/javascript/jscomp/CompilationLevel.html
+END
+MessageFormatter.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/MessageFormatter.html
+END
+ObjectPropertyStringPreprocess.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/ObjectPropertyStringPreprocess.html
+END
+DefaultCodingConvention.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/DefaultCodingConvention.html
+END
+JsMessageExtractor.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/233/trunk/javadoc/com/google/javascript/jscomp/JsMessageExtractor.html
+END
+FunctionInformationMap.Module.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/111/trunk/javadoc/com/google/javascript/jscomp/FunctionInformationMap.Module.html
+END
+CommandLineRunner.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/194/trunk/javadoc/com/google/javascript/jscomp/CommandLineRunner.html
+END
+NodeTraversal.AbstractShallowCallback.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.AbstractShallowCallback.html
+END
+JSModule.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/232/trunk/javadoc/com/google/javascript/jscomp/JSModule.html
+END
+LoggerErrorManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/LoggerErrorManager.html
+END
+DiagnosticGroups.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/DiagnosticGroups.html
+END
+JsAst.html
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/72/trunk/javadoc/com/google/javascript/jscomp/JsAst.html
+END
+PropertyRenamingPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/PropertyRenamingPolicy.html
+END
+VariableRenamingPolicy.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/VariableRenamingPolicy.html
+END
+BasicErrorManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/65/trunk/javadoc/com/google/javascript/jscomp/BasicErrorManager.html
+END
+CompilerOptions.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.html
+END
+PeepholeFoldWithTypes.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/PeepholeFoldWithTypes.html
+END
+package-tree.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/package-tree.html
+END
+SimpleRegion.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/SimpleRegion.html
+END
+SourceMap.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/SourceMap.html
+END
+InstrumentationTemplate.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/72/trunk/javadoc/com/google/javascript/jscomp/InstrumentationTemplate.html
+END
+SourceExcerptProvider.SourceExcerpt.html
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/SourceExcerptProvider.SourceExcerpt.html
+END
+FunctionInformationMap.Module.Builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/FunctionInformationMap.Module.Builder.html
+END
+ErrorFormat.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/156/trunk/javadoc/com/google/javascript/jscomp/ErrorFormat.html
+END
+GoogleCodingConvention.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/GoogleCodingConvention.html
+END
+PeepholeFoldConstants.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/PeepholeFoldConstants.html
+END
+CodingConvention.ObjectLiteralCast.html
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CodingConvention.ObjectLiteralCast.html
+END
+CustomPassExecutionTime.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CustomPassExecutionTime.html
+END
+JSModuleGraph.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/171/trunk/javadoc/com/google/javascript/jscomp/JSModuleGraph.html
+END
+CssRenamingMap.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CssRenamingMap.html
+END
+LightweightMessageFormatter.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/LightweightMessageFormatter.html
+END
+SourceAst.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/SourceAst.html
+END
+DotFormatter.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/162/trunk/javadoc/com/google/javascript/jscomp/DotFormatter.html
+END
+CompilerOptions.TracerMode.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CompilerOptions.TracerMode.html
+END
+MessageBundle.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/223/trunk/javadoc/com/google/javascript/jscomp/MessageBundle.html
+END
+Region.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/200/trunk/javadoc/com/google/javascript/jscomp/Region.html
+END
+ErrorManager.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/133/trunk/javadoc/com/google/javascript/jscomp/ErrorManager.html
+END
+SourceFile.Generator.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/SourceFile.Generator.html
+END
+DiagnosticType.html
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/156/trunk/javadoc/com/google/javascript/jscomp/DiagnosticType.html
+END
+package-summary.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/package-summary.html
+END
+CompilerInput.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/165/trunk/javadoc/com/google/javascript/jscomp/CompilerInput.html
+END
+WarningLevel.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/WarningLevel.html
+END
+CodingConvention.AssertionFunctionSpec.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/203/trunk/javadoc/com/google/javascript/jscomp/CodingConvention.AssertionFunctionSpec.html
+END
+JSSourceFile.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/226/trunk/javadoc/com/google/javascript/jscomp/JSSourceFile.html
+END
+AbstractCompiler.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/148/trunk/javadoc/com/google/javascript/jscomp/AbstractCompiler.html
+END
+NodeTraversal.ScopedCallback.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.ScopedCallback.html
+END
+Instrumentation.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/111/trunk/javadoc/com/google/javascript/jscomp/Instrumentation.html
+END
+ClosureCodingConvention.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/262/trunk/javadoc/com/google/javascript/jscomp/ClosureCodingConvention.html
+END
+CheckLevel.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CheckLevel.html
+END
+ShowByPathWarningsGuard.ShowType.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/ShowByPathWarningsGuard.ShowType.html
+END
+CodingConvention.SubclassRelationship.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/CodingConvention.SubclassRelationship.html
+END
+SourceExcerptProvider.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/18/trunk/javadoc/com/google/javascript/jscomp/SourceExcerptProvider.html
+END
+NodeTraversal.AbstractShallowStatementCallback.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/5/trunk/javadoc/com/google/javascript/jscomp/NodeTraversal.AbstractShallowStatementCallback.html
+END
