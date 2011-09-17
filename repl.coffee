@@ -7,7 +7,7 @@
 # the other classes in the project.
 
 class JSREPL
-  constructor: ({@JSREPL_dir, @languages, ResultCallback, ErrorCallback, InputCallback, OutputCallback}) ->
+  constructor: ({@JSREPL_dir, @languages, ResultCallback, ErrorCallback, InputCallback, OutputCallback, LoadProgressCallback}) ->
     # The definition of the current language.
     @lang = null
     # The interpreter engine of the current language.
