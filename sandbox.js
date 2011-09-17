@@ -47,25 +47,60 @@ Sandboss = {
   },
   // Import an array of scripts.
   importScripts: function (scriptsArr) {
-    var that = this;
-    if (this.isFrame) {
-      // Loader always loads it self in the iframe.
-      self.JSREPLLoader.load(scriptsArr, {
-        js: true,
-        // This must be true, IE is chocking on evaling scripts.
-        debug:true,
-        success:function () {
-          // Instantiate the engine and bind all its methods
-          that.engine = new JSREPLEngine(that.input, that.out, that.result, that.err, self, that.ready);
-          that.bindAll(Sandboss.engine);
+    var reqs = [],
+        totalSize = 0,
+        totalUpdated = [],
+        totalLoaded = 0,
+        that = this,
+        XHR = XMLHttpRequest || ActiveXObject('Microsoft.XMLHTTP');
+        
+    var updateSize = function (req) {
+      if (totalUpdated.indexOf(req) === -1){
+        totalUpdated.push(req);
+        totalSize += parseInt(req.getResponseHeader('X-Raw-Length'), 10);
+      }
+    };
+    
+    var updateProgress = function (e) {
+      var loaded = e.loaded || e.position,
+          lastLoaded = e.target.lastLoaded || 0;
+          
+      totalLoaded = loaded - lastLoaded;
+      var percentageDone = (totalLoaded / totalSize) * 100;
+      if (totalUpdated.length === scriptsArr.length) {
+       that.progress(percentageDone); 
+      }
+    };
+    
+    var finished = scriptsArr.length;
+    var finish = function (e) {
+      var i;
+      if (finished === 0) {
+        for (i = 0; i < reqs.length; i++) {
+          (self.execScript || function(data) {
+          				self['eval'].call(self, data);
+          })(reqs[i].responseText);
         }
-      });
-    } else {
-      // Synchronusly load scripts
-      self.importScripts.apply(self, scriptsArr);
-      // Instantiate the engine and bind all its methods
-      this.engine = new JSREPLEngine(this.input, this.out, this.result, this.err, self, this.ready);
-      this.bindAll(Sandboss.engine);
+        that.engine = new self.JSREPLEngine(that.input, that.out, that.result, that.err, self, that.ready);
+        that.bindAll(Sandboss.engine);
+      }
+    };
+    for (var i = 0; i < scriptsArr.length; i++){
+      (function (i) {
+        reqs[i] = new XHR();
+        reqs[i].addEventListener('progress', updateProgress, false);
+        reqs[i].onprogress = updateProgress;
+        reqs[i].onreadystatechange = function () {
+          if (reqs[i].readyState === 2) {
+            updateSize(reqs[i]);
+          } else if (reqs[i].readyState === 4) {
+            finished--;
+            finish();
+          }
+        };
+        reqs[i].open('GET', scriptsArr[i], true);
+        reqs[i].send(null);
+      })(i);
     }
   },
   // Outbound output.
@@ -132,6 +167,13 @@ Sandboss = {
     var message = {
       type: 'indent',
       data: indent
+    };
+    this.post(message);
+  },
+  progress: function (data) {
+    var message = {
+      type: 'progress',
+      data: data
     };
     this.post(message);
   },

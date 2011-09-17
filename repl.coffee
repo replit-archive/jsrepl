@@ -5,6 +5,7 @@
 
 # The main REPL class. Controls the UI and acts as a parent namespace for all
 # the other classes in the project.
+
 class JSREPL
   constructor: ({@JSREPL_dir, @languages, ResultCallback, ErrorCallback, InputCallback, OutputCallback}) ->
     # The definition of the current language.
@@ -30,6 +31,7 @@ class JSREPL
               data: data
         'err': ErrorCallback
         'result': ResultCallback
+        'progress': LoadProgressCallback
 
   # Loads the specified language engine with its examples and calls the callback
   # once all loading is done.
