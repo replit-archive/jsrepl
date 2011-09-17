@@ -11,25 +11,34 @@ class self.JSREPLEngine
           listStr = '...' + listStr if len > 0
           result_env += "\n#{listName}: " + listStr
         result_fn result_env
-        
+
     @result_handler = @result_fn_factory result
     @interpreter = new @sandbox.Emoticon.Interpreter {
       source: []
       input: @input
       print: @output
       result: @result_handler
-    } 
+    }
     ready()
-  
+
   Eval: (command) ->
     try
+      if command.match /^RESET\b/
+        @interpreter = new @sandbox.Emoticon.Interpreter {
+          source: []
+          input: @input
+          print: @output
+          result: @result_handler
+        }
+        command = command.replace /^RESET/, ''
       code = new @sandbox.Emoticon.Parser command
       @interpreter.lists.Z = @interpreter.lists.Z.concat code
       @interpreter.run()
     catch e
       @error e
-  
+
   EvalSync: (command) ->
+    #TODO(amasad): Sync with @Eval().
     code = new @sandbox.Emoticon.Parser command
     @interpreter.lists.Z = @interpreter.lists.Z.concat code
     ret = null
@@ -38,8 +47,8 @@ class self.JSREPLEngine
     @interpreter.run()
     @interpreter.result = @result_handler
     return ret
-      
-      
+
+
   GetNextLineIndent: (command) ->
     countParens = (str) =>
       tokens = new @sandbox.Emoticon.Parser str
@@ -63,7 +72,6 @@ class self.JSREPLEngine
         return parens_in_last_line
       else
         return 0
-          
-        
-         
-    
+
+
+
