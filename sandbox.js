@@ -64,8 +64,9 @@ Sandboss = {
     var updateProgress = function (e) {
       var loaded = e.loaded || e.position,
           lastLoaded = e.target.lastLoaded || 0;
-          
-      totalLoaded = loaded - lastLoaded;
+      
+      e.target.lastLoaded = loaded;
+      totalLoaded += loaded - lastLoaded;
       var percentageDone = (totalLoaded / totalSize) * 100;
       if (totalUpdated.length === scriptsArr.length) {
        that.progress(percentageDone); 
