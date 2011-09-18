@@ -89,7 +89,9 @@ Sandboss = {
     for (var i = 0; i < scriptsArr.length; i++){
       (function (i) {
         reqs[i] = new XHR();
-        reqs[i].addEventListener('progress', updateProgress, false);
+        if (reqs[i].addEventListener) {
+          reqs[i].addEventListener('progress', updateProgress, false);
+        }
         reqs[i].onprogress = updateProgress;
         reqs[i].onreadystatechange = function () {
           if (reqs[i].readyState === 2) {
