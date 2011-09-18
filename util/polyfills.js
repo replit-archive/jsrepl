@@ -13,10 +13,20 @@ if (!Object.keys) {
   };
 }
 
+if (!Object.getOwnPropertyNames) {
+  Object.getOwnPropertyNames = Object.keys;
+}
+
 if (!Object.create) {
   Object.create = function(o) {
     function F() {}
     F.prototype = o;
     return new F();
+  };
+}
+
+if (!Array.isArray) {
+  Array.isArray = function(a) {
+    return {}.toString.call(a) == '[object Array]';
   };
 }

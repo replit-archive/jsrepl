@@ -265,11 +265,7 @@ function isRegExp(re) {
 }
 
 function isDate(d) {
-  if (d instanceof Date) return true;
-  if (typeof d !== 'object') return false;
-  var properties = Date.prototype && Object.getOwnPropertyNames(Date.prototype);
-  var proto = d.__proto__ && Object.getOwnPropertyNames(d.__proto__);
-  return JSON.stringify(proto) === JSON.stringify(properties);
+  return d instanceof Date;
 }
 
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',

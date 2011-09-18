@@ -19,7 +19,7 @@ class JSREPL
     # Create initial worker.
     baseScripts = ['sandbox.js']
     if not window.__BAKED_JSREPL_BUILD__
-      baseScripts.concat ['util/polyfills.js', 'util/mtwister.js']
+      baseScripts = baseScripts.concat ['util/polyfills.js', 'util/mtwister.js']
     @worker = Sandboss.create
       baseScripts: baseScripts
       incoming:
