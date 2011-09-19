@@ -132,7 +132,7 @@ Sandboss = {
   err: function (e) {
     var message = {
       type: 'err',
-      data: e
+      data: e.toString()
     };
     this.flush();
     this.post(message);
