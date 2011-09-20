@@ -30,3 +30,42 @@ if (!Array.isArray) {
     return {}.toString.call(a) == '[object Array]';
   };
 }
+
+if (!Function.prototype.bind) {  
+  
+  Function.prototype.bind = function (oThis) {  
+  
+    if (typeof this !== "function") // closest thing possible to the ECMAScript 5 internal IsCallable function  
+      throw new TypeError("Function.prototype.bind - what is trying to be fBound is not callable");  
+  
+    var aArgs = Array.prototype.slice.call(arguments, 1),   
+        fToBind = this,   
+        fNOP = function () {},  
+        fBound = function () {  
+          // Fix for safari not allowing instanceof to be called on an undefined prototype;
+          try {
+            return fToBind.apply(this instanceof fNOP ? this : oThis || window, aArgs.concat(Array.prototype.slice.call(arguments))); 
+          } catch (e) {
+            return fToBind.apply(oThis || window, aArgs.concat(Array.prototype.slice.call(arguments))); 
+          }
+        };  
+  
+    fNOP.prototype = this.prototype;  
+    fBound.prototype = new fNOP();  
+  
+    return fBound;  
+  
+  };  
+  
+}
+if (!Object.freeze) {
+  Object.freeze = function( obj ) {
+    return obj.___frozen___ = true;
+  };
+}
+
+if (!Object.isFrozen) {
+  Object.isFrozen = function ( obj ) {
+    return Boolean(obj.___frozen___);
+  }
+}
