@@ -27,12 +27,12 @@
     ['[', ']']
   ]
   scripts: [
-    'extern/javathcript/source/Base.js'
-    'extern/javathcript/source/BPWJs.js'
-    'extern/javathcript/source/JavathcriptTokenizer.js'
-    'extern/javathcript/source/JavathcriptParser.js'
-    'extern/javathcript/source/Environment.js'
-    'extern/javathcript/source/Javathcript.js'
+    'extern/Javathcript/source/Base.js'
+    'extern/Javathcript/source/BPWJs.js'
+    'extern/Javathcript/source/JavathcriptTokenizer.js'
+    'extern/Javathcript/source/JavathcriptParser.js'
+    'extern/Javathcript/source/Environment.js'
+    'extern/Javathcript/source/Javathcript.js'
   ]
   includes: []
   engine: 'langs/lisp/jsrepl_lisp.coffee'
