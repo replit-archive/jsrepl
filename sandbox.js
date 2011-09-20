@@ -75,15 +75,21 @@ Sandboss = {
     
     var finished = scriptsArr.length;
     var finish = function (e) {
-      var i;
+      var i, interval = 0;
       if (finished === 0) {
         for (i = 0; i < reqs.length; i++) {
-          (self.execScript || function(data) {
-          				self['eval'].call(self, data);
-          })(reqs[i].responseText);
+          (function (i) {
+            setTimeout(function () {
+              (self.execScript || function(data) {
+              				self['eval'].call(self, data);
+              })(reqs[i].responseText);
+            }, (interval += 200))
+          })(i);
         }
-        that.engine = new self.JSREPLEngine(that.input, that.out, that.result, that.err, self, that.ready);
-        that.bindAll(Sandboss.engine);
+        setTimeout(function () {
+          that.engine = new self.JSREPLEngine(that.input, that.out, that.result, that.err, self, that.ready);
+          that.bindAll(Sandboss.engine);
+        },(interval += 5000));
       }
     };
     for (var i = 0; i < scriptsArr.length; i++){

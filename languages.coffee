@@ -287,7 +287,7 @@
   ]
   includes: []
   engine: 'langs/traceur/jsrepl_traceur.coffee'
-  worker_friendly: true
+  worker_friendly: false
   minifier: 'uglify'
 
 @JSREPL::Languages::Emoticon =
@@ -361,7 +361,11 @@
     {
       opera: 'extern/python/unclosured/python.js'
       chrome: 'extern/python/closured/python.js'
+      ios: 'extern/python/unclosured/pys1.js'
       default: 'extern/python/reloop-closured/python.js'
+    }
+    {
+      ios: 'extern/python/unclosured/pys2.js'
     }
   ]
   includes: [
@@ -385,6 +389,7 @@
     {
       firefox_3: 'extern/ruby/dist/ruby.opt.js'
       opera: 'extern/ruby/dist/ruby.opt.js'
+      ios: 'extern/ruby/dist/ruby.opt.js'
       default: 'extern/ruby/dist/ruby.closure.js'
     }
   ]
