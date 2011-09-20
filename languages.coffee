@@ -288,7 +288,7 @@
   includes: []
   engine: 'langs/traceur/jsrepl_traceur.coffee'
   worker_friendly: true
-  minifier: 'uglify'
+  minifier: 'closure_es5'
 
 @JSREPL::Languages::Emoticon =
   name: 'Emoticon'

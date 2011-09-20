@@ -20,6 +20,7 @@ MINIFIERS =
   yui: "java -jar #{YUI_COMPRESSOR_PATH} --type js "
   uglify: 'uglifyjs -nc --unsafe '
   closure: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --compilation_level SIMPLE_OPTIMIZATIONS --js "
+  closure_es5: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --language_in=ECMASCRIPT5 --compilation_level SIMPLE_OPTIMIZATIONS --js "
   closure_advanced: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --compilation_level ADVANCED_OPTIMIZATIONS --js "
 DEFAULT_MINIFIER = MINIFIERS.closure
 
