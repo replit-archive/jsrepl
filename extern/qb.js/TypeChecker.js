@@ -586,6 +586,7 @@
 
       if (!type) {
         type = this.getTypeFromVariableName(dim.name);
+        dim.typeName = type.name;
       }
 
       for (var i = 0; i < dim.ranges.length; i++) {
