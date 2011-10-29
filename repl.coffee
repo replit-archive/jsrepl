@@ -77,7 +77,14 @@ class JSREPL
     @worker.post
       type: 'engine.Eval'
       data: command
-
+      
+  # Evaluates a command in the current engine and return a raw result.
+  #   @arg command: A string containing the code to execute.
+  RawEval: (command) ->
+    @worker.post
+      type: 'engine.RawEval'
+      data: command
+  
 # Basic user agent detection.
 UA_REGEXS =
   firefox_3: /firefox\/3/i

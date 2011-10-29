@@ -20,8 +20,12 @@ class self.JSREPLEngine
     catch e
       @error e
 
-  EvalSync: (command) ->
-    return @sandbox.__eval command
+  RawEval: (command) ->
+    try
+      result = @sandbox.__eval command
+      @result result
+    catch e
+      @error e
 
   GetNextLineIndent: (command) ->
     try
