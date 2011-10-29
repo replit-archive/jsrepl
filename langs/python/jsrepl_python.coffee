@@ -25,12 +25,9 @@ class self.JSREPLEngine
     catch e
       @error 'Internal error: ' + e
 
-  EvalSync: (command) ->
-    @error_buffer = []
-    result = @Python.eval encodeUtf8 command
-    if result == undefined
-      throw @error_buffer.join('') or 'Unknown error.'
-    return result
+  # TODO(amasad): Try to capture return type?
+  RawEval: (command) ->
+    @Eval command
 
   GetNextLineIndent: (command) ->
     lines = command.split '\n'
