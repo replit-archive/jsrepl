@@ -1,4 +1,5 @@
-@JSREPL::Languages::QBasic =
+@JSREPL::Languages::qbasic =
+  system_name: 'qbasic'
   name: 'Quick Basic'
   extension: 'bas'
   matchings: []
@@ -19,7 +20,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Lisp =
+@JSREPL::Languages::lisp =
+  system_name: 'lisp'
   name: 'Lisp'
   extension: 'lisp'
   matchings: [
@@ -39,7 +41,8 @@
   worker_friendly: false
   minifier: 'closure'
 
-@JSREPL::Languages::Scheme =
+@JSREPL::Languages::scheme =
+  system_name: 'scheme'
   name: 'Scheme'
   extension: 'scm'
   matchings: [
@@ -78,7 +81,8 @@
   worker_friendly: true
   minifier: 'yui'
 
-@JSREPL::Languages::JavaScript =
+@JSREPL::Languages::javascript =
+  system_name: 'javascript'
   name: 'JavaScript'
   extension: 'js'
   matchings: [
@@ -94,7 +98,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::CoffeeScript =
+@JSREPL::Languages::coffeescript =
+  system_name: 'coffeescript'
   name: 'CoffeeScript'
   extension: 'coffee'
   matchings: [
@@ -111,7 +116,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Brainfuck =
+@JSREPL::Languages::brainfuck =
+  system_name: 'brainfuck'
   name: 'Brainfuck'
   extension: 'bf'
   matchings: [
@@ -125,7 +131,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Unlambda =
+@JSREPL::Languages::unlambda =
+  system_name: 'unlambda'
   name: 'Unlambda'
   extension: 'unl'
   matchings: []
@@ -137,7 +144,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::LOLCODE =
+@JSREPL::Languages::lolcode =
+  system_name: 'lolcode'
   name: 'LOLCODE'
   extension: 'lol'
   matchings: []
@@ -153,7 +161,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Kaffeine =
+@JSREPL::Languages::kaffeine =
+  system_name: 'kaffeine'
   name: 'Kaffeine'
   extension: 'k'
   matchings: [
@@ -170,7 +179,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Move =
+@JSREPL::Languages::move =
+  system_name: 'move'
   name: 'Move'
   extension: 'mv'
   matchings: [
@@ -187,7 +197,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Traceur =
+@JSREPL::Languages::traceur =
+  system_name: 'traceur'
   name: 'Traceur'
   extension: 'js'
   matchings: [
@@ -290,7 +301,8 @@
   worker_friendly: true
   minifier: 'closure_es5'
 
-@JSREPL::Languages::Emoticon =
+@JSREPL::Languages::emoticon =
+  system_name: 'emoticon'
   name: 'Emoticon'
   extension: 'emo'
   matchings: [
@@ -304,7 +316,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Bloop =
+@JSREPL::Languages::bloop =
+  system_name: 'bloop'
   name: 'Bloop/Floop'
   extensions: 'bloop'
   matchings: []
@@ -316,7 +329,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Forth =
+@JSREPL::Languages::forth =
+  system_name: 'forth'
   name: 'Forth'
   extensions: '4th'
   matchings: [
@@ -331,7 +345,8 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::Lua =
+@JSREPL::Languages::lua =
+  system_name: 'lua'
   name: 'Lua'
   extension: 'lua'
   matchings: [
@@ -348,7 +363,8 @@
   worker_friendly: false
   minifier: 'none'
 
-@JSREPL::Languages::Python =
+@JSREPL::Languages::python =
+  system_name: 'python'
   name: 'Python'
   extension: 'py'
   matchings: [
@@ -373,7 +389,8 @@
   worker_friendly: false
   minifier: 'none'
 
-@JSREPL::Languages::Ruby =
+@JSREPL::Languages::ruby =
+  system_name: 'ruby'
   name: 'Ruby'
   extension: 'rb'
   matchings: [
@@ -395,7 +412,8 @@
   worker_friendly: false
   minifier: 'none'
 
-@JSREPL::Languages::Smalltalk =
+@JSREPL::Languages::smalltalk =
+  system_name: 'smalltalk'
   name: 'Smalltalk'
   extensions: 'st'
   matchings: [
