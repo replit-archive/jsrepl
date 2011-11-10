@@ -38,8 +38,10 @@ class JSREPL
   #   @arg lang_name: The name of the language to load, a member of
   #     JSREPL::Languages as defined in languages.coffee.
   #   @arg callback: The function to call after loading finishes.
+  #   @arg worker_friendly: Whether we should load the language in a worker.
   # TODO(amasad): Consider error handling when loading scripts.
-  LoadLanguage: (lang_name, callback) ->
+  LoadLanguage: (lang_name, callback, worker_friendly) ->
+    @current_lang_name = lang_name
     # Clean up previous engine.
     @engine = null
     # Switch the language.
@@ -56,7 +58,8 @@ class JSREPL
         script[UA] || script['default']
       else
         script
-    @worker.load lang_scripts.concat([@lang.engine]), @lang.worker_friendly
+    worker_friendly ?= @lang.worker_friendly
+    @worker.load lang_scripts.concat([@lang.engine]), worker_friendly
 
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise
@@ -85,6 +88,12 @@ class JSREPL
       type: 'engine.RawEval'
       data: command
   
+  GetLangConfig: (lang_name) ->
+    if lang_name?
+      return JSREPL::Languages::[lang_name]
+    else
+      return JSREPL::Languages::[@current_lang_name] or null
+      
 # Basic user agent detection.
 UA_REGEXS =
   firefox_3: /firefox\/3/i
