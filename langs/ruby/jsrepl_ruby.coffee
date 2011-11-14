@@ -21,19 +21,8 @@ class self.JSREPLEngine
         @error @error_buffer.join ''
       else
         @error 'Unknown error.'
-
-  EvalSync: (command) ->
-    @error_buffer = []
-    try
-      result = @Ruby.eval command
-      return @Ruby.stringify result
-    catch e
-      if typeof e isnt 'number'
-        throw 'Internal error. Restart may be required.'
-      else if @error_buffer.length
-        throw @error_buffer.join ''
-      else
-        throw 'Unknown error'
+  
+  RawEval: (command) -> @Eval(command)
 
   GetNextLineIndent: (command) ->
     # A very primitive depth balance estimator.
