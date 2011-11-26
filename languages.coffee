@@ -50,8 +50,9 @@
     ['[', ']']
   ]
   scripts: [
-    'extern/biwascheme/src/prototype-stripped.js'
-    'extern/biwascheme/src/version.js.in'
+    'extern/biwascheme/src/deps/underscore.js'
+    'extern/biwascheme/src/deps/underscore.string.js'
+    'extern/biwascheme/src/system/class.js'
     'extern/biwascheme/src/stackbase.js'
     'extern/biwascheme/src/system/set.js'
     'extern/biwascheme/src/system/write.js'
@@ -62,6 +63,7 @@
     'extern/biwascheme/src/system/number.js'
     'extern/biwascheme/src/system/port.js'
     'extern/biwascheme/src/system/record.js'
+    'extern/biwascheme/src/system/enumeration.js'
     'extern/biwascheme/src/system/hashtable.js'
     'extern/biwascheme/src/system/syntax.js'
     'extern/biwascheme/src/system/types.js'
