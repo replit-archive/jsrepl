@@ -74,7 +74,7 @@
     'extern/biwascheme/src/system/interpreter.js'
     'extern/biwascheme/src/library/infra.js'
     'extern/biwascheme/src/library/r6rs_lib.js'
-    'extern/biwascheme/src/library/webscheme_lib.js'
+    'extern/biwascheme/src/library/js_interface.js'
     'extern/biwascheme/src/library/extra_lib.js'
     'extern/biwascheme/src/library/srfi.js'
   ]
