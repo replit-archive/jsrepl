@@ -93,7 +93,7 @@
     ['{', '}']
   ]
   scripts: [
-    'util/inspect.js'
+    'util/console.js'
   ]
   includes: []
   engine: 'langs/javascript/jsrepl_js.coffee'
@@ -111,7 +111,7 @@
   ]
   scripts: [
     'extern/coffee-script/coffee-script.js'
-    'util/inspect.js'
+    'util/console.js'
   ]
   includes: []
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
@@ -174,7 +174,7 @@
   ]
   scripts: [
     'extern/kaffeine/kaffeine-browser.js'
-    'util/inspect.js'
+    'util/console.js'
   ]
   includes: []
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
@@ -192,7 +192,7 @@
   ]
   scripts: [
     'extern/move/move.js'
-    'util/inspect.js'
+    'util/console.js'
   ]
   includes: []
   engine: 'langs/move/jsrepl_move.coffee'
@@ -209,7 +209,7 @@
     ['{', '}']
   ]
   scripts: [
-    'util/inspect.js'
+    'util/console.js'
     'extern/traceur/traceur.js'
     'extern/traceur/util/ObjectMap.js'
     'extern/traceur/util/SourceRange.js'
@@ -436,4 +436,21 @@
   includes: []
   engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
   worker_friendly: true
+  minifier: 'closure'
+
+@JSREPL::Languages::roy =
+  system_name: 'roy'
+  name: 'Roy'
+  extension: 'roy'
+  matchings: [
+    ['(', ')']
+    ['[', ']']
+  ]
+  scripts: [
+    'extern/roy/bundled-roy.js'
+    'util/console.js'
+  ]
+  includes: []
+  engine: 'langs/roy/jsrepl_roy.coffee'
+  worker_firnedly: true
   minifier: 'closure'
