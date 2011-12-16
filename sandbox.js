@@ -1,6 +1,22 @@
 if (typeof window === "undefined") {
   // Some scripts assume there is a window, don't let them down.
   window = self;
+  (function () {
+    if (!self.openDatabaseSync) return;
+    self.DB = self.openDatabaseSync('replit_input', '1.0', 'Emscripted input', 1024);
+    self.prompt = function () {
+      self.Sandboss.dbInput();
+      var t = null;
+      self.DB.transaction(function (tx) {t=tx});
+      var i, j, res;
+      while (!(res = t.executeSql('SELECT * FROM input').rows).length) {
+        for (i = 0; i < 100000000; i++) {
+        }
+      }
+      t.executeSql('DELETE FROM input');
+      return res.item(0).text;
+    };
+  })();
 } else {
   // We are in an iframe, self is just the window.
   self = window;
@@ -178,6 +194,13 @@ Sandboss = {
       type: 'progress',
       data: data
     };
+    this.post(message);
+  },
+  dbInput: function () {
+    var message = {
+      type: 'db_input'
+    };
+    this.flush();
     this.post(message);
   },
   // Bind all methods to its owner object.

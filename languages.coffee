@@ -364,6 +364,7 @@
   engine: 'langs/lua/jsrepl_lua.coffee'
   worker_friendly: false
   minifier: 'none'
+  emscripted: true
 
 @JSREPL::Languages::python =
   system_name: 'python'
@@ -390,7 +391,8 @@
   engine: 'langs/python/jsrepl_python.coffee'
   worker_friendly: false
   minifier: 'none'
-
+  emscripted: true
+  
 @JSREPL::Languages::ruby =
   system_name: 'ruby'
   name: 'Ruby'
@@ -413,6 +415,7 @@
   engine: 'langs/ruby/jsrepl_ruby.coffee'
   worker_friendly: false
   minifier: 'none'
+  emscripted: true
 
 @JSREPL::Languages::smalltalk =
   system_name: 'smalltalk'

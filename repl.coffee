@@ -8,6 +8,14 @@
 
 class JSREPL
   constructor: ({@JSREPL_dir, @languages, ResultCallback, ErrorCallback, InputCallback, OutputCallback, LoadProgressCallback}) ->
+    if window.openDatabase?
+      db = openDatabase 'replit_input', '1.0', 'Emscripted input', 1024
+      db.transaction (tx) ->
+        tx.executeSql 'DROP TABLE IF EXISTS input'
+        tx.executeSql 'CREATE TABLE input (text)'
+      for name, lang of JSREPL::Languages::
+        lang.worker_friendly = true if lang.emscripted
+    
     # The definition of the current language.
     @lang = null
     # The interpreter engine of the current language.
@@ -32,6 +40,10 @@ class JSREPL
         'err': ErrorCallback
         'result': ResultCallback
         'progress': LoadProgressCallback
+        'db_input': ->
+          InputCallback (data) =>
+            db.transaction (tx) ->
+              tx.executeSql "INSERT INTO input (text) VALUES ('#{data}')", []
 
   # Loads the specified language engine with its examples and calls the callback
   # once all loading is done.
