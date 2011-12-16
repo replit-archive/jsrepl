@@ -445,6 +445,7 @@
   matchings: [
     ['(', ')']
     ['[', ']']
+    ['{', '}']
   ]
   scripts: [
     'extern/roy/bundled-roy.js'
