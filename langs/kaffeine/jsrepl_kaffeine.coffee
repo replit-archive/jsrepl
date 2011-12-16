@@ -2,7 +2,7 @@ class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     # Cache sandboxed objects and functions used by the engine in case sandbox
     # bindings hide them.
-    @inspect = @sandbox._inspect
+    @inspect = @sandbox.console.inspect
     @functionClass = @sandbox.Function
     @sandbox.__eval = @sandbox.eval
 
@@ -10,11 +10,6 @@ class self.JSREPLEngine
     @tokenizer = @sandbox.require 'kaffeine/token'
     Kaffeine = @sandbox.require 'kaffeine'
     @kaffeine = new Kaffeine
-
-    # Define custom I/O handlers.
-    @sandbox.console.log = (obj) => output obj + '\n'
-    @sandbox.console.dir = (obj) => output @inspect(obj) + '\n'
-    @sandbox.console.read = input
 
     ready()
 

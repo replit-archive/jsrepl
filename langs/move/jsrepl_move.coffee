@@ -2,7 +2,7 @@ class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     # Cache sandboxed objects and functions used by the engine in case sandbox
     # bindings hide them.
-    @inspect = @sandbox._inspect
+    @inspect = @sandbox.console.inspect
     @functionClass = @sandbox.Function
     @sandbox.__eval = @sandbox.eval
     @compile = @sandbox.move.compile

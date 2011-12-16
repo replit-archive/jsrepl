@@ -25,10 +25,8 @@
 */
 
 (function(){
-
 // The maximum length of a line in the stylized output.
 var MAX_COLUMNS = 80;
-
 /**
  * Echos the value of a value. Tries to print the value out in the best way
  * possible given the different types.
@@ -40,7 +38,7 @@ var MAX_COLUMNS = 80;
  * @param {Boolean} colors Flag to turn on ANSI escape codes to color the
  *    output. Default is false (no coloring).
  */
-_inspect = function(obj, showHidden, depth, colors) {
+var inspect = function(obj, showHidden, depth, colors) {
   var seen = [];
 
   var stylize = function(str, styleType) {
@@ -279,5 +277,62 @@ function timestamp() {
               pad(d.getSeconds())].join(':');
   return [d.getDate(), months[d.getMonth()], time].join(' ');
 }
+
+
+var formatRegExp = /%[sdj%]/g;
+var format = function(f) {
+  if (typeof f !== 'string') {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j': return JSON.stringify(args[i++]);
+      case '%%': return '%';
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (x === null || typeof x !== 'object') {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+var times = {};
+self.console = {
+  log: function () {
+    Sandboss.out(format.apply(this, arguments) + '\n');
+  },
+  dir: function (obj) {
+    Sandboss.out(inspect(obj) + '\n');
+  },
+  time: function (label) {
+    times[label] = Date.now();
+  },
+  timeEnd: function (label) {
+    var duration = Date.now() - times[label];
+    self.console.log('%s: %dms', label, duration);
+  },
+  read: function (cb) {
+    cb = cb || function () {};
+    Sandboss.input(cb);
+  },
+  inspect: inspect
+};
 
 })();

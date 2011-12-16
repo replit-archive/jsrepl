@@ -7,14 +7,9 @@ class self.JSREPLEngine
   constructor: (input, output, @result, @error, @sandbox, ready) ->
     # Cache sandboxed objects and functions used by the engine in case sandbox
     # bindings hide them.
-    @inspect = @sandbox._inspect
+    @inspect = @sandbox.console.inspect
     @CoffeeScript = @sandbox.CoffeeScript
     @sandbox.__eval = @sandbox.eval
-
-    # Define custom I/O handlers.
-    @sandbox.console.log = (obj) => output obj + '\n'
-    @sandbox.console.dir = (obj) => output @inspect(obj) + '\n'
-    @sandbox.console.read = input
 
     ready()
 
@@ -25,10 +20,14 @@ class self.JSREPLEngine
       @result if result == undefined then '' else @inspect result
     catch e
       @error e
-
-  EvalSync: (command) ->
-    compiled = @CoffeeScript.compile command, globals: on, bare: on
-    return @sandbox.__eval compiled, globals: on, bare: on
+  
+  RawEval: (command) ->
+    try
+      compiled = @CoffeeScript.compile command, globals: on, bare: on
+      result = @sandbox.__eval compiled, globals: on, bare: on
+      @result if result == undefined then '' else @inspect result
+    catch e
+      @error e
 
   GetNextLineIndent: (command) ->
     last_line = command.split('\n')[-1..][0]
