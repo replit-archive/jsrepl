@@ -136,6 +136,7 @@ Sandboss = {
   },
 
   flush: function () {
+    if (!this.output_buffer.length) return;
     var message = {
       type: 'out',
       data: this.output_buffer.join('')
