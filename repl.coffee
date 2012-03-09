@@ -156,7 +156,7 @@ UA = do ->
       return ua
 
 class JSREPL
-  constructor: ({ result, error, input, output, progress }) ->
+  constructor: ({ result, error, input, output, progress, @timeout }) ->
     if window.openDatabase?
       db = openDatabase 'replit_input', '1.0', 'Emscripted input', 1024
       db.transaction (tx) ->
@@ -207,7 +207,7 @@ class JSREPL
       i = @inputFns.indexOf fn
       @inputFns.splice(i, 1) if i > -1
     else
-      @worker.on type, fn
+      @worker.off type, fn
   
   # Loads the specified language.
   #   @arg lang_name: The name of the language to load, a member of
@@ -251,6 +251,14 @@ class JSREPL
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.
   eval: (command) =>
+    if not @worker.workerIsIframe and @timeout? and @timeout.time and @timeout.callback
+      cb = =>
+        a = @timeout.callback()
+        if not a
+          t = setTimeout cb, @timeout.time
+      t = setTimeout cb, @timeout.time
+      @worker.once 'result', -> clearTimeout t
+      @worker.once 'error', -> clearTimeout t
     @worker.post
       type: 'engine.Eval'
       data: command
