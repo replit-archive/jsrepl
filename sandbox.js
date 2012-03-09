@@ -138,7 +138,7 @@ Sandboss = {
   flush: function () {
     if (!this.output_buffer.length) return;
     var message = {
-      type: 'out',
+      type: 'output',
       data: this.output_buffer.join('')
     };
     this.post(message);
@@ -148,7 +148,7 @@ Sandboss = {
   // Outbound errors.
   err: function (e) {
     var message = {
-      type: 'err',
+      type: 'error',
       data: e.toString()
     };
     this.flush();
