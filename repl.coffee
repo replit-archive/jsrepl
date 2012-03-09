@@ -253,6 +253,7 @@ class JSREPL
   eval: (command) =>
     if not @worker.workerIsIframe and @timeout? and @timeout.time and @timeout.callback
       cb = =>
+        @worker.fire 'timeout'
         a = @timeout.callback()
         if not a
           t = setTimeout cb, @timeout.time
