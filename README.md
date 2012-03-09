@@ -39,24 +39,25 @@ A sandboxed polyglot browser REPL.
 ## Getting Started  
   
 Include the built jsrepl script with the id "jsrepl-script".  
-```html  
-<script src="jsrepl.js" id="jsrepl-script"></script>  
+
+```html
+  <script src="jsrepl.js" id="jsrepl-script"></script>  
 ```  
   
 ###Instantiating JSREPL  
   
 ```javascript  
-var jsrepl = new JSREPL({  
-  input: inputCallback,  
-  output: outputCallback,  
-  result: resultCallback,  
-  error: errorCallback,  
-  progress: progressCallback,  
-  timeout: {  
-    time: 30000,  
-    callback: timeoutCallback  
-  }  
-});  
+  var jsrepl = new JSREPL({  
+    input: inputCallback,  
+    output: outputCallback,  
+    result: resultCallback,  
+    error: errorCallback,  
+    progress: progressCallback,  
+    timeout: {  
+      time: 30000,  
+      callback: timeoutCallback  
+    }  
+  });  
 ```  
   
 * `inputCallback`: A callback function that is called when the language interpreter    
@@ -89,9 +90,9 @@ Loads a language interpreter. Takes three arguments:
   
 Example:  
 ```javascript  
-jsrepl.loadLanguage('python', function () {  
-  alert('Python loaded');  
-});  
+  jsrepl.loadLanguage('python', function () {  
+    alert('Python loaded');  
+  });  
 ```  
   
 ###JSRPEL::eval  
@@ -101,7 +102,7 @@ Evaluates a program in the current loaded language interpreter. Takes one argume
   
 Example:  
 ```javascript  
-jsrepl.eval('1+1');  
+  jsrepl.eval('1+1');  
 ```  
   
 ###JSREPL::getLangConfig  
