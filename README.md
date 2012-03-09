@@ -46,7 +46,7 @@ Include the built jsrepl script with the id "jsrepl-script".
   
 ###Instantiating JSREPL  
   
-```javascript  
+```javascript
   var jsrepl = new JSREPL({  
     input: inputCallback,  
     output: outputCallback,  
@@ -89,7 +89,7 @@ Loads a language interpreter. Takes three arguments:
   Worker (true) or loading in an iframe (false).  
   
 Example:  
-```javascript  
+```javascript
   jsrepl.loadLanguage('python', function () {  
     alert('Python loaded');  
   });  
@@ -101,7 +101,7 @@ Evaluates a program in the current loaded language interpreter. Takes one argume
   * __string__ *command*: The program string to evaluate.  
   
 Example:  
-```javascript  
+```javascript
   jsrepl.eval('1+1');  
 ```  
   
@@ -175,7 +175,7 @@ Arguments:
 ###timeout  
 Fired when a program times out.    
   
-###License  
+##License  
   
 jsREPL is available under the MIT license. Language interpreters and the   
 modifications done to them by jsREPL developers have their own licenses, found  
