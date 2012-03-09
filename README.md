@@ -21,12 +21,10 @@ A client-side REPL engine for languages implemented or compiled to JavaScript.
 * Classic
   * Quick Basic
   * Forth
-  * Smalltalk (GUI-less/Incomplete)
 
 * Serious
   * Scheme
   * Lua
-  * Lisp (to be replaced)
   * Python
   * Ruby (beta)
 
