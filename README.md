@@ -88,22 +88,24 @@ Loads a language interpreter. Takes three arguments:
   interpreters into Web Workers, this argument would force either loading in a   
   Worker (true) or loading in an iframe (false).  
   
-Example:  
+Example:
+
 ```javascript
   jsrepl.loadLanguage('python', function () {  
     alert('Python loaded');  
-  });  
-```  
+  });
+```
   
 ###JSRPEL::eval  
 Evaluates a program in the current loaded language interpreter. Takes one argument:  
   
   * __string__ *command*: The program string to evaluate.  
   
-Example:  
+Example:
+
 ```javascript
   jsrepl.eval('1+1');  
-```  
+```
   
 ###JSREPL::getLangConfig  
 Gets a specific or the current loaded language config. Takes one argument:  
