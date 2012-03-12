@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link type="text/css" rel="stylesheet" href="test/lib/mocha.css" />
+      <script src="extern/coffee-script/coffee-script.js"></script>
+      <script src="test/lib/mocha.js"></script>
+      <script src="test/lib/expect.js"></script>
+      <script src="repl.js" id="jsrepl-script"></script>
+      <script src="languages.js"></script>
+      <script>mocha.setup('bdd')</script>
+      <script type="text/coffeescript" src="test/loader.test.coffee"></script>
+      <script type="text/coffeescript" src="test/sandbox.test.coffee"></script>
+  </head>
+  <body>
+     <div id="mocha"></div>
+     <script>
+     // Wait until coffee script files had been compiled
+     setTimeout(function () {
+       mocha.run()
+     }, 200);
+     </script>
+  </body>
+</html>

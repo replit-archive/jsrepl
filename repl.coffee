@@ -82,7 +82,7 @@ class Sandbox
     listeners = @listeners[type]
     return if not listeners?
     fn.apply @, args for fn in listeners
-  
+    
   once: (type, fn) ->
     cb = (args...) =>
       @off type, cb
@@ -125,8 +125,6 @@ class Sandbox
       startImport()
 
   post: (msgObj) ->
-    # Since all messages are going to the Sandboss, we hardcode it.
-    msgObj.type = 'Sandboss.' + msgObj.type
     msgStr = JSON.stringify msgObj
     if not @workerIsIframe
       @worker.postMessage msgStr
@@ -278,6 +276,11 @@ class JSREPL
 
 # The languages and engines modules.
 class JSREPL::Languages
+
+# Export for testing.
+class JSREPL::__test__
+JSREPL::__test__::Loader = Loader
+JSREPL::__test__::Sandbox = Sandbox
 
 # Export JSREPL to the world.
 @JSREPL = JSREPL
