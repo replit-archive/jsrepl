@@ -1,223 +1,256 @@
-if (typeof window === "undefined") {
-  // Some scripts assume there is a window, don't let them down.
-  window = self;
-  (function () {
-    if (!self.openDatabaseSync) return;
-    self.DB = self.openDatabaseSync('replit_input', '1.0', 'Emscripted input', 1024);
-    self.prompt = function () {
-      self.Sandboss.dbInput();
-      var t = null;
-      self.DB.transaction(function (tx) {t=tx});
-      var i, j, res;
-      while (!(res = t.executeSql('SELECT * FROM input').rows).length) {
-        for (i = 0; i < 100000000; i++) {
-        }
-      }
-      t.executeSql('DELETE FROM input');
-      return res.item(0).text;
-    };
-  })();
-} else {
-  // We are in an iframe, self is just the window.
-  self = window;
-}
-
-// Recieve messages.
-(function () {
+(function (global) {
+  // Window is self in worker. Self is window in iframe.
+  global.window = global.window || global;
+  global.self = global.self || global;
+  
+  var Sandboss;
+  
+  // Messaging.
   var msg_handler = function (e) {
     var message = JSON.parse(e.data),
-        current = self,
+        current = Sandboss,
         parts = message['type'].split('.');
+    
     // Route message.
     for (var i = 0; i < parts.length; i++) {
       current = current[parts[i]];
     }
+    
     current(message.data)
   };
-  window.addEventListener('message', msg_handler, false);
-})();
+  global.addEventListener('message', msg_handler, false);
+  
+  // Dummy console for some scripts would think there is one.
+  (function () {
+    var noop = function () {};
+    var methods = ['debug', 'error', 'info', 'log',
+                  'warn', 'dir', 'dirxml', 'trace',
+                  'assert', 'count', 'markTimeline', 
+                  'profile', 'profileEnd', 'time', 
+                  'timeEnd', 'timeStamp', 'group', 
+                  'groupCollapsed', 'groupEnd'];
 
-// Dummy console for some scripts would think there is one.
-if (typeof console === "undefined") {
-  console = {
-    log: function(){}
-  };
-}
-
-Sandboss = {
-  outTimeout: 0,
-  output_buffer: [],
-  OUT_EVERY_MS: 50,
-  syncTimeout: Infinity,
-  // Whethere this is an iframe or a worker. better check?
-  isFrame : typeof document !== 'undefined',
-  // Responsible for posting messages.
-  post: function (msg) {
-    var msgStr = JSON.stringify(msg);
-    if (this.isFrame) {
-      // Window communication require additional origin argument.
-      window.parent.postMessage(msgStr, '*');
-    } else {
-      self.postMessage(msgStr);
+    if (typeof console === 'undefined') {
+      global.console = {};
     }
-  },
-  // Import an array of scripts.
-  importScripts: function (scriptsArr) {
-    var reqs = [],
-        totalSize = 0,
-        totalUpdated = [],
-        totalLoaded = 0,
-        that = this,
-        XHR = XMLHttpRequest || ActiveXObject('Microsoft.XMLHTTP');
-        
-    var updateSize = function (req) {
-      if (totalUpdated.indexOf(req) === -1){
-        totalUpdated.push(req);
-        totalSize += parseInt(req.getResponseHeader('X-Raw-Length'), 10);
+
+    for (var i = 0; i < methods.length; i++) {
+      if (typeof global.console[methods[i]] !== 'function') {
+        try{
+          global.console[methods[i]] = noop;
+        } catch (e) {}
       }
-    };
-    
-    var updateProgress = function (e) {
-      var loaded = e.loaded || e.position,
-          lastLoaded = e.target.lastLoaded || 0;
-      
-      e.target.lastLoaded = loaded;
-      totalLoaded += loaded - lastLoaded;
-      var percentageDone = (totalLoaded / totalSize) * 100;
-      if (totalUpdated.length === scriptsArr.length) {
-       that.progress(percentageDone); 
+    }
+  })();  
+  
+  
+  // Sandbox controller.
+  Sandboss = {
+    outTimeout: 0,
+    output_buffer: [],
+    OUT_EVERY_MS: 50,
+    syncTimeout: Infinity,
+    isFrame : typeof document !== 'undefined',
+    // Responsible for posting messages.
+    post: function (msg) {
+      var msgStr = JSON.stringify(msg);
+      if (this.isFrame) {
+        // Window communication require additional origin argument.
+        window.parent.postMessage(msgStr, '*');
+      } else {
+        self.postMessage(msgStr);
       }
-    };
-    
-    var finished = scriptsArr.length;
-    var finish = function (e) {
-      var i;
-      if (finished === 0) {
-        for (i = 0; i < reqs.length; i++) {
-          (self.execScript || function(data) {
-          				self['eval'].call(self, data);
-          })(reqs[i].responseText);
+    },
+    // Import an array of scripts.
+    importScripts: function (scriptsArr) {
+      var reqs = [],
+          totalSize = 0,
+          totalUpdated = [],
+          totalLoaded = 0,
+          that = this,
+          XHR = XMLHttpRequest || ActiveXObject('Microsoft.XMLHTTP');
+
+      var updateSize = function (req) {
+        if (totalUpdated.indexOf(req) === -1){
+          totalUpdated.push(req);
+          totalSize += parseInt(req.getResponseHeader('X-Raw-Length'), 10);
         }
-        that.engine = new self.JSREPLEngine(that.input, that.out, that.result, that.err, self, that.ready);
-        that.bindAll(Sandboss.engine);
-      }
-    };
-    for (var i = 0; i < scriptsArr.length; i++){
-      (function (i) {
-        reqs[i] = new XHR();
-        if (reqs[i].addEventListener) {
-          reqs[i].addEventListener('progress', updateProgress, false);
+      };
+
+      var updateProgress = function (e) {
+        var loaded = e.loaded || e.position,
+            lastLoaded = e.target.lastLoaded || 0;
+
+        e.target.lastLoaded = loaded;
+        totalLoaded += loaded - lastLoaded;
+        var percentageDone = (totalLoaded / totalSize) * 100;
+        if (totalUpdated.length === scriptsArr.length) {
+         that.progress(percentageDone); 
         }
-        reqs[i].onprogress = updateProgress;
-        reqs[i].onreadystatechange = function () {
-          if (reqs[i].readyState === 2) {
-            updateSize(reqs[i]);
-          } else if (reqs[i].readyState === 4) {
-            finished--;
-            finish();
+      };
+
+      var finished = scriptsArr.length;
+      var finish = function (e) {
+        var i;
+        if (finished === 0) {
+          for (i = 0; i < reqs.length; i++) {
+            (self.execScript || function(data) {
+            				self['eval'].call(self, data);
+            })(reqs[i].responseText);
           }
-        };
-        reqs[i].open('GET', scriptsArr[i], true);
-        reqs[i].send(null);
-      })(i);
-    }
-  },
-  // Outbound output.
-  out: function (text) {
-    var that = this;
-    this.output_buffer.push(text);
-    if (this.outTimeout === 0) {
-      this.outTimeout = setTimeout(this.flush, this.OUT_EVERY_MS);
-      this.syncTimeout = Date.now();
-    } else if (Date.now() - this.syncTimeout > this.OUT_EVERY_MS) {
-      clearTimeout(this.outTimeout);
-      this.flush();
-    }
-  },
-
-  flush: function () {
-    if (!this.output_buffer.length) return;
-    var message = {
-      type: 'output',
-      data: this.output_buffer.join('')
-    };
-    this.post(message);
-    this.outTimeout = 0;
-    this.output_buffer = [];
-  },
-  // Outbound errors.
-  err: function (e) {
-    var message = {
-      type: 'error',
-      data: e.toString()
-    };
-    this.flush();
-    this.post(message);
-  },
-  // Outbound input.
-  input: function (callback) {
-    // Incoming input would call "Sandboss.input.write", hence its our continuation callback.
-    this.input.write = callback;
-    var message = {
-      type: 'input'
-    };
-    this.flush();
-    this.post(message);
-  },
-  result: function (data) {
-    var message = {
-      type: 'result',
-      data: data
-    };
-    this.flush();
-    this.post(message);
-  },
-  // Outbound language ready function.
-  ready: function (data) {
-    var message = {
-      type: 'ready'
-    };
-    this.post(message);
-  },
-  // Inbound/Outbound getNextLineIndent.
-  // Gets the nextline indent and sends it in an 'indent' message.
-  getNextLineIndent: function (data) {
-    // Get line indent
-    var indent = this.engine.GetNextLineIndent(data);
-    var message = {
-      type: 'indent',
-      data: indent
-    };
-    this.post(message);
-  },
-  progress: function (data) {
-    var message = {
-      type: 'progress',
-      data: data
-    };
-    this.post(message);
-  },
-  dbInput: function () {
-    var message = {
-      type: 'db_input'
-    };
-    this.flush();
-    this.post(message);
-  },
-  // Bind all methods to its owner object.
-  bindAll: function (obj) {
-    for (method in obj) {
-      (function (method) {
-        var fn = obj[method];
-        if (typeof fn == "function") {
-          obj[method] = function () {
-            var args = [].slice.call(arguments);
-            return fn.apply(obj, args);
-          };
+          that.engine = new self.JSREPLEngine(that.input, that.out, that.result, that.err, self, that.ready);
+          that.bindAll(Sandboss.engine);
+          that.hide('JSREPLEngine');
         }
-      })(method);
+      };
+      for (var i = 0; i < scriptsArr.length; i++){
+        (function (i) {
+          reqs[i] = new XHR();
+          if (reqs[i].addEventListener) {
+            reqs[i].addEventListener('progress', updateProgress, false);
+          }
+          reqs[i].onprogress = updateProgress;
+          reqs[i].onreadystatechange = function () {
+            if (reqs[i].readyState === 2) {
+              updateSize(reqs[i]);
+            } else if (reqs[i].readyState === 4) {
+              finished--;
+              finish();
+            }
+          };
+          reqs[i].open('GET', scriptsArr[i], true);
+          reqs[i].send(null);
+        })(i);
+      }
+    },
+    // Outbound output.
+    out: function (text) {
+      var that = this;
+      this.output_buffer.push(text);
+      if (this.outTimeout === 0) {
+        this.outTimeout = setTimeout(this.flush, this.OUT_EVERY_MS);
+        this.syncTimeout = Date.now();
+      } else if (Date.now() - this.syncTimeout > this.OUT_EVERY_MS) {
+        clearTimeout(this.outTimeout);
+        this.flush();
+      }
+    },
+
+    flush: function () {
+      if (!this.output_buffer.length) return;
+      var message = {
+        type: 'output',
+        data: this.output_buffer.join('')
+      };
+      this.post(message);
+      this.outTimeout = 0;
+      this.output_buffer = [];
+    },
+    // Outbound errors.
+    err: function (e) {
+      var message = {
+        type: 'error',
+        data: e.toString()
+      };
+      this.flush();
+      this.post(message);
+    },
+    // Outbound input.
+    input: function (callback) {
+      // Incoming input would call "Sandboss.input.write", hence its our continuation callback.
+      this.input.write = callback;
+      var message = {
+        type: 'input'
+      };
+      this.flush();
+      this.post(message);
+    },
+    result: function (data) {
+      var message = {
+        type: 'result',
+        data: data
+      };
+      this.flush();
+      this.post(message);
+    },
+    // Outbound language ready function.
+    ready: function (data) {
+      var message = {
+        type: 'ready'
+      };
+      this.post(message);
+    },
+    // Inbound/Outbound getNextLineIndent.
+    // Gets the nextline indent and sends it in an 'indent' message.
+    getNextLineIndent: function (data) {
+      // Get line indent
+      var indent = this.engine.GetNextLineIndent(data);
+      var message = {
+        type: 'indent',
+        data: indent
+      };
+      this.post(message);
+    },
+    progress: function (data) {
+      var message = {
+        type: 'progress',
+        data: data
+      };
+      this.post(message);
+    },
+    dbInput: function () {
+      var message = {
+        type: 'db_input'
+      };
+      this.flush();
+      this.post(message);
+    },
+    // Bind all methods to its owner object.
+    bindAll: function (obj) {
+      for (var method in obj) {
+        (function (method) {
+          var fn = obj[method];
+          if (typeof fn == "function") {
+            obj[method] = function () {
+              var args = [].slice.call(arguments);
+              return fn.apply(obj, args);
+            };
+          }
+        })(method);
+      }
+    },
+    // Try to hide and secure stuff.
+    hide: function (prop) {
+      try {
+        Object.defineProperty(global, prop, {
+          writable: false,
+          enumerable: false,
+          configurable: false
+        }); 
+      } catch (e) {}
     }
+  };
+  
+  // Bind all the sand minions to the SANDBOSS!! MWAHAHAHA
+  Sandboss.bindAll(Sandboss);
+  global.Sandboss = Sandboss;
+  Sandboss.hide('Sandboss');
+  
+  // Synchronous input for emscripted languages.
+  if (self.openDatabaseSync) {
+    var DB = self.openDatabaseSync('replit_input', '1.0', 'Emscripted input', 1024);
+    self.prompt = function () {
+      Sandboss.dbInput();
+      var t = null;
+      DB.transaction(function (tx) {t=tx});
+      var i, j, res;
+      while (!(res = t.executeSql('SELECT * FROM input').rows).length) {
+        for (i = 0; i < 100000000; i++);
+      }
+      t.executeSql('DELETE FROM input');
+      return res.item(0).text;
+    }
+    Sandboss.hide('prompt');
   }
-};
-// Bind all the sand minions to the SANDBOSS!! MWAHAHAHA
-Sandboss.bindAll(Sandboss)
+  
+})(this);
