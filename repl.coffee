@@ -49,18 +49,8 @@ class Loader
       callback @iframe.contentWindow
     @_appendChild 'body', @iframe
 
-workerSupported = 'Worker' of window
-class Sandbox
-  # baseScripts: The scripts that loads every time a new worker is created.
-  # messages: Message routes to functions.
-  constructor: (baseScripts, @input_id, listeners = {}) ->
-    @baseScripts = (BASE_PATH + '/' + path for path in baseScripts)
-    @loader = new Loader
-    for type, fn of listeners
-      listeners[type] = [fn]
-    @listeners = listeners
-  
-  # Defines a new route.
+
+class EventEmitter
   on: (type, fn) ->
     return if typeof fn != 'function'
     if not @listeners[type]?
@@ -92,6 +82,18 @@ class Sandbox
       fn args...
     
     @on type, cb
+
+workerSupported = 'Worker' of window
+
+class Sandbox extends EventEmitter
+  # baseScripts: The scripts that loads every time a new worker is created.
+  # messages: Message routes to functions.
+  constructor: (baseScripts, @input_id, listeners = {}) ->
+    @baseScripts = (BASE_PATH + '/' + path for path in baseScripts)
+    @loader = new Loader
+    for type, fn of listeners
+      listeners[type] = [fn]
+    @listeners = listeners
   
   # onmessage handler for worker.
   onmsg: (event) =>
@@ -158,7 +160,7 @@ UA = do ->
     if ua_regex.test window.navigator.userAgent
       return ua
 
-class JSREPL
+class JSREPL extends EventEmitter
   constructor: ({ result, error, input, output, progress, @timeout }) ->
     if window.openDatabase?
       db = openDatabase 'replit_input', '1.0', 'Emscripted input', 1024
@@ -184,7 +186,7 @@ class JSREPL
     if not window.__BAKED_JSREPL_BUILD__
       baseScripts = baseScripts.concat ['util/polyfills.js', 'util/mtwister.js']
     
-    @worker = new Sandbox baseScripts, input_id,
+    @sandbox = new Sandbox baseScripts, input_id,
       output: output
       input: ->
         fireInput (data) =>
@@ -208,21 +210,15 @@ class JSREPL
     if type is 'input'
       @inputFns.push fn
     else
-      @worker.on type, fn
+      @sandbox.on type, fn
   
   off: (type, fn) =>
     if type is 'input'
       i = @inputFns.indexOf fn
       @inputFns.splice(i, 1) if i > -1
     else
-      @worker.off type, fn
+      @sandbox.off type, fn
 
-  once: (type, fn) ->
-    cb = (args...) =>
-      @off type, cb
-      fn args...
-  
-    @on type, cb
   # Loads the specified language.
   #   @arg lang_name: The name of the language to load, a member of
   #     JSREPL::Languages as defined in languages.coffee.
@@ -237,7 +233,7 @@ class JSREPL
     @lang = JSREPL::Languages::[lang_name]
     
     # One time ready callback.
-    @worker.once 'ready', callback
+    @sandbox.once 'ready', callback
     
     # Load worker with language specific scripts.
     lang_scripts = for script in @lang.scripts
@@ -247,7 +243,7 @@ class JSREPL
         script
     
     worker_friendly ?= @lang.worker_friendly
-    @worker.load lang_scripts.concat([@lang.engine]), worker_friendly
+    @sandbox.load lang_scripts.concat([@lang.engine]), worker_friendly
   
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise
@@ -257,37 +253,37 @@ class JSREPL
     if /\n\s*$/.test command
       callback false
     else
-      @worker.once 'indent', callback
-      @worker.post
+      @sandbox.once 'indent', callback
+      @sandbox.post
         type: 'getNextLineIndent'
         data: command
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.
   eval: (command) =>
-    if not @worker.workerIsIframe and @timeout? and @timeout.time and @timeout.callback
+    if not @sandbox.workerIsIframe and @timeout? and @timeout.time and @timeout.callback
       t = null
       cb = =>
-        @worker.fire 'timeout'
+        @sandbox.fire 'timeout'
         a = @timeout.callback()
         if not a
           t = setTimeout cb, @timeout.time
       t = setTimeout cb, @timeout.time
-      @worker.once 'result', -> clearTimeout t
-      @worker.once 'error', -> clearTimeout t
+      @sandbox.once 'result', -> clearTimeout t
+      @sandbox.once 'error', -> clearTimeout t
       @once 'input', -> 
         clearTimeout t
-      @worker.once 'recieved_input', => 
+      @sandbox.once 'recieved_input', => 
         clearTimeout t
         t = setTimeout cb, @timeout.time
-    @worker.post
+    @sandbox.post
       type: 'engine.Eval'
       data: command
       
   # Evaluates a command in the current engine and return a raw result.
   #   @arg command: A string containing the code to execute.
   rawEval: (command) =>
-    @worker.post
+    @sandbox.post
       type: 'engine.RawEval'
       data: command
   
