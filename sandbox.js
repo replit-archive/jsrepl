@@ -1,7 +1,13 @@
 (function (global) {
   // Window is self in worker. Self is window in iframe.
-  global.window = global.window || global;
-  global.self = global.self || global;
+  // Try for FF doesn't have a setter for these property's.
+  try {
+    global.window = global.window || global;
+  } catch (e) { }
+  try {
+    global.self = global.self || global; 
+  } catch (e) {}
+  
   
   var Sandboss;
   
@@ -205,6 +211,13 @@
       this.flush();
       this.post(message);
     },
+    serverInput: function () {
+      var message = {
+        type: 'server_input'
+      };
+      this.flush();
+      this.post(message);
+    },
     // Bind all methods to its owner object.
     bindAll: function (obj) {
       for (var method in obj) {
@@ -228,6 +241,10 @@
           configurable: false
         }); 
       } catch (e) {}
+    },
+
+    set_input_id: function (input_id) {
+      this.input_id = input_id;
     }
   };
   
@@ -251,6 +268,20 @@
       return res.item(0).text;
     }
     Sandboss.hide('prompt');
+  } else {
+    self.prompt = function () {
+      Sandboss.serverInput();
+      var XHR = XMLHttpRequest || ActiveXObject('Microsoft.XMLHTTP'),
+          req = new XHR();
+      req.open('GET', 'emscripten/input/' + Sandboss.input_id , false);
+      req.send(null);
+
+      if (req.status === 200) {  
+        return req.responseText;
+      } else {
+        return 'ERROR: ON NON-WEBKIT BROWSERS CONNECTION TO THE SERVER IS NEEDED FOR INPUT';
+      }
+    };
   }
   
 })(this);

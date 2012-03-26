@@ -341,7 +341,7 @@
   ]
   includes: []
   engine: 'langs/lua/jsrepl_lua.coffee'
-  worker_friendly: false
+  worker_friendly: true
   minifier: 'none'
   emscripted: true
 
@@ -368,7 +368,7 @@
     'extern/python/reloop-closured'
   ]
   engine: 'langs/python/jsrepl_python.coffee'
-  worker_friendly: false
+  worker_friendly: true
   minifier: 'none'
   emscripted: true
   
@@ -392,7 +392,7 @@
     'extern/ruby/dist/lib'
   ]
   engine: 'langs/ruby/jsrepl_ruby.coffee'
-  worker_friendly: false
+  worker_friendly: true
   minifier: 'none'
   emscripted: true
 

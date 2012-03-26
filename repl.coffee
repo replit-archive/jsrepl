@@ -53,7 +53,7 @@ workerSupported = 'Worker' of window
 class Sandbox
   # baseScripts: The scripts that loads every time a new worker is created.
   # messages: Message routes to functions.
-  constructor: (baseScripts, listeners = {}) ->
+  constructor: (baseScripts, @input_id, listeners = {}) ->
     @baseScripts = (BASE_PATH + '/' + path for path in baseScripts)
     @loader = new Loader
     for type, fn of listeners
@@ -81,7 +81,10 @@ class Sandbox
   fire: (type, args) ->
     listeners = @listeners[type]
     return if not listeners?
-    fn.apply @, args for fn in listeners
+    # We clone the array of listeners before we fire.
+    # Just incase one listener is a "once" listener 
+    # Which will screw up the iteration.
+    fn.apply @, args for fn in (f for f in listeners)
     
   once: (type, fn) ->
     cb = (args...) =>
@@ -117,12 +120,14 @@ class Sandbox
         window.removeEventListener 'message', @onmsg, false
         window.addEventListener 'message', @onmsg, false
         startImport()
+        @post type: 'set_input_id', data: @input_id
     else
       # Workers are supported! \o/
       @worker = new Worker base
       @workerIsIframe = false
       @worker.addEventListener 'message', @onmsg, false
       startImport()
+      @post type: 'set_input_id', data: @input_id
 
   post: (msgObj) ->
     msgStr = JSON.stringify msgObj
@@ -160,9 +165,9 @@ class JSREPL
       db.transaction (tx) ->
         tx.executeSql 'DROP TABLE IF EXISTS input'
         tx.executeSql 'CREATE TABLE input (text)'
-      for name, lang of JSREPL::Languages::
-        lang.worker_friendly = true if lang.emscripted
-    
+
+    input_id = Math.floor(Math.random() * 9007199254740992) + 1
+
     # The definition of the current language.
     @lang = null
     
@@ -179,7 +184,7 @@ class JSREPL
     if not window.__BAKED_JSREPL_BUILD__
       baseScripts = baseScripts.concat ['util/polyfills.js', 'util/mtwister.js']
     
-    @worker = new Sandbox baseScripts,
+    @worker = new Sandbox baseScripts, input_id,
       output: output
       input: ->
         fireInput (data) =>
@@ -191,8 +196,13 @@ class JSREPL
       progress: progress
       db_input: ->
         fireInput (data) =>
+          @fire 'recieved_input', [data]
           db.transaction (tx) ->
             tx.executeSql "INSERT INTO input (text) VALUES ('#{data}')", []
+      server_input: ->
+        fireInput (data) =>
+          @fire 'recieved_input', [data]
+          $.post('/emscripten/input/' + input_id, {input: data})
     
   on: (type, fn) =>
     if type is 'input'
@@ -206,7 +216,13 @@ class JSREPL
       @inputFns.splice(i, 1) if i > -1
     else
       @worker.off type, fn
+
+  once: (type, fn) ->
+    cb = (args...) =>
+      @off type, cb
+      fn args...
   
+    @on type, cb
   # Loads the specified language.
   #   @arg lang_name: The name of the language to load, a member of
   #     JSREPL::Languages as defined in languages.coffee.
@@ -250,6 +266,7 @@ class JSREPL
   #   @arg command: A string containing the code to execute.
   eval: (command) =>
     if not @worker.workerIsIframe and @timeout? and @timeout.time and @timeout.callback
+      t = null
       cb = =>
         @worker.fire 'timeout'
         a = @timeout.callback()
@@ -258,6 +275,11 @@ class JSREPL
       t = setTimeout cb, @timeout.time
       @worker.once 'result', -> clearTimeout t
       @worker.once 'error', -> clearTimeout t
+      @once 'input', -> 
+        clearTimeout t
+      @worker.once 'recieved_input', => 
+        clearTimeout t
+        t = setTimeout cb, @timeout.time
     @worker.post
       type: 'engine.Eval'
       data: command
