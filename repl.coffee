@@ -51,6 +51,14 @@ class Loader
 
 
 class EventEmitter
+  constructor: ->
+    @listeners = []
+
+  makeArray: (obj) ->
+    if Object::toString.call(obj) != '[object Array]'
+      obj = [obj]
+    obj
+
   on: (type, fn) ->
     return if typeof fn != 'function'
     if not @listeners[type]?
@@ -69,19 +77,22 @@ class EventEmitter
       @listeners[type] = []
   
   fire: (type, args) ->
+    args = @makeArray args
     listeners = @listeners[type]
     return if not listeners?
+    args.push type
     # We clone the array of listeners before we fire.
     # Just incase one listener is a "once" listener 
     # Which will screw up the iteration.
     fn.apply @, args for fn in (f for f in listeners)
     
-  once: (type, fn) ->
+  once: (types, fn) ->
+    types = @makeArray types
     cb = (args...) =>
-      @off type, cb
+      @off type, cb for type in types
       fn args...
     
-    @on type, cb
+    @on type, cb for type in types
 
 workerSupported = 'Worker' of window
 
@@ -162,6 +173,7 @@ UA = do ->
 
 class JSREPL extends EventEmitter
   constructor: ({ result, error, input, output, progress, @timeout }) ->
+    super()
     if window.openDatabase?
       db = openDatabase 'replit_input', '1.0', 'Emscripted input', 1024
       db.transaction (tx) ->
@@ -174,12 +186,7 @@ class JSREPL extends EventEmitter
     @lang = null
     
     # There are two input event types. Abstract that for users.
-    @inputFns = [input];
-    
-    fireInput = (cb) =>
-      for inputFn in @inputFns
-        if typeof inputFn is 'function'
-          inputFn cb
+    @on 'input', input
     
     # Create initial worker.
     baseScripts = ['sandbox.js']
@@ -188,34 +195,35 @@ class JSREPL extends EventEmitter
     
     @sandbox = new Sandbox baseScripts, input_id,
       output: output
-      input: ->
-        fireInput (data) =>
-          @post
+      input: =>
+        @fire 'input', (data) =>
+          @sandbox.post
             type: 'input.write'
             data: data
       error: error
       result: result
       progress: progress
-      db_input: ->
-        fireInput (data) =>
-          @fire 'recieved_input', [data]
+      db_input: =>
+        @fire 'input', (data) =>
+          @sandbox.fire 'recieved_input', [data]
           db.transaction (tx) ->
             tx.executeSql "INSERT INTO input (text) VALUES ('#{data}')", []
-      server_input: ->
-        fireInput (data) =>
-          @fire 'recieved_input', [data]
+      server_input: =>
+        @fire 'input', (data) =>
+          @sandbox.fire 'recieved_input', [data]
           $.post('/emscripten/input/' + input_id, {input: data})
     
+  # Only listen to input events to abstract all input types.
+  # Proxy other events to the sandbox.
   on: (type, fn) =>
     if type is 'input'
-      @inputFns.push fn
+      super 'input', fn
     else
       @sandbox.on type, fn
   
   off: (type, fn) =>
     if type is 'input'
-      i = @inputFns.indexOf fn
-      @inputFns.splice(i, 1) if i > -1
+      super 'input', fn
     else
       @sandbox.off type, fn
 
@@ -268,14 +276,14 @@ class JSREPL extends EventEmitter
         a = @timeout.callback()
         if not a
           t = setTimeout cb, @timeout.time
+
       t = setTimeout cb, @timeout.time
-      @sandbox.once 'result', -> clearTimeout t
-      @sandbox.once 'error', -> clearTimeout t
-      @once 'input', -> 
+      @once ['result', 'error', 'input'], (args..., type) =>
         clearTimeout t
-      @sandbox.once 'recieved_input', => 
-        clearTimeout t
-        t = setTimeout cb, @timeout.time
+        if type is 'input'
+          @once 'recieved_input', => t = setTimeout cb, @timeout.time
+          @once ['error', 'result'], => clearTimeout t
+          
     @sandbox.post
       type: 'engine.Eval'
       data: command
