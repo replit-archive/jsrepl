@@ -59,22 +59,26 @@ class EventEmitter
       obj = [obj]
     obj
 
-  on: (type, fn) ->
+  on: (types, fn) ->
     return if typeof fn != 'function'
-    if not @listeners[type]?
-      @listeners[type] = [fn]
-    else
-      @listeners[type].push fn
+    types = @makeArray types
+    for type in types
+      if not @listeners[type]?
+        @listeners[type] = [fn]
+      else
+        @listeners[type].push fn
   
-  off: (type, fn) ->
-    listeners = @listeners[type]
-    return if not listeners?
-    if fn?
-      i = listeners.indexOf fn
-      if i > -1
-        listeners.splice(i, 1)
-    else
-      @listeners[type] = []
+  off: (types, fn) ->
+    types = @makeArray types
+    for type in types
+      listeners = @listeners[type]
+      continue if not listeners?
+      if fn?
+        i = listeners.indexOf fn
+        if i > -1
+          listeners.splice(i, 1)
+      else
+        @listeners[type] = []
   
   fire: (type, args) ->
     args = @makeArray args
@@ -214,17 +218,21 @@ class JSREPL extends EventEmitter
     
   # Only listen to input events to abstract all input types.
   # Proxy other events to the sandbox.
-  on: (type, fn) =>
-    if type is 'input'
-      super 'input', fn
-    else
-      @sandbox.on type, fn
+  on: (types, fn) =>
+    types = @makeArray types
+    for type in types
+      if type is 'input'
+        super 'input', fn
+      else
+        @sandbox.on type, fn
   
-  off: (type, fn) =>
-    if type is 'input'
-      super 'input', fn
-    else
-      @sandbox.off type, fn
+  off: (types, fn) =>
+    types = @makeArray types
+    for type in types
+      if type is 'input'
+        super 'input', fn
+      else
+        @sandbox.off type, fn
 
   # Loads the specified language.
   #   @arg lang_name: The name of the language to load, a member of
@@ -275,13 +283,26 @@ class JSREPL extends EventEmitter
         a = @timeout.callback()
         if not a
           t = setTimeout cb, @timeout.time
+        else
+          unbind()
 
       t = setTimeout cb, @timeout.time
-      @once ['result', 'error', 'input'], (args..., type) =>
+
+      listener = (args..., type) =>
         clearTimeout t
         if type is 'input'
-          @once 'recieved_input', => t = setTimeout cb, @timeout.time
-          @once ['error', 'result'], => clearTimeout t
+          @once 'recieved_input', => 
+            t = setTimeout cb, @timeout.time
+          bind()
+
+      bind = =>
+        @once ['result', 'error', 'input'], listener
+
+      unbind = =>
+        @off ['result', 'error', 'input'], listener
+
+      bind()
+
     
     @sandbox.post
       type: 'engine.Eval'
