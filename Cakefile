@@ -28,9 +28,9 @@ DEFAULT_MINIFIER = MINIFIERS.closure
 #                                 Core Files                                   #
 #------------------------------------------------------------------------------#
 
-CORE_FILES = ['loader.coffee', 'repl.coffee', 'languages.js']
+CORE_FILES = ['repl.coffee', 'languages.js']
 WORKER_FILES = ['sandbox.js', 'util/mtwister.js', 'util/polyfills.js']
-WATCHED_FILES = ['loader.coffee', 'repl.coffee']
+WATCHED_FILES = ['repl.coffee']
 
 #------------------------------------------------------------------------------#
 #                                   Helpers                                    #

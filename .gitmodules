@@ -7,12 +7,6 @@
 [submodule "extern/emoticoffee"]
 	path = extern/emoticoffee
 	url = git://github.com/replit/emoticoffee.git
-[submodule "extern/Javathcript"]
-	path = extern/Javathcript
-	url = git://github.com/replit/Javathcript.git
-[submodule "extern/jtalk"]
-	path = extern/jtalk
-	url = git://github.com/replit/jtalk.git
 [submodule "extern/lol-coffee"]
 	path = extern/lol-coffee
 	url = git://github.com/replit/lol-coffee.git

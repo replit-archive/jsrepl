@@ -20,27 +20,6 @@
   worker_friendly: true
   minifier: 'closure'
 
-@JSREPL::Languages::lisp =
-  system_name: 'lisp'
-  name: 'Lisp'
-  extension: 'lisp'
-  matchings: [
-    ['(', ')']
-    ['[', ']']
-  ]
-  scripts: [
-    'extern/Javathcript/source/Base.js'
-    'extern/Javathcript/source/BPWJs.js'
-    'extern/Javathcript/source/JavathcriptTokenizer.js'
-    'extern/Javathcript/source/JavathcriptParser.js'
-    'extern/Javathcript/source/Environment.js'
-    'extern/Javathcript/source/Javathcript.js'
-  ]
-  includes: []
-  engine: 'langs/lisp/jsrepl_lisp.coffee'
-  worker_friendly: false
-  minifier: 'closure'
-
 @JSREPL::Languages::scheme =
   system_name: 'scheme'
   name: 'Scheme'
@@ -362,7 +341,7 @@
   ]
   includes: []
   engine: 'langs/lua/jsrepl_lua.coffee'
-  worker_friendly: false
+  worker_friendly: true
   minifier: 'none'
   emscripted: true
 
@@ -389,7 +368,7 @@
     'extern/python/reloop-closured'
   ]
   engine: 'langs/python/jsrepl_python.coffee'
-  worker_friendly: false
+  worker_friendly: true
   minifier: 'none'
   emscripted: true
   
@@ -413,30 +392,9 @@
     'extern/ruby/dist/lib'
   ]
   engine: 'langs/ruby/jsrepl_ruby.coffee'
-  worker_friendly: false
+  worker_friendly: true
   minifier: 'none'
   emscripted: true
-
-@JSREPL::Languages::smalltalk =
-  system_name: 'smalltalk'
-  name: 'Smalltalk'
-  extensions: 'st'
-  matchings: [
-    ['(', ')']
-    ['[', ']']
-  ]
-  scripts: [
-    'extern/jtalk/js/boot.js'
-    'extern/jtalk/js/Kernel.js'
-    'extern/jtalk/js/Parser.js'
-    'extern/jtalk/js/Compiler.js'
-    'extern/jtalk/js/Canvas.js'
-    'extern/jtalk/js/init.js'
-  ]
-  includes: []
-  engine: 'langs/smalltalk/jsrepl_smalltalk.coffee'
-  worker_friendly: true
-  minifier: 'closure'
 
 @JSREPL::Languages::roy =
   system_name: 'roy'
