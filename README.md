@@ -108,19 +108,18 @@ Example:
 ```
   
 ###JSREPL::getLangConfig  
-Gets a specific or the current loaded language config. Takes one argument:  
+Returns the configuration object for a given language. Takes one argument:  
   
   * __string__ *lang_name*: The language to return its config object. Defaults to  
   the current language name.  
   
 ###JSREPL::checkLineEnd  
-Given a command try to find out if its ready for eval or should we be expecting  
-more lines.  
+Given a command, decides whether it is ready for execution, as opposed to being  
+unfinished, such as missing a closing brace.
   
   * __string__ *command*: The program string.  
-  * __function__ *callback*: The callback will be called with a boolean depending  
-  whether the language engine thinks the command should continue to the next line  
-  or not.  
+  * __function__ *callback*: The callback will be called with true if the command  
+  is ready for execution
   
 ##Events  
   
@@ -150,7 +149,7 @@ Arguments:
   
   
 ###output  
-Fired each time the current language interpreter has output to the standard out.    
+Fired each time the current language interpreter has output to standard out.    
 Arguments:  
     
   * __string__ *data*: The output string.  
