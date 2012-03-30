@@ -87,17 +87,3 @@ describe 'Sandbox', ->
         expect(data).to.be 'done'
       
       sandbox.post(type: 'engine.dummy_msg', data: 'dummy')
-      
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-      

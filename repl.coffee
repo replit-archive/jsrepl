@@ -98,7 +98,6 @@ workerSupported = 'Worker' of window
 
 class Sandbox extends EventEmitter
   # baseScripts: The scripts that loads every time a new worker is created.
-  # messages: Message routes to functions.
   constructor: (baseScripts, @input_id, listeners = {}) ->
     @baseScripts = (BASE_PATH + '/' + path for path in baseScripts)
     @loader = new Loader
