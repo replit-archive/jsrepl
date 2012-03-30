@@ -283,7 +283,7 @@ class JSREPL extends EventEmitter
         if type is 'input'
           @once 'recieved_input', => t = setTimeout cb, @timeout.time
           @once ['error', 'result'], => clearTimeout t
-          
+    
     @sandbox.post
       type: 'engine.Eval'
       data: command

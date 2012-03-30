@@ -6,7 +6,7 @@
   } catch (e) { }
   try {
     global.self = global.self || global; 
-  } catch (e) {}
+  } catch (e) { }
   
   
   var Sandboss;
