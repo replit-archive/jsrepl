@@ -124,21 +124,27 @@ unfinished, such as missing a closing brace.
 ##Events  
   
 ###JSREPL::on  
-Attaches a listener to an event. Takes two arguments:  
+Attaches a listener to one or more events. Takes two arguments:  
   
-  * __string__ *event_type*: The event to listen to.  
+  * __string | array__ *event_type*: Event(s) to listen to.  
   * __function__ *callback*: The function to call when the event is fired. Will    
   be called with whatever arguments the event supplies.  
   
 ###JSREPL::off  
-Detaches a listener or all listeners to an event.    
+Detaches a listener or all listeners to one or more events.    
 Arguments:    
   
-  * __string__ *event_type*: The event to detach listener(s) from.  
+  * __string | array__ *event_type*: Event(s) to detach listener(s) from.
   * __function__ *listener*: The listener function to detach. If not supplied then    
   all listeners will be detached.  
     
-  
+###JSREPL::once
+Attaches a listener that would be called only once to one or more events.
+Arguments:
+
+  *__string | array__ *event_type*: Event(s) to listen to.  
+  *__function__ *callback*: The function to call when the event is fired.  
+
 ###input  
 Fired when the current language interpreter asks for input.    
 Arguments:  
