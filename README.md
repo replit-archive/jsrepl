@@ -4,30 +4,30 @@ A sandboxed polyglot browser REPL.
   
 ##Current Languages  
   
-* JavaScript Variants  
-  * JavaScript  
-  * CoffeeScript  
-  * Kaffeine  
-  * Move  
-  * Traceur (JavaScript.next)  
+* JavaScript Variants
+  * JavaScript
+  * CoffeeScript
+  * Kaffeine
+  * Move
+  * Traceur (JavaScript.next)
+
+* Esoteric
+  * Bloop
+  * Brainfuck
+  * LOLCODE
+  * Unlambda
+  * Emoticon
   
-* Esoteric  
-  * Bloop  
-  * Brainfuck  
-  * LOLCODE  
-  * Unlambda  
-  * Emoticon  
+* Classic
+  * Quick Basic
+  * Forth
   
-* Classic  
-  * Quick Basic  
-  * Forth  
-  
-* Serious  
-  * Scheme  
-  * Lua  
-  * Python  
-  * Ruby (beta)  
-    
+* Serious
+  * Scheme
+  * Lua
+  * Python
+  * Ruby (beta)
+
 ## Browser Support  
 * IE 9-10  
 * Chrome 10+  
@@ -67,18 +67,19 @@ input is received hence this is a mandatory callback.
 * `outputCallback`: An optional callback function that is called when the engine  
 has output to flush out to the standard out.  
 * `resultCallback`: An optional callback function that is called when the interpreter  
-had successfully eval'ed a program with the result from it.  
-* `errorCallback`: An optional callback function that is called if eval'ing a program  
-yielded an error with the error.  
-* `progress`: An optional callback function that is called with the progress percentage  
-of loading a language interpreter.  
+has successfully evaluated a program and passed the resulting evaluated value.  
+* `errorCallback`: An optional callback function that is called if evaluatiing a  
+program yielded an error and passed the error.  
+* `progress`: An optional callback function that is called repeatedly while loading  
+a language interpreter with the progress percentage.  
 * `timeout`: Sets a timeout for running a program.  
   * `time`: Milliseconds to wait.  
   * `callback`: The callback function that is called when a program times out. This  
   callback must handle recovering the system (i.e. call jsrepl.loadLanguage etc.).  
   Must return `true` to stop the timeout from firing again.  
   
-##Usage  
+##API
+
 ###JSREPL::loadLanguage  
 Loads a language interpreter. Takes three arguments:  
   
@@ -97,7 +98,7 @@ Example:
 ```
   
 ###JSRPEL::eval  
-Evaluates a program in the current loaded language interpreter. Takes one argument:  
+Evaluates a program in the currently loaded language interpreter. Takes one argument:  
   
   * __string__ *command*: The program string to evaluate.  
   
@@ -110,8 +111,8 @@ Example:
 ###JSREPL::getLangConfig  
 Returns the configuration object for a given language. Takes one argument:  
   
-  * __string__ *lang_name*: The language to return its config object. Defaults to  
-  the current language name.  
+  * __string__ *lang_name*: The language whose config will be returned. Defaults  
+  to the current language name.  
   
 ###JSREPL::checkLineEnd  
 Given a command, decides whether it is ready for execution, as opposed to being  
@@ -119,9 +120,7 @@ unfinished, such as missing a closing brace.
   
   * __string__ *command*: The program string.  
   * __function__ *callback*: The callback will be called with true if the command  
-  is ready for execution
-  
-##Events  
+  is ready for execution, or false if it is incomplete.
   
 ###JSREPL::on  
 Attaches a listener to one or more events. Takes two arguments:  
@@ -131,19 +130,20 @@ Attaches a listener to one or more events. Takes two arguments:
   be called with whatever arguments the event supplies.  
   
 ###JSREPL::off  
-Detaches a listener or all listeners to one or more events.    
-Arguments:    
+Detaches a listener or all listeners to one or more events. Arguments:    
   
   * __string | array__ *event_type*: Event(s) to detach listener(s) from.
   * __function__ *listener*: The listener function to detach. If not supplied then    
   all listeners will be detached.  
     
 ###JSREPL::once
-Attaches a listener that would be called only once to one or more events.
+Attaches a listener to one or more events that will only be called once.
 Arguments:
 
   * __string | array__ *event_type*: Event(s) to listen to.  
   * __function__ *callback*: The function to call when the event is fired.  
+
+##Events
 
 ###input  
 Fired when the current language interpreter asks for input.    
@@ -173,8 +173,8 @@ Arguments:
   * __string__ *error*: The *stringified* error from the latest eval.  
   
 ###progress  
-Fired when JSREPL has load progress percentage from loading a language    
-interpreter to report.    
+Fired when JSREPL has load progress percentage from loading a language  
+interpreter to report.  
 Arguments:    
   
   * __float__ *percentage*: How much of the interpreter file(s) was loaded.  
@@ -188,32 +188,37 @@ Instantiating JSREPL) and firing this event.
 Fired when a language is loaded and is ready to eval.
 
 ##Standard input hacks
+
 ###Problem
-Language interpreters that are compiled with emscripten expect input to be  
-to be a blocking call (synchrounus). The only way to get blocking input  
-prompts in browsers is by using `window.prompt`. While suboptimal but it  
-works, however that way we loose the ability to load interpreters in Web  
+Language interpreters that are compiled with Emscripten expect input to be  
+to be a blocking call (synchronous). The only way to get blocking input  
+prompts in browsers is by using `window.prompt`. While suboptimal, it  
+works. However, that way we lose the ability to load interpreters in Web  
 Workers (because Workers have no access to dialog boxes). 
 
-Loading interpreters in workers has many benefits including a) Not blocking  
-the main UI thread while the interpreter is intializing or working. b)  
-Catching infinite loops (see timeout event). While this is great, we   
-were ok sacrificing all that for the sake of input. So we loaded languages    
-which expect blocking input calls in an iframe instead of a web worker.  
-However in recent builds of Firefox and Chrome that was also broken for us  
-(see https://github.com/replit/empythoned/issues/6).  
+Loading interpreters in workers has many benefits including not blocking  
+the main UI thread while the interpreter is intializing or working and the  
+ability to catch infinite loops (see timeout event). Despite these  
+advantages, until recently we avoided Workers in order to support input,  
+so we loaded languages which expect blocking input calls in an iframe  
+instead of a web worker. However in recent builds of Firefox and Chrome  
+that approach was broken for us because we could no longer do synchronous  
+binary XHRs, e.g. to read library files.
 
 ###Solution
+
 ####Webkit browsers
-In Webkit based browsers we have leveraged than non-standard Web SQL Database  
-to share resources between the main thread and the worker thread in a sync  
-way. (See repl.coffee and sandbox.js).
+In WebKit-based browsers, we have leveraged the non-standard Web SQL Database  
+to share resources between the main thread and the worker thread, as they  
+provide a synchronization mechanism that can be accessed from both the main  
+page thread and from a worker. (See repl.coffee and sandbox.js).
 
 ####Firefox
-Unfortunately we couldn't do the same in Firefox (at least not until the indexedDb  
-Sync API lands). We have used XHR to synchronously communicate between the worker  
-and the main thread, which unfortunately uses the server as a proxy. There is a  
-sample server implementation in the [repl.it static server](https://github.com/replit/repl.it/blob/master/server.js#L31-69).
+Unfortunately we couldn't do the same in Firefox, as it does not implement Web  
+SQL, and still does not support the standard IndexedDB Sync API. Instead, we  
+have used XHR to synchronously communicate between the worker and the main  
+thread using our server as a crude proxy. There is a sample server  
+implementation in the [repl.it static server](https://github.com/replit/repl.it/blob/master/server.js#L31-69).
 
 ##License  
   
