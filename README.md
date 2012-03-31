@@ -142,8 +142,8 @@ Arguments:
 Attaches a listener that would be called only once to one or more events.
 Arguments:
 
-  *__string | array__ *event_type*: Event(s) to listen to.  
-  *__function__ *callback*: The function to call when the event is fired.  
+  * __string | array__ *event_type*: Event(s) to listen to.  
+  * __function__ *callback*: The function to call when the event is fired.  
 
 ###input  
 Fired when the current language interpreter asks for input.    
@@ -180,8 +180,41 @@ Arguments:
   * __float__ *percentage*: How much of the interpreter file(s) was loaded.  
   
 ###timeout  
-Fired when a program times out.    
-  
+If JSREPL was instantiated with the `timeout` option that includes the time  
+to wait on a running program before calling the specified callback (see  
+Instantiating JSREPL) and firing this event.  
+
+###ready
+Fired when a language is loaded and is ready to eval.
+
+##Standard input hacks
+###Problem
+Language interpreters that are compiled with emscripten expect input to be  
+to be a blocking call (synchrounus). The only way to get blocking input  
+prompts in browsers is by using `window.prompt`. While suboptimal but it  
+works, however that way we loose the ability to load interpreters in Web  
+Workers (because Workers have no access to dialog boxes). 
+
+Loading interpreters in workers has many benefits including a) Not blocking  
+the main UI thread while the interpreter is intializing or working. b)  
+Catching infinite loops (see timeout event). While this is great, we   
+were ok sacrificing all that for the sake of input. So we loaded languages    
+which expect blocking input calls in an iframe instead of a web worker.  
+However in recent builds of Firefox and Chrome that was also broken for us  
+(see https://github.com/replit/empythoned/issues/6).  
+
+###Solution
+####Webkit browsers
+In Webkit based browsers we have leveraged than non-standard Web SQL Database  
+to share resources between the main thread and the worker thread in a sync  
+way. (See repl.coffee and sandbox.js).
+
+####Firefox
+Unfortunately we couldn't do the same in Firefox (at least not until the indexedDb  
+Sync API lands). We have used XHR to synchronously communicate between the worker  
+and the main thread, which unfortunately uses the server as a proxy. There is a  
+sample server implementation in the [repl.it static server](https://github.com/replit/repl.it/blob/master/server.js#L31-69).
+
 ##License  
   
 jsREPL is available under the MIT license. Language interpreters and the   
