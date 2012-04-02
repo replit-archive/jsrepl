@@ -268,7 +268,7 @@
       return res.item(0).text;
     }
     Sandboss.hide('prompt');
-  } else {
+  } else if (!Sandboss.isFrame) {
     self.prompt = function () {
       Sandboss.serverInput();
       var XHR = XMLHttpRequest || ActiveXObject('Microsoft.XMLHTTP'),
