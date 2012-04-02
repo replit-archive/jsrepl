@@ -1,0 +1,363 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jsrepl by replit</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Jsrepl</h1>
+        <p>Multilingual sandboxed REPL engine in JavaScript.</p>
+        <p class="view"><a href="https://github.com/replit/jsrepl">View the Project on GitHub <small>replit/jsrepl</small></a></p>
+        <ul>
+          <li><a href="https://github.com/replit/jsrepl/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/replit/jsrepl/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/replit/jsrepl">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>JSREPL</h1>
+
+<p>A sandboxed polyglot browser REPL.  </p>
+
+<h2>Current Languages</h2>
+
+<ul>
+<li>
+<p>JavaScript Variants</p>
+
+<ul>
+<li>JavaScript</li>
+<li>CoffeeScript</li>
+<li>Kaffeine</li>
+<li>Move</li>
+<li>Traceur (JavaScript.next)</li>
+</ul>
+</li>
+<li>
+<p>Esoteric</p>
+
+<ul>
+<li>Bloop</li>
+<li>Brainfuck</li>
+<li>LOLCODE</li>
+<li>Unlambda</li>
+<li>Emoticon</li>
+</ul>
+</li>
+<li>
+<p>Classic</p>
+
+<ul>
+<li>Quick Basic</li>
+<li>Forth</li>
+</ul>
+</li>
+<li>
+<p>Serious</p>
+
+<ul>
+<li>Scheme</li>
+<li>Lua</li>
+<li>Python</li>
+<li>Ruby (beta)</li>
+</ul>
+</li>
+</ul><h2>Browser Support</h2>
+
+<ul>
+<li>IE 9-10<br>
+</li>
+<li>Chrome 10+<br>
+</li>
+<li>Safari 5<br>
+</li>
+<li>Firefox 3.6+<br>
+</li>
+<li>Opera 11+<br>
+</li>
+<li>iOS 5 Safari<br>
+</li>
+</ul><h2>Getting Started</h2>
+
+<p>Include the built jsrepl script with the id "jsrepl-script".  </p>
+
+<div class="highlight">
+<pre>  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"jsrepl.js"</span> <span class="na">id=</span><span class="s">"jsrepl-script"</span><span class="nt">&gt;&lt;/script&gt;</span>  
+</pre>
+</div>
+
+
+<h3>Instantiating JSREPL</h3>
+
+<div class="highlight">
+<pre>  <span class="kd">var</span> <span class="nx">jsrepl</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JSREPL</span><span class="p">({</span>  
+    <span class="nx">input</span><span class="o">:</span> <span class="nx">inputCallback</span><span class="p">,</span>  
+    <span class="nx">output</span><span class="o">:</span> <span class="nx">outputCallback</span><span class="p">,</span>  
+    <span class="nx">result</span><span class="o">:</span> <span class="nx">resultCallback</span><span class="p">,</span>  
+    <span class="nx">error</span><span class="o">:</span> <span class="nx">errorCallback</span><span class="p">,</span>  
+    <span class="nx">progress</span><span class="o">:</span> <span class="nx">progressCallback</span><span class="p">,</span>  
+    <span class="nx">timeout</span><span class="o">:</span> <span class="p">{</span>  
+      <span class="nx">time</span><span class="o">:</span> <span class="mi">30000</span><span class="p">,</span>  
+      <span class="nx">callback</span><span class="o">:</span> <span class="nx">timeoutCallback</span>  
+    <span class="p">}</span>  
+  <span class="p">});</span>  
+</pre>
+</div>
+
+
+<ul>
+<li>
+<code>inputCallback</code>: A callback function that is called when the language interpreter<br>
+is requesting input from the user. It will be passed a continuation callback that<br>
+should be called with the user input. Typically the interpreter would block until<br>
+input is received hence this is a mandatory callback.<br>
+</li>
+<li>
+<code>outputCallback</code>: An optional callback function that is called when the engine<br>
+has output to flush out to the standard out.<br>
+</li>
+<li>
+<code>resultCallback</code>: An optional callback function that is called when the interpreter<br>
+has successfully evaluated a program and passed the resulting evaluated value.<br>
+</li>
+<li>
+<code>errorCallback</code>: An optional callback function that is called if evaluatiing a<br>
+program yielded an error and passed the error.<br>
+</li>
+<li>
+<code>progress</code>: An optional callback function that is called repeatedly while loading<br>
+a language interpreter with the progress percentage.<br>
+</li>
+<li>
+<code>timeout</code>: Sets a timeout for running a program.<br><ul>
+<li>
+<code>time</code>: Milliseconds to wait.<br>
+</li>
+<li>
+<code>callback</code>: The callback function that is called when a program times out. This<br>
+callback must handle recovering the system (i.e. call jsrepl.loadLanguage etc.).<br>
+Must return <code>true</code> to stop the timeout from firing again.<br>
+</li>
+</ul>
+</li>
+</ul><h2>API</h2>
+
+<h3>JSREPL::loadLanguage</h3>
+
+<p>Loads a language interpreter. Takes three arguments:  </p>
+
+<ul>
+<li>
+<strong>string</strong> <em>lang_name</em>: The name of the language to load.<br>
+</li>
+<li>
+<strong>function</strong> <em>callback</em>: Called when the language has been successfully loaded.<br>
+</li>
+<li>
+<strong>boolean</strong> <em>worker_friendly</em> (optional): By default JSRPEL would try to load<br>
+interpreters into Web Workers, this argument would force either loading in a<br>
+Worker (true) or loading in an iframe (false).<br>
+</li>
+</ul><p>Example:</p>
+
+<div class="highlight">
+<pre>  <span class="nx">jsrepl</span><span class="p">.</span><span class="nx">loadLanguage</span><span class="p">(</span><span class="s1">'python'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>  
+    <span class="nx">alert</span><span class="p">(</span><span class="s1">'Python loaded'</span><span class="p">);</span>  
+  <span class="p">});</span>
+</pre>
+</div>
+
+
+<h3>JSRPEL::eval</h3>
+
+<p>Evaluates a program in the currently loaded language interpreter. Takes one argument:  </p>
+
+<ul>
+<li>
+<strong>string</strong> <em>command</em>: The program string to evaluate.<br>
+</li>
+</ul><p>Example:</p>
+
+<div class="highlight">
+<pre>  <span class="nx">jsrepl</span><span class="p">.</span><span class="nb">eval</span><span class="p">(</span><span class="s1">'1+1'</span><span class="p">);</span>  
+</pre>
+</div>
+
+
+<h3>JSREPL::getLangConfig</h3>
+
+<p>Returns the configuration object for a given language. Takes one argument:  </p>
+
+<ul>
+<li>
+<strong>string</strong> <em>lang_name</em>: The language whose config will be returned. Defaults<br>
+to the current language name.<br>
+</li>
+</ul><h3>JSREPL::checkLineEnd</h3>
+
+<p>Given a command, decides whether it is ready for execution, as opposed to being<br>
+unfinished, such as missing a closing brace.</p>
+
+<ul>
+<li>
+<strong>string</strong> <em>command</em>: The program string.<br>
+</li>
+<li>
+<strong>function</strong> <em>callback</em>: The callback will be called with true if the command<br>
+is ready for execution, or false if it is incomplete.</li>
+</ul><h3>JSREPL::on</h3>
+
+<p>Attaches a listener to one or more events. Takes two arguments:  </p>
+
+<ul>
+<li>
+<strong>string | array</strong> <em>event_type</em>: Event(s) to listen to.<br>
+</li>
+<li>
+<strong>function</strong> <em>callback</em>: The function to call when the event is fired. Will<br>
+be called with whatever arguments the event supplies.<br>
+</li>
+</ul><h3>JSREPL::off</h3>
+
+<p>Detaches a listener or all listeners to one or more events. Arguments:    </p>
+
+<ul>
+<li>
+<strong>string | array</strong> <em>event_type</em>: Event(s) to detach listener(s) from.</li>
+<li>
+<strong>function</strong> <em>listener</em>: The listener function to detach. If not supplied then<br>
+all listeners will be detached.<br>
+</li>
+</ul><h3>JSREPL::once</h3>
+
+<p>Attaches a listener to one or more events that will only be called once.
+Arguments:</p>
+
+<ul>
+<li>
+<strong>string | array</strong> <em>event_type</em>: Event(s) to listen to.<br>
+</li>
+<li>
+<strong>function</strong> <em>callback</em>: The function to call when the event is fired.<br>
+</li>
+</ul><h2>Events</h2>
+
+<h3>input</h3>
+
+<p>Fired when the current language interpreter asks for input.<br>
+Arguments:  </p>
+
+<ul>
+<li>
+<strong>function</strong> <em>callback</em>: The program execution continuation callback.<br>
+Must be called with the string from the user input. Note that only<br>
+one input listener should call this callback.<br>
+</li>
+</ul><h3>output</h3>
+
+<p>Fired each time the current language interpreter has output to standard out.<br>
+Arguments:  </p>
+
+<ul>
+<li>
+<strong>string</strong> <em>data</em>: The output string.<br>
+</li>
+</ul><h3>result</h3>
+
+<p>Fired when the language interpreter has a result from the latest eval.<br>
+Arguments:  </p>
+
+<ul>
+<li>
+<strong>string</strong> <em>data</em>: The <em>stringified</em> result from the latest eval.<br>
+</li>
+</ul><h3>error</h3>
+
+<p>Fired when the language interpreter has an error from the latest eval.<br>
+Arguments:  </p>
+
+<ul>
+<li>
+<strong>string</strong> <em>error</em>: The <em>stringified</em> error from the latest eval.<br>
+</li>
+</ul><h3>progress</h3>
+
+<p>Fired when JSREPL has load progress percentage from loading a language<br>
+interpreter to report.<br>
+Arguments:    </p>
+
+<ul>
+<li>
+<strong>float</strong> <em>percentage</em>: How much of the interpreter file(s) was loaded.<br>
+</li>
+</ul><h3>timeout</h3>
+
+<p>If JSREPL was instantiated with the <code>timeout</code> option that includes the time<br>
+to wait on a running program before calling the specified callback (see<br>
+Instantiating JSREPL) and firing this event.  </p>
+
+<h3>ready</h3>
+
+<p>Fired when a language is loaded and is ready to eval.</p>
+
+<h2>Standard input hacks</h2>
+
+<h3>Problem</h3>
+
+<p>Language interpreters that are compiled with Emscripten expect input to be<br>
+to be a blocking call (synchronous). The only way to get blocking input<br>
+prompts in browsers is by using <code>window.prompt</code>. While suboptimal, it<br>
+works. However, that way we lose the ability to load interpreters in Web<br>
+Workers (because Workers have no access to dialog boxes). </p>
+
+<p>Loading interpreters in workers has many benefits including not blocking<br>
+the main UI thread while the interpreter is intializing or working and the<br>
+ability to catch infinite loops (see timeout event). Despite these<br>
+advantages, until recently we avoided Workers in order to support input,<br>
+so we loaded languages which expect blocking input calls in an iframe<br>
+instead of a web worker. However in recent builds of Firefox and Chrome<br>
+that approach was broken for us because we could no longer do synchronous<br>
+binary XHRs, e.g. to read library files.</p>
+
+<h3>Solution</h3>
+
+<h4>Webkit browsers</h4>
+
+<p>In WebKit-based browsers, we have leveraged the non-standard Web SQL Database<br>
+to share resources between the main thread and the worker thread, as they<br>
+provide a synchronization mechanism that can be accessed from both the main<br>
+page thread and from a worker. (See repl.coffee and sandbox.js).</p>
+
+<h4>Firefox</h4>
+
+<p>Unfortunately we couldn't do the same in Firefox, as it does not implement Web<br>
+SQL, and still does not support the standard IndexedDB Sync API. Instead, we<br>
+have used XHR to synchronously communicate between the worker and the main<br>
+thread using our server as a crude proxy. There is a sample server<br>
+implementation in the <a href="https://github.com/replit/repl.it/blob/master/server.js#L31-69">repl.it static server</a>.</p>
+
+<h2>License</h2>
+
+<p>jsREPL is available under the MIT license. Language interpreters and the<br>
+modifications done to them by jsREPL developers have their own licenses, found<br>
+in their <code>extern/{language}</code> folders or submodules.  </p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/replit">replit</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
