@@ -243,8 +243,11 @@
       } catch (e) {}
     },
 
-    set_input_id: function (input_id) {
-      this.input_id = input_id;
+    set_input_server: function (settings) {
+      this.input_server = {
+        url: (settings.url || '/emscripten/input/') + settings.input_id,
+        cors: settings.cors || false
+      };
     }
   };
   
@@ -253,6 +256,23 @@
   global.Sandboss = Sandboss;
   Sandboss.hide('Sandboss');
   
+  var createRequest = function (method, url, isCors){
+    var xhr = new XMLHttpRequest();
+    if (isCors) {
+      if ("withCredentials" in xhr) {
+        xhr.open(method, url, false);
+      } else if (typeof XDomainRequest != "undefined"){
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+      } else {
+        throw new Error('Your browser doesn\' support CORS');
+      }
+    } else {
+      xhr.open(method, url, false);
+    }
+    return xhr;
+  }
+
   // Synchronous input for emscripted languages.
   if (self.openDatabaseSync) {
     var DB = self.openDatabaseSync('replit_input', '1.0', 'Emscripted input', 1024);
@@ -271,9 +291,7 @@
   } else if (!Sandboss.isFrame) {
     self.prompt = function () {
       Sandboss.serverInput();
-      var XHR = XMLHttpRequest || ActiveXObject('Microsoft.XMLHTTP'),
-          req = new XHR();
-      req.open('GET', 'emscripten/input/' + Sandboss.input_id , false);
+      var req = createRequest('GET', Sandboss.input_server.url, Sandboss.input_server.cors);
       req.send(null);
 
       if (req.status === 200) {  

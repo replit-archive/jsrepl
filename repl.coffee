@@ -102,7 +102,7 @@ workerSupported = 'Worker' of window
 
 class Sandbox extends EventEmitter
   # baseScripts: The scripts that loads every time a new worker is created.
-  constructor: (baseScripts, @input_id, listeners = {}) ->
+  constructor: (baseScripts, @input_server, listeners = {}) ->
     @baseScripts = (BASE_PATH + '/' + path for path in baseScripts)
     @loader = new Loader
     for type, fn of listeners
@@ -136,14 +136,14 @@ class Sandbox extends EventEmitter
         window.removeEventListener 'message', @onmsg, false
         window.addEventListener 'message', @onmsg, false
         startImport()
-        @post type: 'set_input_id', data: @input_id
+        @post type: 'set_input_server', data: @input_server
     else
       # Workers are supported! \o/
       @worker = new Worker base
       @workerIsIframe = false
       @worker.addEventListener 'message', @onmsg, false
       startImport()
-      @post type: 'set_input_id', data: @input_id
+      @post type: 'set_input_server', data: @input_server
 
   post: (msgObj) ->
     msgStr = JSON.stringify msgObj
@@ -175,7 +175,7 @@ UA = do ->
       return ua
 
 class JSREPL extends EventEmitter
-  constructor: ({ result, error, input, output, progress, @timeout }) ->
+  constructor: ({ result, error, input, output, progress, @timeout, input_server }) ->
     super()
     if window.openDatabase?
       db = openDatabase 'replit_input', '1.0', 'Emscripted input', 1024
@@ -183,7 +183,8 @@ class JSREPL extends EventEmitter
         tx.executeSql 'DROP TABLE IF EXISTS input'
         tx.executeSql 'CREATE TABLE input (text)'
 
-    input_id = Math.floor(Math.random() * 9007199254740992) + 1
+    input_server ?= {}
+    input_server.input_id = Math.floor(Math.random() * 9007199254740992) + 1
 
     # The definition of the current language.
     @lang = null
@@ -196,7 +197,8 @@ class JSREPL extends EventEmitter
     if not window.__BAKED_JSREPL_BUILD__
       baseScripts = baseScripts.concat ['util/polyfills.js', 'util/mtwister.js']
     
-    @sandbox = new Sandbox baseScripts, input_id,
+
+    @sandbox = new Sandbox baseScripts, input_server,
       output: output
       input: =>
         @fire 'input', (data) =>
@@ -214,7 +216,21 @@ class JSREPL extends EventEmitter
       server_input: =>
         @fire 'input', (data) =>
           @sandbox.fire 'recieved_input', [data]
-          $.post('/emscripten/input/' + input_id, {input: data})
+
+          url = (input_server.url || '/emscripten/input/') + input_server.input_id
+          if input_server.cors
+            xhr = new XMLHttpRequest()
+            if 'withCredentials' of xhr
+              xhr.open 'POST', url, true
+            else if XDomainRequest?
+              xhr = new XDomainRequest()
+              xhr.open 'POST', url
+            else
+              throw new Error('CORS not supported on your browser')
+          else
+            xhr = new XMLHttpRequest()
+            xhr.open 'POST', url, true
+          xhr.send "input=#{data}"
     
   # Only listen to input events to abstract all input types.
   # Proxy other events to the sandbox.
@@ -302,7 +318,6 @@ class JSREPL extends EventEmitter
         @off ['result', 'error', 'input'], listener
 
       bind()
-
     
     @sandbox.post
       type: 'engine.Eval'
