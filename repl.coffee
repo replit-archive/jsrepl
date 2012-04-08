@@ -106,7 +106,7 @@ class Sandbox extends EventEmitter
     @baseScripts = (BASE_PATH + '/' + path for path in baseScripts)
     @loader = new Loader
     for type, fn of listeners
-      listeners[type] = [fn]
+      listeners[type] = [fn] if typeof fn is 'function'
     @listeners = listeners
   
   # onmessage handler for worker.
@@ -177,7 +177,7 @@ UA = do ->
       return ua
 
 class JSREPL extends EventEmitter
-  constructor: ({ result, error, input, output, progress, @timeout, input_server }) ->
+  constructor: ({ result, error, input, output, progress, @timeout, input_server } = {}) ->
     super()
     if window.openDatabase?
       db = openDatabase 'replit_input', '1.0', 'Emscripted input', 1024
@@ -266,7 +266,8 @@ class JSREPL extends EventEmitter
     @lang = JSREPL::Languages::[lang_name]
     
     # One time ready callback.
-    @sandbox.once 'ready', callback
+    if callback?
+      @sandbox.once 'ready', callback
     
     # Load worker with language specific scripts.
     lang_scripts = for script in @lang.scripts
