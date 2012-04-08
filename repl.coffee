@@ -123,10 +123,14 @@ class Sandbox extends EventEmitter
   load: (moreScripts, workerFriendly=true) ->
     allScripts = @baseScripts.concat moreScripts
     base = allScripts.shift()
-    # Orders worker to start importing scripts.
-    startImport = => @post type: 'importScripts', data: allScripts
     # Kill existing worker if we have one.
     if @worker? then @kill()
+
+    # Called after creating the worker.
+    postCreate = =>
+      @post type: 'importScripts', data: allScripts
+      if @input_server?
+        @post type: 'set_input_server', data: @input_server
 
     if not workerSupported or not workerFriendly
       # Worker not supported; create a new iframe sandbox replacing the old one.
@@ -135,15 +139,13 @@ class Sandbox extends EventEmitter
         @workerIsIframe = true
         window.removeEventListener 'message', @onmsg, false
         window.addEventListener 'message', @onmsg, false
-        startImport()
-        @post type: 'set_input_server', data: @input_server
+        postCreate()
     else
       # Workers are supported! \o/
       @worker = new Worker base
       @workerIsIframe = false
       @worker.addEventListener 'message', @onmsg, false
-      startImport()
-      @post type: 'set_input_server', data: @input_server
+      postCreate()
 
   post: (msgObj) ->
     msgStr = JSON.stringify msgObj
