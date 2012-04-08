@@ -23,7 +23,7 @@ describe 'Sandbox', ->
       
   describe '#load()', ->
     it 'should load sandbox in an iframe and load sample engine and fire ready event', (done) ->
-      sandbox.on 'ready', ->
+      sandbox.once 'ready', ->
         expect(sandbox.workerIsIframe).to.be.ok()
         done()
       sandbox.load ['test/dummy-engine.js'], false
@@ -36,7 +36,8 @@ describe 'Sandbox', ->
   
   describe 'messaging', ->
     it 'should send eval to worker and worker must respond with result', (done) ->
-      sandbox.on 'result', (data) ->
+      sandbox.once 'result', (data) ->
         expect(data).to.be 'done'
+        done()
       
       sandbox.post(type: 'engine.dummy_msg', data: 'dummy')
