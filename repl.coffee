@@ -52,7 +52,7 @@ class Loader
 
 class EventEmitter
   constructor: ->
-    @listeners = []
+    @listeners = {}
 
   makeArray: (obj) ->
     if Object::toString.call(obj) != '[object Array]'
@@ -341,6 +341,7 @@ class JSREPL::Languages
 # Export for testing.
 class JSREPL::__test__
 JSREPL::__test__::Loader = Loader
+JSREPL::__test__::EventEmitter = EventEmitter
 JSREPL::__test__::Sandbox = Sandbox
 
 # Export JSREPL to the world.
