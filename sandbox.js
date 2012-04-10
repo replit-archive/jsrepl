@@ -238,7 +238,8 @@
         Object.defineProperty(global, prop, {
           writable: false,
           enumerable: false,
-          configurable: false
+          configurable: false,
+          value: global[prop]
         }); 
       } catch (e) {}
     },
