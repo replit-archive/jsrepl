@@ -22,3 +22,4 @@ languages.js
 loader.js
 repl.js
 util/utf8.js
+test/*.js
