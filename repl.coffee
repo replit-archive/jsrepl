@@ -257,7 +257,10 @@ class JSREPL extends EventEmitter
   #     JSREPL::Languages as defined in languages.coffee.
   #   @arg callback: The function to call after loading finishes.
   #   @arg worker_friendly: Whether we should load the language in a worker.
-  loadLanguage: (lang_name, callback, worker_friendly) =>
+  loadLanguage: (lang_name, loadInWorker, callback) =>
+    if typeof loadInWorker is 'function'
+      [callback, loadInWorker] =  [loadInWorker, undefined]
+
     if not JSREPL::Languages::[lang_name]?
       throw new Error "Language #{lang_name} not supported."
     
@@ -276,8 +279,7 @@ class JSREPL extends EventEmitter
       else
         script
     
-    worker_friendly ?= @lang.worker_friendly
-    @sandbox.load lang_scripts.concat([@lang.engine]), worker_friendly
+    @sandbox.load lang_scripts.concat([@lang.engine]), loadInWorker
   
   # Checks whether the REPL should continue to the next line rather than run
   # the evaluator. Forces evaluation if the last line is empty. Otherwise
@@ -294,7 +296,7 @@ class JSREPL extends EventEmitter
 
   # Evaluates a command in the current engine.
   #   @arg command: A string containing the code to execute.
-  eval: (command) =>
+  eval: (command, callback) =>
     if not @sandbox.workerIsIframe and @timeout? and @timeout.time and @timeout.callback
       t = null
       cb = =>
@@ -322,6 +324,13 @@ class JSREPL extends EventEmitter
 
       bind()
     
+    if typeof callback is 'function'
+      @once ['result', 'error'], (args..., type) =>
+        if type is 'error'
+          callback args[0], null
+        else
+          callback null, args[0] 
+
     @sandbox.post
       type: 'engine.Eval'
       data: command

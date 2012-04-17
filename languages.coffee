@@ -17,7 +17,6 @@
   ]
   includes: []
   engine: 'langs/qbasic/jsrepl_qbasic.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::scheme =
@@ -59,7 +58,6 @@
   ]
   includes: []
   engine: 'langs/scheme/jsrepl_scheme.coffee'
-  worker_friendly: true
   minifier: 'yui'
 
 @JSREPL::Languages::javascript =
@@ -76,7 +74,6 @@
   ]
   includes: []
   engine: 'langs/javascript/jsrepl_js.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::coffeescript =
@@ -94,7 +91,6 @@
   ]
   includes: []
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::brainfuck =
@@ -109,7 +105,6 @@
   ]
   includes: []
   engine: 'langs/brainfuck/jsrepl_brainfuck.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::unlambda =
@@ -122,7 +117,6 @@
   ]
   includes: []
   engine: 'langs/unlambda/jsrepl_unlambda.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::lolcode =
@@ -139,7 +133,6 @@
   ]
   includes: []
   engine: 'langs/lolcode/jsrepl_lolcode.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::kaffeine =
@@ -157,7 +150,6 @@
   ]
   includes: []
   engine: 'langs/kaffeine/jsrepl_kaffeine.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::move =
@@ -175,7 +167,6 @@
   ]
   includes: []
   engine: 'langs/move/jsrepl_move.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::traceur =
@@ -279,7 +270,6 @@
   ]
   includes: []
   engine: 'langs/traceur/jsrepl_traceur.coffee'
-  worker_friendly: true
   minifier: 'closure_es5'
 
 @JSREPL::Languages::emoticon =
@@ -294,7 +284,6 @@
   ]
   includes: []
   engine: 'langs/emoticon/jsrepl_emoticon.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::bloop =
@@ -307,7 +296,6 @@
   ]
   includes: []
   engine: 'langs/bloop/jsrepl_bloop.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::forth =
@@ -323,7 +311,6 @@
   ]
   includes: []
   engine: 'langs/forth/jsrepl_forth.coffee'
-  worker_friendly: true
   minifier: 'closure'
 
 @JSREPL::Languages::lua =
@@ -341,7 +328,6 @@
   ]
   includes: []
   engine: 'langs/lua/jsrepl_lua.coffee'
-  worker_friendly: true
   minifier: 'none'
   emscripted: true
 
@@ -368,7 +354,6 @@
     'extern/python/reloop-closured'
   ]
   engine: 'langs/python/jsrepl_python.coffee'
-  worker_friendly: true
   minifier: 'none'
   emscripted: true
   
@@ -392,7 +377,6 @@
     'extern/ruby/dist/lib'
   ]
   engine: 'langs/ruby/jsrepl_ruby.coffee'
-  worker_friendly: true
   minifier: 'none'
   emscripted: true
 
@@ -411,5 +395,4 @@
   ]
   includes: []
   engine: 'langs/roy/jsrepl_roy.coffee'
-  worker_firnedly: true
   minifier: 'closure'
