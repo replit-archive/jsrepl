@@ -26,14 +26,41 @@ describe 'JSREPL', ->
         jsrepl.eval '1'
 
   describe '#loadLanguage', ->
-    for lang, confg of JSREPL::Languages::
-      do (lang) ->
-        it "it should load #{lang} in under than 5 seconds", (done) ->
+    beforeEach -> jsrepl = new JSREPL
+
+    for lang, config of JSREPL::Languages::
+      do (lang, config) ->
+        it "it should load #{lang} in a worker under 5 seconds", (done) ->
           @timeout 5000
           jsrepl.loadLanguage lang, ->
-            jsrepl.once 'result', (x) -> done()
-            console.log "loaded #{lang}"
-            jsrepl.eval '1'
+            expect(jsrepl.sandbox.workerIsIframe).not.to.be.ok()
+            done()
+
+        it "it should load #{lang} under 5 seconds in an iframe if non-emscripten language", (done) ->
+          return done() if config.emscripted? 
+          @timeout 5000
+          jsrepl.loadLanguage lang, false, ->
+            expect(jsrepl.sandbox.workerIsIframe).to.be.ok()
+            done()
+
+  describe '#eval', ->
+    it 'should take code and callback. Execute code and call callback '
+    for lang, config of JSREPL::Languages::
+      do (lang, config) ->
+        it "should succesfully eval a basic predefined and tested piece of code for #{lang}", (done) ->
+          @timeout 5000
+          jsrepl.loadLanguage lang, ->
+            code = if lang is 'unlambda' then 'r' else 1
+            jsrepl.eval '1', (error, result) ->
+              console.log arguments
+              if error
+                done new error
+              else
+                done()
+
+
+
+
 
 
 
