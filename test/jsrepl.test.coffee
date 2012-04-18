@@ -44,24 +44,16 @@ describe 'JSREPL', ->
             done()
 
   describe '#eval', ->
-    it 'should take code and callback. Execute code and call callback '
     for lang, config of JSREPL::Languages::
       do (lang, config) ->
         it "should succesfully eval a basic predefined and tested piece of code for #{lang}", (done) ->
           @timeout 5000
           jsrepl.loadLanguage lang, ->
-            code = if lang is 'unlambda' then 'r' else 1
-            jsrepl.eval '1', (error, result) ->
+            code = if lang is 'unlambda' then 'r' else '1'
+            jsrepl.eval code, (error, result) ->
               console.log arguments
               if error
-                done new error
+                done(new Error(error))
               else
                 done()
-
-
-
-
-
-
-
 
