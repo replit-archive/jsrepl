@@ -16,7 +16,7 @@ class self.JSREPLEngine
   Eval: (command) ->
     try
       compiled = @CoffeeScript.compile command, globals: on, bare: on
-      result = @sandbox.__eval compiled, globals: on, bare: on
+      result = @sandbox.__eval compiled
       @result if result == undefined then '' else @inspect result
     catch e
       @error e
@@ -24,8 +24,8 @@ class self.JSREPLEngine
   RawEval: (command) ->
     try
       compiled = @CoffeeScript.compile command, globals: on, bare: on
-      result = @sandbox.__eval compiled, globals: on, bare: on
-      @result if result == undefined then '' else @inspect result
+      result = @sandbox.__eval compiled
+      @result result
     catch e
       @error e
 
