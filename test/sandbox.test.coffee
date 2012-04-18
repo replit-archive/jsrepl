@@ -29,7 +29,7 @@ describe 'Sandbox', ->
       sandbox.load ['test/dummy-engine.js'], false
     
     it 'should load sandbox in a worker and load sample engine and fire ready event', (done) ->
-      sandbox.on 'ready', ->
+      sandbox.once 'ready', ->
         done()
       sandbox.load ['test/dummy-engine.js'], true
   
