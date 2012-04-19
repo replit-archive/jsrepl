@@ -17,7 +17,7 @@ describe 'Loader', ->
     it 'should append an invisible iframe to the body and callback on iframe load', (done) ->
       loader.createSandbox (win) ->
         iframe = getIframe()
-        expect(iframe.parentElement).to.be(document.getElementsByTagName('body')[0])
+        expect(iframe.parentElement || iframe.parentNode).to.be(document.getElementsByTagName('body')[0])
         expect(iframe.style.display).to.be 'none'
         expect(iframe.contentWindow).to.be win
         done()

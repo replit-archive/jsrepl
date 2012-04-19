@@ -23,6 +23,7 @@ describe 'Sandbox', ->
       
   describe '#load()', ->
     it 'should load sandbox in an iframe and load sample engine and fire ready event', (done) ->
+      @timeout 5000
       sandbox.once 'ready', ->
         expect(sandbox.workerIsIframe).to.be.ok()
         done()

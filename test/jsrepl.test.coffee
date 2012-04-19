@@ -7,6 +7,7 @@ describe 'JSREPL', ->
   jsrepl = null
   describe '#constructor', ->
     it 'should be able to instantiate (and function) without initial arguments', (done) ->
+      @timeout 5000
       jsrepl = new JSREPL
       jsrepl.on 'ready', ->
         jsrepl.on 'result', ->
