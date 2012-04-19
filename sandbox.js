@@ -71,6 +71,7 @@
     importScripts: function (scriptsArr) {
       var reqs = [],
           totalSize = 0,
+          lastLoadedTable = [],
           totalUpdated = [],
           totalLoaded = 0,
           that = this,
@@ -83,16 +84,18 @@
         }
       };
 
-      var updateProgress = function (e) {
-        var loaded = e.loaded || e.position,
-            lastLoaded = e.target.lastLoaded || 0;
+      var updateProgressCreator = function (index) {
+        return function (e) {
+          var loaded = e.loaded || e.position,
+              lastLoaded = lastLoadedTable[index] || 0;
 
-        e.target.lastLoaded = loaded;
-        totalLoaded += loaded - lastLoaded;
-        var percentageDone = (totalLoaded / totalSize) * 100;
-        if (totalUpdated.length === scriptsArr.length) {
-         that.progress(percentageDone); 
-        }
+          lastLoadedTable[index] = loaded;
+          totalLoaded += loaded - lastLoaded;
+          var percentageDone = (totalLoaded / totalSize) * 100;
+          if (totalUpdated.length === scriptsArr.length) {
+           that.progress(percentageDone); 
+          }
+        };
       };
 
       var finished = scriptsArr.length;
@@ -113,9 +116,9 @@
         (function (i) {
           reqs[i] = new XHR();
           if (reqs[i].addEventListener) {
-            reqs[i].addEventListener('progress', updateProgress, false);
+            reqs[i].addEventListener('progress', updateProgressCreator(i), false);
           }
-          reqs[i].onprogress = updateProgress;
+          reqs[i].onprogress = updateProgressCreator(i);
           reqs[i].onreadystatechange = function () {
             if (reqs[i].readyState === 2) {
               updateSize(reqs[i]);
