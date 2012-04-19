@@ -7,7 +7,12 @@
       <script src="test/lib/expect.js"></script>
       <script src="repl.js" id="jsrepl-script"></script>
       <script src="languages.js"></script>
-      <script>mocha.setup('bdd')</script>
+      <script type="text/coffeescript">
+      mocha.setup
+        ui: 'bdd'
+        timeout: 3500
+        ignoreLeaks: true
+      </script>
       <script type="text/coffeescript" src="test/loader.test.coffee"></script>
       <script type="text/coffeescript" src="test/event_emitter.test.coffee"></script>
       <script type="text/coffeescript" src="test/sandbox.test.coffee"></script>
