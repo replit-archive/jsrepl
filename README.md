@@ -38,6 +38,31 @@ A sandboxed polyglot browser REPL.
   
 ## Getting Started  
   
+###Building JSREPL  
+
+#### Build-Dependencies
+##### [node.js](http://nodejs.org/)  
+
+##### [npm](http://npmjs.org/)
+`curl http://npmjs.org/install.sh | sh`
+   
+##### [CoffeeScript](http://jashkenas.github.com/coffee-script/)
+Using npm (has to be version 1.2.0):
+`npm install -g coffee-script@1.2.0`
+
+#### Getting the source
+##### Cloning the repository
+`git clone git://github.com/replit/jsrepl.git`
+
+##### Source-Dependencies
+`git submodule update --init --recursive`
+
+#### Bake it
+`cake bake`
+
+
+###Including JSREPL  
+
 Include the built jsrepl script with the id "jsrepl-script".  
 
 ```html
