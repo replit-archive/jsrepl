@@ -61,7 +61,7 @@ ensurePathExists = (the_path) ->
   current_path = '.'
   for part in parts
     current_path += '/' + part
-    fs.mkdirSync(current_path, 0755) if not path.existsSync current_path
+    fs.mkdirSync(current_path, 0o755) if not path.existsSync current_path
 
 # Builds the interpreter engine including all dependencies for a given language.
 buildEngine = (name, lang, callback) ->
@@ -150,15 +150,15 @@ squash = (srcs, outname, minifier, callback) ->
 # Bakes the pies, brews the coffee and sets up the lunch table.
 task 'bake', 'Build everything for deployment', ->
   exec 'rm -rf tmp build', ->
-    fs.mkdirSync 'tmp', 0755
-    fs.mkdirSync 'build', 0755
+    fs.mkdirSync 'tmp', 0o755
+    fs.mkdirSync 'build', 0o755
 
     console.log "Baking worker."
     exec 'cp sandbox.html build', ->
       squash WORKER_FILES, 'sandbox.js', DEFAULT_MINIFIER, ->
         console.log "Baking languages."
-        fs.mkdirSync 'tmp/engines', 0755
-        fs.mkdirSync 'build/engines', 0755
+        fs.mkdirSync 'tmp/engines', 0o755
+        fs.mkdirSync 'build/engines', 0o755
         langs = loadLanguagesList()
         pending_langs = ([i, j] for i,j of langs)
         buildNextLang = (callback) ->
@@ -176,7 +176,7 @@ task 'bake', 'Build everything for deployment', ->
                         fs.readFileSync 'build/jsrepl.js', 'utf8')
             fs.writeFileSync 'build/jsrepl.js', contents
             # Remove temp folder.
-            exec 'rm -rf tmp', 0755, ->
+            exec 'rm -rf tmp', 0o755, ->
               console.log 'Done.'
 
 # Watches all coffee files and compiles them live to Javascript.
