@@ -144,7 +144,11 @@ class Sandbox extends EventEmitter
         postCreate()
     else
       # Workers are supported! \o/
-      @worker = new Worker base
+      try
+        @worker = new Worker base
+      catch error
+        throw new Error('Could not create worker, are you trying to run this from file://?')
+        return
       @workerIsIframe = false
       @worker.addEventListener 'message', @onmsg, false
       postCreate()
