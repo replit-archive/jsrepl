@@ -91,7 +91,7 @@
   ]
   includes: []
   engine: 'langs/coffee-script/jsrepl_coffee.coffee'
-  minifier: 'closure'
+  minifier: 'uglify'
 
 @JSREPL::Languages::brainfuck =
   system_name: 'brainfuck'
