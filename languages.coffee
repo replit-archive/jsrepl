@@ -344,7 +344,6 @@
     'util/utf8.coffee'
     {
       opera: 'extern/python/unclosured/python.js'
-      chrome: 'extern/python/closured/python.js'
       default: 'extern/python/reloop-closured/python.js'
     }
   ]
