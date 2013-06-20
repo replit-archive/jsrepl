@@ -18,7 +18,7 @@ YUI_COMPRESSOR_PATH = './tools/yuicompressor-2.4.6/build/yuicompressor-2.4.6.jar
 MINIFIERS =
   none: 'cat '
   yui: "java -jar #{YUI_COMPRESSOR_PATH} --type js "
-  uglify: 'uglifyjs -nc --unsafe '
+  uglify: 'uglifyjs '
   closure: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --compilation_level SIMPLE_OPTIMIZATIONS --js "
   closure_es5: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --language_in=ECMASCRIPT5 --compilation_level SIMPLE_OPTIMIZATIONS --js "
   closure_advanced: "java -Xmx4g -jar #{CLOSURE_COMPILER_PATH} --compilation_level ADVANCED_OPTIMIZATIONS --js "
@@ -113,6 +113,7 @@ buildEngine = (name, lang, callback) ->
 
 # Passes a given file through a minifier child process and calls back when done.
 minify = (src, dest, minifier, callback) ->
+  console.log "   minifying #{src} using #{minifier}"
   exec "#{minifier} #{src}", maxBuffer: 1 << 23, (error, minified) ->
     if error
       console.log "Minifying #{src} failed:\n#{error.message}."
