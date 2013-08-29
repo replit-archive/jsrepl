@@ -47,8 +47,8 @@ A sandboxed polyglot browser REPL.
 `curl http://npmjs.org/install.sh | sh`
    
 ##### [CoffeeScript](http://jashkenas.github.com/coffee-script/)
-Using npm (has to be version 1.2.0):
-`npm install -g coffee-script@1.2.0`
+Using npm :
+`sudo npm install -g coffee-script`
 
 #### Getting the source
 ##### Cloning the repository
