@@ -21,4 +21,4 @@ cat entry_point.js >> lua.js
 
 coffee $EMSCRIPTEN_ROOT/tools/eliminator/eliminator.coffee < lua.js > lua.opt.js
 
-java -Xmx4g -jar $CLOSURE_JAR --compilation_level ADVANCED_OPTIMIZATIONS --js lua.opt.js --js_output_file lua.closure.js
+java -jar $CLOSURE_JAR --compilation_level ADVANCED_OPTIMIZATIONS --js lua.opt.js --js_output_file lua.closure.js

@@ -25,4 +25,4 @@ cat entry_point.js >> dist/ruby.js
 
 coffee /home/max/emscripten-workspace/emscripten/tools/eliminator/eliminator.coffee < ruby.js > ruby.opt.js
 
-java -Xmx4g -jar $CLOSURE_JAR --compilation_level ADVANCED_OPTIMIZATIONS --js ruby.opt.js --js_output_file ruby.closure.js
+java -jar $CLOSURE_JAR --compilation_level ADVANCED_OPTIMIZATIONS --js ruby.opt.js --js_output_file ruby.closure.js
