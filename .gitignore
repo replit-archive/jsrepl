@@ -1,4 +1,5 @@
 build/
+langs/apl/jsrepl_apl.js
 langs/bloop/jsrepl_bloop.js
 langs/brainfuck/jsrepl_brainfuck.js
 langs/coffee-script/jsrepl_coffee.js
