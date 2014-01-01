@@ -15,4 +15,4 @@
 	url = git://github.com/replit/unlambda-coffee.git
 [submodule "extern/apl"]
 	path = extern/apl
-	url = git@github.com:ngn/apl.git
+	url = git://github.com/ngn/apl.git
