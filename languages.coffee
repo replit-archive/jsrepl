@@ -60,6 +60,16 @@
   engine: 'langs/scheme/jsrepl_scheme.coffee'
   minifier: 'yui'
 
+@JSREPL::Languages::apl =
+  system_name: 'apl'
+  name: 'APL'
+  extension: 'apl'
+  matchings: [['(', ')'], ['[', ']'], ['{', '}']]
+  scripts: ['extern/apl/lib/apl.js']
+  includes: []
+  engine: 'langs/apl/jsrepl_apl.coffee'
+  minifier: 'yui'
+
 @JSREPL::Languages::javascript =
   system_name: 'javascript'
   name: 'JavaScript'
