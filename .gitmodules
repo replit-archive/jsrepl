@@ -1,9 +1,6 @@
 [submodule "extern/bfjs"]
 	path = extern/bfjs
 	url = git://github.com/replit/bfjs.git
-[submodule "extern/biwascheme"]
-	path = extern/biwascheme
-	url = git://github.com/replit/biwascheme.git
 [submodule "extern/emoticoffee"]
 	path = extern/emoticoffee
 	url = git://github.com/replit/emoticoffee.git
