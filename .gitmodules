@@ -13,3 +13,6 @@
 [submodule "extern/apl"]
 	path = extern/apl
 	url = git://github.com/ngn/apl.git
+[submodule "extern/biwascheme"]
+	path = extern/biwascheme
+	url = https://github.com/amasad/biwascheme.git
