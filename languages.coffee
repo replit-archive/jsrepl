@@ -27,15 +27,19 @@
     ['(', ')']
     ['[', ']']
   ]
+
   scripts: [
+    'extern/biwascheme/src/version.js'
     'extern/biwascheme/src/deps/underscore.js'
     'extern/biwascheme/src/deps/underscore.string.js'
+    'extern/biwascheme/src/header.js'
     'extern/biwascheme/src/system/class.js'
-    'extern/biwascheme/src/stackbase.js'
+    'extern/biwascheme/src/system/_writer.js'
+    'extern/biwascheme/src/system/_types.js'
+    'extern/biwascheme/src/system/error.js'
     'extern/biwascheme/src/system/set.js'
-    'extern/biwascheme/src/system/write.js'
+    'extern/biwascheme/src/system/values.js'
     'extern/biwascheme/src/system/pair.js'
-    'extern/biwascheme/src/system/value.js'
     'extern/biwascheme/src/system/symbol.js'
     'extern/biwascheme/src/system/char.js'
     'extern/biwascheme/src/system/number.js'
@@ -44,7 +48,6 @@
     'extern/biwascheme/src/system/enumeration.js'
     'extern/biwascheme/src/system/hashtable.js'
     'extern/biwascheme/src/system/syntax.js'
-    'extern/biwascheme/src/system/types.js'
     'extern/biwascheme/src/system/parser.js'
     'extern/biwascheme/src/system/compiler.js'
     'extern/biwascheme/src/system/pause.js'
@@ -53,8 +56,12 @@
     'extern/biwascheme/src/library/infra.js'
     'extern/biwascheme/src/library/r6rs_lib.js'
     'extern/biwascheme/src/library/js_interface.js'
+    'extern/biwascheme/src/library/webscheme_lib.js'
     'extern/biwascheme/src/library/extra_lib.js'
+    'extern/biwascheme/src/library/node_functions.js'
     'extern/biwascheme/src/library/srfi.js'
+    'extern/biwascheme/src/platforms/browser/dumper.js'
+    'extern/biwascheme/src/platforms/browser/console.js'
   ]
   includes: []
   engine: 'langs/scheme/jsrepl_scheme.coffee'
