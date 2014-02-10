@@ -65,7 +65,7 @@
   ]
   includes: []
   engine: 'langs/scheme/jsrepl_scheme.coffee'
-  minifier: 'yui'
+  minifier: 'closure_es5'
 
 @JSREPL::Languages::apl =
   system_name: 'apl'
