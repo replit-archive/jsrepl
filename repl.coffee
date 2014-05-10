@@ -6,7 +6,14 @@ if script_element?
   BASE_PATH = script_element.src.split('/')[...-1].join '/'
   SANDBOX_SRC = "#{BASE_PATH}/sandbox.html"
 else
-  throw new Error 'JSREPL script element cannot be found. Make sure you have the ID "jsrepl-script" on it.'
+  elements = document.getElementsByTagName 'script'
+  for script_element in elements
+    if script_element.src.match /^(.*)\/jsrepl(\-\w+)?\.js(\?|$)/ isnt null
+      BASE_PATH = script_element.src.split('/')[...-1].join '/'
+      SANDBOX_SRC = "#{BASE_PATH}/sandbox.html"
+      break
+  if BASE_PATH?
+    throw new Error 'JSREPL script element cannot be found. Make sure you have the ID "jsrepl-script" on it.'
 
 class Loader
   constructor: ->
