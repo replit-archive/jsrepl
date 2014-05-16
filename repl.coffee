@@ -12,7 +12,7 @@ else
       BASE_PATH = script_element.src.split('/')[...-1].join '/'
       SANDBOX_SRC = "#{BASE_PATH}/sandbox.html"
       break
-  if BASE_PATH?
+  if not BASE_PATH?
     throw new Error 'JSREPL script element cannot be found. Make sure you have the ID "jsrepl-script" on it.'
 
 class Loader
