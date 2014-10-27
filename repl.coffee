@@ -234,6 +234,10 @@ class JSREPL extends EventEmitter
           else
             xhr = new XMLHttpRequest()
             xhr.open 'POST', url, true
+          xhr.setRequestHeader(
+            'Content-Type',
+            'application/x-www-form-urlencoded; charset=UTF-8'
+          )
           xhr.send "input=#{data}"
     
   # Only listen to input events to abstract all input types.
