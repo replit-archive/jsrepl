@@ -248,8 +248,14 @@
     },
 
     set_input_server: function (settings) {
+      var baseUrl = settings.url || '/emscripten/input/';
+      function nextUrl() {
+        // Note: we increment the input_id after each request to avoid race
+        // conditions on the server. Keep this code in sync with repl.coffee
+        return baseUrl + settings.input_id++;
+      }
       this.input_server = {
-        url: (settings.url || '/emscripten/input/') + settings.input_id,
+        nextUrl: nextUrl,
         cors: settings.cors || false
       };
     }
@@ -295,7 +301,7 @@
   } else if (!Sandboss.isFrame) {
     self.prompt = function () {
       Sandboss.serverInput();
-      var req = createRequest('GET', Sandboss.input_server.url, Sandboss.input_server.cors);
+      var req = createRequest('GET', Sandboss.input_server.nextUrl(), Sandboss.input_server.cors);
       req.send(null);
 
       if (req.status === 200) {  
