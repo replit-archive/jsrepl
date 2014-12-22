@@ -22,7 +22,7 @@ class self.JSREPLEngine
       @result if result == undefined then '' else @inspect result
     catch e
       @error e
-  
+
   GetNextLineIndent: (command) ->
     # Check if it compiles.
     try
@@ -38,18 +38,4 @@ class self.JSREPLEngine
         return 0
 
   _Compile: (command) ->
-    errors = []
-    reporter = new @traceur.util.ErrorReporter
-    reporter.reportMessageInternal = (location, kind, format, args) ->
-      i = 0
-      message = format.replace /%s/g, -> return args[i++]
-      errors.push if location then "#{location}: #{message}" else message
-
-    project = new @traceur.semantics.symbols.Project
-    project.addFile new @traceur.syntax.SourceFile 'REPL', command
-    res = @traceur.codegeneration.Compiler.compile reporter, project, false
-
-    if reporter.hadError()
-      throw new Error errors.join '\n'
-    else
-      return @traceur.codegeneration.ProjectWriter.write res
+    return @traceur.Compiler.script(command)
