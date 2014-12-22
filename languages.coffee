@@ -201,7 +201,7 @@
   ]
   includes: []
   engine: 'langs/traceur/jsrepl_traceur.coffee'
-  minifier: 'closure_es5'
+  minifier: 'uglify'
 
 @JSREPL::Languages::emoticon =
   system_name: 'emoticon'
