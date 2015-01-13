@@ -50,6 +50,10 @@ A sandboxed polyglot browser REPL.
 Using npm :
 `sudo npm install -g coffee-script`
 
+##### [UglifyJS](https://github.com/mishoo/UglifyJS)
+Using npm :
+`sudo npm install -g uglify-js` then `export PATH=$PATH:/usr/local/lib/node_modules/uglify-js/bin/`
+
 #### Getting the source
 ##### Cloning the repository
 `git clone git://github.com/replit/jsrepl.git`
