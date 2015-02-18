@@ -122,9 +122,12 @@ minify = (src, dest, minifier, callback) ->
     if callback then callback()
 
 # Writes the specified languages list to languages.js
+# Writes the specified languages list to languages.js
 buildLanguagesList = (langs) ->
+  langs = JSON.stringify langs
+  langs = langs.replace /engines/g, 'build/engines'
   console.log 'Building languages list.'
-  langs_js = "JSREPL.prototype.Languages.prototype=#{JSON.stringify langs}"
+  langs_js = "JSREPL.prototype.Languages.prototype="+langs
   fs.writeFileSync 'languages.js', langs_js
 
 # Watches a file for changes. Calls the callback immediately when first run.
