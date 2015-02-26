@@ -1,3 +1,9 @@
+- - -
+
+**_Deprecation notice_: We're moving language sandboxes to the server for a faster, complete, and up-to-date implementations. <a href="http://repl.it/api">We do offer an API if you want to build on top of it</a>.**
+
+- - -
+
 #JSREPL  
   
 A sandboxed polyglot browser REPL.  
