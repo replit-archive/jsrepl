@@ -6,6 +6,7 @@ fs = require 'fs'
 path = require 'path'
 coffee = require 'coffee-script'
 {exec} = require 'child_process'
+crypto = require 'crypto'
 
 #------------------------------------------------------------------------------#
 #                                    Config                                    #
@@ -71,7 +72,9 @@ buildEngine = (name, lang, callback) ->
   compileCoffee lang.engine
   lang.engine = lang.engine.replace /\.coffee$/, '.js'
   ensurePathExists 'build/' + lang.engine
-  minify lang.engine, 'build/' + lang.engine, DEFAULT_MINIFIER, ->
+  minify lang.engine, 'build/' + lang.engine, DEFAULT_MINIFIER, (checksum) ->
+    lang.engine += '?' + checksum
+
     # Copy non-JS dependencies.
     for include in lang.includes
       ensurePathExists 'build/' + include
@@ -105,8 +108,9 @@ buildEngine = (name, lang, callback) ->
         console.log "  Creating the #{build_target} build."
         if scripts.length
           min_path = "engines/#{name}-#{build_target}.js"
-          lang.scripts[0][build_target] = [min_path]
-          squash scripts, min_path, MINIFIERS[lang.minifier], doNextBuild
+          squash scripts, min_path, MINIFIERS[lang.minifier], (checksum) ->
+            lang.scripts[0][build_target] = [min_path + '?' + checksum]
+            doNextBuild()
         else
           doNextBuild()
     doNextBuild()
@@ -119,7 +123,14 @@ minify = (src, dest, minifier, callback) ->
       console.log "Minifying #{src} failed:\n#{error.message}."
       process.exit 1
     fs.writeFileSync dest, minified
-    if callback then callback()
+    if callback then callback(checksum(minified))
+
+
+checksum = (content) ->
+  return crypto
+    .createHash('md5')
+    .update(content, 'utf8')
+    .digest('hex')
 
 # Writes the specified languages list to languages.js
 buildLanguagesList = (langs) ->
