@@ -56,13 +56,22 @@ compileCoffee = (filename) ->
   js_src = coffee.compile coffee_src
   fs.writeFileSync filename.replace(/\.coffee$/, '.js'), js_src
 
+#function to check if the path exist
+fileExists = (filePath)->
+  try
+    fs.lstatSync filePath
+    true
+  catch err
+    if err.code is 'ENOENT'
+      false
+
 # Creates any elements of the dirname of the given path that do not exist.
 ensurePathExists = (the_path) ->
   parts = the_path.split('/').slice 0, -1
   current_path = '.'
   for part in parts
     current_path += '/' + part
-    fs.mkdirSync(current_path, 0o755) if not path.existsSync current_path
+    fs.mkdirSync(current_path, 0o755) if not fileExists current_path
 
 # Builds the interpreter engine including all dependencies for a given language.
 buildEngine = (name, lang, callback) ->
