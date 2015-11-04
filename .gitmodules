@@ -1,12 +1,6 @@
 [submodule "extern/bfjs"]
 	path = extern/bfjs
 	url = git://github.com/replit/bfjs.git
-[submodule "extern/emoticoffee"]
-	path = extern/emoticoffee
-	url = git://github.com/replit/emoticoffee.git
-[submodule "extern/lol-coffee"]
-	path = extern/lol-coffee
-	url = git://github.com/replit/lol-coffee.git
 [submodule "extern/unlambda-coffee"]
 	path = extern/unlambda-coffee
 	url = git://github.com/replit/unlambda-coffee.git
