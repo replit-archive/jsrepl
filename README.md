@@ -119,11 +119,11 @@ a language interpreter with the progress percentage.
 ###JSREPL::loadLanguage  
 Loads a language interpreter. Takes three arguments:  
   
-  * __string__ *lang_name*: The name of the language to load.  
-  * __function__ *callback*: Called when the language has been successfully loaded.  
+  * __string__ *lang_name*: The name of the language to load.
   * __boolean__ *worker_friendly* (optional): By default JSRPEL would try to load  
   interpreters into Web Workers, this argument would force either loading in a   
   Worker (true) or loading in an iframe (false).  
+  * __function__ *callback*: Called when the language has been successfully loaded.  
   
 Example:
 
