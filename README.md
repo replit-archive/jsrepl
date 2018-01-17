@@ -5,11 +5,11 @@
 - - -
 
 
-#JSREPL  
+# JSREPL  
   
 A sandboxed polyglot browser REPL.  
   
-##Current Languages  
+## Current Languages  
   
 * JavaScript Variants
   * JavaScript
@@ -45,7 +45,7 @@ A sandboxed polyglot browser REPL.
   
 ## Getting Started  
   
-###Building JSREPL  
+### Building JSREPL  
 
 #### Build-Dependencies
 ##### [node.js](http://nodejs.org/)  
@@ -72,7 +72,7 @@ Using npm :
 `cake bake`
 
 
-###Including JSREPL  
+### Including JSREPL  
 
 Include the built jsrepl script with the id "jsrepl-script".  
 
@@ -80,7 +80,7 @@ Include the built jsrepl script with the id "jsrepl-script".
   <script src="jsrepl.js" id="jsrepl-script"></script>  
 ```  
   
-###Instantiating JSREPL  
+### Instantiating JSREPL  
   
 ```javascript
   var jsrepl = new JSREPL({  
@@ -114,9 +114,9 @@ a language interpreter with the progress percentage.
   callback must handle recovering the system (i.e. call jsrepl.loadLanguage etc.).  
   Must return `true` to stop the timeout from firing again.  
   
-##API
+## API
 
-###JSREPL::loadLanguage  
+### JSREPL::loadLanguage  
 Loads a language interpreter. Takes three arguments:  
   
   * __string__ *lang_name*: The name of the language to load.
@@ -133,7 +133,7 @@ Example:
   });
 ```
   
-###JSRPEL::eval  
+### JSRPEL::eval  
 Evaluates a program in the currently loaded language interpreter. Takes one argument:  
   
   * __string__ *command*: The program string to evaluate.  
@@ -144,13 +144,13 @@ Example:
   jsrepl.eval('1+1');  
 ```
   
-###JSREPL::getLangConfig  
+### JSREPL::getLangConfig  
 Returns the configuration object for a given language. Takes one argument:  
   
   * __string__ *lang_name*: The language whose config will be returned. Defaults  
   to the current language name.  
   
-###JSREPL::checkLineEnd  
+### JSREPL::checkLineEnd  
 Given a command, decides whether it is ready for execution, as opposed to being  
 unfinished, such as missing a closing brace.
   
@@ -158,30 +158,30 @@ unfinished, such as missing a closing brace.
   * __function__ *callback*: The callback will be called with true if the command  
   is ready for execution, or false if it is incomplete.
   
-###JSREPL::on  
+### JSREPL::on  
 Attaches a listener to one or more events. Takes two arguments:  
   
   * __string | array__ *event_type*: Event(s) to listen to.  
   * __function__ *callback*: The function to call when the event is fired. Will    
   be called with whatever arguments the event supplies.  
   
-###JSREPL::off  
+### JSREPL::off  
 Detaches a listener or all listeners to one or more events. Arguments:    
   
   * __string | array__ *event_type*: Event(s) to detach listener(s) from.
   * __function__ *listener*: The listener function to detach. If not supplied then    
   all listeners will be detached.  
     
-###JSREPL::once
+### JSREPL::once
 Attaches a listener to one or more events that will only be called once.
 Arguments:
 
   * __string | array__ *event_type*: Event(s) to listen to.  
   * __function__ *callback*: The function to call when the event is fired.  
 
-##Events
+## Events
 
-###input  
+### input  
 Fired when the current language interpreter asks for input.    
 Arguments:  
   
@@ -190,42 +190,42 @@ Arguments:
   one input listener should call this callback.  
   
   
-###output  
+### output  
 Fired each time the current language interpreter has output to standard out.    
 Arguments:  
     
   * __string__ *data*: The output string.  
     
-###result  
+### result  
 Fired when the language interpreter has a result from the latest eval.    
 Arguments:  
   
   * __string__ *data*: The *stringified* result from the latest eval.  
     
-###error  
+### error  
 Fired when the language interpreter has an error from the latest eval.    
 Arguments:  
   
   * __string__ *error*: The *stringified* error from the latest eval.  
   
-###progress  
+### progress  
 Fired when JSREPL has load progress percentage from loading a language  
 interpreter to report.  
 Arguments:    
   
   * __float__ *percentage*: How much of the interpreter file(s) was loaded.  
   
-###timeout  
+### timeout  
 If JSREPL was instantiated with the `timeout` option that includes the time  
 to wait on a running program before calling the specified callback (see  
 Instantiating JSREPL) and firing this event.  
 
-###ready
+### ready
 Fired when a language is loaded and is ready to eval.
 
-##Standard input hacks
+## Standard input hacks
 
-###Problem
+### Problem
 Language interpreters that are compiled with Emscripten expect input to be  
 to be a blocking call (synchronous). The only way to get blocking input  
 prompts in browsers is by using `window.prompt`. While suboptimal, it  
@@ -241,22 +241,22 @@ instead of a web worker. However in recent builds of Firefox and Chrome
 that approach was broken for us because we could no longer do synchronous  
 binary XHRs, e.g. to read library files.
 
-###Solution
+### Solution
 
-####Webkit browsers
+#### Webkit browsers
 In WebKit-based browsers, we have leveraged the non-standard Web SQL Database  
 to share resources between the main thread and the worker thread, as they  
 provide a synchronization mechanism that can be accessed from both the main  
 page thread and from a worker. (See repl.coffee and sandbox.js).
 
-####Firefox
+#### Firefox
 Unfortunately we couldn't do the same in Firefox, as it does not implement Web  
 SQL, and still does not support the standard IndexedDB Sync API. Instead, we  
 have used XHR to synchronously communicate between the worker and the main  
 thread using our server as a crude proxy. There is a sample server  
 implementation in the [repl.it static server](https://github.com/replit/repl.it/blob/master/server.js#L31-69).
 
-##License  
+## License  
   
 jsREPL is available under the MIT license. Language interpreters and the   
 modifications done to them by jsREPL developers have their own licenses, found  
